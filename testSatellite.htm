@@ -1,0 +1,1002 @@
+﻿    <!DOCTYPE html>
+    <html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+        <title></title>
+        <link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet"/>
+    
+        <script type="text/javascript" src="//code.jquery.com/jquery-1.10.1.js"></script>
+        <script type="text/javascript" src="http://threedubmedia.com/inc/js/jquery.event.drag-2.2.js"></script>
+        <script type="text/javascript" src="http://threedubmedia.com/inc/js/jquery.event.drop-2.2.js"></script>
+        <script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/knockout/3.1.0/knockout-min.js"></script>
+        <script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/gsap/1.11.6/TweenMax.min.js"></script>
+        <style type="text/css">
+            body {
+            
+background-color: rgb(255, 255, 255); /*rgb(83, 3, 3);*/
+
+            }
+        .circle
+            {
+                position: absolute;
+            background-repeat: no-repeat;background-position: center center;
+            border-style: solid;
+            border-color: #999999;
+
+            border-radius: 50%;
+
+            -moz-border-radius: 50%;
+
+            }
+        .sat
+            {
+            border-color: #00cc00;
+
+            }
+
+        .center
+            {
+            border-color: #cc0000;
+
+            }
+        .sm, .nav
+            {
+            border-color: #999999;
+text-align: center;
+
+            }
+.nav
+            {
+            background-color: #ece9e6;
+
+            }
+        
+.dropped {
+   background-color: #EBC;
+   }   
+.inactive {  
+   background-color: #CEB; /*#CEB;*/
+   }
+
+.active {  
+   /*background-color: #CEB; #CEB;*/
+   }
+      </style>
+        <script type="text/javascript">//<![CDATA[ 
+            $(function () {
+                /*
+
+
+contacts
+	transfer to contact
+new account
+view
+customer service
+	lost card
+	atm
+    close
+responsive
+
+mail to
+file cabinet
+processes/workflows (history)
+money management
+    
+
+
+transfer
+repository
+    busy-ness
+pin
+transactions
+filter
+    accounts
+animation
+    paging/roll
+    */
+                ko.bindingHandlers.satelliteAnimateShow = {
+                    'init': function (element, valueAccessor, allBindingAccessors) {
+                        var value = ko.utils.unwrapObservable(valueAccessor()),
+                                base = value.base,
+                                satellite = value.satellite,
+                                $element = $(element),
+                                baseEl = value.baseEl,
+                                $baseEl = $(baseEl);
+
+                        $element.hide();
+
+
+
+                        var startingPos = { x: base.center.x - satellite.dimensions.width / 2, y: base.center.y - satellite.dimensions.height / 2 };
+
+
+                        $element.parent().dblclick(function () {
+                            tl = new TimelineLite({
+                                delay: .05 * $.inArray(satellite, base.vm.children)
+                            });
+                            $element.show();
+                            tl.from(element, 0.3, { top: startingPos.y, left: startingPos.x, opacity: 0, diplay: 'none', ease: Elastic.easeOut.config(8.5, 5) });
+
+                        });
+                    }
+                    //, 'update': function (element, valueAccessor) {
+                    //    //var value = ko.utils.unwrapObservable(valueAccessor());
+                    //    //var $element = $(element);
+                    //    //if (value === true) {
+                    //    document.body.appendChild(element);
+                    //    //}
+                    //}
+                };
+
+                function sind(x) {
+                    return Math.sin(x * Math.PI / 180);
+                }
+
+                /*the law of cosines: 
+                        
+                cc = aa + bb - 2ab cos(C), where c is the satellite diameter a and b are the legs
+                        
+                solving for cos C, cos C = ( aa + bb - cc ) / 2ab
+
+                Math.acos((a * a + b * b - c * c) / (2 * a * b)) = C
+                */
+                function solveAngle(a, b, c) {  // Returns angle C using law of cosines
+                    var temp = (a * a + b * b - c * c) / (2 * a * b);
+                    if (temp >= -1 && temp <= 1)
+                        return radToDeg(Math.acos(temp));
+                    else
+                        throw "No solution";
+                }
+
+                //http://gamedev.stackexchange.com/questions/11905/rotating-an-object-from-sourceangle-to-destangle-both-0-359-clockwise-or-count
+                function getCircularDirection(aStart, aEnd) {
+                    return (((aStart - aEnd + 360) % 360) > 180) ? 1 : -1;
+                }
+
+                function radToDeg(x) {
+                    return x / Math.PI * 180;
+                }
+
+                function degToRad(x) {
+                    return x * (Math.PI / 180);
+                }
+
+                var satellite = {
+                    howManyOuter: function (innerRadius, outerRadius) {
+                        //http://answers.yahoo.com/question/index?qid=20110628082501AAoiWp4
+                        //#outer circles = 360 / arccos[((r1+r2)² - 2r2²) / (r1+r2)²]
+                        //#inner circles = arccos[((r1+r2)² - 2r2²) / (r1+r2)²]
+                        //var outerCnt = 360 / Math.acos(((r1+r2)² - 2r2²) / (r1+r2)²);
+                        var r1 = innerRadius, r2 = outerRadius;
+                        var outerCnt = 360 / satellite.howManyInner(r1, r2);
+                        //var outerCnt = 360 / Math.acos(( Math.pow(innerRadius + outerRadius, 2) - Math.pow(2 * outerRadius, 2) / Math.pow(innerRadius+outerRadius,2)); 
+                        return outerCnt;
+                    }
+    ,
+
+                    howManyInner: function (innerRadius, outerRadius) {
+                        //http://answers.yahoo.com/question/index?qid=20110628082501AAoiWp4
+                        //#outer circles = 360 / arccos[((r1+r2)² - 2r2²) / (r1+r2)²]
+                        //#inner circles = arccos[((r1+r2)² - 2r2²) / (r1+r2)²]
+                        //var outerCnt = 360 / Math.acos(((r1+r2)² - 2r2²) / (r1+r2)²);
+                        //seem to always have to do  * (Math.PI / 180)
+
+                        var r1 = innerRadius, r2 = outerRadius;
+                        var f2 = Math.pow(r1 + r2, 2);
+                        var f1 = f2 - (2 * Math.pow(r2, 2));
+
+                        var innerCnt = Math.acos(f1 / f2) * 180 / Math.PI;
+                        //var outerCnt = 360 / Math.acos(( Math.pow(innerRadius + outerRadius, 2) - Math.pow(2 * outerRadius, 2) / Math.pow(innerRadius+outerRadius,2)); 
+                        return innerCnt;
+                    }
+    ,
+                    //settings must have: collection (array), itemDiameter (number), minCenterDiameter (number), center (json with x, y numbers)
+                    //optional: itemPadding (number), evenDistribution (boolean), centerPadding (boolean), noOverLap (boolean)
+                    getPosition: function (settings) {
+                        //backwards compat
+                        settings.centerPadding = settings.centerPadding || settings.itemPadding;
+                        settings.noOverLap = typeof settings.noOverLap == 'undefined' ? true : settings.noOverLap;
+                        settings.startingDegree = settings.startingDegree || 270;
+                        settings.startSatellitesOnEdge = typeof settings.startSatellitesOnEdge == 'undefined' ? true : settings.startSatellitesOnEdge;
+
+                        var itemIndex = $.inArray(settings.item, settings.collection);
+                        var itemCnt = settings.collection.length;
+                        var satelliteSide = settings.itemDiameter + (settings.itemSeparation || 0) + (settings.itemPadding || 0);
+                        var evenDistribution = typeof settings.evenDistribution == 'undefined' ? true : settings.evenDistribution;
+                        var degreeOfSeparation = (360 / itemCnt);
+                        /*
+                        we know all three sides:
+                        one side is the diameter of the satellite itself (plus any padding). the other two
+                        are the parent radius + the radius of the satellite itself (plus any padding).
+
+                        given that, we need to find the angle of separation using the law of cosines (solveAngle)
+                        */
+                        //if (!evenDistribution) {
+                        var side1 = ((satelliteSide / 2)) + ((settings.minCenterDiameter + (2 * settings.centerPadding)) / 2);
+                        var side2 = satelliteSide;;
+
+
+                        var degreeOfSeparationBasedOnSatellite = solveAngle(side1, side1, side2); //Math.acos(((((side1 * side1) + (side2 * side2)) - (side2 * side2)) / (side2 * side2 * 2)) / 180 * Math.PI) * Math.PI;
+                        degreeOfSeparation = evenDistribution ? degreeOfSeparation : settings.noOverLap ? Math.min(degreeOfSeparation, degreeOfSeparationBasedOnSatellite) : degreeOfSeparationBasedOnSatellite;
+
+                        //}
+                        //angle-angle-side
+                        //a-A-B
+                        var a = satelliteSide;
+                        var A = degreeOfSeparation;
+                        /*
+                        the three angles of any triangle add up to 180.  We know one angle (degreeOfSeparation)
+                        and we know the other two are equivalent to each other, so...
+                        */
+                        var B = (180 - A) / 2;
+
+                        //b is length necessary to fit all satellites, might be too short to be outside of base circle
+                        var b = a * sind(B) / sind(A);
+
+                        var offset = (settings.itemDiameter / 2) + (settings.itemPadding || 0); // 1; //
+                        var onBaseCircleLegLength = ((settings.minCenterDiameter / 2) + settings.centerPadding) + offset;
+
+                        var offBase = false;
+
+                        if (b > onBaseCircleLegLength) {
+                            offBase = true;
+                        }
+
+                        b = settings.noOverLap ? Math.max(b, onBaseCircleLegLength) : onBaseCircleLegLength;
+
+                        var radianDegree = degToRad(degreeOfSeparation);
+                        //log('b=' + b);
+                        //log('settings.center.x=' + settings.center.x);
+                        //log('settings.center.y=' + settings.center.y);
+
+                        var degreeOffset = settings.startingDegree;
+                        if (settings.startSatellitesOnEdge) {
+                            degreeOffset += ((offBase ? degreeOfSeparation : degreeOfSeparationBasedOnSatellite) / 2);
+                        }
+
+                        var i = ((Math.PI * degreeOffset) / 180) + (radianDegree * (itemIndex + (settings.shiftItemsBy || 0)));// + (degToRad(degreeOfSeparationBasedOnSatellite) / 2); //(radianDegree) * (itemIndex);
+                        var x = (Math.cos(i) * b) + (settings.center.x - offset);
+                        var y = (Math.sin(i) * b) + (settings.center.y - offset);
+
+                        return { 'x': Math.round(x), 'y': Math.round(y) };
+                    }
+                    ,
+                    /* if we ever want to size satellite by how many need to fit tight around the base circle:
+
+                    x: function calcCircles(n) {
+                        circles.splice(0); // clear out old circles
+                        var angle = Math.PI / n;
+                        var s = Math.sin(angle);
+                        var r = baseRadius * s / (1 - s);
+                        console.log(angle);
+                        console.log(s);
+                        console.log(r);
+                        console.log(startAngle);
+                        console.log(startAngle / (Math.PI * 2));
+                        for (var i = 0; i < n; ++i) {
+                            var phi = ((Math.PI * startAngle) / 180) + (angle * i * 2);
+                            var cx = 150 + (baseRadius + r) * Math.cos(phi);
+                            var cy = 150 + (baseRadius + r) * Math.sin(phi);
+                            circles.push(new Circle(cx, cy, r));
+                        }
+                    },
+                    */
+                    //settings must have: collection (array), itemDiameter (number), minCenterDiameter (number), center (json with x, y numbers)
+                    //optional: itemPadding (number), evenDistribution (boolean), centerPadding (boolean), noOverLap (boolean)
+                    getAllPositions: function (settings) {
+                        var point;
+                        var points = [];
+                        var collection = settings.collection;
+
+                        for (var i = 0; i < collection.length; i++) {
+
+                            settings.item = collection[i]
+
+                            points.push(satellite.getPosition(settings));
+                        }
+                        return points;
+                    }
+                };
+
+
+                var fontMap = ['fa-adjust', ' fa-anchor', ' fa-archive', ' fa-arrows', ' fa-arrows-v', ' fa-asterisk', ' fa-ban', ' fa-bar-chart-o', ' fa-barcode', ' fa-bars', ' fa-beer', ' fa-bell', ' fa-bell-o', ' fa-bolt', ' fa-book', ' fa-bookmark', ' fa-bookmark-o', ' fa-briefcase', ' fa-bug', ' fa-building-o', ' fa-bullhorn', ' fa-bullseye', ' fa-calendar', ' fa-calendar-o', ' fa-camera', ' fa-camera-retro', ' fa-caret-square-o-down', ' fa-caret-square-o-left', ' fa-caret-square-o-right', ' fa-caret-square-o-up', ' fa-certificate', ' fa-check', ' fa-check-circle', ' fa-check-circle-o', ' fa-check-square', ' fa-check-square-o', ' fa-circle', ' fa-circle-o', ' fa-clock-o', ' fa-cloud', ' fa-cloud-download', ' fa-cloud-upload', ' fa-code', ' fa-code-fork', ' fa-coffee', ' fa-cog', ' fa-cogs', ' fa-comment', ' fa-comment-o', ' fa-comments', ' fa-comments-o', ' fa-compass', ' fa-credit-card', ' fa-crop', ' fa-crosshairs', ' fa-cutlery', ' fa-dashboard ', ' fa-desktop', ' fa-dot-circle-o', ' fa-download', ' fa-edit ', ' fa-ellipsis-h', ' fa-ellipsis-v', ' fa-envelope', ' fa-envelope-o', ' fa-eraser', ' fa-exchange', ' fa-exclamation', ' fa-exclamation-circle', ' fa-exclamation-triangle', ' fa-external-link', ' fa-external-link-square', ' fa-eye', ' fa-eye-slash', ' fa-female', ' fa-fighter-jet', ' fa-film', ' fa-filter', ' fa-fire', ' fa-fire-extinguisher', ' fa-flag', ' fa-flag-checkered', ' fa-flag-o', ' fa-flash ', ' fa-flask', ' fa-folder', ' fa-folder-o', ' fa-folder-open', ' fa-folder-open-o', ' fa-frown-o', ' fa-gamepad', ' fa-gavel', ' fa-gear ', ' fa-gears ', ' fa-gift', ' fa-glass', ' fa-globe', ' fa-group ', ' fa-hdd-o', ' fa-headphones', ' fa-heart', ' fa-heart-o', ' fa-home', ' fa-inbox', ' fa-info', ' fa-info-circle', ' fa-key', ' fa-keyboard-o', ' fa-laptop', ' fa-leaf', ' fa-legal ', ' fa-lemon-o', ' fa-level-down', ' fa-level-up', ' fa-lightbulb-o', ' fa-location-arrow', ' fa-lock', ' fa-magic', ' fa-magnet', ' fa-mail-forward ', ' fa-mail-reply ', ' fa-mail-reply-all', ' fa-male', ' fa-map-marker', ' fa-meh-o', ' fa-microphone', ' fa-microphone-slash', ' fa-minus', ' fa-minus-circle', ' fa-minus-square', ' fa-minus-square-o', ' fa-mobile', ' fa-mobile-phone ', ' fa-money', ' fa-moon-o', ' fa-music', ' fa-pencil', ' fa-pencil-square', ' fa-pencil-square-o', ' fa-phone', ' fa-phone-square', ' fa-picture-o', ' fa-plane', ' fa-plus', ' fa-plus-circle', ' fa-plus-square', ' fa-plus-square-o', ' fa-power-off', ' fa-print', ' fa-puzzle-piece', ' fa-qrcode', ' fa-question', ' fa-question-circle', ' fa-quote-left', ' fa-quote-right', ' fa-random', ' fa-refresh', ' fa-reply', ' fa-reply-all', ' fa-retweet', ' fa-road', ' fa-rocket', ' fa-rss', ' fa-rss-square', ' fa-search', ' fa-search-minus', ' fa-search-plus', ' fa-share', ' fa-share-square', ' fa-share-square-o', ' fa-shield', ' fa-shopping-cart', ' fa-sign-in', ' fa-sign-out', ' fa-signal', ' fa-sitemap', ' fa-smile-o', ' fa-sort', ' fa-sort-alpha-asc', ' fa-sort-alpha-desc', ' fa-sort-amount-asc', ' fa-sort-amount-desc', ' fa-sort-asc', ' fa-sort-desc', ' fa-sort-down ', ' fa-sort-numeric-asc', ' fa-sort-numeric-desc', ' fa-sort-up ', ' fa-spinner', ' fa-square', ' fa-square-o', ' fa-star', ' fa-star-half', ' fa-star-half-empty ', ' fa-star-half-full ', ' fa-star-half-o', ' fa-star-o', ' fa-subscript', ' fa-suitcase', ' fa-sun-o', ' fa-superscript', ' fa-tablet', ' fa-tachometer', ' fa-tag', ' fa-tags', ' fa-tasks', ' fa-terminal', ' fa-thumb-tack', ' fa-thumbs-down', ' fa-thumbs-o-down', ' fa-thumbs-o-up', ' fa-thumbs-up', ' fa-ticket', ' fa-times', ' fa-times-circle', ' fa-times-circle-o', ' fa-tint', ' fa-toggle-down ', ' fa-toggle-left ', ' fa-toggle-right ', ' fa-toggle-up ', ' fa-trash-o', ' fa-trophy', ' fa-truck', ' fa-umbrella', ' fa-unlock', ' fa-unlock-alt', ' fa-unsorted ', ' fa-upload', ' fa-user', ' fa-users', ' fa-video-camera', ' fa-volume-down', ' fa-volume-off', ' fa-volume-up', ' fa-warning ', ' fa-wheelchair', ' fa-wrench']
+
+                var app = {
+
+                    baseWidth: 250,
+                    baseLeft: 300,
+                    baseTop: 300,
+                    baseBorderWidth: 2,
+                    //cnt : 11,
+                    totalCnt: 15,
+                    //arr : [],
+                    itemDiameter: 100,
+                    itemBorderWidth: 2,
+                    startingDegree: 270,
+                    evenDistribution: true,
+                    noOverLap: true,
+                    distanceMin: 4,
+                    vm: { children: [] },
+                    navigator: null,
+                    center: {},
+                    minCenterDiameter: 250,
+                    dragEnded: function (el) {
+                        var len = this.navigator.renderCollection().length;
+                        for (var i = 0; i < len; i++) {
+                            var item = this.navigator.renderCollection()[i]();
+
+                            item.dragEnded();
+                        }
+                    },
+                    shiftItemsBy: 0 //this allows us to put the last item where the first item would be.  then we plop the nav circle on top of it.  this way we cover up the last item, not the first AND the nav item is in a more natural position
+                },
+                baseCircle = $("#baseCircle"),
+                el = baseCircle;
+
+
+                var fitCnt = satellite.howManyOuter((app.baseWidth / 2) + app.baseBorderWidth, (app.itemDiameter / 2) + app.itemBorderWidth);
+                //fitCnt = 11;
+
+                if (fitCnt < app.totalCnt)
+                    app.shiftItemsBy = 1;
+
+                var navigator = function (arr, visibleCnt) {
+                    var newArr = [], arrLen = arr.length, originalArr = arr;
+                    for (var ni = 0; ni < arrLen; ni++) {
+                        var item = arr[ni];
+                        newArr.push(ko.observable(item));
+                    }
+
+                    var renderArr = newArr.slice(0, visibleCnt);
+                    var renderArrPlusNav = renderArr.slice(0, renderArr.length);
+                    if (visibleCnt < newArr.length) {
+                        var child = {}, last = renderArrPlusNav[renderArrPlusNav.length - 1]();
+
+                        child.position = {};
+                        child.dimensions = {};
+                        child.startPosition = {};
+
+                        child.icon = {};
+                        child.icon.name = 'fa ' + ' fa-arrows-h ' + ' icon-size-3x';
+                        child.icon.color = '#56aee0'
+                        child.imageUrl = 'url(media/imgseq/' + (i + 1) + '.png)';
+                        child.borderWidth = app.itemBorderWidth;
+                        child.position.x = ko.observable(last.position.x());
+                        child.position.y = ko.observable(last.position.y());
+                        child.dimensions.width = app.itemDiameter;
+                        child.dimensions.height = app.itemDiameter;
+                        child.startPosition = {};
+                        child.startPosition.x = child.position.x();
+                        child.startPosition.y = child.position.y();
+                        child.opacity = 1;
+                        child.css = 'nav';
+                        child.state = ko.observable();
+
+                        child.dragEnded = function () {
+                            this.startPosition.x = this.position.x();
+                            this.startPosition.y = this.position.y();
+                        }
+
+
+                        renderArrPlusNav.push(ko.observable(child));
+
+                    }
+
+                    var isInRenderedArray = function (item, renderedArray) {
+                        var length = renderedArray.length;
+
+                        for (var i = 0; i < length; i++) {
+                            if (renderedArray[i]() == item)
+                                return true;
+
+                        }
+
+                        return false;
+                    }
+
+                    return {
+                        visiblCnt: visibleCnt,
+                        totalCnt: newArr.length,
+                        arr: newArr,
+
+                        lastSwappedIndex: visibleCnt - 1,
+
+                        atEnd: ko.computed(function () {
+                            var self = this;
+                            if (self.visibleCnt - 1 == self.lastSwappedIndex) {
+                                return true;
+                            }
+                            return false;
+                        }).bind(this),
+                        atBeginning: ko.computed(function () {
+                            var self = this;
+                            if (self.lastSwappedIndex == 0) {
+                                return true;
+                            }
+                            return false;
+                        }).bind(this),
+                        renderCollection: function () {
+                            var self = this;
+                            return renderArr;
+                        },
+                        renderCollectionPlusNav: function () {
+                            var self = this;
+
+                            return renderArrPlusNav;
+                        },
+                        getNext: function () {
+                            var self = this, next;
+
+
+                            var start = self.lastSwappedIndex;
+
+                            do {
+                                if (originalArr.length - 1 == self.lastSwappedIndex) {
+                                    self.lastSwappedIndex = 0;
+                                }
+                                else {
+                                    self.lastSwappedIndex += 1;
+                                }
+
+                                next = originalArr[self.lastSwappedIndex];
+
+                                if (start == self.lastSwappedIndex) {
+                                    throw new Error("could not find next after " + start);
+                                }
+                            } while (isInRenderedArray(next, renderArr));
+
+                            return next;
+                        },
+                        getPrevious: function () {
+                            var self = this, prev;
+
+
+                            var start = self.lastSwappedIndex;
+
+                            do {
+                                if (0 == self.lastSwappedIndex) {
+                                    self.lastSwappedIndex = originalArr.length - 1;
+                                }
+                                else {
+                                    self.lastSwappedIndex -= 1;
+                                }
+
+                                prev = originalArr[self.lastSwappedIndex];
+                                if (start == self.lastSwappedIndex) {
+                                    throw new Error("could not find prev after " + start);
+                                }
+
+                            } while (isInRenderedArray(prev, renderArr));
+
+
+                            if (0 == self.lastSwappedIndex) {
+                                self.lastSwappedIndex = originalArr.length - 1;
+                            }
+                            else {
+                                self.lastSwappedIndex -= 1;
+                            }
+
+                            return prev;
+                        }
+                    }
+                };
+
+                for (var c = 0; c < app.totalCnt; c++) {
+                    app.vm.children.push({ position: {}, dimensions: {} });
+                }
+
+
+                app.ringRadius = (app.minCenterDiameter / 2) + app.baseBorderWidth + (app.itemDiameter / 2) + app.itemBorderWidth;
+                app.center.x = (app.minCenterDiameter / 2);
+                app.center.y = (app.minCenterDiameter / 2);
+
+
+
+
+
+
+                var settings = {
+                    collection: app.vm.children.slice(0, fitCnt),
+                    itemDiameter: app.itemDiameter,
+                    minCenterDiameter: app.minCenterDiameter,
+                    center: { x: app.center.x, y: app.center.y },
+                    itemPadding: app.itemBorderWidth,
+                    evenDistribution: app.evenDistribution,
+                    centerPadding: app.baseBorderWidth,
+                    noOverLap: app.noOverLap,
+                    startingDegree: app.startingDegree,
+                    shiftItemsBy: app.shiftItemsBy
+                };
+                var points = satellite.getAllPositions(settings);
+
+
+                var $centerDiv = $("<div></div>"), $ringCircle = $("<div></div>"), $satCircle = $("<div></div>");
+                for (var i = 0; i < app.totalCnt; i++) {
+
+                    var child = app.vm.children[i];
+
+                    child.icon = {};
+                    child.icon.name = 'fa ' + fontMap[i] + ' icon-size-3x';
+                    child.icon.color = '#56aee0'
+                    child.imageUrl = 'url(media/imgseq/' + (i + 1) + '.png)';
+                    child.borderWidth = app.itemBorderWidth;
+                    child.position.x = ko.observable();
+                    child.position.y = ko.observable();
+                    child.dimensions.width = app.itemDiameter;
+                    child.dimensions.height = app.itemDiameter;
+                    child.startPosition = {};
+                    child.startPosition.x = child.position.x();
+                    child.startPosition.y = child.position.y();
+                    child.css = 'sm';
+                    child.opacity = '1';
+                    child.state = ko.observable();
+
+                    child.dragEnded = function () {
+                        this.startPosition.x = this.position.x();
+                        this.startPosition.y = this.position.y();
+                    }
+
+                    if (i < points.length) {
+                        var point = points[i];
+
+                        child.position.x(point.x);
+                        child.position.y(point.y);
+
+                        child.startPosition.x = child.position.x();
+                        child.startPosition.y = child.position.y();
+
+                        if (points.length - 1 == i)
+                            child.opacity = '0';
+                    }
+                }
+
+
+                app.navigator = navigator(app.vm.children, Math.floor(fitCnt));
+
+                //$ringCircle.css({
+                //    left: -1 * ((settings.itemDiameter / 2) + settings.itemPadding + settings.centerPadding),
+                //    top: -1 * ((settings.itemDiameter / 2) + settings.itemPadding + settings.centerPadding),
+                //    width: (settings.minCenterDiameter) + settings.centerPadding + ((settings.itemDiameter)) + settings.itemPadding + 'px',
+                //    height: (settings.minCenterDiameter) + settings.centerPadding + ((settings.itemDiameter)) + settings.itemPadding + 'px',
+                //    'background-color': 'transparent',
+                //    position: 'absolute'
+                //});
+                //$ringCircle.addClass('circle').addClass('center');
+                //el.append($ringCircle);
+
+                //$satCircle.css({
+                //    left: -1 * ((settings.itemDiameter)),
+                //    top: -1 * ((settings.itemDiameter)),
+                //    width: (settings.minCenterDiameter) + settings.centerPadding * 2 + ((settings.itemDiameter)) + settings.itemPadding + 'px',
+                //    height: (settings.minCenterDiameter) + settings.centerPadding*2 + ((settings.itemDiameter)) + settings.itemPadding + 'px',
+                //    'background-color': 'transparent',
+                //    position: 'absolute'
+                //});
+                //$satCircle.addClass('circle').addClass('sat');
+                //el.append($satCircle);
+
+
+                //$centerDiv.css({ left: app.center.x, top: app.center.y, width: 4 + 'px', height: 4 + 'px', 'background-color': '#000', position: 'absolute' });
+                //el.append($centerDiv);
+
+                //          $('.drag')
+                //.drag('start', function (ev, dd) {
+                //    if (!$.data(this, 'circle'))
+                //        $.data(this, 'circle', {
+                //            radius: 160,
+                //            centerX: dd.originalX + 160 + 30,
+                //            centerY: dd.originalY + 30
+                //        });
+                //})
+                //.drag(function (ev, dd) {
+                //    var data = $.data(this, 'circle'),
+                //    angle = Math.atan2(ev.pageX - app.center.x, ev.pageY - app.center.y);
+                //    $(this).css({
+                //        top: app.center.y + Math.cos(angle) * app.ringRadius - 30,
+                //        left: app.center.x + Math.sin(angle) * app.ringRadius - 30
+                //    });
+                //});
+                var logged = true;
+                //$('.drag')
+                //    .drag(
+                //    'start', function (ev, dd) {
+                //        logged = false;
+                //    }
+                //    )
+                //    //.drag(
+                //    //'end', function (ev, dd) {
+                //    //    logged = true;
+                //    //}
+                //    //)
+                //    .drag(function (ev, dd) {
+                //        var data = $.data(this, 'circle'),
+                //            $this = $(this),
+                //            halfItem = (settings.itemDiameter / 2 + settings.itemPadding),
+                //            //angle = Math.atan(dd.deltaX - app.center.x + dd.originalX, dd.deltaY - app.center.y + dd.originalY);
+                //            //angle = Math.atan2(ev.pageY - (dd.startY) - app.center.y + dd.originalY, ev.pageX - (dd.startX) - app.center.x + dd.originalX);
+                //            angle = Math.atan2(ev.pageY - app.center.y, ev.pageX - app.center.x);
+                //        //angle = Math.atan2(ev.screenX - data.offsetX - app.center.x, ev.screenY - data.offsetY - app.center.y);
+                //        $this.css({
+                //            top: app.center.y + (app.ringRadius * Math.sin(angle)) - halfItem - (dd.originalY),
+                //            left: app.center.x + (app.ringRadius * Math.cos(angle)) - halfItem - (dd.originalX)
+                //        });
+                //        if (!logged) console.log('startx: ' + (dd.originalX) + ' starty: ' + (dd.originalY) + ' jumpx: ' + (app.center.x + Math.sin(angle) * app.ringRadius - halfItem) + ' jumpy: ' + (app.center.y + Math.cos(angle) * app.ringRadius - halfItem));
+                //        if (!logged) console.log('pageX: ' + ev.pageX + ' pageY: ' + ev.pageY + ' startX: ' + dd.startX + ' startY: ' + dd.startY);
+                //        if (!logged) console.log('');
+                //        logged = true;
+                //    }, { relative: true });
+
+                $('.base')
+                    .drag(
+                    //'start', function (ev, dd) {
+                    //    if (!$.data(this, 'circle'))
+                    //        $.data(this, 'circle', {
+                    //            radius: 160,
+                    //            centerX: dd.originalX + 160 + 30,
+                    //            centerY: dd.originalY + 30
+                    //        });
+                    //}
+                    )
+                    .drag(function (ev, dd) {
+                        $(this).css({
+                            top: dd.offsetY,
+                            left: dd.offsetX
+                        });
+                    });
+
+                ko.applyBindings(app);
+                //var i = ((Math.PI * degreeOffset) / 180) + (radianDegree * itemIndex);// + (degToRad(degreeOfSeparationBasedOnSatellite) / 2); //(radianDegree) * (itemIndex);
+                //var x = (Math.cos(i) * b) + (settings.center.x - offset);
+                //var y = (Math.sin(i) * b) + (settings.center.y - offset);
+
+                //double x = x0 + r * Math.Cos(theta * Math.PI / 180);
+                //double y = y0 + r * Math.Sin(theta * Math.PI / 180);
+
+
+
+                var draggify = function (el, idx) {
+                    var $el = $(el);
+                    $.data(el, 'dragdata', {
+                        viewModel: app.navigator.renderCollectionPlusNav()[idx]
+                    });
+
+                    $(el).drag(
+                    'start', function (ev, dd) {
+                        logged = false;
+                    }
+
+                    )
+                    .drag(
+                    'end', function (ev, dd) {
+                        app.dragEnded(this);
+                    }
+
+                    )
+                    .drag(function (ev, dd) {
+                        var //data = $.data(this, 'circle'),
+                          //itemRadius = ($(this).width() / 2),
+                          itemRadius = (app.itemDiameter / 2 + app.itemBorderWidth),
+                          $draggedEl = $(this),
+                          draggedVmContainer = $draggedEl.data("dragdata").viewModel,
+                          draggedVm = draggedVmContainer();
+                        //,
+                        //angle = data.angle
+                        ;
+                        var angleMouse = Math.atan2(dd.deltaY + dd.originalY + itemRadius - app.center.y, dd.deltaX + dd.originalX + itemRadius - app.center.x);
+                        //var move = (dd.deltaX < 0 || dd.deltaY < 0) ? -1 : 1;
+                        var currentAngle = Math.atan2(draggedVm.position.y() + itemRadius - app.center.y, draggedVm.position.x() + itemRadius - app.center.x);
+                        var originalAngle = Math.atan2(dd.originalY + itemRadius - app.center.y, dd.originalX + itemRadius - app.center.x);
+                        //var change = degToRad(radToDeg(angle) + (dd.deltaY - dd.deltaX));
+                        //var change = degToRad(radToDeg(angle)) - angleMouse;
+                        var change = angleMouse - originalAngle;
+
+                        draggedVm.position.x(Math.round(app.center.x + Math.cos(angleMouse) * app.ringRadius) - itemRadius);
+                        draggedVm.position.y(Math.round(app.center.y + Math.sin(angleMouse) * app.ringRadius) - itemRadius);
+                        //$draggedEl.css({
+                        //    //top: settings.center.y + Math.cos(angle) * app.ringRadius - itemRadius,
+                        //    //left: settings.center.x + Math.sin(angle) * app.ringRadius - itemRadius
+                        //    top: Math.round(app.center.y + Math.sin(angleMouse) * app.ringRadius) - itemRadius,// - (settings.itemDiameter + settings.itemPadding),
+                        //    left: Math.round(app.center.x + Math.cos(angleMouse) * app.ringRadius) - itemRadius// - (settings.itemDiameter + settings.itemPadding)
+                        //    //left: settings.center.x + app.ringRadius * Math.cos(change),
+                        //    //top: settings.center.y + app.ringRadius * Math.sin(change)
+
+                        //});
+
+                        var idxDragged = -1, len = app.navigator.renderCollection().length;
+                        for (var i = 0; i < len; i++) {
+                            if (app.navigator.arr[i]() == draggedVm) {
+                                idxDragged = i;
+                                break;
+                            }
+                        }
+
+
+
+
+                        var direction = getCircularDirection(radToDeg(currentAngle), radToDeg(angleMouse));
+                        //console.log('delta: ' + direction);
+                        for (var i = 0; i < len; i++) {
+                            var vm = app.navigator.arr[i]();
+
+                            if (idxDragged == i) {
+                                continue;
+                            }
+
+                            var otherOriginalAngle = Math.atan2(vm.startPosition.y + itemRadius - app.center.y, vm.startPosition.x + itemRadius - app.center.x);
+
+                            //same speed: 
+                            var otherSameSeedChange = otherOriginalAngle + change;
+                            //var otherChange = change < 0 ? otherOriginalAngle + Math.abs(change / 2) : otherOriginalAngle - Math.abs(change / 2);
+                            //var otherChange = otherSameSeedChange < 0 ? otherOriginalAngle + change / 2 : otherOriginalAngle - change / 2;
+                            //var otherChange = otherSameSeedChange < 0 ? otherOriginalAngle + Math.abs(change / 2) : otherOriginalAngle - change / 2;
+                            //var otherChange = otherSameSeedChange < 0 ? otherOriginalAngle + Math.abs(change / 2) : otherOriginalAngle - Math.abs(change / 2);
+                            //var otherChange = otherSameSeedChange < 0 ? otherOriginalAngle + change / 2 : otherOriginalAngle - Math.abs(change / 2);
+                            var otherChange = otherOriginalAngle - change;
+                            //console.log('delta: ' + direction);
+                            //if (points.length - 1 == i)
+                            //    $el.css({
+                            //        top: Math.round(app.center.y + Math.sin(otherSameSeedChange) * app.ringRadius) - itemRadius,// - (settings.itemDiameter + settings.itemPadding),
+                            //        left: Math.round(app.center.x + Math.cos(otherSameSeedChange) * app.ringRadius) - itemRadius// - (settings.itemDiameter + settings.itemPadding)                              
+                            //    });
+                            //else
+                            vm.position.x(Math.round(app.center.x + Math.cos(otherChange) * app.ringRadius) - itemRadius);
+                            vm.position.y(Math.round(app.center.y + Math.sin(otherChange) * app.ringRadius) - itemRadius);
+
+                        }
+
+                        var activeDropTargetsLen = dd.drop.length
+
+                        var dropsSansDragged = [];
+
+
+
+                        for (var t = 0; t < activeDropTargetsLen; t++) {
+                            var target = dd.drop[t], targetVmContainer = $(target).data("dragdata").viewModel,
+                                targetVm = targetVmContainer();
+                            if (targetVm == draggedVm) continue;
+                            dropsSansDragged.push(targetVmContainer);
+                            //            return Math.max(0, Math.min(target.bottom, proxy.bottom) - Math.max(target.top, proxy.top))
+                            //* Math.max(0, Math.min(target.right, proxy.right) - Math.max(target.left, proxy.left));
+
+                            var diameter = itemRadius * 2,
+                                target = {},
+                                proxy = {};
+
+                            target.top = targetVm.position.y();
+                            proxy.top = draggedVm.position.y();
+                            target.left = targetVm.position.x();
+                            proxy.left = draggedVm.position.x();
+                            target.bottom = target.top + diameter;
+                            target.right = target.left + diameter;
+                            proxy.bottom = proxy.top + diameter;
+                            proxy.right = proxy.left + diameter;
+                            var overlap = Math.max(0, Math.min(target.bottom, proxy.bottom) - Math.max(target.top, proxy.top))
+                                    * Math.max(0, Math.min(target.right, proxy.right) - Math.max(target.left, proxy.left));
+                            //console.log(overlap);
+                            //opacity is whatever percentage of overlap there is
+                            targetVm.opacity = 1 - (overlap / (diameter * diameter));
+
+                            targetVm.state('active');
+                        }
+
+                        if (true && 2 == dropsSansDragged.length) {
+                            var dropped1Container = dropsSansDragged[dropsSansDragged.length - 2]
+                                ,
+                                dropped1 = dropped1Container()
+                                ,
+                                dropped2Container = dropsSansDragged[dropsSansDragged.length - 1]
+                                ,
+                                dropped2 = dropped2Container()
+                                ,
+                                idxdropped1Container = $.inArray(dropped1Container, app.navigator.arr)
+                                ,
+                                idxdropped2Container = $.inArray(dropped2Container, app.navigator.arr)
+                            ;
+
+                            var dropped1Angle = Math.atan2(dropped1.startPosition.y + itemRadius - app.center.y, dropped1.startPosition.x + itemRadius - app.center.x);
+                            var dropped2Angle = Math.atan2(dropped2.startPosition.y + itemRadius - app.center.y, dropped2.startPosition.x + itemRadius - app.center.x);
+
+                            var directionDrops = 0;
+
+                            var droppedContainer = dropped1Container;
+                            var dropped = dropped1;
+
+                            //console.log('angle 1: ' + radToDeg(dropped1Angle) + '  angle 2: ' + radToDeg(dropped2Angle));
+
+                            if (idxdropped2Container > idxdropped1Container && app.navigator.visiblCnt - 1 != Math.abs(idxdropped2Container - idxdropped1Container)) {
+
+                                directionDrops = getCircularDirection(radToDeg(dropped1Angle), radToDeg(dropped2Angle));
+                                if (directionDrops != direction) {
+                                    droppedContainer = dropped2Container;
+                                    dropped = dropped2;
+                                }
+                            }
+                            else {
+                                directionDrops = getCircularDirection(radToDeg(dropped2Angle), radToDeg(dropped1Angle));
+                                if (directionDrops == direction) {
+                                    droppedContainer = dropped2Container;
+                                    dropped = dropped2;
+                                }
+                            }
+                            //console.log('directionDrops: ' + directionDrops);
+
+
+                            //if (direction < directionDrops) {
+                            //    droppedContainer = dropped2Container;
+                            //    dropped = dropped2;
+                            //}
+
+                            dropped.state('inactive');
+                            //flip the one we are navigating away from 
+                            //base it on direction and lastSwappedIndex...
+                            //"away from" is defined as two dropped items, and the direction of the drag is "pointing" to the second
+                            //"pointing" is defined as the difference between the two dropped items
+                            //if moving away from dropped item, and moving clockwise, if dropped item isn't current index make next
+                            //if moving away from dropped item, and moving counterclockwise, if dropped item isn't current index + visible count make previous
+                            if (parseFloat(dropped.opacity) < .7) {
+                                var droppedIdx = $.inArray(dropped, app.vm.children);
+                                if (direction > 0) {
+
+                                    if (droppedIdx != app.navigator.lastSwappedIndex) {
+
+                                        //console.log(dropped.icon.name);
+                                        var next = app.navigator.getNext();
+                                        //console.log(next.icon.name);
+                                        next.startPosition.x = dropped.startPosition.x;
+                                        next.startPosition.y = dropped.startPosition.y;
+                                        next.position.x(dropped.position.x());
+                                        next.position.y(dropped.position.y());
+                                        next.opacity = dropped.opacity;
+                                        next.state(dropped.state());
+
+                                        droppedContainer(next);
+                                    }
+                                }
+                                else {
+                                    if ((droppedIdx == 0 ? app.vm.children.length - 1 : droppedIdx - 1) != app.navigator.lastSwappedIndex) {
+
+                                        //console.log(dropped.icon.name);
+                                        var prev = app.navigator.getPrevious();
+                                        //console.log(next.icon.name);
+                                        prev.startPosition.x = dropped.startPosition.x;
+                                        prev.startPosition.y = dropped.startPosition.y;
+                                        prev.position.x(dropped.position.x());
+                                        prev.position.y(dropped.position.y());
+                                        prev.opacity = dropped.opacity;
+                                        prev.state(dropped.state());
+
+                                        droppedContainer(prev);
+                                    }
+                                }
+
+
+                            }
+
+
+                        }
+
+                        //var $dot = $("<div></div>");
+                        //$dot.css({
+                        //    left: cX, top: cX,
+                        //    width: 2 + 'px',
+                        //    height: 2 + 'px', 'background-color': '#000',
+                        //    position: 'absolute',
+                        //    left: Math.round(app.ringRadius + Math.cos(change) * app.ringRadius) - (settings.itemDiameter) + 'px',
+                        //    top: Math.round(app.ringRadius + Math.sin(change) * app.ringRadius) - (settings.itemDiameter) + 'px'
+                        //});
+                        //el.append($dot);
+
+                        //if (!logged) {
+                        //    console.log('startx: ' + (dd.originalX) + '  starty: ' + (dd.originalY));
+                        //    console.log('dd.deltaX: ' + dd.deltaX + '  dd.deltaY: ' + dd.deltaY);
+                        //    console.log('should change to (x): ' + Math.round(app.center.x + Math.cos(change) * app.ringRadius  -itemRadius));
+                        //    console.log('should change to (y): ' + Math.round(app.center.y + Math.sin(change) * app.ringRadius  -itemRadius));
+                        //    console.log('originalAngle: ' + originalAngle);
+                        //    console.log('');
+                        //    logged = true;
+                        //}
+                    }, { relative: true, distance: app.distanceMin })
+                    ;
+                };
+
+
+                $('.drag')
+                    .drag(function (ev, dd) {
+                        //$(this).css({
+                        //    top: dd.offsetY,
+                        //    left: dd.offsetX
+                        //});
+
+                        dd.update();
+                    }, { relative: true, distance: app.distanceMin })
+                ;
+
+                $('.drag').each(function (idx) {
+                    draggify(this, idx);
+                });
+
+                $('.drop')
+      .drop("start", function (ev, dd) {
+          var dropEl = this;
+          //if (dropEl != dd.drag)
+          //    $(dropEl).addClass("inactive");
+      })
+      .drop(function (ev, dd) {
+          //$(this).toggleClass("dropped");
+      })
+      .drop("end", function () {
+          $(this).removeClass("inactive");
+          $(this).removeClass("active");
+      });
+                $.drop({
+                    multi: true,
+                    //mode: 'overlap'
+                    //,
+                    tolerance: function (event, proxy, target) {
+                        //circular intersection
+                        //Circles intersect if the sum of their radii is less than the distance between the centres.
+
+                        var proxyRadius = proxy.width / 2, targetRadius = target.width / 2,
+                            proxyCenterY = proxy.top + proxyRadius,
+                            proxyCenterX = proxy.left + proxyRadius,
+                            targetCenterY = target.top + targetRadius,
+                            targetCenterX = target.left + targetRadius,
+                            //get the hypotenuse of the right triangle formed from the two centers
+                            xSide = Math.abs(proxyCenterX - targetCenterX),
+                            ySide = Math.abs(proxyCenterY - targetCenterY),
+                            h = Math.sqrt(xSide * xSide + ySide * ySide);
+
+                        return h <= proxyRadius + targetRadius ? 1 : 0
+
+                        //if proxy is a square
+
+                        //var r = target.width / 2, x = target.left + r, y = target.top + r,
+                        //h = Math.min(Math.abs(x - proxy.left), Math.abs(x - proxy.right)),
+                        //v = Math.min(Math.abs(y - proxy.top), Math.abs(y - proxy.bottom));
+                        //if (proxy.top < y && proxy.bottom > y)
+                        //    return h <= r ? 1 : 0;
+                        //else if (proxy.left < x && proxy.right > x)
+                        //    return v <= r ? 1 : 0;
+                        //else
+                        //    return Math.sqrt(h * h + v * v) <= r ? 1 : 0;
+                    }
+                });
+
+            });//]]>  
+    </script>
+    </head>
+    <body>
+        
+
+        <div id="baseCircle" class="circle base" data-bind="style: {
+    left: baseLeft + 'px', top: baseTop + 'px',
+    width: baseWidth + 'px',
+    height: baseWidth + 'px',
+    'borderWidth': baseBorderWidth + 'px'
+}">
+            
+         <!-- ko with: navigator.renderCollectionPlusNav() -->
+
+         <!-- ko foreach: $data -->
+            <!--<span data-bind="text: $parent.length"></span>-->
+           
+            <!-- $index() == ($parent.length - 2) -->
+            <div class="circle sm drag drop" data-bind="style: {
+    left: position.x() + 'px', top: position.y() + 'px',
+    width: dimensions.width + 'px', height: dimensions.height + 'px',
+    'borderWidth': borderWidth + 'px', opacity: opacity
+}, css: { 'active': state() == 'active', 'inactive': state() == 'inactive', 'nav': css == 'nav', 'sm': css == 'sm' },
+satelliteAnimateShow: { base: $root, satellite: $data, baseEl: $parentContext.$parentContext.$element }"><!--<span data-bind="                    text: $index"></span>-->
+                <i data-bind="css: icon.name, style: { 'line-height': dimensions.height + 'px', 'color': icon.color }"></i>
+                <!--<span data-bind="text: $index"></span>-->
+            </div>
+            
+            <!-- /ko -->
+            
+            <!-- /ko -->
+    </div>
+        <div style="width:111px;height:111px;background-color:#81e8f6;"></div>
+        <div style="width:111px;height:111px;background-color:#76deef;"></div>
+        <div style="width:111px;height:111px;background-color:#055194;"></div>
+        <div style="width:111px;height:111px;background-color:#062745;"></div>
+    </body>
+    </html>

@@ -1,0 +1,260 @@
+﻿<!doctype html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>AmplifyJS Core Test Suite</title>
+	<!--<script src="unit.js"></script>-->
+    <script class="jsbin" src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
+
+<script src="http://benalman.com/code/projects/jquery-postmessage/jquery.ba-postmessage.js"></script>
+	
+<script src="/js/external/curl/curl.js"></script>
+	<!--<script src="unit.js"></script>-->
+    <script>
+        var $log;
+        function log(message) {
+            $log["prepend"]("<li>" + message + "</li>");
+        }
+
+        $(function () {
+
+            // Keep track of the iframe height.
+            var if_height,
+
+            // Pass the parent page URL into the Iframe in a meaningful way (this URL could be
+            // passed via query string or hard coded into the child page, it depends on your needs).
+    src = 'http://jsbin.com/uyelex/3/#' + encodeURIComponent(document.location.href),
+
+            // Append the Iframe into the DOM.
+    iframe = $('<iframe " src="' + src + '" width="700" height="1000" scrolling="no" frameborder="0"><\/iframe>')
+      .appendTo('#iframe');
+
+            // Setup a callback to handle the dispatched MessageEvent event. In cases where
+            // window.postMessage is supported, the passed event will have .data, .origin and
+            // .source properties. Otherwise, this will only have the .data property.
+            $.receiveMessage(function (e) {
+
+                // Get the height from the passsed data.
+                var h = Number(e.data.replace(/.*if_height=(\d+)(?:&|$)/, '$1'));
+
+                if (!isNaN(h) && h > 0 && h !== if_height) {
+                    // Height has changed, update the iframe.
+                    iframe.height(if_height = h);
+                }
+
+                // An optional origin URL (Ignored where window.postMessage is unsupported).
+            }, 'http://jsbin.com');
+
+            // And for good measure, let's send a toggle_content message to the child.
+            $('<a href="#">Show / hide Iframe content<\/a>')
+    .appendTo('#nav')
+    .click(function () {
+        $.postMessage('toggle_content', src, iframe.get(0).contentWindow);
+        return false;
+    });
+
+        });
+
+        //curl = ;
+        if (1 == 0) {
+            curl(
+            {
+                'baseUrl': 'js'
+            ,
+                'pluginPath': 'external/curl/plugin'
+            ,
+                //                'packages': {
+                //                    'JS.Class': {
+                //                        'path': 'external/JS/Class'
+                //                        ,
+                //                        'main': ''
+                //                        ,
+                //                        'lib': ''
+                //                    }
+
+                //                }
+
+                //            ,
+                'paths': {
+                    'ext': 'external'
+                ,
+                    'curl': 'external/curl'
+                ,
+                    'jquery': 'external/jquery.1.7.1.min'
+                ,
+                    'ko': 'external/knockout-latest-debug.js'
+                    ,
+                    'JS.Class': 'external/JS/Class/core.js'
+                    ,
+                    'JSextend': 'external/JS/Class/JS.extend'
+                    ,
+                    'eaf.util': 'my/Eaf/core'
+                    ,
+                    'eaf.core': 'my/Eaf/core'
+
+                    //                    ,
+                    //                    'JSextend': 'external/JS/Class/JS.extend.js'
+                ,
+                    'views': '../views'
+                ,
+                    'viewModels': '../viewModels'
+                ,
+                    'mycss': '../css'
+                ,
+                    'my': 'my'
+                    ,
+                    'becu_org.domain.Base': 'my/domain/Base'
+                    ,
+                    'domain': 'my/domain'
+                    //                    ,
+                    //                    '':''
+                    //                    ,
+                    //                    'JS.Module': 'external/JS/Class/core.js' ,
+                    //                    'JS.Class': 'external/JS/Class/core.js' ,
+                    //                    'JS.Method': 'external/JS/Class/core.js' ,
+                    //                    'JS.Kernel': 'external/JS/Class/core.js' ,
+                    //                    'JS.Singleton': 'external/JS/Class/core.js' ,
+                    //                    'JS.Interface': 'external/JS/Class/core.js' ,
+                    //                    'JS.Test': 'external/JS/Class/test.js' ,
+                    //                    'JS.Test.Context': 'external/JS/Class/test.js' ,
+                    //                    'JS.Test.Mocking': 'external/JS/Class/test.js' ,
+                    //                    'JS.Test.FakeClock': 'external/JS/Class/test.js' ,
+                    //                    'JS.Test.AsyncSteps': 'external/JS/Class/test.js' ,
+                    //                    'JS.Test.Helpers': 'external/JS/Class/test.js' ,
+                    //                    'JS.Test.Unit': 'external/JS/Class/test.js' ,
+                    //                    'JS.Test.Unit.Assertions': 'external/JS/Class/test.js' ,
+                    //                    'JS.Test.Unit.TestCase': 'external/JS/Class/test.js' ,
+                    //                    'JS.Test.Unit.TestSuite': 'external/JS/Class/test.js' ,
+                    //                    'JS.Test.Unit.TestResult': 'external/JS/Class/test.js' ,
+                    //                    'JS.DOM': 'external/JS/Class/dom.js' ,
+                    //                    'JS.DOM.Builder': 'external/JS/Class/dom.js' ,
+                    //                    'JS.Console': 'external/JS/Class/console.js' ,
+                    //                    'JS.Benchmark': 'external/JS/Class/benchmark.js' ,
+                    //                    'JS.Comparable': 'external/JS/Class/comparable.js' ,
+                    //                    'JS.ConstantScope': 'external/JS/Class/constant_scope.js' ,
+                    //                    'JS.Forwardable': 'external/JS/Class/forwardable.js' ,
+                    //                    'JS.Enumerable': 'external/JS/Class/enumerable.js' ,
+                    //                    'JS.Deferrable': 'external/JS/Class/deferrable.js' ,
+                    //                    'JS.Observable': 'external/JS/Class/observable.js' ,
+                    //                    'JS.Hash': 'external/JS/Class/hash.js' ,
+                    //                    'JS.OrderedHash': 'external/JS/Class/hash.js' ,
+                    //                    'JS.Range': 'external/JS/Class/range.js' ,
+                    //                    'JS.Set': 'external/JS/Class/set.js' ,
+                    //                    'JS.HashSet': 'external/JS/Class/set.js' ,
+                    //                    'JS.OrderedSet': 'external/JS/Class/set.js' ,
+                    //                    'JS.SortedSet': 'external/JS/Class/set.js' ,
+                    //                    'JS.LinkedList': 'external/JS/Class/linked_list.js' ,
+                    //                    'JS.LinkedList.Doubly': 'external/JS/Class/linked_list.js' ,
+                    //                    'JS.LinkedList.Doubly.Circular': 'external/JS/Class/linked_list.js' ,
+                    //                    'JS.Command': 'external/JS/Class/command.js' ,
+                    //                    'JS.Command.Stack': 'external/JS/Class/command.js' ,
+                    //                    'JS.Decorator': 'external/JS/Class/decorator.js' ,
+                    //                    'JS.MethodChain': 'external/JS/Class/method_chain.js' ,
+                    //                    'JS.Proxy': 'external/JS/Class/proxy.js' ,
+                    //                    'JS.Proxy.Virtual': 'external/JS/Class/proxy.js' ,
+                    //                    'JS.StackTrace': 'external/JS/Class/stack_trace.js' ,
+                    //                    'JS.State': 'external/JS/Class/state.js' ,
+                    //                    'JS.TSort': 'external/JS/Class/tsort.js' ,
+                    //                    'becu_org.domain.account': 'js/domain/Account.js' ,
+                    //                    'becu_org.domain.customer': 'js/domain/Customer.js' ,
+                    //                    'becu_org.domain.Base': 'js/domain/Base.js' ,
+                    //                    'jQuery': 'js/jquery.min.js' ,
+                    //                    'jQuery.ui': 'js/jquery-ui.min.js' ,
+                    //                    'jQuery.tmpl': 'external/jquery.tmpl.js' ,
+                    //                    'ko': 'external/knockout-latest.debug.js?r=1' ,
+                    //                    'ko.namespaces': 'external/knockout.namespaces.debug.tf.js' ,
+                    //                    'JSextend': '/js/JS/Class/JS.extend.js' ,
+                    //                    'jQuery.fn.qtip': 'external/jquery.qtip.min.js' ,
+                    //                    'jQuery.event.special.drag': 'internal/jquery.event.drag.mod.js' ,
+                    //                    'jQuery.event.special.drop': 'external/jquery.event.drop.tf.js' ,
+                    //                    'jQuery.event.special.dragx': 'my/jquery.event.dragx.js' ,
+                    //                    'jQuery.event.special.dropx': '/js/jquery.event.dropx.js' ,
+                    //                    'jQuery.metadata': 'external/jquery.metadata.js' ,
+                    //                    'jQuery.event.special.wheel': 'external/jquery.event.wheel.js' ,
+                    //                    'jQuery.event.special.ctrlclick': 'external/jquery.specialkeys.js' ,
+                    //                    'jQuery.fn.jCircle': '/js/jquery.circle.js' ,
+                    //                    'littleUmbrella.circleverse.ui.pointsAndPolygon': '/js/global.util.debug.js' ,
+                    //                    'Polygon': '/js/shapes.js' ,
+                    //                    'eaf.core': '/js/Eaf/core.js' ,
+                    //                    'eaf.util': '/js/Eaf/core.js' ,
+                    //                    'jquerycsstransform': 'external/jquery-css-transform.js' ,
+                    //                    'jQuery.fn.scale': 'external/jquery-animate-css-rotate-scale.js' ,
+                    //                    'eaf.communications.htmlGetter': '/js/Eaf/htmlGetter.js' ,
+                    //                    'becu_org.communication.service': '/js/communication/service/classes.js' ,
+                    //                    'becu_org.domain.service': '/js/domain/service.js' ,
+                    //                    'becu_org.domain.serviceMethod': '/js/domain/serviceMethod.js' ,
+                    //                    'becu_org.communication.callSpec': '/js/domain/serviceMethod.js' ,
+                    //                    'becu_org.communication.callSpecRequirementDetail': '/js/domain/serviceMethod.js' ,
+                    //                    'becu_org.ui.IDroppableViewModel': '/js/domain/interfaces.js' ,
+                    //                    'becu_org.ui.viewModel.baseModule': '/viewModels/modules.js' ,
+                    //                    'circleverse.viewModel.Base': '/viewModels/base.js' ,
+                    //                    'circleverse.viewModel.centerCircle': '/viewModels/centerCircle.js' ,
+                    //                    'circleverse.viewModel.satellite': '/viewModels/satellite.js' ,
+                    //                    'circleverse.viewModel.invertedSatellite': '/viewModels/invertedSatellite.js' ,
+                    //                    'circleverse.viewModel.ResizeableBase': '/viewModels/resizeableBase.js' ,
+                    //                    'grayscale': 'external/grayscale.js' ,
+                    //                    'littleUmbrella.circleverse.view.CustomerView': '/viewModels/CustomerView.js' ,
+                    //                    'littleUmbrella.circleverse.viewModel.GetCustomerViewModel': '/viewModels/CustomerViewModel.js' ,
+                    //                    'circleverse.viewModel.settingsViewModel': '/viewModels/settingsViewModel.js' ,
+                    //                    'circleverse.viewModel.garbageViewModel': '/viewModels/garbageViewModel.js' ,
+                    //                    'circleverse.viewModel.loginViewModel': '/viewModels/loginViewModel.js' ,
+                    //                    'circleverse.viewModel.helpViewModel': '/viewModels/helpViewModel.js' ,
+                    //                    'circleverse.viewModel.favoriteViewModel': '/viewModels/favoriteViewModel.js' ,
+                    //                    'circleverse.viewModel.service': '/viewModels/service.js?r=1' ,
+                    //                    'circleverse.viewModel.serviceMethodRequirement': '/viewModels/serviceMethodRequirementViewModel.js' ,
+                    //                    'circleverse.viewModel.serviceMethod': '/viewModels/serviceMethodViewModel.js' ,
+                    //                    'littleUmbrella.Circleverse.Service': '/js/services/services.js' ,
+                    //                    'circleverse.viewModel.noActionModule': '/viewModels/noActionModule.js' ,
+                    //                    'becu_org.communication.services': '/test/js/services/services.js' ,
+                    //                    'littleUmbrella.circleverse': '/js/circleverse.js' ,
+                    //                    'littleUmbrella.circleverse.ui.KoExternalTemplateEngine': 'external/koExternalTemplateEngine_all.js' ,
+                    //                    'littleUmbrella.circleverse.view.service': '/views/service.htm?r=2' ,
+                    //                    'jQuery.fn.block': 'external/BlockUI.js?r=2' ,
+                    //                    'jQuery.fn.available': 'external/jquery.available.min.js?r=2' ,
+                    //                    'CanvasLoader': 'external/canvasloader.min.js?r=2' 
+                }
+            }
+            ,
+
+            [
+                'jquery'
+                ,
+                'js!ko!order!exports=ko'
+                ,
+            //                'js!JS.Class!order'
+            //                ,
+            //                'js!external/JS/Class/JS.extend.js!order!exports=JSextends'
+            //                ,
+                'becu_org.domain.Base'
+                ,
+                'eaf.util'
+                ,
+                'eaf.core'
+            //                ,
+            //                'domain/Account'
+                ,
+                'css!mycss/circleverse'
+                ,
+                'domReady!'
+            ]
+            ).then(function ($, ko, base) {
+                //$(document).ready(function () {
+                $log = $("#log");
+
+                log('deps loaded');
+
+                //});
+            });
+
+        };
+
+    </script>
+</head>
+<body>
+<p id="nav"></p>
+<div id="iframe">
+    </div>
+    
+<ul id="log" style="position:absolute;left:500px;"></ul>
+</body>
+</html>

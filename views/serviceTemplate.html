@@ -1,0 +1,39 @@
+﻿<div data-bind-service="eventJq: {
+            dragxselect: {data: getSettings, func: select },
+            dragxinit: {data: getSettings, func: dragxinit },
+            dragxstart: {data: getSettings, func: dragxstart },
+            dragx: {data: getSettings, func: dragx },
+            dragxend: {data: getSettings, func: dragxend },
+            dropxstart: {data: getSettings, func: dropxstart },
+            dropxover: {data: getSettings, func: dropxover },
+            dropxout: {data: getSettings, func: dropxout },
+            dropx: {data: getSettings, func: function(){dropx.apply(this, arguments); __droppedOn(arguments, true);} },
+            dropxselect: {data: getSettings, func: dropxselect },           
+            dropxend: {data: getSettings, func: dropxend }
+            }
+            ,
+            event: {'wheel': resize, 'dblclick': toggle, 'mouseover': function(){ isHoveringOver(true)}, 'mouseout': function(){isHoveringOver(false)} }
+            , attr: {'id': model.id}
+            , style: {'left': location().left +'px'
+            ,'top': location().top +'px'
+            ,'width': dimensions().width +'px'
+            ,'height': dimensions().height +'px'
+            ,'backgroundImage': 'url(&#34;\/media\/img\/' + model.id + '.png&#34;)'}
+            " 
+            class="drag drop onLoadTip service circle {size: 100}" title="Double-click"
+            style=""
+            >
+           
+
+
+            <div data-bind-service="template:  { name: 'serviceMethodTemplate', 
+                        foreach: model.serviceMethods(),
+                        afterRender: function(renderedElements){postRender(renderedElements, that)},
+                        beforeRemove: function(elem) { $(elem).hide() },
+                        afterAdd: function(elem) { $(elem).hide().slideDown() },
+                        templateOptions: { viewModel: that} }, visible: isExpanded ">
+
+            </div>
+            
+            
+        </div>

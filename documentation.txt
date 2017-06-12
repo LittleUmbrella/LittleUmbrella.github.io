@@ -1,0 +1,12 @@
+﻿becu.domain.communication.callSpec = (function () {
+    return new JS.Class({
+    });
+
+})();
+
+
+had to reset viewmodel on elements between service, service method and method requirement
+
+Context binding to get around null context (binding to a prop that was null, but potentially not [usually at some later time]) 
+
+kludge to in ko namespace to keep current namespace around (needed for context binding)

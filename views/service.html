@@ -1,0 +1,31 @@
+﻿    
+    <!--<div data-bind-service="attr: {'id': model.config.id}, text: model.config.name" class="drag drop circle {size: 100}"> </div>   
+    -->
+    
+<div data-bind-template='template: { name: "serviceMethodTemplate", 
+                        foreach: services,
+                        afterRender: postRender }'>
+
+</div>
+
+    <script id='serviceMethodTemplate' type='text/html'>     
+        <div data-bind-template="text: name" class="drag drop circle {size: 100}"> 
+            
+        </div>
+    </script> 
+
+    <!--<div  class="drag drop circle {size: 100}">
+
+    <div 
+    
+
+
+
+     data-bind-service='template: "serviceTemplate", afterRender: postRender'
+        , afterRender: function(){alert("rendered");}
+    </div>-->
+    <!--data-bind-service="attr: { 'id': model.config.id }"-->
+      
+
+  
+

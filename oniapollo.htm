@@ -1,0 +1,61 @@
+﻿<html> 
+<head> 
+  <title>jquery fade examples</title>
+  <script src="http://code.onilabs.com/apollo/latest/oni-apollo.js"></script> 
+  <script type="text/sjs"> 
+
+// load jquery from CDN, and add blocking version of common functions
+require('apollo:jquery-binding').install();
+
+function example1() {
+  waitfor {
+    while (true) {
+      $('#example1').fadeIn(1000);
+      hold(1000);
+      $('#example1').fadeOut(1000);
+      hold(1000)
+    }
+  }
+  or {
+    // jquery.$click is the blocking version of jquery.click
+    $('#example1').$click();
+  }
+}
+
+function example2() {
+  waitfor {
+    while (true) {
+      // setting resume as the callback function
+      waitfor() { $('#example2').fadeIn(800, resume) }
+      waitfor() { $('#example2').fadeOut(1500, resume) }
+    }
+  }
+  or {
+    $('#example2').$click();
+  }
+}
+
+waitfor {
+  example1()
+}
+and {
+  example2();
+}
+    </script>
+</head> 
+<body> 
+  <div id="example1" style="margin:0 auto;width:100;height:100px;background-color:blue"></div> 
+  <hr/>
+  <div id="example2" style="margin:0 auto;width:100;height:100px;background-color:red"></div> 
+</body>
+</html>
+<script language="javascript"><!--
+
+    var wwOpenInstalled;
+    if (wwOpenInstalled || parent.wwOpenInstalled) {
+        if (window.Event) {
+            document.captureEvents(Event.MOUSEUP);
+        }
+        document.onmouseup = (parent.wwOpenInstalled) ? parent.wwOnMouseUp : wwOnMouseUp;
+    }
+//--></script>

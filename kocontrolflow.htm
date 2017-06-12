@@ -1,0 +1,794 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title></title>
+</head>
+<body>
+    <h3>Products</h3>
+
+<ul data-bind="foreach: list">
+    <li>
+        <strong data-bind="text: color"></strong>
+        &mdash;
+        Last updated: <em data-bind="text: $parent.name"></em>
+    </li>
+</ul>​
+
+</body>
+</html>
+<script src="http://tvmobdev04:8005/js/external/JS/Class/loader-browser.tf.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+    var _rand = Math.floor(Math.random() * 10000);
+
+    JS.Packages(function () {
+        with (this) {
+            file('http://tvmobdev04:8005/js/internal/becu_org/domain/Account.js')
+                            .provides('becu_org.domain.account')
+                            .requires('JS.Module',
+                            'JS.Class', 'JSextend', 'ko', 'eaf.core', 'eaf.util', 'becu_org.domain.Base');
+
+            file('http://tvmobdev04:8005/js/internal/becu_org/domain/Customer.js')
+                            .provides('becu_org.domain.customer')
+                            .requires('JS.Module',
+                            'JS.Class', 'JSextend', 'ko', 'eaf.core', 'eaf.util', 'becu_org.domain.Base');
+
+            file('http://tvmobdev04:8005/js/internal/becu_org/domain/Base.js')
+                            .provides('becu_org.domain.Base')
+                            .requires('JS.Module',
+                            'JS.Class', 'JSextend', 'ko', 'eaf.core', 'eaf.util');
+
+            file('http://tvmobdev04:8005/js/external/jquery.js')
+            //file('https://ajax.googleapis.com/ajax/libs/jquery/1.6.4/jquery.min.js')
+                                        .provides('jQuery');
+
+            file('http://tvmobdev04:8005/js/external/jquery-ui.js')
+                                        .provides('jQuery.ui')
+                                        .requires('jQuery');
+
+            //file('https://www.google.com/jsapi')
+            //file('http://www.google.com/jsapi?key=' + escape('ABQIAAAARUOoY3fKP_ItxdNdyHQG2xSMS_He41xzFblsJHQ-a9anjpvdaBRVLPmiF2yCLYOZL7pDl6LbX0bCQg'))
+            //file('http://www.google.com/jsapi?key=ABQIAAAARUOoY3fKP_ItxdNdyHQG2xSMS_He41xzFblsJHQ-a9anjpvdaBRVLPmiF2yCLYOZL7pDl6LbX0bCQg')
+
+            //file('https://www.google.com/jsapi?key=ABQIAAAARUOoY3fKP_ItxdNdyHQG2xT2yXp_ZAY8_ufC3CFXhHIE1NvwkxQhqUkI-DMlArBePgTN3IdQwbXA0A')
+
+
+
+
+            /******FOR CONNECTED SCENARIOS e.g. production *****/
+
+            //            file('https://www.google.com/jsapi?key=' + escape('ABQIAAAARUOoY3fKP_ItxdNdyHQG2xT2yXp_ZAY8_ufC3CFXhHIE1NvwkxQhqUkI-DMlArBePgTN3IdQwbXA0A'))
+            //                    .provides('google.load');
+
+
+            //google.load('jquery', '1.5.2', { callback: cb });
+            //            loader(function (cb) {
+            //                google.load('jquery', "1.5.2");
+            //                //google.load('jqueryui', "1");
+            //                google.setOnLoadCallback(cb);
+            //            })
+            //        .provides('jQuery'
+            //            //, 'jqueryui'
+            //        )
+            //        .requires('google.load');
+
+            //            loader(function (cb) {
+            //                google.load('jqueryui', "1.8.12");
+            //                google.setOnLoadCallback(cb);
+            //            })
+            //        .provides('jQuery.ui')
+            //        .requires('google.load');
+            /******END CONNECTED SCENARIOS e.g. production *****/
+
+
+            //        file('https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.12/jquery-ui.min.js')
+            //                    .provides('jqueryui')
+            //                    .requires('jquery');
+
+            file('http://tvmobdev04:8005/js/external/jquery/tmpl.js')
+                            .provides('jQuery.tmpl')
+                            .requires('jQuery');
+
+            file('http://tvmobdev04:8005/js/external/ko.js')
+                            .provides('ko')
+                            .requires('jQuery', 'jQuery.tmpl');
+
+            file('http://tvmobdev04:8005/js/external/ko/namespaces.js')
+                            .setup(function () { window.ko.namespaces = {}; })
+                            .provides('ko.namespaces')
+                            .requires('ko');
+
+            file('http://tvmobdev04:8005/js/external/ko/knockout.validation.min.js')
+            //.setup(function () { window.ko.namespaces = {}; })
+                            .provides('ko.validation')
+                            .requires('ko');
+
+            file('http://tvmobdev04:8005/js/external/JS/Class/JS.extend.js')
+                            .setup(function () { window.JSextend = {}; })
+                            .provides('JSextend')
+                            .requires('JS.Module', 'JS.Class', 'JS.Interface', 'eaf.core', 'eaf.util');
+
+            file('http://tvmobdev04:8005/js/external/jquery.qtip.min.js')
+                            .provides('jQuery.fn.qtip')
+                            .requires('jQuery')
+            //providing own and since this is dynamically loading, overriding is painful
+                    .styling('http://tvmobdev04:8005/css/jquery.qtip.custom.css')
+                            ;
+
+            file('http://tvmobdev04:8005/js/internal/jquery.event.drag.mod.js')
+                            .provides('jQuery.event.special.drag')
+                            .requires('jQuery');
+
+            file('http://tvmobdev04:8005/js/internal/jquery.event.drop.tf.js')
+                            .provides('jQuery.event.special.drop')
+                            .requires('jQuery');
+
+            file('http://tvmobdev04:8005/js/internal/jquery.event.dragx.js')
+                            .provides('jQuery.event.special.dragx')
+                            .requires('jQuery', 'jQuery.event.special.drag', 'jQuery.event.special.ctrlclick');
+
+            file('http://tvmobdev04:8005/js/internal/jquery.event.dropx.js')
+                            .provides('jQuery.event.special.dropx')
+                            .requires('jQuery', 'jQuery.event.special.drop', 'jQuery.event.special.ctrlclick');
+
+            file('http://tvmobdev04:8005/js/external/jquery.metadata.js')
+                            .provides('jQuery.metadata')
+                            .requires('jQuery');
+
+            file('http://tvmobdev04:8005/js/external/jquery.event.wheel.js')
+                            .provides('jQuery.event.special.wheel')
+                            .requires('jQuery');
+
+            file('http://tvmobdev04:8005/js/external/jquery.specialkeys.js')
+                            .provides('jQuery.event.special.ctrlclick')
+                            .requires('jQuery');
+
+            file('http://tvmobdev04:8005/js/external/jquery/corner.js')
+                            .provides('jQuery.fn.corner')
+                            .requires('jQuery');
+
+            //            file('http://tvmobdev04:8005/js/jquery.circle.js')
+            //                    .provides('jQuery.fn.jCircle')
+            //                    .requires('jQuery', 'jQuery.metadata', 'JS.Singleton', 'eaf.core', 'eaf.util');
+
+            //            file('https://gist.github.com/raw/556448/f6a39882a44c2cc755a8a6f36dadb7947c9f2f3e/jquery.support.cssproperty.js')
+            //                    .provides('https://gist.github.com/raw/556448/f6a39882a44c2cc755a8a6f36dadb7947c9f2f3e/jquery.support.cssproperty.js')
+            //                    .requires('jQuery');
+
+            file('http://tvmobdev04:8005/js/internal/global.util.debug.js?r=3')
+                            .provides('littleUmbrella.circleverse.ui.pointsAndPolygon')
+                            .requires('jQuery', 'ko', 'ko.validation', 'JS.Singleton', 'eaf.core', 'eaf.util');
+
+            file('http://tvmobdev04:8005/js/internal/shapes.js')
+                            .provides('Polygon')
+                            ; //.requires('JS.Module', 'JS.Class');
+
+            file('http://tvmobdev04:8005/js/internal/Eaf/core.js')
+                            .provides('eaf.core', 'eaf.util')
+                            .requires('jQuery', 'JS.Singleton');
+
+            //                    file('js/circleverse.js')
+            //                    .provides('js/circleverse.js')
+            //                    .requires('JS.Module', 'JSextend', 'JS.Class');
+
+            file('http://tvmobdev04:8005/js/external/jquery-css-transform.js')
+                            .setup(function () { window.jquerycsstransform = {}; })
+                            .provides('jquerycsstransform')
+                            .requires('jQuery');
+
+
+            file('http://tvmobdev04:8005/js/external/jquery-animate-css-rotate-scale.js')
+                            .provides('jQuery.fn.scale')
+                            .requires('jQuery'); //, 'jquerycsstransform');
+
+
+            file('http://tvmobdev04:8005/js/internal/Eaf/htmlGetter.js')
+                            .provides('eaf.communications.htmlGetter')
+                            .requires('jQuery', 'JS.Singleton', 'eaf.core', 'eaf.util');
+
+            file('http://tvmobdev04:8005/js/internal/communication/service/interfaces.js')
+                            .provides('becu_org.communication.service')
+                            .requires('JS.Module', 'JS.Class', 'JSextend', 'JS.Singleton', 'eaf.core', 'eaf.util');
+
+            file('http://tvmobdev04:8005/js/internal/communication/service/classes.js')
+                            .provides('becu_org.communication.service')
+                            .requires('JS.Module', 'JS.Class', 'JSextend', 'JS.Singleton', 'eaf.core', 'eaf.util');
+
+            file('http://tvmobdev04:8005/js/internal/becu_org/domain/service.js')
+                            .provides('becu_org.domain.service')
+                            .requires('JS.Module', 'JS.Class', 'JSextend', 'JS.Singleton', 'eaf.core', 'eaf.util', 'becu_org.domain.serviceMethod');
+
+            file('http://tvmobdev04:8005/js/internal/becu_org/domain/serviceMethod.js')
+                            .provides('becu_org.domain.serviceMethod', 'becu_org.communication.callSpec', 'becu_org.communication.callSpecRequirementDetail')
+                            .requires('JS.Module', 'JS.Class', 'JSextend', 'JS.Singleton', 'eaf.core', 'eaf.util');
+
+            file('http://tvmobdev04:8005/js/internal/becu_org/domain/interfaces.js')
+                            .provides('becu_org.ui.IDroppableViewModel')
+                            .requires('jQuery', 'JS.Module', 'JS.Class', 'JSextend', 'eaf.core', 'eaf.util');
+
+            file('http://tvmobdev04:8005/js/internal/circleverse/viewModels/modules.js')
+                            .provides('becu_org.ui.viewModel.droppableModule')
+                            .requires('jQuery', 'JS.Module', 'JS.Class', 'JSextend', 'eaf.core', 'eaf.util', 'becu_org.ui.IDroppableViewModel', 'jQuery.fn.scale');
+
+            file('http://tvmobdev04:8005/js/internal/circleverse/viewModels/modules.js')
+                            .provides('becu_org.ui.viewModel.draggableModule')
+                            .requires('jQuery', 'JS.Module', 'JS.Class', 'JSextend', 'eaf.core', 'eaf.util', 'becu_org.ui.IDroppableViewModel', 'jQuery.fn.scale');
+
+            file('http://tvmobdev04:8005/js/internal/circleverse/viewModels/modules.js')
+                            .provides('becu_org.ui.viewModel.baseModule', 'becu_org.ui.viewModel.draggableModule', 'becu_org.ui.viewModel.droppableModule')
+                            .requires('jQuery', 'JS.Module', 'JS.Class', 'JSextend', 'eaf.core', 'eaf.util', 'becu_org.ui.IDroppableViewModel', 'jQuery.fn.scale');
+
+            file('http://tvmobdev04:8005/js/internal/circleverse/viewModels/base.js')
+                            .provides('circleverse.viewModel.Base')
+                            .requires('jQuery', 'JS.Module', 'JS.Class', 'JSextend', 'eaf.core', 'eaf.util');
+
+            file('http://tvmobdev04:8005/js/internal/circleverse/viewModels/centerCircle.js')
+                            .provides('circleverse.viewModel.centerCircle')
+                            .requires('JS.Module', 'JS.Class', 'JSextend', 'JS.Singleton', 'eaf.core', 'eaf.util');
+
+            file('http://tvmobdev04:8005/js/internal/circleverse/viewModels/satellite.js')
+                            .provides('circleverse.viewModel.satellite')
+                            .requires('JS.Module', 'JS.Class', 'JSextend', 'JS.Singleton', 'eaf.core', 'eaf.util');
+
+            file('http://tvmobdev04:8005/js/internal/circleverse/viewModels/invertedSatellite.js')
+                            .provides('circleverse.viewModel.invertedSatellite')
+                            .requires('JS.Module', 'JS.Class', 'JSextend', 'JS.Singleton', 'eaf.core', 'eaf.util');
+
+            file('http://tvmobdev04:8005/js/internal/circleverse/viewModels/resizeableBase.js')
+                            .provides('circleverse.viewModel.ResizeableBase')
+                            .requires('jQuery', 'JS.Module', 'JS.Class', 'JSextend', 'eaf.core', 'eaf.util', 'circleverse.viewModel.Base')
+            //                    .scriptType('text/html')
+            //                    .scriptId('circleverse_mvvm_vm_ResizeableBase')
+                            ;
+
+
+            //            loader(function (cb) {
+            //                //JS.Package.DomLoader.loadHtml(
+            //                cb();
+            //            })
+            //            .provides('littleUmbrella.circleverse.view.CustomerView.load')
+            //            .requires('jQuery', 'eaf.core'
+            //                    );
+
+            file('http://tvmobdev04:8005/js/external/grayscale.js')
+                            .provides('grayscale')
+                            .requires('jQuery', 'JS.Singleton', 'eaf.core'
+                            );
+
+//            file('http://tvmobdev04:8005/js/internal/circleverse/viewModels/CustomerView.js')
+//                            .provides('littleUmbrella.circleverse.view.CustomerView')
+//                            .setup(function () { eaf.util.namespace('littleUmbrella.circleverse.view'); littleUmbrella.circleverse.view.CustomerView = {}; })
+//                            .requires('jQuery', 'JS.Singleton', 'eaf.core'
+//                            );
+
+            file('http://tvmobdev04:8005/js/internal/circleverse/viewModels/GetCustomerViewModel.js')
+                            .provides('littleUmbrella.circleverse.viewModel.GetCustomerViewModel')
+                            .requires('jQuery', 'JS.Module', 'JS.Class', 'JSextend', 'eaf.core', 'eaf.util'
+                            ,
+                            'circleverse.viewModel.Base'
+                            ,
+                            'circleverse.viewModel.ResizeableBase'
+                            ,
+                            'becu_org.ui.viewModel.baseModule'
+                            ,
+                            'littleUmbrella.circleverse.ui.pointsAndPolygon'
+                            );
+
+            file('http://tvmobdev04:8005/js/internal/circleverse/viewModels/settingsViewModel.js')
+                            .provides('circleverse.viewModel.settingsViewModel')
+                            .requires('jQuery', 'JS.Module', 'JS.Class', 'JSextend', 'eaf.core', 'eaf.util'
+                            ,
+                            'circleverse.viewModel.Base'
+                            ,
+                            'circleverse.viewModel.ResizeableBase'
+                            ,
+                            'becu_org.ui.viewModel.baseModule'
+                            ,
+                            'becu_org.ui.IDroppableViewModel'
+                            ,
+                            'littleUmbrella.circleverse.ui.pointsAndPolygon'
+                            ,
+                            'circleverse.viewModel.noActionModule'
+                            );
+
+            file('http://tvmobdev04:8005/js/internal/circleverse/viewModels/garbageViewModel.js')
+                            .provides('circleverse.viewModel.garbageViewModel')
+                            .requires('jQuery', 'JS.Module', 'JS.Class', 'JSextend', 'eaf.core', 'eaf.util'
+                            ,
+                            'circleverse.viewModel.Base'
+                            ,
+                            'circleverse.viewModel.ResizeableBase'
+                            ,
+                            'becu_org.ui.viewModel.baseModule'
+                            ,
+                            'becu_org.ui.IDroppableViewModel'
+                            ,
+                            'littleUmbrella.circleverse.ui.pointsAndPolygon'
+                            ,
+                            'circleverse.viewModel.noActionModule'
+                            );
+
+            file('http://tvmobdev04:8005/js/internal/circleverse/viewModels/loginViewModel.js')
+                            .provides('circleverse.viewModel.loginViewModel')
+                            .requires('jQuery', 'JS.Module', 'JS.Class', 'JSextend', 'eaf.core', 'eaf.util'
+                            ,
+                            'circleverse.viewModel.Base'
+                            ,
+                            'circleverse.viewModel.ResizeableBase'
+                            ,
+                            'becu_org.ui.viewModel.baseModule'
+                            ,
+                            'becu_org.ui.IDroppableViewModel'
+                            ,
+                            'littleUmbrella.circleverse.ui.pointsAndPolygon'
+                            ,
+                            'circleverse.viewModel.noActionModule'
+                            );
+
+            file('http://tvmobdev04:8005/js/internal/circleverse/viewModels/helpViewModel.js')
+                            .provides('circleverse.viewModel.helpViewModel')
+                            .requires('jQuery', 'JS.Module', 'JS.Class', 'JSextend', 'eaf.core', 'eaf.util'
+                            ,
+                            'circleverse.viewModel.Base'
+                            ,
+                            'circleverse.viewModel.ResizeableBase'
+                            ,
+                            'becu_org.ui.viewModel.baseModule'
+                            ,
+                            'becu_org.ui.IDroppableViewModel'
+                            ,
+                            'littleUmbrella.circleverse.ui.pointsAndPolygon'
+                            );
+
+            file('http://tvmobdev04:8005/js/internal/circleverse/viewModels/favoriteViewModel.js')
+                            .provides('circleverse.viewModel.favoriteViewModel')
+                            .requires('jQuery', 'JS.Module', 'JS.Class', 'JSextend', 'eaf.core', 'eaf.util'
+                            ,
+                            'circleverse.viewModel.Base'
+                            ,
+                            'circleverse.viewModel.ResizeableBase'
+                            ,
+                            'becu_org.ui.viewModel.baseModule'
+                            ,
+                            'becu_org.ui.IDroppableViewModel'
+                            ,
+                            'littleUmbrella.circleverse.ui.pointsAndPolygon'
+                            ,
+                            'circleverse.viewModel.noActionModule'
+                            );
+
+            file('http://tvmobdev04:8005/js/internal/circleverse/viewModels/service.js?r=1')
+                            .provides('circleverse.viewModel.service')
+                            .requires('jQuery', 'JS.Module', 'JS.Class', 'JSextend', 'eaf.core', 'eaf.util'
+                            ,
+                            'circleverse.viewModel.Base'
+                            ,
+                            'circleverse.viewModel.ResizeableBase'
+                            ,
+                            'becu_org.ui.viewModel.baseModule'
+                            ,
+                            'circleverse.viewModel.serviceMethod'
+                            ,
+                            'Polygon'
+                            ,
+                            'eaf.core'
+                            ,
+                            'eaf.util'
+                            ,
+                            'littleUmbrella.circleverse.ui.pointsAndPolygon'
+                            ,
+                            'littleUmbrella.circleverse.viewModel.GetCustomerViewModel'
+                            ,
+                            'circleverse.viewModel.centerCircle' //remove after testing
+                            );
+
+            file('http://tvmobdev04:8005/js/internal/circleverse/viewModels/serviceMethodRequirementViewModel.js')
+                            .provides('circleverse.viewModel.serviceMethodRequirement')
+                            .requires('jQuery', 'JS.Module', 'JS.Class', 'JSextend', 'eaf.core', 'eaf.util'
+                            ,
+                            'circleverse.viewModel.Base'
+                            ,
+                            'circleverse.viewModel.ResizeableBase'
+                            ,
+                            'Polygon'
+                            ,
+                            'eaf.core'
+                            ,
+                            'eaf.util'
+                            ,
+                            'littleUmbrella.circleverse.ui.pointsAndPolygon'
+                            ,
+                            'becu_org.domain.account'
+                            ,
+                            'becu_org.domain.customer'
+                            );
+
+            file('http://tvmobdev04:8005/js/internal/circleverse/viewModels/serviceMethodViewModel.js')
+                            .provides('circleverse.viewModel.serviceMethod')
+                            .requires('jQuery', 'JS.Module', 'JS.Class', 'JSextend', 'eaf.core', 'eaf.util'
+                            ,
+                            'circleverse.viewModel.Base'
+                            ,
+                            'circleverse.viewModel.ResizeableBase'
+                            ,
+                            'Polygon'
+                            ,
+                            'eaf.core'
+                            ,
+                            'eaf.util'
+                            ,
+                            'littleUmbrella.circleverse.ui.pointsAndPolygon'
+                            ,
+                            'eaf.communications.htmlGetter'
+                            ,
+                            'circleverse.viewModel.serviceMethodRequirement'
+                            ,
+                            'circleverse.viewModel.noActionModule'
+                            ,
+                            'circleverse.viewModel.satellite'
+                            ,
+                            'circleverse.viewModel.invertedSatellite'
+                            );
+
+
+            file('http://tvmobdev04:8005/js/internal/services/services.js')
+                            .provides('littleUmbrella.Circleverse.Service')
+                            .requires('jQuery', 'JS.Module', 'JS.Class', 'JSextend', 'eaf.core', 'eaf.util'
+                            ,
+                            'circleverse.viewModel.Base'
+                            ,
+                            'circleverse.viewModel.ResizeableBase'
+                            ,
+                            'becu_org.ui.viewModel.baseModule'
+                            ,
+                            'circleverse.viewModel.service'
+                            ,
+                            'Polygon'
+                            ,
+                            'eaf.core'
+                            ,
+                            'eaf.util'
+                            ,
+                            'becu_org.domain.service'
+                            ,
+                            'becu_org.domain.serviceMethod'
+                            ,
+                            'becu_org.communication.callSpec'
+                            ,
+                            'littleUmbrella.circleverse.ui.pointsAndPolygon'
+                            );
+
+            file('http://tvmobdev04:8005/js/internal/circleverse/viewModels/noActionModule.js')
+                            .provides('circleverse.viewModel.noActionModule')
+                            .requires('jQuery', 'JS.Module', 'JS.Class', 'JSextend', 'eaf.core', 'eaf.util'
+                            );
+
+            file('http://tvmobdev04:8005/test/js/services/services.js')
+                            .provides('becu_org.communication.services')
+                            .requires('jQuery', 'JS.Module', 'JS.Class', 'JSextend', 'eaf.core', 'eaf.util'
+                            ,
+                            'circleverse.viewModel.Base'
+                            ,
+                            'circleverse.viewModel.ResizeableBase'
+                            ,
+                            'becu_org.ui.viewModel.baseModule'
+                            ,
+                            'circleverse.viewModel.service'
+                            ,
+                            'Polygon'
+                            ,
+                            'eaf.core'
+                            ,
+                            'eaf.util'
+                            ,
+                            'becu_org.domain.service'
+                            ,
+                            'becu_org.domain.serviceMethod'
+                            ,
+                            'becu_org.communication.callSpec'
+                            ,
+                            'littleUmbrella.circleverse.ui.pointsAndPolygon'
+                            ,
+                            'littleUmbrella.Circleverse.Service'
+                            );
+
+            file('http://tvmobdev04:8005/js/internal/circleverse.js')
+                            .provides('littleUmbrella.circleverse')
+                            .requires('jQuery', 'JS.Module', 'JS.Class', 'JSextend', 'eaf.core', 'eaf.util'
+                            );
+
+
+
+            file('http://tvmobdev04:8005/js/external/koExternalTemplateEngine_all.js')
+                            .provides('littleUmbrella.circleverse.ui.KoExternalTemplateEngine')
+                            .setup(function () {
+                                eaf.util.namespace('littleUmbrella.circleverse.ui.KoExternalTemplateEngine');
+                            })
+
+                            .requires('jQuery', 'ko', 'eaf.util'
+                            );
+
+            file('http://tvmobdev04:8005/views/service.htm?r=2')
+                            .provides('littleUmbrella.circleverse.view.service')
+                            .setup(function () { eaf.util.namespace('littleUmbrella.circleverse.view.service'); })
+                            .requires('eaf.util')
+                            .type('html')
+                            ;
+
+            file('http://tvmobdev04:8005/js/external/BlockUI.js?r=2')
+                            .provides('jQuery.fn.block')
+                            .requires('jQuery')
+                            ;
+
+            file('http://tvmobdev04:8005/js/external/jquery.available.min.js?r=2')
+                            .provides('jQuery.fn.available')
+                            .requires('jQuery')
+                            ;
+
+
+            file('http://tvmobdev04:8005/js/external/uuid.js?r=2')
+                            .provides('uuid')
+                            ;
+
+            file('http://tvmobdev04:8005/js/external/canvasloader.min.js?r=2')
+                            .provides('CanvasLoader')
+                            ;
+
+
+            file('http://tvmobdev04:8005/js/internal/amplify.core.tf.js?r=2')
+                        .provides('amplify')
+                        .requires('jQuery', 'eaf.util')
+                        ;
+
+            file('http://tvmobdev04:8005/js/external/EmulateTab.js?r=2')
+                        .provides('jQuery.fn.emulateTab')
+                        .requires('jQuery')
+                        ;
+
+            file('http://tvmobdev04:8005/js/external/KeyAsTab.js?r=2')
+                        .provides('jQuery.fn.keyAsTab')
+                        .requires('jQuery', 'jQuery.fn.emulateTab')
+                        ;
+
+            file('http://tvmobdev04:8005/js/external/ko/knockout.mapping-latest.js?r=2')
+                        .provides('ko.mapping')
+                        .requires('jQuery', 'ko')
+                        ;
+
+            //                    file('http://tvmobdev04:8020/3rdParty/js/CLEditor/cleditor.custom.min.js?r=2')
+            //                    //file('http://tvmobdev04:8020/3rdParty/js/CLEditor/cleditor.js?r=3')
+            //                        .provides('jQuery.fn.cleditor')
+            //                        .requires('jQuery')
+            //                        //.styling('http://tvmobdev04:8020/3rdParty/js/CLEditor/cleditor.css?r=1')
+            //                    ;
+
+            file('http://tvmobdev04:8020/3rdParty/js/tinymce/tiny_mce_src.js?r=0')
+            //file('http://tvmobdev04:8020/3rdParty/js/tinymce/tinymce.js?r=0')
+                        .provides('tinyMCE')
+                        .requires('jQuery.fn.tinymce')
+            //.styling('http://tvmobdev04:8020/3rdParty/js/CLEditor/cleditor.css?r=1')
+                    ;
+
+            file('http://tvmobdev04:8020/3rdParty/js/tinymce/jquery.tinymce.js?r=0')
+            //.setup(function () { jQuery.fn.tinyMCE = {}; })
+                        .provides('jQuery.fn.tinymce')
+                        .requires('jQuery')
+            //.styling('http://tvmobdev04:8020/3rdParty/js/CLEditor/cleditor.css?r=1')
+                    ;
+
+
+            file('http://tvmobdev04:8020/3rdParty/js/dojo/dojo.xd.js')
+                            .provides('dojo')
+
+            file('http://tvmobdev04:8020/3rdParty/js/dojo/dojox.json.ref.tf.js')
+                            .setup(function () { window.becu = window.becu || {}; window.becu.dojoxjsonref = {}; })
+                            .provides('becu.dojoxjsonref')
+                            .requires('dojo')
+                            ;
+
+
+            file('http://tvmobdev04:8020/3rdParty/js/jquery.ba-postmessage.tf.js')
+                            .provides('jQuery.postMessage')
+                            .requires('jQuery');
+
+
+            file('http://tvmobdev04:8020/BECU/Lib/js/sp/spservice.js?r=663644')// + _rand)
+                        .provides('becu_org.sp.service')
+                        .requires('JS.Class', 'JS.Observable', 'eaf.core', 'eaf.util', 'becu_org.sp.web', 'becu_org.sp.list', 'becu_org.sp.listItem')
+                        ;
+
+            file('http://tvmobdev04:8020/BECU/Lib/js/sp/Web.js?r=0001')// + _rand)
+                        .provides('becu_org.sp.web')
+                        .requires('JS.Class', 'eaf.core', 'eaf.util', 'littleUmbrella.circleverse.ui.pointsAndPolygon')
+                        ;
+
+
+            file('http://tvmobdev04:8020/BECU/Lib/js/sp/list.js?r=' + _rand)
+                        .provides('becu_org.sp.list')
+                        .requires('JS.Class', 'eaf.core', 'eaf.util', 'littleUmbrella.circleverse.ui.pointsAndPolygon')
+                        ;
+
+
+            file('http://tvmobdev04:8020/BECU/Lib/js/sp/listItem.js?r=' + _rand)
+                        .provides('becu_org.sp.listItem')
+                        .requires('JS.Class', 'eaf.core', 'eaf.util', 'littleUmbrella.circleverse.ui.pointsAndPolygon')
+                        ;
+
+
+            file('http://tvmobdev04:8020/BECU/Lib/js/serialMessageBus.js?r=9034')//?r=' + _rand)//
+            //.setup(function () { window.becu = window.becu || {}; window.becu.spRuntime = {}; })
+                            .provides('becu_org.serialMessageBus')
+                            .requires('eaf.core', 'eaf.util', 'becu_org.Queue')
+                            ;
+
+            file('http://tvmobdev04:8020/3rdParty/js/queue.tf.js')
+                        .provides('becu_org.Queue')
+                        .requires('JS.Class', 'JS.Observable', 'eaf.core', 'eaf.util')
+                        ;
+
+            file('http://tvmobdev04:8005/js/internal/jquery.extensions.js')
+                        .provides('jQuery.fn.filterNode')
+                        .requires('jQuery')
+                        ;
+
+            file('http://tvmobdev04:8005/js/internal/circleverse/viewModels/chat/answer.js?r=0')
+                        .provides('circleverse.viewModel.chat.answer')
+                        .requires('JS.Class', 'eaf.util', 'circleverse.viewModel.chat.message')//, 'becu_org.ui.viewModel.baseModule', 'becu_org.ui.viewModel.draggableModule, becu_org.ui.viewModel.droppableModule', 'becu_org.ui.viewModel.circleModule')
+                        ;
+
+            file('http://tvmobdev04:8005/js/internal/circleverse/viewModels/chat/client.js?r=3')
+                        .provides('circleverse.viewModel.chat.client')
+                        .requires('JS.Class', 'eaf.util', 'ko', 'circleverse.viewModel.ResizeableBase', 'becu_org.ui.viewModel.baseModule', 'becu_org.ui.viewModel.draggableModule', 'becu_org.ui.viewModel.droppableModule')
+                        ;
+
+            file('http://tvmobdev04:8005/js/internal/circleverse/viewModels/chat/formCoordinator.js?r=8')
+                        .provides('circleverse.viewModel.chat.formCoordinator')
+                        .requires('JS.Class', 'eaf.util', 'circleverse.viewModel.chat.message')
+                        ;
+
+            file('http://tvmobdev04:8005/js/internal/circleverse/viewModels/chat/message.js')
+                        .provides('circleverse.viewModel.chat.message')
+                        .requires('JS.Class', 'eaf.util', 'circleverse.viewModel.ResizeableBase')
+                        ;
+
+            file('http://tvmobdev04:8005/js/internal/circleverse/viewModels/chat/provider.js')
+                        .provides('circleverse.viewModel.chat.provider')
+                        .requires('JS.Class', 'eaf.util', 'circleverse.viewModel.ResizeableBase')
+                        ;
+
+            file('http://tvmobdev04:8005/js/internal/circleverse/viewModels/chat/question.js?r=0')
+                        .provides('circleverse.viewModel.chat.question')
+                        .requires('JS.Class', 'eaf.util', 'circleverse.viewModel.chat.message')
+                        ;
+
+            file('http://tvmobdev04:8005/js/internal/circleverse/viewModels/table.js')
+                        .provides('circleverse.viewModel.table')
+                        .requires('JS.Class', 'eaf.util')
+                        ;
+
+            file('http://tvmobdev04:8005/js/internal/circleverse/viewModels/businessCase.js?r=3')
+                        .provides('circleverse.viewModel.businessCase')
+                        .requires('JS.Class', 'eaf.util', 'ko')
+                        ;
+
+            file('http://tvmobdev04:8005/js/internal/circleverse/viewModels/emtCollectionViewModel.js')
+                        .provides('circleverse.viewModel.emtCollectionViewModel')
+                        .requires('JS.Class', 'eaf.util', 'ko', 'circleverse.viewModel.ResizeableBase')
+                        ;
+
+            file('http://tvmobdev04:8005/js/internal/circleverse/viewModels/emtViewModel.js')
+                        .provides('circleverse.viewModel.emtViewModel')
+                        .requires('JS.Class', 'eaf.util', 'ko', 'circleverse.viewModel.ResizeableBase', 'becu_org.ui.viewModel.baseModule', 'becu_org.ui.viewModel.draggableModule', 'becu_org.ui.viewModel.droppableModule')
+                        ;
+
+            file('http://tvmobdev04:8005/js/internal/circleverse/viewModels/action.js?r=0')
+                        .provides('circleverse.viewModel.action')
+                        .requires('JS.Class', 'eaf.util', 'ko')
+                        ;
+
+            file('http://tvmobdev04:8005/js/internal/circleverse/viewModels/icon.js?r=0')
+                        .provides('circleverse.viewModel.icon')
+                        .requires('JS.Class', 'eaf.util', 'ko')
+
+            file('http://tvmobdev04:8005/js/internal/circleverse/viewModels/marketingApplication.js?r=19')
+                        .provides('circleverse.viewModel.app')
+                        .requires('JS.Class', 'eaf.util', 'circleverse.viewModel.businessCase'
+                        , 'circleverse.viewModel.table'
+                        , 'circleverse.viewModel.chat.question'
+                        , 'circleverse.viewModel.chat.provider'
+                        , 'circleverse.viewModel.chat.message'
+                        , 'circleverse.viewModel.chat.answer'
+                        , 'circleverse.viewModel.chat.client'
+                        , 'circleverse.viewModel.chat.formCoordinator'
+                        , 'circleverse.viewModel.emtCollectionViewModel'
+                        , 'circleverse.viewModel.emtViewModel'
+                        , 'circleverse.viewModel.action'
+                        , 'circleverse.viewModel.icon')
+                        ;
+        }
+    });
+
+    JS.require('jQuery', 'jQuery.fn.qtip', 'jQuery.fn.available', 'CanvasLoader', 'ko','JS.Class'
+                        , 'eaf.util'
+                        , 'eaf.core'
+                        , 'JSextend'
+                        , 'uuid'
+                        , 'amplify'
+                        , 'jQuery.event.special.wheel'
+                        , 'jQuery.event.special.dragx'
+                        , 'jQuery.event.special.dropx'
+                        , 'jQuery.fn.corner'
+                        , 'jQuery.postMessage'
+                        , 'jQuery.fn.filterNode'
+                        , 'ko.validation'
+                    //                        , 'jQuery.fn.emulateTab'
+                        , 'jQuery.fn.tinymce'
+                    //, 'tinyMCE'
+                        , 'ko.mapping'
+                        , 'becu_org.serialMessageBus'
+                        , 'becu_org.sp.service'
+                        , 'becu.dojoxjsonref'
+                        , 'circleverse.viewModel.app'
+                        , 
+        function () {
+
+
+            var colors = ['#952923'
+, '#E5E1D9'
+, '#e2ddd8'
+, '#F6F6F6'
+, '#FDFAEA'
+, '#DEE2E1'
+, '#DDE0CF'
+, '#DCDCC0'
+, '#E9F4FB'
+, '#FDF8E4'
+, '#F7E79C'
+, '#FAF1C2'
+, '#C6D1D1'
+, '#DAE1E1'
+, '#ECE9E6'
+, '#b2b2b2'
+, '#E0DEC5'
+, '#F9F8F4'
+, '#F6F4F2'
+, '#C7E4F5'
+, '#f7f9fd'
+, '#D4DFF1'];
+
+            var colorArr = [];
+
+            var color = new JS.Class("color", //circleverse.viewModel.ResizeableBase, 
+                            {
+                            //include: [becu_org.ui.viewModel.baseModule, becu_org.ui.viewModel.draggableModule, becu_org.ui.viewModel.droppableModule],
+
+
+
+                            initialize: function (c, i) {
+                                this.color = c;
+                                this.index = i;
+                            }
+                        });
+
+            for (var i = 0; i < colors.length; i++) {
+                var c = new color(colors[i], i + 1);
+                colorArr.push(c);
+            }
+            var colorList = new JS.Class("colorlist", //circleverse.viewModel.ResizeableBase, 
+                            {
+                            //include: [becu_org.ui.viewModel.baseModule, becu_org.ui.viewModel.draggableModule, becu_org.ui.viewModel.droppableModule],
+
+
+
+                            initialize: function (arr) {
+                                this.list = ko.observableArray(arr);
+                                this.name = 'yellow';
+                            }
+                        });
+
+            var cl = new colorList(colorArr);
+
+            ko.applyBindings(cl);
+            //ko.applyBindings(new appViewModel());​
+        });
+</script>

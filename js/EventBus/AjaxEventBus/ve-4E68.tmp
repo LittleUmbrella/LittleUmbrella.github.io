@@ -1,0 +1,89 @@
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="Default.aspx.cs" Inherits="AjaxEventBus._Default" %>
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" >
+<head runat="server">
+    <title>JavaScript Event Bus Sample</title>
+    <style type="text/css">
+        #publisher
+        {
+            position: absolute;
+            top: 5px;
+            left: 5px;
+            width: 465px;
+            height: 40px;
+            border: solid 2px black;
+        }
+        
+        #listenerone
+        {
+            position: absolute;
+            top: 50px;
+            left: 15px;
+            width: 220px;
+            height: 220px;
+            border: solid 2px black;
+        }
+        
+        #listenertwo
+        {
+            position: absolute;
+            top: 50px;
+            left: 250px;
+            width: 220px;
+            height: 220px;
+            border: solid 2px black;
+        }
+    </style>
+    <script src="http://ajax.microsoft.com/ajax/beta/0911/Start.debug.js" type="text/javascript"></script>
+    <script src="Scripts/ScriptManifest.js" type="text/javascript"></script>
+    <script language="javascript" type="text/javascript">
+        var dependencies = [
+            Sys.scripts.Core,
+            Sys.scripts.jQuery,
+            Sys.scripts.EventBus,
+            Sys.scripts.Payload
+        ];
+
+        Sys.require(dependencies, function() {
+
+            // get a reference to the page's event bus instance
+            var bus = Sample.EventBus.getInstance();
+
+            // when the text changes, publish a 'Update' event
+            $('#PublishedText').change(function() {
+                bus.publish(Sample.Payload.Events.Update, $(this).val());
+            });
+
+            // when the button is clicked, publish a 'Click' event
+            $('#PublishedButton').click(function() {
+                bus.publish(Sample.Payload.Events.Click, $('#PublishedText').val());
+            });
+
+            // when the change event is fired, update the first listener
+            bus.subscribe(Sample.Payload.Events.Update, function(data) {
+                $('#listenerone').html(String.format('Value: {0} (updated {1})', data, new Date()));
+            });
+
+            // when the click event is fired, update the second listener
+            bus.subscribe(Sample.Payload.Events.Click, function(data) {
+                $('#listenertwo').html(String.format('Value: {0} (updated {1})', data, new Date()));
+            });
+        });
+    </script>
+</head>
+<body>
+    <form id="form1" runat="server">
+    <div id="publisher">
+        <input type="text" id="PublishedText" /> <input type="button" id="PublishedButton" value="Publish" />    
+    </div>
+    <div id="listenerone">
+    
+    </div>
+    <div id="listenertwo">
+    
+    </div>
+    </form>
+</body>
+</html>

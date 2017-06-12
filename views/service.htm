@@ -1,0 +1,65 @@
+﻿<div id="services" data-bind="foreach: services">
+    <div data-bind="eventJq: {
+            dragxselect: {data: getSettings, func: select },
+            dragxinit: {data: getSettings, func: dragxinit },
+            dragxstart: {data: getSettings, func: dragxstart },
+            dragx: {data: getSettings, func: dragx },
+            dragxend: {data: getSettings, func: dragxend },
+            dropxstart: {data: getSettings, func: dropxstart },
+            dropxover: {data: getSettings, func: dropxover },
+            dropxout: {data: getSettings, func: dropxout },
+            dropx: {data: getSettings, func: function(){dropx.apply(this, arguments); __droppedOn(arguments, true);} },
+            dropxselect: {data: getSettings, func: dropxselect },           
+            dropxend: {data: getSettings, func: dropxend }
+            }
+            ,
+            event: {'wheel': resize, 'dblclick': function(data, e){toggle(); e.cancelBubble = true; if (e.stopPropagation) e.stopPropagation(); return false}, dblclickBubble: false }
+            , attr: {'id': model().id}
+            , style: {'left': initLocation().left +'px'
+            ,'top': initLocation().top +'px'
+            ,'width': dimensions().width +'px'
+            ,'height': dimensions().height +'px'
+            ,'backgroundImage': 'url(&#34;\/media\/img\/' + model().id + '.png&#34;)'}
+            , busy: isBusy" 
+            class="drag drop onLoadTip service circle {size: 100}" title="Double-click"
+            style="display:none;"
+            ><!--, 'mouseover': function(){ isHoveringOver(true)}, 'mouseout': function(){isHoveringOver(false)}-->
+           
+
+
+            <div data-bind="foreach: methods, visible: isExpanded">
+                <div data-bind="eventJq: {
+                    dropxstart: {data: getSettings, func: dropxstart },
+                    dropxover: {data: getSettings, func: dropxover },
+                    dropxout: {data: getSettings, func: dropxout },
+                    dropx: {data: getSettings, func: function(){dropx.apply(this, arguments); __droppedOn(arguments, true);} },
+                    dropxselect: {data: getSettings, func: dropxselect },           
+                    dropxend: {data: getSettings, func: dropxend }
+                    }
+                    ,
+                    style: {'width': location().width +'px'
+                    ,'height': location().height +'px'
+                    ,'left': location().left +'px'
+                    ,'top': location().top +'px'}" 
+                class="drag drop circle thinBorder"> 
+
+                    <!--<div data-bind="dataContext: {data: model().callSpec(), options:{vm: that} }">-->
+                        <div data-bind="foreach: methodRequirements">
+                            
+                            <div data-bind="jqCss: {'opacity': icon.opacity()}, style: {'backgroundImage': icon.url()
+                                ,'width': $parent.getItemLocation($data.model).width +'px'
+                                ,'height': $parent.getItemLocation($data.model).height +'px'
+                                ,'left': $parent.getItemLocation($data.model).left +'px'
+                                ,'top': $parent.getItemLocation($data.model).top +'px'}
+                                , event: {'dblclick': function(data, e){$parent.getObjects.call($parent, e, model); e.cancelBubble = true; if (e.stopPropagation) e.stopPropagation(); return false}, dblclickBubble: false }" 
+                            class="drag drop circle backgroundCenter" style="width:30px;height:30px;">         
+                            </div>
+                        </div>                
+                    <!--</div>            -->
+                </div>
+            </div>
+            
+            
+        </div>
+     
+</div>
