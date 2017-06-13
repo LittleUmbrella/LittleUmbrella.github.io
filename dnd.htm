@@ -349,7 +349,7 @@
         <!-- ko with: filterFormViewModel -->
         <form action="/" method="post" onsubmit="return false" id="filterForm" data-bind="center: $data, drag: $data, visible: showMe, onTop: showMe" class="drag drop form-container center" style="display:none;">
             <div>
-                                    <a href="javascript:;" data-bind="click: toggleFormVisibility" class="close-button icon-cross"></a>
+                                    <a href="javascript:;" data-bind="click: toggleFormVisibility" class="close-button icon-close"></a>
                                   <i data-bind="css: filterableIcon" class="icon icon-fw icon-rotate-320 filterable-icon filterable-icon-1"></i>
                 <i data-bind="css: filterableIcon2" class="icon icon-fw filterable-icon filterable-icon-2"></i>
                 <i data-bind="css: filterableIcon3" class="icon icon-fw icon-rotate-40 filterable-icon filterable-icon-3" ></i>
@@ -364,7 +364,7 @@
 
         <!-- ko with: moneyTransferViewModel -->
         <form action="/" method="post" onsubmit="return false" data-bind="center: $data, drag: $data, visible: showMe, onTop: showMe" class="drag drop form-container center transfer" style="display:none;">
-              <a href="javascript:;" data-bind="click: toggleVisibility" class="close-button icon-cross"></a>
+              <a href="javascript:;" data-bind="click: toggleVisibility" class="close-button icon-close"></a>
 
 
             <!-- ko template: 'accountTransferTemplate' -->
@@ -376,7 +376,7 @@
         <form action="/" method="post" onsubmit="return false" id="settingsForm" data-bind="center: $data, drag: $data, visible: showForm, onTop: showForm" class="drag drop form-container center" style="display:none;">
             <div
                 class="" style="background-position: 50% 5%;">
-                                    <a href="javascript:;" data-bind="click: toggleMainForm" class="close-button icon-cross"></a>
+                                    <a href="javascript:;" data-bind="click: toggleMainForm" class="close-button icon-close"></a>
                 <!-- ko foreach: appSettingsArray-->
                 <div class="leftcol-medium">
                     <p data-bind="text: displayTitle"></p>
@@ -398,10 +398,14 @@
         </form>
         <!-- /ko -->
 
+        <!-- ko foreach: allMemberCards().allMemberCards -->            
+            <!-- ko template: { name: 'genericChildTemplate' } --><!-- /ko -->
+        <!-- /ko -->
+        
         <!-- ko foreach: allMemberInfoFormsViewModel().allCustomerInfosViewModel -->
 
             <div data-bind="busy: isBusy, center: $data, drag: $data, visible: showForm, onTop: showForm" class="drag drop form-container center customer-info" style="display: none;">
-                <a href="javascript:;" data-bind="click: toggleMainForm" class="close-button icon-cross"></a>
+                <a href="javascript:;" data-bind="click: toggleMainForm" class="close-button icon-close"></a>
 
                           <div data-bind="style: {
                               'background-image': 'url(' + memberIcon() + ')'
@@ -464,7 +468,7 @@
         <!-- ko foreach: allAccountTransactionsViewModel().accountTransactionsViewModels -->
 
             <div data-bind="busy: isBusy, center: $data, drag: $data, visible: showForm, onTop: showForm" class="drag drop form-container center account-ransactions" style="display: none;">
-                <a href="javascript:;" data-bind="click: toggleMainForm" class="close-button icon-cross"></a>
+                <a href="javascript:;" data-bind="click: toggleMainForm" class="close-button icon-close"></a>
                 <div style="float:left;padding:10px;">
                     <div style="float:left;padding:10px;">
 
@@ -552,426 +556,9 @@
                     </a>
                 </div>
                 
-
-
-                <!-- ko with: customerPurseViewModel-->
-                    <!-- ko template: { name: 'standardParentChildTemplate' } --><!-- /ko -->
-                
+                <!-- ko foreach: childViewModels-->                    
+                    <!-- ko template: { name: 'genericChildTemplate' } --><!-- /ko -->
                 <!-- /ko -->
-<!-- ko with: customerAccountsViewModel-->
-                <div data-bind="busy: isBusy, onTop: onTop, dragdrop: $data
-            , satellitePopInOut: { animationLength: 0, delay: 0, base: $data.parent, satellite: $data, callback: popAnimationEnded }
-            , style: {
-                'left': location().left + 'px'
-            , 'top': location().top + 'px'
-            , 'width': dimensions().width + 'px'
-            , 'height': dimensions().height + 'px'
-            , 'box-shadow': shadow
-            }
-            , busy: isBusy
-            , visible: showMe
-            , infoize: $parent.productsInfo,
-            event: { 'click': function (data, e) { toggleChildrenVisibility(data, e); e.cancelBubble = true; if (e.stopPropagation) e.stopPropagation(); return false }, dblclickBubble: false }
-            "
-                    class="drag drop service circle filterable"
-                    style="display: none">
-
-                    <!-- ko template: { name: 'pinTemplate', data: pinViewModel } --><!-- /ko -->
-                    <!--, event: { 'click': function (data, e) { dblclick(data, e); e.cancelBubble = true; if (e.stopPropagation) e.stopPropagation(); return false }, dblclickBubble: false }
-            -->
-                    <i data-bind="css: icon.name, style: { 'line-height': dimensions().height + 'px' }"></i>
-
-                    <!-- ko foreach: childViewModels -->
-
-                    <!--,'backgroundImage': 'url(&#34;\/media\/img\/' + 'piggy35x35' + '.png&#34;)', 'mouseover': function(){ isHoveringOver(true)}, 'mouseout': function(){isHoveringOver(false)}-->
-                    
-                    
-                    <!-- ko if: $data.klass == circleverse.viewModel.SatelliteNavigatorViewModel -->
-                        <!-- ko template: 'genericChildTemplate' --><!-- /ko -->
-                    <!-- /ko -->
-
-                        
-                        <!-- ko ifnot: $data.klass == circleverse.viewModel.SatelliteNavigatorViewModel -->
-
-                    <div data-bind="
-            dragdrop: $rawData
-            , style: {
-                'left': location().left + 'px'
-            , 'top': location().top + 'px'
-            , 'width': dimensions().width + 'px'
-            , 'height': dimensions().height + 'px'
-            , 'opacity': opacity
-                , 'box-shadow': $rawData().shadow
-            }
-            , visible: showMe
-            , busy: isBusy
-            , pulse: pulse
-            , onTop: onTop
-            , event: { 'click': function (data, e) { toggleChildrenVisibility(data, e); e.cancelBubble = true; if (e.stopPropagation) e.stopPropagation() } }
-            , 'tap': function (data, e) { toggleChildrenVisibility(data, e); e.cancelBubble = true; if (e.stopPropagation) e.stopPropagation() }
-            , satellitePopInOut: { disabled: isBeingFiltered, base: $data.parent, satellite: $rawData, callback: popAnimationEnded, index: $index() }
-"
-                        class="drag drop account service circle {size: 100} filterable"
-                        style="display: none;">
-
-                        
-            <!-- ko template: { name: contentTemplate } --><!-- /ko --><!--acount content-->
-
-                        
-                    <!-- ko template: { name: 'pinTemplate', data: pinViewModel } --><!-- /ko -->
-
-                        <!-- ko foreach: childViewModels-->
-                            <!-- ko if: $data.isA(circleverse.viewModel.AccountTransactionsViewModel) -->
-                        <div data-bind="busy: isBusy, dragdrop: $data
-            , event: { 'click': function (data, e) { toggleChildrenVisibility(data, e); e.cancelBubble = true; if (e.stopPropagation) e.stopPropagation() } }
-            , 'tap': function (data, e) { toggleChildrenVisibility(data, e); e.cancelBubble = true; if (e.stopPropagation) e.stopPropagation() }
-            , style: {
-                'left': location().left + 'px'
-            , 'top': location().top + 'px'
-            , 'width': dimensions().width + 'px'
-            , 'height': dimensions().height + 'px'
-            , 'box-shadow': $data.shadow
-            }
-            , visible: showMe
-            , infoize: info
-            , satellitePopInOut: { base: $data.parent, satellite: $data, callback: popAnimationEnded }
-"
-                            class="drag drop circle"
-                        style="display: none;">
-
-                                <i data-bind="css: icon.name, style: { 'line-height': dimensions().height + 'px' }"></i>
-
-
-                            <!-- ko foreach: childViewModels-->
-                            <div data-bind="dragdrop: $data, style: {
-    'left': location().left + 'px'
-, 'top': location().top + 'px'
-, 'width': dimensions().width + 'px'
-, 'height': dimensions().height + 'px'
-
-}
-            , visible: showMe, satellitePopInOut: { base: $data.parent, satellite: $data, callback: popAnimationEnded }
-            , event: { 'click': function (data, e) { e.cancelBubble = true; if (e.stopPropagation) e.stopPropagation() } }
-            , 'tap': function (data, e) { e.cancelBubble = true; if (e.stopPropagation) e.stopPropagation() }
-    "
-                                class="drag drop circle"
-                        style="display: none;" >
-                                <i data-bind="css: icon.name, style: { 'line-height': dimensions().height + 'px' }"></i>
-
-                            </div>
-                            <!-- /ko -->
-                        </div>
-
-                            <!-- /ko -->
-                            <!-- ko ifnot: $data.isA(circleverse.viewModel.AccountTransactionsViewModel) -->
-                        <div data-bind="dragdrop: $data
-            , event: { 'click': function (data, e) { toggleChildrenVisibility(data, e); e.cancelBubble = true; if (e.stopPropagation) e.stopPropagation() } }
-            , 'tap': function (data, e) { toggleChildrenVisibility(data, e); e.cancelBubble = true; if (e.stopPropagation) e.stopPropagation() }
-            , style: {
-                'left': location().left + 'px'
-            , 'top': location().top + 'px'
-            , 'width': dimensions().width + 'px'
-            , 'height': dimensions().height + 'px'
-            , 'box-shadow': $data.shadow
-            }
-            , visible: showMe
-            , infoize: info
-            , satellitePopInOut: { base: $data.parent, satellite: $data, callback: popAnimationEnded }
-"
-                            class="drag drop circle"
-                        style="display: none;">
-                            <i data-bind="css: icon.name, style: { 'line-height': dimensions().height + 'px' }"></i>
-
-
-                            <!--roles, payments, alerts-->
-                            <!-- ko foreach: childViewModels-->
-                            <div data-bind="dragdrop: $data, style: {
-    'left': location().left + 'px'
-, 'top': location().top + 'px'
-, 'width': dimensions().width + 'px'
-, 'height': dimensions().height + 'px'
-
-}
-            , visible: showMe, satellitePopInOut: { base: $data.parent, satellite: $data, callback: popAnimationEnded }
-            , event: { 'click': function (data, e) { e.cancelBubble = true; if (e.stopPropagation) e.stopPropagation() } }
-            , 'tap': function (data, e) { e.cancelBubble = true; if (e.stopPropagation) e.stopPropagation() }
-    "
-                                class="drag drop circle"
-                        style="display: none;" >
-                                <i data-bind="css: icon.name, style: { 'line-height': dimensions().height + 'px' }"></i>
-
-                            </div>
-                            <!-- /ko -->
-                        </div>
-
-                            <!-- /ko -->
-                        <!-- /ko -->
-
-                    </div>
-
-                    <!-- /ko -->
-
-                    <!-- /ko -->
-                </div>
-                <!-- /ko -->
-                <!-- ko with: customerCampaignsViewModel-->
-                <div data-bind="dragdrop: $data,
-    satellitePopInOut: { base: $data.parent, satellite: $data, callback: popAnimationEnded }
-
-            , style: {
-                'left': location().left + 'px'
-            , 'top': location().top + 'px'
-            , 'width': dimensions().width + 'px'
-            , 'height': dimensions().height + 'px'
-
-            }
-            , visible: showMe
-            , busy: isBusy
-            , infoize: $parent.campaignsInfo
-            , event: { 'click': function (data, e) { dblclick(data, e); e.cancelBubble = true; if (e.stopPropagation) e.stopPropagation(); return false }, dblclickBubble: false }
-            , 'tap': function (data, e) { dblclick(data, e); e.cancelBubble = true; if (e.stopPropagation) e.stopPropagation(); return false }, dblclickBubble: false "
-                    class="drag drop service circle"
-                    style="display: none">
-                    <!-- ko template: { name: 'pinTemplate', data: pinViewModel } --><!-- /ko -->
-                    <i data-bind="css: icon.name, style: { 'line-height': dimensions().height + 'px' }"></i>
-                </div>
-                <!-- /ko -->
-                <!-- ko with: customerFilesViewModel-->
-                <div data-bind="dragdrop: $data,
-    satellitePopInOut: {base: $data.parent, satellite: $data, callback: popAnimationEnded }
-
-            , style: {
-                'left': location().left + 'px'
-            , 'top': location().top + 'px'
-            , 'width': dimensions().width + 'px'
-            , 'height': dimensions().height + 'px'
-
-            }
-            , visible: showMe
-            , busy: isBusy
-            , infoize: $parent.campaignsInfo
-            , event: { 'click': function (data, e) { dblclick(data, e); e.cancelBubble = true; if (e.stopPropagation) e.stopPropagation(); return false }, dblclickBubble: false }
-            , 'tap': function (data, e) { dblclick(data, e); e.cancelBubble = true; if (e.stopPropagation) e.stopPropagation(); return false }, dblclickBubble: false "
-                    class="drag drop service circle"
-                    style="display: none">
-                    <!-- ko template: { name: 'pinTemplate', data: pinViewModel } --><!-- /ko -->
-                    <i data-bind="css: icon.name, style: { 'line-height': dimensions().height + 'px' }"></i>
-                </div>
-                <!-- /ko -->
-                <!-- ko with: customerFinanceManagementViewModel-->
-                <div data-bind="dragdrop: $data,
-    satellitePopInOut: { base: $data.parent, satellite: $data, callback: popAnimationEnded }
-
-            , style: {
-                'left': location().left + 'px'
-            , 'top': location().top + 'px'
-            , 'width': dimensions().width + 'px'
-            , 'height': dimensions().height + 'px'
-
-            }
-            , visible: showMe
-            , busy: isBusy
-            , infoize: $parent.campaignsInfo
-            , event: { 'click': function (data, e) { dblclick(data, e); e.cancelBubble = true; if (e.stopPropagation) e.stopPropagation(); return false }, dblclickBubble: false }
-            , 'tap': function (data, e) { dblclick(data, e); e.cancelBubble = true; if (e.stopPropagation) e.stopPropagation(); return false }, dblclickBubble: false "
-                    class="drag drop service circle"
-                    style="display: none">
-                    <!-- ko template: { name: 'pinTemplate', data: pinViewModel } --><!-- /ko -->
-                    <i data-bind="css: icon.name, style: { 'line-height': dimensions().height + 'px' }"></i>
-                </div>
-                <!-- /ko -->
-                <!-- ko with: customerWorkflowViewModel-->
-                <div data-bind="dragdrop: $data,
-    satellitePopInOut: { base: $data.parent, satellite: $data, callback: popAnimationEnded }
-
-            , style: {
-                'left': location().left + 'px'
-            , 'top': location().top + 'px'
-            , 'width': dimensions().width + 'px'
-            , 'height': dimensions().height + 'px'
-
-            }
-            , visible: showMe
-            , busy: isBusy
-            , infoize: $parent.campaignsInfo
-            , event: { 'click': function (data, e) { dblclick(data, e); e.cancelBubble = true; if (e.stopPropagation) e.stopPropagation(); return false }, dblclickBubble: false }
-            , 'tap': function (data, e) { dblclick(data, e); e.cancelBubble = true; if (e.stopPropagation) e.stopPropagation(); return false }, dblclickBubble: false "
-                    class="drag drop service circle"
-                    style="display: none">
-                    <!-- ko template: { name: 'pinTemplate', data: pinViewModel } --><!-- /ko -->
-                    <i data-bind="css: icon.name, style: { 'line-height': dimensions().height + 'px' }"></i>
-                </div>
-                <!-- /ko -->
-                <!-- ko with: customerContactsViewModel-->
-                <div data-bind="busy: isBusy, onTop: onTop, dragdrop: $data
-            , satellitePopInOut: { animationLength: 0, delay: 0, base: $data.parent, satellite: $data, callback: popAnimationEnded }
-            , style: {
-                'left': location().left + 'px'
-            , 'top': location().top + 'px'
-            , 'width': dimensions().width + 'px'
-            , 'height': dimensions().height + 'px'
-            , 'box-shadow': shadow
-            }
-            , busy: isBusy
-            , visible: showMe
-            , infoize: $parent.productsInfo,
-    event: { 'click': function (data, e) { toggleChildrenVisibility(data, e); e.cancelBubble = true; if (e.stopPropagation) e.stopPropagation(); return false }, dblclickBubble: false }
-            "
-                    class="drag drop service circle filterable"
-                    style="display: none">
-
-                    <!-- ko template: { name: 'pinTemplate', data: pinViewModel } --><!-- /ko -->
-                    <!--, event: { 'click': function (data, e) { dblclick(data, e); e.cancelBubble = true; if (e.stopPropagation) e.stopPropagation(); return false }, dblclickBubble: false }
-            -->
-                    <i data-bind="css: icon.name, style: { 'line-height': dimensions().height + 'px' }"></i>
-
-                    <!-- ko foreach: childViewModels -->
-
-                    <!--,'backgroundImage': 'url(&#34;\/media\/img\/' + 'piggy35x35' + '.png&#34;)', 'mouseover': function(){ isHoveringOver(true)}, 'mouseout': function(){isHoveringOver(false)}-->
-                        <!-- ko if: $data.klass == circleverse.viewModel.SatelliteNavigatorViewModel -->
-
-                            <div data-bind="
-    drag: $data
-            , style: {
-                'left': location().left + 'px'
-            , 'top': location().top + 'px'
-            , 'width': dimensions().width + 'px'
-            , 'height': dimensions().height + 'px'
-            }
-            , visible: showMe
-            , busy: isBusy
-            , onTop: onTop
-            , event: { 'click': function (data, e) { e.cancelBubble = true; if (e.stopPropagation) e.stopPropagation() } }
-            , 'tap': function (data, e) { e.cancelBubble = true; if (e.stopPropagation) e.stopPropagation() },
-    satellitePopInOut: { base: $data.parent, satellite: $rawData, callback: popAnimationEnded }
-"
-                        class="drag drop account service circle {size: 100} navigator"
-                        style="background-position: top; display: none;">
-                                <i data-bind="style: { 'line-height': dimensions().height + 'px' }" class="icon-hand-o-up icon-size-2x"></i>
-                                <i data-bind="style: { 'line-height': dimensions().height + 'px' }" class="icon-hand-o-down icon-size-2x"></i>
-                            </div>
-                        <!-- /ko -->
-                        <!-- ko if: $data.klass != circleverse.viewModel.SatelliteNavigatorViewModel -->
-
-                    <div data-bind="
-    dragdrop: $rawData
-            , style: {
-                'left': location().left + 'px'
-            , 'top': location().top + 'px'
-            , 'width': dimensions().width + 'px'
-            , 'height': dimensions().height + 'px'
-            , 'opacity': opacity
-                , 'box-shadow': $rawData().shadow
-                , 'background-image': 'url(' + model().icon + ')'
-            }
-            , visible: showMe
-            , busy: isBusy
-            , pulse: pulse
-            , onTop: onTop
-            , event: { 'click': function (data, e) { toggleChildrenVisibility(data, e); e.cancelBubble = true; if (e.stopPropagation) e.stopPropagation() } }
-            , 'tap': function (data, e) { toggleChildrenVisibility(data, e); e.cancelBubble = true; if (e.stopPropagation) e.stopPropagation() }
-            , satellitePopInOut: { disabled: isBeingFiltered, base: $data.parent, satellite: $rawData, callback: popAnimationEnded, index: $index() }
-"
-                        class="drag drop account service circle {size: 100} filterable"
-                        style="display: none;background-size: cover;">
-                    <!-- ko template: { name: 'pinTemplate', data: pinViewModel } --><!-- /ko -->
-
-                        <!-- ko foreach: childViewModels-->
-                            <!-- ko if: $data.isA(circleverse.viewModel.AccountTransactionsViewModel) -->
-                        <div data-bind="busy: isBusy, dragdrop: $data
-            , event: { 'click': function (data, e) { toggleChildrenVisibility(data, e); e.cancelBubble = true; if (e.stopPropagation) e.stopPropagation() } }
-            , 'tap': function (data, e) { toggleChildrenVisibility(data, e); e.cancelBubble = true; if (e.stopPropagation) e.stopPropagation() }
-            , style: {
-                'left': location().left + 'px'
-            , 'top': location().top + 'px'
-            , 'width': dimensions().width + 'px'
-            , 'height': dimensions().height + 'px'
-            , 'box-shadow': $data.shadow
-            }
-            , visible: showMe
-            , infoize: info
-            , satellitePopInOut: { base: $data.parent, satellite: $data, callback: popAnimationEnded }
-"
-                            class="drag drop circle"
-                        style="display: none;">
-
-                                <i data-bind="css: icon.name, style: { 'line-height': dimensions().height + 'px' }"></i>
-
-
-                            <!-- ko foreach: childViewModels-->
-                            <div data-bind="dragdrop: $data, style: {
-    'left': location().left + 'px'
-, 'top': location().top + 'px'
-, 'width': dimensions().width + 'px'
-, 'height': dimensions().height + 'px'
-
-}
-            , visible: showMe, satellitePopInOut: { base: $data.parent, satellite: $data, callback: popAnimationEnded }
-            , event: { 'click': function (data, e) { e.cancelBubble = true; if (e.stopPropagation) e.stopPropagation() } }
-            , 'tap': function (data, e) { e.cancelBubble = true; if (e.stopPropagation) e.stopPropagation() }
-    "
-                                class="drag drop circle"
-                        style="display: none;" >
-                                <i data-bind="css: icon.name, style: { 'line-height': dimensions().height + 'px' }"></i>
-
-                            </div>
-                            <!-- /ko -->
-                        </div>
-
-                            <!-- /ko -->
-                        <!-- /ko -->
-
-                    </div>
-
-                    <!-- /ko -->
-
-                    <!-- /ko -->
-                </div>
-                <!-- /ko -->                <!-- ko with: customerInteractionsViewModel-->
-                <div data-bind="dragdrop: $data,
-    satellitePopInOut: { base: $data.parent, satellite: $data, callback: popAnimationEnded }
-
-            , style: {
-                'left': location().left + 'px'
-            , 'top': location().top + 'px'
-            , 'width': dimensions().width + 'px'
-            , 'height': dimensions().height + 'px'
-
-            }
-            , visible: showMe
-            , busy: isBusy
-            , infoize: $parent.interactionsInfo
-            , event: { 'click': function (data, e) { dblclick(data, e); e.cancelBubble = true; if (e.stopPropagation) e.stopPropagation(); return false }, dblclickBubble: false }
-            , 'tap': function (data, e) { dblclick(data, e); e.cancelBubble = true; if (e.stopPropagation) e.stopPropagation(); return false }"
-                     class="drag drop service circle"
-                     style="display: none">
-                    <!-- ko template: { name: 'pinTemplate', data: pinViewModel } --><!-- /ko -->
-                    <i data-bind="css: icon.name, style: { 'line-height': dimensions().height + 'px' }"></i>
-                </div>
-                <!-- /ko -->
-                <!-- ko with: customerInfoViewModel-->
-                <div data-bind="dragdrop: $data
-            , event: { 'click': function (data, e) { toggleChildrenVisibility(data, e); e.cancelBubble = true; if (e.stopPropagation) e.stopPropagation() } }
-            , 'tap': function (data, e) { toggleChildrenVisibility(data, e); e.cancelBubble = true; if (e.stopPropagation) e.stopPropagation() }
-    , satellitePopInOut: { base: $data.parent, satellite: $data, callback: popAnimationEnded }
-
-            , style: {
-                'left': location().left + 'px'
-            , 'top': location().top + 'px'
-            , 'width': dimensions().width + 'px'
-            , 'height': dimensions().height + 'px'
-
-            }
-            , visible: showMe
-            , busy: isBusy"
-                     class="drag drop service circle"
-                     style="display: none">
-                    <!-- ko template: { name: 'pinTemplate', data: pinViewModel } --><!-- /ko -->
-                    <i data-bind="css: icon.name, style: { 'line-height': dimensions().height + 'px' }"></i>
-                </div>
-                <!-- /ko -->
-
-
                 
                 
 
@@ -1499,8 +1086,8 @@
 
             }
             , visible: showMe, satellitePopInOut: { base: $data.parent, satellite: $data, callback: popAnimationEnded }
-            , event: { 'click': function (data, e) { e.cancelBubble = true; if (e.stopPropagation) e.stopPropagation() } }
-            , 'tap': function (data, e) { e.cancelBubble = true; if (e.stopPropagation) e.stopPropagation() }
+            , event: { 'click': function (data, e) { toggleChildrenVisibility(data, e); e.cancelBubble = true; if (e.stopPropagation) e.stopPropagation() } }
+            , 'tap': function (data, e) { toggleChildrenVisibility(data, e); e.cancelBubble = true; if (e.stopPropagation) e.stopPropagation() }
             "
             class="drag drop circle"
             style="display: none;" >

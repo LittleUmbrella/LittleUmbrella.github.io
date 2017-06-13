@@ -682,13 +682,33 @@
                     );
 
 
+        file('/js/internal/circleverse/viewModels/AllMemberCards.js?r=1')
+                    .provides('littleUmbrella.circleverse.viewModel.AllMemberCards')
+                    .requires('jQuery', 'JS.Module', 'JS.Class', 'JSextend', 'eaf.core', 'eaf.util'
+                    ,'littleUmbrella.circleverse.viewModel.MemberCardViewModel'
+                    );
+
         file('/js/internal/circleverse/viewModels/AllMemberInfoFormsViewModel.js?r=1')
                     .provides('littleUmbrella.circleverse.viewModel.AllMemberInfoFormsViewModel')
                     .requires('jQuery', 'JS.Module', 'JS.Class', 'JSextend', 'eaf.core', 'eaf.util'
                     ,'littleUmbrella.circleverse.viewModel.CustomerInfoFormViewModel'
                     );
+
         file('/js/internal/circleverse/viewModels/CustomerInfoFormViewModel.js?r=1')
                     .provides('littleUmbrella.circleverse.viewModel.CustomerInfoFormViewModel')
+                    .requires('jQuery', 'JS.Module', 'JS.Class', 'JSextend', 'eaf.core', 'eaf.util'
+                    ,
+                    'circleverse.viewModel.Base'
+                    ,
+                    'circleverse.viewModel.ResizeableBase'
+                    ,
+                    'becu_org.ui.viewModel.baseModule'
+                    ,
+                    'becu_org.ui.IDroppableViewModel'
+                    );
+
+        file('/js/internal/circleverse/viewModels/MemberCardViewModel.js?r=1')
+                    .provides('littleUmbrella.circleverse.viewModel.MemberCardViewModel')
                     .requires('jQuery', 'JS.Module', 'JS.Class', 'JSextend', 'eaf.core', 'eaf.util'
                     ,
                     'circleverse.viewModel.Base'
@@ -1898,7 +1918,9 @@
 
         file('/js/internal/dndApp.js?r=2')
                     .provides('becu_org.app')
-                    .requires('jQuery', 'littleUmbrella.when', 'circleverse.viewModel.earthViewModel', 'littleUmbrella.circleverse.viewModel.GetCustomerViewModel', 'littleUmbrella.circleverse.viewModel.AllAccountTransactionsViewModel', 'littleUmbrella.circleverse.viewModel.AllMemberInfoFormsViewModel', 'littleUmbrella.circleverse.Repository',
+                    .requires('jQuery', 'littleUmbrella.when', 'circleverse.viewModel.earthViewModel', 'littleUmbrella.circleverse.viewModel.GetCustomerViewModel', 'littleUmbrella.circleverse.viewModel.AllAccountTransactionsViewModel', 'littleUmbrella.circleverse.viewModel.AllMemberInfoFormsViewModel', 
+                    'littleUmbrella.circleverse.viewModel.AllMemberCards',
+                    'littleUmbrella.circleverse.Repository',
                     'circleverse.viewModel.MoneyTransferViewModel', 
                     'circleverse.viewModel.NewViewModel', 
                     'circleverse.viewModel.EditViewModel', 

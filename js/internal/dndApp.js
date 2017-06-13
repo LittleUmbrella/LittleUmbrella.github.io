@@ -442,6 +442,7 @@ becu_org.app = (function () {
                 //                });
 
                 var allAccountTransactionsViewModel = new littleUmbrella.circleverse.viewModel.AllAccountTransactionsViewModel(globalSettings),
+                    allMemberCards  = new littleUmbrella.circleverse.viewModel.AllMemberCards(globalSettings),
                     allMemberInfoFormsViewModel = new littleUmbrella.circleverse.viewModel.AllMemberInfoFormsViewModel(globalSettings),
                     getCustomerViewModel = new littleUmbrella.circleverse.viewModel.GetCustomerViewModel(globalSettings),//becu = new littleUmbrella.circleverse.viewModel.BecuViewModel(services)
                     earth = new circleverse.viewModel.earthViewModel(null, self, globalSettings);
@@ -450,6 +451,7 @@ becu_org.app = (function () {
                 self.getCustomerViewModel = ko.observable(getCustomerViewModel);
                 self.allAccountTransactionsViewModel = ko.observable(allAccountTransactionsViewModel);
                 self.allMemberInfoFormsViewModel = ko.observable(allMemberInfoFormsViewModel);
+                self.allMemberCards = ko.observable(allMemberCards);
 
 
                 //ko.applyBindings(earth, document.getElementById('earth'));
