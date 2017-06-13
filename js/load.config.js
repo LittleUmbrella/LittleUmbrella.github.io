@@ -37,7 +37,7 @@
                     .requires('ko', 'hammer');
         ;
 
-        file('http://cdnjs.cloudflare.com/ajax/libs/gsap/1.11.6/TweenMax.min.js')
+        file('/js/external/TweenMax.min.js')
                     .provides('TweenMax')
         ;
 
