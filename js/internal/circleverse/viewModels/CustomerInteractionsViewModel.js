@@ -15,7 +15,7 @@ circleverse.viewModel.CustomerInteractionsViewModel = (function () {
         initialize: function (object, parent, globalSettings) {// (tracker, uri, templateUri, templateId, resultTemplateUri, callSpec, name, id, businessClass, opts) {
 
             var self = this;
-            var initSize = 60;
+            var initSize = 70;
  self.size = ko.observable(initSize);
             //properties
             this.__reqDiameter = 20;
@@ -33,7 +33,6 @@ circleverse.viewModel.CustomerInteractionsViewModel = (function () {
 
             //, new circleverse.viewModel.MoneyViewModel(new becu_org.domain.Money(100), 4)
 
-            this.dimensions = ko.observable();
             this.dimensions({ height: this.scale() * initSize, width: this.scale() * initSize });
 
             

@@ -51,7 +51,6 @@ circleverse.viewModel.CustomerContactViewModel = (function () {
             self.icon.name('icon-user icon-size-2x');
             self.icon.location = { center: true, offset: { y: -2, x: -4 } }; //ko.observable(false);//
             
-            self.dimensions = ko.observable();
             self.dimensions({ height: self.scale() * initSize, width: self.scale() * initSize });
 
         }

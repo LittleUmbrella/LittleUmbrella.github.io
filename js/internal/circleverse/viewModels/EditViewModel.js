@@ -36,7 +36,7 @@ circleverse.viewModel.EditViewModel = (function () {
             this.location = ko.observable();
             //left: scale() * 300, top:,
 
-            this.dimensions = ko.observable();
+            
             this.dimensions({ height: this.scale() * initSize, width: this.scale() * initSize });
 
 

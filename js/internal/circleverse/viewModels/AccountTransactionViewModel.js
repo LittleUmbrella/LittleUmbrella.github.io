@@ -25,7 +25,6 @@ circleverse.viewModel.AccountTransactionViewModel = (function () {
 
             
 
-            this.dimensions = ko.observable();
             this.dimensions({ height: this.scale() * initSize, width: this.scale() * initSize });
 
             self.icon.name('icon-user icon-size-2x');

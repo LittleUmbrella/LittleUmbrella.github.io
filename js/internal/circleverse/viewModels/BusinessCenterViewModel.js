@@ -58,7 +58,6 @@ circleverse.viewModel.BusinessCenterViewModel = (function () {
 
 
 
-            this.dimensions = ko.observable();
             this.dimensions({ height: this.scale() * initSize, width: this.scale() * initSize });
 
             

@@ -1,10 +1,10 @@
 @font-face {
   font-family: 'icomoon';
-  src:  url('fonts/icomoon.eot?nmrfcq');
-  src:  url('fonts/icomoon.eot?nmrfcq#iefix') format('embedded-opentype'),
-    url('fonts/icomoon.ttf?nmrfcq') format('truetype'),
-    url('fonts/icomoon.woff?nmrfcq') format('woff'),
-    url('fonts/icomoon.svg?nmrfcq#icomoon') format('svg');
+  src:  url('fonts/icomoon.eot?o58d4');
+  src:  url('fonts/icomoon.eot?o58d4#iefix') format('embedded-opentype'),
+    url('fonts/icomoon.ttf?o58d4') format('truetype'),
+    url('fonts/icomoon.woff?o58d4') format('woff'),
+    url('fonts/icomoon.svg?o58d4#icomoon') format('svg');
   font-weight: normal;
   font-style: normal;
 }
@@ -24,6 +24,45 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
+.icon-earth:before {
+  content: "\e908";
+}
+.icon-pencil:before {
+  content: "\e606";
+}
+.icon-library:before {
+  content: "\e607";
+}
+.icon-coin:before {
+  content: "\e608";
+}
+.icon-bubbles:before {
+  content: "\e609";
+}
+.icon-stats:before {
+  content: "\e60a";
+}
+.icon-download2:before {
+  content: "\e60b";
+}
+.icon-cloud-upload2:before {
+  content: "\e60c";
+}
+.icon-enter:before {
+  content: "\e60d";
+}
+.icon-barcode:before {
+  content: "\e937";
+}
+.icon-phone:before {
+  content: "\e942";
+}
+.icon-mobile:before {
+  content: "\e958";
+}
+.icon-airplane:before {
+  content: "\e9af";
+}
 .icon-brand2:before {
   content: "\e901";
   color: #eb001b;
@@ -150,6 +189,12 @@
 .icon-redo:before {
   content: "\e01d";
 }
+.icon-globe:before {
+  content: "\e909";
+}
+.icon-info:before {
+  content: "\e907";
+}
 .icon-address:before {
   content: "\e903";
 }
@@ -179,42 +224,6 @@
 }
 .icon-wallet3:before {
   content: "\e605";
-}
-.icon-pencil:before {
-  content: "\e606";
-}
-.icon-library:before {
-  content: "\e607";
-}
-.icon-coin:before {
-  content: "\e608";
-}
-.icon-bubbles:before {
-  content: "\e609";
-}
-.icon-stats:before {
-  content: "\e60a";
-}
-.icon-download2:before {
-  content: "\e60b";
-}
-.icon-cloud-upload2:before {
-  content: "\e60c";
-}
-.icon-enter:before {
-  content: "\e60d";
-}
-.icon-barcode:before {
-  content: "\e937";
-}
-.icon-phone:before {
-  content: "\e942";
-}
-.icon-mobile:before {
-  content: "\e958";
-}
-.icon-airplane:before {
-  content: "\e9af";
 }
 .icon-search:before {
   content: "\f002";

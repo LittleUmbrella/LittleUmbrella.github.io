@@ -10,14 +10,21 @@ circleverse.viewModel.CustomerInfoViewModel = (function () {
 
     //var that;
     return new JS.Class('circleverse.viewModel.CustomerInfoViewModel', circleverse.viewModel.ResizeableBase, {
-        include: [becu_org.ui.viewModel.baseModule, circleverse.viewModel.satellite, circleverse.viewModel.centerCircle, becu_org.ui.viewModel.draggableModule, becu_org.ui.viewModel.droppableModule],
+        include: [
+            becu_org.ui.viewModel.baseModule, 
+            circleverse.viewModel.satellite, 
+            circleverse.viewModel.centerCircle, 
+            becu_org.ui.viewModel.draggableModule, 
+            becu_org.ui.viewModel.droppableModule,
+            becu_org.ui.viewModel.labelModule
+        ],
 
         initialize: function (object, parent, globalSettings) {// (tracker, uri, templateUri, templateId, resultTemplateUri, callSpec, name, id, businessClass, opts) {
 
             var self = this;
             //properties
 
-            var initSize = 60;
+            var initSize = 70;
             self.size = ko.observable(initSize);
             //properties
             this.__reqDiameter = 20;
@@ -30,13 +37,13 @@ circleverse.viewModel.CustomerInfoViewModel = (function () {
 
             this.callSuper();
 
-            this.dimensions = ko.observable();
             this.dimensions({ height: this.scale() * initSize, width: this.scale() * initSize });
 
+            this.label("Profile Info");
 
             this.icon.location = { center: true, offset: { y: -35} }; //ko.observable(false);//
 
-            this.icon.name('icon-view icon-size-2x');
+            this.icon.name('icon-info icon-size-2x');
 
             this.icon.location = { center: true, offset: { y: -2, x: -4} }; //ko.observable(false);//
 

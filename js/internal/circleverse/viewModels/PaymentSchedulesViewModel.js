@@ -25,7 +25,7 @@ circleverse.viewModel.PaymentSchedulesViewModel = (function () {
 
 
 
-            this.dimensions = ko.observable();
+            
             this.dimensions({ height: this.scale() * initSize, width: this.scale() * initSize });
 
             this.icon.name('icon-calendar icon-size-2x');

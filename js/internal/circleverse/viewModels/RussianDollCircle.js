@@ -101,7 +101,7 @@
 
                 var vm;
 
-                this.dimensions = ko.observable();
+                
                 this.dimensions({ height: this.scale() * initSize, width: this.scale() * initSize });
 
 //                this.location = ko.computed(function () {

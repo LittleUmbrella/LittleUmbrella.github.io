@@ -10,17 +10,26 @@ circleverse.viewModel.AllMembersViewModel = (function () {
 
     //var that;
     return new JS.Class('circleverse.viewModel.AllMembersViewModel', circleverse.viewModel.ResizeableBase, {
-        include: [becu_org.ui.viewModel.baseModule, circleverse.viewModel.satellite, circleverse.viewModel.centerCircle, becu_org.ui.viewModel.draggableModule, becu_org.ui.viewModel.droppableModule],
+        include: [becu_org.ui.viewModel.baseModule, circleverse.viewModel.satellite, circleverse.viewModel.centerCircle, becu_org.ui.viewModel.draggableModule, becu_org.ui.viewModel.droppableModule, circleverse.viewModel.SearchableViewModel],
 
         initialize: function (object, parent, globalSettings) {// (tracker, uri, templateUri, templateId, resultTemplateUri, callSpec, name, id, businessClass, opts) {
 
             var self = this;
-            var initSize = 60;
+            var initSize = 70;
  self.size = ko.observable(initSize);
             //properties
             self.eventAggregator = globalSettings.eventAggregator;
 
-            this.callSuper();
+var settings = {
+                itemDiameter: initSize + 5,
+                startSatellitesOnEdge: false,
+                startingDegree: 230,
+                evenDistribution: false
+            };
+
+            self.callSuper(object, parent, globalSettings, settings);
+
+            //this.callSuper();
 
 
 
@@ -31,7 +40,6 @@ circleverse.viewModel.AllMembersViewModel = (function () {
             });
 
 
-            this.dimensions = ko.observable();
             this.dimensions({ height: this.scale() * initSize, width: this.scale() * initSize });
 
             this.icon.location = { center: true, offset: { y: -35} }; //ko.observable(false);//
@@ -39,6 +47,10 @@ circleverse.viewModel.AllMembersViewModel = (function () {
             this.icon.url = ko.observable('url("/media/img/male-female48x48.png")');
             this.icon.name('icon-group icon-size-2x');
 
+
+            // var searchViewModel = new circleverse.viewModel.SearchViewModel(self.rawModel()[0], self, globalSettings);
+            
+            // self.childViewModels.push(searchViewModel);
 
         }
 

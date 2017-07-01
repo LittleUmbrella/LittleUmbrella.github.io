@@ -35,7 +35,7 @@ circleverse.viewModel.FilterFormViewModel = (function () {
          //left: scale() * 300, top:,
 
          self.size = ko.observable(initSize);
-         this.dimensions = ko.observable();
+         
          this.dimensions({ height: this.scale() * initSize, width: this.scale() * initSize });
 
 

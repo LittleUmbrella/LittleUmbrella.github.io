@@ -255,6 +255,37 @@
         }
     });
 
+    becu_org.ui.viewModel.labelModule = new JS.Module('becu_org.ui.viewModel.labelModule', {
+        initialize: function () {
+            var self = this;
+            
+            self.callSuper();
+
+            self.getLablePathData = function (width, height) {
+                // adjust the radius a little so our text's baseline isn't sitting directly on the circle
+                var radius = width/2;
+                var r = radius * 0.95;
+                var startX = width/2 - r;
+                return 'm' + startX + ',' + (height/2) + ' ' +
+                'a' + r + ',' + r + ' 0 0 0 ' + (2*r) + ',0';
+            }
+
+            self.label = ko.observable();
+
+            self.labelData = ko.computed(function(){
+                var label = self.label(), dims = self.dimensions,
+                width = dims? dims()? dims().width: 0: 0;
+
+                return {
+                    label: label, 
+                    width: width, 
+                    path: self.getLablePathData(width, width),
+                    id: eaf.util.getUniqueId(),
+                    isReady: width != 0 && eaf.util.isDefinedAndNotNull(label)
+                };
+            }).bind(self);
+        }
+    });
 
     becu_org.ui.viewModel.circleModule = new JS.Module('becu_org.ui.viewModel.circleModule', {
         resize: function (event) {//{ backgroundColor: 'white' }
@@ -276,6 +307,7 @@
                 event.preventDefault();
             if ('undefined' !== typeof (event.stopImmediatePropagation))
                 event.stopImmediatePropagation();
+
         }
     });
 

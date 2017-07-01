@@ -16,13 +16,14 @@ circleverse.viewModel.CustomerContactsViewModel = (function () {
             circleverse.viewModel.centerCircle,
             becu_org.ui.viewModel.draggableModule,
             becu_org.ui.viewModel.droppableModule,
-            circleverse.viewModel.NavigableCircles
+            circleverse.viewModel.NavigableCircles,
+            becu_org.ui.viewModel.labelModule
         ],
 
         initialize: function (object, parent, globalSettings) {// (tracker, uri, templateUri, templateId, resultTemplateUri, callSpec, name, id, businessClass, opts) {
 
             var self = this;
-            var initSize = 60;
+            var initSize = 70;
  self.size = ko.observable(initSize);
             //properties
 
@@ -36,6 +37,7 @@ circleverse.viewModel.CustomerContactsViewModel = (function () {
                 ,
                 visibleCnt: Math.floor(littleUmbrella.circleverse.ui.shapes.satellite.howManyOuter((150 / 2) + 2, 52))
             });
+            
 
             //mapping can't take an array as a root object, so this is a work-around
             self.model(ko.unwrap(self.model().temp));
@@ -60,9 +62,9 @@ circleverse.viewModel.CustomerContactsViewModel = (function () {
 
             //, new circleverse.viewModel.MoneyViewModel(new becu_org.domain.Money(100), 4)
 
-            this.dimensions = ko.observable();
             this.dimensions({ height: this.scale() * initSize, width: this.scale() * initSize });
 
+            self.label("Contacts"); 
             
             this.icon.location = { center: true, offset: { y: -35} }; //ko.observable(false);//
 

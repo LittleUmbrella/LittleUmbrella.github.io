@@ -12,7 +12,7 @@ circleverse.viewModel.CustomerWorkflowViewModel = (function () {
         initialize: function (object, parent, globalSettings) {
 
             var self = this;
-            var initSize = 60;
+            var initSize = 70;
  self.size = ko.observable(initSize);
             //properties
             self.__reqDiameter = 20;

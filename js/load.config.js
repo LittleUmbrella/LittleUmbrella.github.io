@@ -582,6 +582,10 @@
                     'littleUmbrella.circleverse.ui.pointsAndPolygon'
                     );
 
+        file('/js/internal/circleverse/viewModels/SearchableViewModel.js?r=1')
+                    .provides('circleverse.viewModel.SearchableViewModel')
+                    .requires('jQuery', 'JS.Module', 'JS.Class', 'JSextend', 'eaf.core', 'eaf.util');
+
 
         file('/js/internal/circleverse/viewModels/CustomerViewModel.js?r=1')
                     .provides('littleUmbrella.circleverse.viewModel.CustomerViewModel')
@@ -643,6 +647,8 @@
                     'circleverse.viewModel.AllMembersViewModel'
                     ,
                     'circleverse.viewModel.BecuServicesViewModel'
+                    ,
+                    'littleUmbrella.circleverse.viewModel.BecuOrganizationsViewModel'
                     );
 
         file('/js/internal/circleverse/viewModels/GetCustomerViewModel.js?r=1')
@@ -1669,10 +1675,39 @@
                     'littleUmbrella.circleverse.viewModel.CustomerViewModel'
                     ,
                     'circleverse.viewModel.centerCircle' //remove after testing
+                    ,
+                    'circleverse.viewModel.SearchableViewModel'
                     );
 
         file('/js/internal/circleverse/viewModels/AllPersonsViewModel.js?r=2')
                     .provides('littleUmbrella.circleverse.viewModel.AllPersonsViewModel')
+                    .requires('jQuery', 'JS.Module', 'JS.Class', 'JSextend', 'eaf.core', 'eaf.util'
+                    ,
+                    'circleverse.viewModel.Base'
+                    ,
+                    'circleverse.viewModel.ResizeableBase'
+                    ,
+                    'becu_org.ui.viewModel.baseModule'
+                    ,
+                    'Polygon'
+                    ,
+                    'eaf.core'
+                    ,
+                    'eaf.util'
+                    ,
+                    'circleverse.viewModel.satellite'
+                    ,
+                    'littleUmbrella.circleverse.ui.pointsAndPolygon'
+                    ,
+                    'littleUmbrella.circleverse.viewModel.CustomerViewModel'
+                    ,
+                    'circleverse.viewModel.centerCircle' //remove after testing
+                    );
+
+                    
+
+        file('/js/internal/circleverse/viewModels/BecuOrganizationsViewModel.js?r=2')
+                    .provides('littleUmbrella.circleverse.viewModel.BecuOrganizationsViewModel')
                     .requires('jQuery', 'JS.Module', 'JS.Class', 'JSextend', 'eaf.core', 'eaf.util'
                     ,
                     'circleverse.viewModel.Base'

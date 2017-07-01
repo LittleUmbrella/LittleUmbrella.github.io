@@ -13,13 +13,14 @@ circleverse.viewModel.CustomerAccountsViewModel = (function () {
             circleverse.viewModel.centerCircle,
             becu_org.ui.viewModel.draggableModule,
             becu_org.ui.viewModel.droppableModule,
-            circleverse.viewModel.NavigableCircles
+            circleverse.viewModel.NavigableCircles,
+            becu_org.ui.viewModel.labelModule
         ],
 
         initialize: function (object, parent, globalSettings) {
 
             var self = this;
-            var initSize = 60;
+            var initSize = 70;
  self.size = ko.observable(initSize);
             //properties
 
@@ -54,8 +55,9 @@ circleverse.viewModel.CustomerAccountsViewModel = (function () {
                 self.innerArr.push(vm);
             });
 
-
             self.dimensions({ height: self.scale() * initSize, width: self.scale() * initSize });
+
+            self.label("Accounts");
 
             self.newAccountViewModel = new circleverse.viewModel.NewAccountViewModel(new becu_org.domain.model.Account(), self, globalSettings);
 

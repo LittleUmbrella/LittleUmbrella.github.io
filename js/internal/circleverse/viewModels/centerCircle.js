@@ -159,7 +159,7 @@
             }
 
         ,
-
+            
             toggleChildrenVisibility: function () {
                 var self = this, arr = self.childViewModels(), len = arr.length, item;
 

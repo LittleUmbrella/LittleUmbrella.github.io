@@ -26,10 +26,10 @@ vertical-align: middle;
 transform:scale(2,2);
 -webkit-transform: scale(2,2);
 -ms-transform: scale(2,2);*/
-background: url(/media/img/logo_white_transparent.png);
+/*background: url(/media/img/bank.jpg) no-repeat;
 
-/*background-size: cover;*/
-background-size: 64px;
+background-size: cover;
+  background-position: center;*/
 }
 
 .circle-shadow
@@ -1322,4 +1322,34 @@ background-color: #1E2730;
 
 .customer-info{
   min-width: 400px;
+}
+
+svg.circleText{
+    position: absolute;
+    display: block;
+    top: 0;
+    left: 0;
+        /*margin: 0 auto;*/
+}
+
+svg.circleText text{
+    
+        font-family: monospace, 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        font-size: 12px;
+        font-weight: bold;
+        text-anchor: middle;
+        fill:#56aee0;
+        text-transform: uppercase;
+}
+
+svg.circleText path {
+        fill: none;
+        stroke: white;
+        stroke-width: 0;
+      }
+
+.earth{
+    border: none !important;
+    /*top: 42% !important;
+    left: 43% !important;*/
 }

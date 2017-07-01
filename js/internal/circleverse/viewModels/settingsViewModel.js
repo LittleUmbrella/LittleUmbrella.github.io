@@ -48,7 +48,7 @@ circleverse.viewModel.settingsViewModel = (function () {
          self.showForm = ko.observable(false);
          self.location = ko.observable();
          //left: scale() * 300, top:,
-         self.dimensions = ko.observable();
+         
          self.dimensions({ height: self.scale() * initSize, width: self.scale() * initSize });
 
          self.__mapping = {

@@ -114,12 +114,50 @@
     }
 
 
-
     ko.bindingHandlers.blah = {
         init: function (element, valueAccessor, allBindingAccessors, viewModel) {
             JS.Console.puts(viewModel + ' ' + ko.unwrap(valueAccessor()));
         }
     }
+
+    ko.bindingHandlers.circleText = {
+        init: function (element, valueAccessor, allBindingAccessors, viewModel) {
+            var svg = document.createElement("svg");
+
+            ko.virtualElements.prepend(element, nodeToPrepend)
+        },
+        update: function (element, valueAccessor, allBindingAccessors, viewModel) {
+            JS.Console.puts(viewModel + ' ' + ko.unwrap(valueAccessor()));
+        }
+    }
+
+    ko.virtualElements.allowedBindings.randomOrder = true;
+
+
+    ko.bindingHandlers.circleDeclutter = {
+        'update': function (element, valueAccessor, allBindingAccessors) {
+
+            var value = ko.unwrap(valueAccessor()),
+                $element = $(element),
+                    base = ko.unwrap(value.base),
+                    satellite = ko.unwrap(value.satellite),
+                    $element = $(element),
+                    childPropName = value.childPropName || 'childViewModels',
+                    popOut = 'undefined' == typeof ko.unwrap(satellite.popToggle) ? ('undefined' == typeof ko.unwrap(value.popToggle)? true: ko.unwrap(value.popToggle)): ko.unwrap(satellite.popToggle),
+                    index = ko.unwrap(value.index) || 0,
+                    callback = (satellite.popAnimationEnded? satellite.popAnimationEnded: value.callback || function () { }),
+                    animationLength = 'undefined' == typeof ko.unwrap(value.animationLength) ? .7 : ko.unwrap(value.animationLength),
+                    opacity = 0, //'undefined' == typeof ko.unwrap(value.opacity) ? 0 : ko.unwrap(value.opacity),
+                    delay = ko.unwrap(value.delay),
+                    relativeToBase = 'undefined' == typeof ko.unwrap(value.relativeToBase) ? true : ko.unwrap(value.relativeToBase),
+                    disabled = 'undefined' == typeof ko.unwrap(value.disabled) ? false : ko.unwrap(value.disabled);
+
+            //don't do anything on initial bind
+            if (ko.computedContext.isInitial() || disabled) {
+                return;
+            }
+        }
+    };
 
     ko.bindingHandlers.satellitePopInOut = {
         //init: function (element, valueAccessor, allBindingAccessors) {
@@ -202,14 +240,159 @@
                     //}
 
                     callback.call(satellite);
+
+
                     if (!popOut) {
                         //    satellite[visibilityPropName](true);
 
 
                         //    //tl.set($element, { top: endPos.y, left: endPos.x });
                         //    //$element.hide();
+                //show parent and center it (pushing child out of center)
                         TweenLite.set($element, { opacity: 1, top: endPos.y, left: endPos.x });
 
+                        var parent = $element.parent();
+                        if (parent){
+
+                            var grandParent = parent.parent();
+                            if (grandParent && grandParent.is('.circle')){
+                                
+                                var existingGrandParentLeft = parseInt(grandParent.css('left'));
+                                var existingParentLeft = parseInt(parent.css('left'));
+                                var existingGrandParentTop = parseInt(grandParent.css('top'));
+                                var existingParentTop = parseInt(parent.css('top'));
+                                var parentSize = parent[0].getBoundingClientRect().width;
+                                var grandParentSize = grandParent[0].getBoundingClientRect().width;
+                                var recenterLeft = (grandParentSize/2) - (parentSize/2) ;
+
+                                if (existingGrandParentLeft <= 0){//already shifted by another satellite popping
+                                    //we are either positioning from window (0, 0) or from a great-grandparent off screen
+                                    var greatParent = grandParent.parent();
+
+
+                                    if (greatParent && greatParent.is('.circle')){
+                                        grandParent.css('left', (existingParentLeft) - recenterLeft);
+                                        var pos = satellite.parent.getCalculatedLocation();
+                                        
+
+                                        
+                                        // parent.css('left', pos.left + 'px');
+                                        // parent.css('top', pos.top + 'px');
+                                        
+                                        
+                                        var declutterGrandParentConfig = {top: (existingParentTop) - recenterLeft, ease: Power4.easeOut};                                        
+                                        TweenLite.to(grandParent, animationLength, declutterGrandParentConfig);
+                                        
+                                        var declutterParentConfig = {top: pos.top, left: pos.left, ease: Power4.easeOut};                                        
+                                        TweenLite.to(parent, animationLength, declutterParentConfig);
+
+                                        //grandParent.css('top', (existingParentTop) - recenterLeft);                                        
+                                    }
+                                    else{
+                                        // var declutterGrandParentConfig = {left: (existingParentLeft - grandParentSize) - recenterLeft, ease: Power4.easeOut};                                        
+                                        // TweenLite.to(grandParent, .3, declutterGrandParentConfig);
+
+                                        grandParent.css('left', (existingParentLeft - grandParentSize) - recenterLeft);
+                                        var pos = satellite.parent.getCalculatedLocation();
+                                        
+                                        var declutterParentConfig = {top: pos.top, ease: Power4.easeOut};                                        
+                                        TweenMax.fromTo(parent, animationLength, {top: pos.top + recenterLeft, ease: Power4.easeOut}, declutterParentConfig);
+
+                                        TweenMax.fromTo(grandParent, animationLength, {top: existingGrandParentTop + recenterLeft, ease: Power4.easeOut}, {top: existingGrandParentTop, ease: Power4.easeOut});
+
+
+
+                                        parent.css('left', pos.left + 'px');
+                                        
+                                        // // grandParent.css('top', (existingParentTop - grandParentSize) - recenterLeft);
+                                        // // //var pos = satellite.parent.getCalculatedLocation();
+                                        
+                                        // parent.css('top', pos.top + 'px');
+                                    }
+                                }
+                            }
+                        }
+
+                        //satellite.parent.showMe(true);
+                    }
+                    else{
+                        //satellite.parent.showMe(false);
+                //hide parent and center child (new parent)
+                        var parent = $element.parent();
+                        if (parent){
+
+                            var grandParent = parent.parent();
+                            if (grandParent && grandParent.is('.circle')){
+                                
+                                var globalW = $(window).width(), parentW = parent.width();
+                                var existingGrandParentLeft = parseInt(grandParent.css('left'));
+                                var existingParentLeft = parseInt(parent.css('left'));
+                                var existingGrandParentTop = parseInt(grandParent.css('top'));
+                                var existingParentTop = parseInt(parent.css('top'));
+                                var greatParent = grandParent.parent();
+
+                                
+                                var grandParentSize = grandParent[0].getBoundingClientRect().width;//.width(); //satellite.parent.parent.size();
+                                
+
+                                // if (existingGrandParentLeft > 0)
+                                //     grandParent.css('left', (existingGrandParentLeft - 9999) + 'px');
+                                // //parent.css('left', (existingGrandParentLeft + (((globalW/2) - (parentW/2)) )) + 'px');
+                                // if (existingParentLeft < 0){
+                                //     parent.css('left', (9999) + 'px');
+                                // }
+                                // else{
+                                //     parent.css('left', (existingGrandParentLeft) + 'px');
+
+                                // }
+                                var declutterGrandParentConfig, declutterParentConfig;
+                                if (greatParent && greatParent.is('.circle')){
+                                    grandParent.css('left', '0px');    
+                                    // //grandParent.css('left', (0 - grandParent.width()) + 'px');
+                                    
+                                    // declutterGrandParentConfig = {left: -1, ease: Power4.easeOut};                                        
+                                    // TweenLite.to(grandParent, .3, declutterGrandParentConfig);
+                                    
+                                    
+                                }
+                                else{
+                                    //we are at the root   
+                                    // declutterGrandParentConfig = {left: (0 - grandParentSize), ease: Power4.easeOut};                                        
+                                    // TweenLite.to(grandParent, .3, declutterGrandParentConfig);
+                                                                     
+                                    grandParent.css('left', (0 - grandParentSize) + 'px');
+                                }
+
+                                if (existingGrandParentLeft > 0){
+                                    var parentSize = parent[0].getBoundingClientRect().width;//.width();
+                                    var recenterLeft = ((grandParentSize/2) - (parentSize/2));
+
+
+                                    if (greatParent && greatParent.is('.circle')){
+                                        declutterParentConfig = {top: recenterLeft, ease: Power4.easeOut};                                        
+                                        TweenLite.to(parent, animationLength, declutterParentConfig);
+                                        parent.css('left', ((existingGrandParentLeft) + recenterLeft ) + 'px');
+                                        // parent.css('top', (recenterLeft ) + 'px');
+                                    }
+                                    else{
+                                        declutterParentConfig = {top: recenterLeft, ease: Power4.easeOut};                                        
+                                        TweenLite.to(parent, animationLength, declutterParentConfig);
+                                        
+                                        parent.css('left', ((existingGrandParentLeft) + grandParentSize + recenterLeft ) + 'px');
+                                        // parent.css('top', (recenterLeft ) + 'px');
+
+                                    }
+                                }
+                                // if (existingGrandParentLeft < 0){//off screen
+                                //     //just move parent off screen with g
+                                //     parent.css('left', '0px');
+                                // }
+                                // else{
+                                //     parent.css('left', (existingGrandParentLeft) + 'px');
+                                // }
+                            }
+                        }
+                        //$element.parent().prop({visibility: 'hidden'});
                     }
                     //TweenLite.set($element, { opacity: 1 });
                 },

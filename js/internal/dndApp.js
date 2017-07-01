@@ -1,9 +1,10 @@
 ﻿eaf.util.namespace('becu_org');
 becu_org.app = (function () {
     return new JS.Class('becu_org.app', {
-        initialize: function () {
+        initialize: function (opts) {
             var self = this;
 
+            self.opts = opts;
             self.settings = { 'showInstructions': false };
             self.eventAggregator = PubSub;
             ko.bindingHandlers.eventAggregator = PubSub;
@@ -14,7 +15,7 @@ becu_org.app = (function () {
 
             self.scale = ko.observable(1);
             self.size = ko.observable();
-            self.dimensions = ko.observable();
+            
 
             var initSize = 550;
  self.size = ko.observable(initSize);
@@ -31,7 +32,8 @@ becu_org.app = (function () {
 
                 return { left: '35%', top: '25%' };
             });
-
+            
+            self.dimensions = ko.observable();
             //this.location({ left: coords.left, top: coords.top });
             self.dimensions({ height: this.scale() * initSize, width: self.scale() * initSize });
             //log('scale: ' + this.scale());
@@ -45,7 +47,7 @@ becu_org.app = (function () {
             self.icon.url = ko.observable('url("/media/img/logo_red_transparent.png")');
 
         }
-                ,
+        ,
 
         preSetup: function () {
 
@@ -369,24 +371,44 @@ becu_org.app = (function () {
                 }
             };
 
+            globalSettings.globalDimensions = self.opts;
 
             var filterViewModel = new circleverse.viewModel.FilterViewModel(null, self, globalSettings);
             var settingsViewModel = new circleverse.viewModel.settingsViewModel(store, self, globalSettings);
+           
+                //new circleverse.viewModel.FilterFormViewModel(null, self, globalSettings), 
+                //new circleverse.viewModel.MoneyTransferViewModel(null, self, globalSettings),
+            self.tools = [
+                // new circleverse.viewModel.ExitViewModel(null, self, globalSettings),
+                // new circleverse.viewModel.loginViewModel(null, self, globalSettings),                
+                // new circleverse.viewModel.helpViewModel(null, self, globalSettings),                
+                // new circleverse.viewModel.favoriteViewModel(null, self, globalSettings),                
+                settingsViewModel,                
+                // new circleverse.viewModel.loginViewModel(null, self, globalSettings),                
+                // new circleverse.viewModel.garbageViewModel(null, self, globalSettings),                
+                // new circleverse.viewModel.RefreshViewModel(null, self, globalSettings),                
+                // filterViewModel,                    
+                // new circleverse.viewModel.NewViewModel(null, self, globalSettings),                
+                // new circleverse.viewModel.EditViewModel(null, self, globalSettings),                
+                // new circleverse.viewModel.SaveViewModel(null, self, globalSettings),                
+                // new circleverse.viewModel.SearchViewModel(null, self, globalSettings)
+                
+            ];
 
             self.moneyTransferViewModel = ko.observable(new circleverse.viewModel.MoneyTransferViewModel(null, self, globalSettings));
-            self.exitViewModel = ko.observable(new circleverse.viewModel.ExitViewModel(null, self, globalSettings));
-            self.loginViewModel = ko.observable(new circleverse.viewModel.loginViewModel(null, self, globalSettings));
-            self.helpViewModel = ko.observable(new circleverse.viewModel.helpViewModel(null, self, globalSettings));
-            self.favoriteViewModel = ko.observable(new circleverse.viewModel.favoriteViewModel(null, self, globalSettings));
+            // self.exitViewModel = ko.observable(new circleverse.viewModel.ExitViewModel(null, self, globalSettings));
+            // self.loginViewModel = ko.observable(new circleverse.viewModel.loginViewModel(null, self, globalSettings));
+            // self.helpViewModel = ko.observable(new circleverse.viewModel.helpViewModel(null, self, globalSettings));
+            // self.favoriteViewModel = ko.observable(new circleverse.viewModel.favoriteViewModel(null, self, globalSettings));
             self.settingsViewModel = ko.observable(settingsViewModel);
-            self.garbageViewModel = ko.observable(new circleverse.viewModel.garbageViewModel(null, self, globalSettings));
-            self.refreshViewModel = ko.observable(new circleverse.viewModel.RefreshViewModel(null, self, globalSettings));
+            // self.garbageViewModel = ko.observable(new circleverse.viewModel.garbageViewModel(null, self, globalSettings));
+            // self.refreshViewModel = ko.observable(new circleverse.viewModel.RefreshViewModel(null, self, globalSettings));
             self.filterViewModel = ko.observable(filterViewModel);
             self.filterFormViewModel = ko.observable(new circleverse.viewModel.FilterFormViewModel(null, self, globalSettings));
-            self.newViewModel = ko.observable(new circleverse.viewModel.NewViewModel(null, self, globalSettings));
-            self.editViewModel = ko.observable(new circleverse.viewModel.EditViewModel(null, self, globalSettings));
-            self.saveViewModel = ko.observable(new circleverse.viewModel.SaveViewModel(null, self, globalSettings));
-            self.searchViewModel = ko.observable(new circleverse.viewModel.SearchViewModel(null, self, globalSettings));
+            // self.newViewModel = ko.observable(new circleverse.viewModel.NewViewModel(null, self, globalSettings));
+            // self.editViewModel = ko.observable(new circleverse.viewModel.EditViewModel(null, self, globalSettings));
+            // self.saveViewModel = ko.observable(new circleverse.viewModel.SaveViewModel(null, self, globalSettings));
+            // self.searchViewModel = ko.observable(new circleverse.viewModel.SearchViewModel(null, self, globalSettings));
 
             //ko.applyBindings(, document.getElementById('exit'));
             //ko.applyBindings(new circleverse.viewModel.(null, self, globalSettings), document.getElementById('login'));
@@ -453,6 +475,9 @@ becu_org.app = (function () {
                 self.allMemberInfoFormsViewModel = ko.observable(allMemberInfoFormsViewModel);
                 self.allMemberCards = ko.observable(allMemberCards);
 
+self.childViewModels = ko.observableArray();
+                
+                self.childViewModels.push(earth);
 
                 //ko.applyBindings(earth, document.getElementById('earth'));
                 //ko.applyBindings(getCustomerViewModel, document.getElementById('foundCustomers'));
@@ -463,11 +488,11 @@ becu_org.app = (function () {
                 //});
 
 
-                self.eventAggregator.subscribe('littleUmbrella.circleverse.viewModel.BecuViewModel.Expanded', function () {
-                    //setTimeout(function () {
-                        self.eventAggregator.publish('customer.login.attempt', { userName: 'blah', password: 'blah' });
-                    //}, 1);
-                });
+                // self.eventAggregator.subscribe('littleUmbrella.circleverse.viewModel.BecuViewModel.Expanded', function () {
+                //     //setTimeout(function () {
+                //         self.eventAggregator.publish('customer.login.attempt', { userName: 'blah', password: 'blah' });
+                //     //}, 1);
+                // });
 
                 ko.applyBindings(self);
 

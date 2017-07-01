@@ -23,6 +23,8 @@ circleverse.viewModel.ResizeableBase = //(function () {
 
                 self.isAvailable = ko.observable(false);
 
+                self.contentTemplate = ko.observable('standardContentTemplate');
+                self.mainCss = ko.observable();
                 //self.eventAggregator.subscribe('circleverse.ui.viewModel.draggableModule.dragEnd', function (dd) {
                 //    //                    if (dd && dd.available && self.id) {
                 //    //                        var el;

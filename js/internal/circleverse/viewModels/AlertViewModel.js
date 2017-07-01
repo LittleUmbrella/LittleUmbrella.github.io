@@ -25,7 +25,6 @@ circleverse.viewModel.AlertViewModel = (function () {
 
 
 
-            this.dimensions = ko.observable();
             this.dimensions({ height: this.scale() * initSize, width: this.scale() * initSize });
 
             this.icon.location = { center: true, offset: { y: -2, x: -4 } }; //ko.observable(false);//

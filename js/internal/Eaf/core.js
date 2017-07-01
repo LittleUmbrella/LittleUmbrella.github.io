@@ -111,6 +111,14 @@
         return false;
     };
 
+    
+
+    eaf.util.isDefinedAndNotNull = function (obj) {
+        if ('undefined' != typeof obj && obj != null)  return true;
+
+        return false;
+    };
+
     eaf.util.isAssigned = function (obj, prop) {
         if ('undefined' != typeof obj[prop]) return true;
 
@@ -157,6 +165,12 @@
         return Math.floor(Math.random() * (max - min + 1)) + min;
     };
 
+    (function(){
+        var counter = 0;
+        eaf.util.getUniqueId = function(){
+            return 'myid-' + counter++;
+        }
+    })();
 
     eaf.util.asyncEach = function (arr, iterator, finished) {
         var list = arr,

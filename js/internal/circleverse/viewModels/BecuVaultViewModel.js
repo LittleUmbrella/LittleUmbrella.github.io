@@ -32,7 +32,6 @@ circleverse.viewModel.AllLocationsViewModel = (function () {
             this.accountChildrenVms = ko.observableArray();
             //, new circleverse.viewModel.MoneyViewModel(new becu_org.domain.Money(100), 4)
 
-            this.dimensions = ko.observable();
             this.dimensions({ height: this.scale() * initSize, width: this.scale() * initSize });
 
             

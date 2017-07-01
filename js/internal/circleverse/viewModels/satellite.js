@@ -45,7 +45,7 @@ circleverse.viewModel.satellite = (function () {
             if (!self.opacity)
                 self.opacity = ko.observable(1);
 
-            self.contentTemplate = ko.observable('standardContentTemplate');
+            
 
             self.__overridden = false;
 

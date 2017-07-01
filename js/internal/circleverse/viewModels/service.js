@@ -77,7 +77,7 @@
 
                 this.initLocation = ko.observable();
                 this.initLocation({ left: 20, top: 20 });
-                this.dimensions = ko.observable();
+                
                 this.dimensions({ height: this.scale() * initSize, width: this.scale() * initSize });
 
 

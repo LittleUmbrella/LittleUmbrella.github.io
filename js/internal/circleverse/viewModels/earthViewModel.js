@@ -9,18 +9,28 @@ circleverse.viewModel.earthViewModel = (function () {
  self.size = ko.observable(initSize);
 
     return new JS.Class('circleverse.viewModel.earthViewModel', circleverse.viewModel.ResizeableBase, {
-        include: [becu_org.ui.viewModel.baseModule, circleverse.viewModel.centerCircle, becu_org.ui.viewModel.draggableModule, becu_org.ui.viewModel.droppableModule, becu_org.ui.viewModel.circleModule, circleverse.viewModel.noActionModule],
+        include: [
+            becu_org.ui.viewModel.baseModule, 
+            circleverse.viewModel.centerCircle, 
+            becu_org.ui.viewModel.draggableModule, 
+            becu_org.ui.viewModel.droppableModule, 
+            becu_org.ui.viewModel.circleModule, 
+            circleverse.viewModel.noActionModule
+            ],
 
         __getCoords: function () {
+            var self = this;
+
             var minTop = 0;
             var minLeft = 210;
 
-            var calcTop = 20;
-            var top = (calcTop < minTop) ? minTop : calcTop;
+            // var calcTop = 20;
+            // var top = (calcTop < minTop) ? minTop : calcTop;
 
-            var calcLeft = (($(window).width() - this.dimensions().width)) * .7;
-            var left = (calcLeft < minLeft) ? minLeft : calcLeft;
-
+            // var calcLeft = (($(window).width() - this.dimensions().width)) * .7;
+            // var left = (calcLeft < minLeft) ? minLeft : calcLeft;
+            var top = (self.globalSettings.globalDimensions.height /2 ) - self.size() /2;
+            var left = (self.globalSettings.globalDimensions.width /2 ) - self.size() /2;
             //            log('garbage left: ' + left);
             //            log('garbage top: ' + top);
             return { left: left, top: top };
@@ -44,17 +54,24 @@ circleverse.viewModel.earthViewModel = (function () {
             self.callSuper();
             //properties
 
+            self.globalSettings = globalSettings;
 
             self.__backgroundPositionOrigin = -20;
             self.backgroundPosition = ko.observable(self.__backgroundPositionOrigin);
 
-            self.icon.name('icon-star-o icon-size-3x');
+            if (!self.opacity)
+                self.opacity = ko.observable(1);
+
+                
+            self.mainCss('earth');
+            self.icon.name('icon-earth icon-size-6x');
+            //self.icon.name('icon-star-o icon-size-3x');
             self.borderWidth = 2;
 
             self.location = ko.observable();
             //self.location = {};//ko.observable();
             //left: scale() * 300, top:,
-            self.dimensions = ko.observable();
+            
 
             var initSize = 100;
  self.size = ko.observable(initSize);
@@ -79,7 +96,7 @@ circleverse.viewModel.earthViewModel = (function () {
             self.allOrganizationsViewModel = new littleUmbrella.circleverse.viewModel.AllOrganizationsViewModel(self.children()[1], self, globalSettings);
             
             //self.childViewModels.push(self.becuViewModel);
-            self.childViewModels.push(self.allPersonsViewModel);
+            //self.childViewModels.push(self.allPersonsViewModel);
             self.childViewModels.push(self.allOrganizationsViewModel);
 
             self.endDimensions = { height: self.scale() * initSize, width: self.scale() * initSize};
@@ -101,25 +118,37 @@ circleverse.viewModel.earthViewModel = (function () {
             //this.model().callSpec().add(dragModel);
         }
         ,
-
-        dragxstart: function (ev, evx, dd) {
+        popAnimationEnded: function () {
             var self = this;
 
-            self.__backgroundPositionOrigin =self.backgroundPosition();
-        },
-
-        dragx: function (ev, evx, dd) {
-            var self = this;
-
-            self.backgroundPosition(self.__backgroundPositionOrigin + (dd.deltaX * 8));
         }
         ,
 
+
+        pop: function () {
+            var self = this;
+
+
+        }
+        ,
+        // dragxstart: function (ev, evx, dd) {
+        //     var self = this;
+
+        //     self.__backgroundPositionOrigin =self.backgroundPosition();
+        // },
+
+        // dragx: function (ev, evx, dd) {
+        //     var self = this;
+
+        //     self.backgroundPosition(self.__backgroundPositionOrigin + (dd.deltaX * 8));
+        // }
+        // ,
+
         getSettings: function () {
-        var settings = this.callSuper();
-        settings.drop = false;
-        return settings;
-    }
+            var settings = this.callSuper();
+            settings.drop = false;
+            return settings;
+        }
 
     });
 })();

@@ -104,7 +104,6 @@ circleverse.viewModel.accountViewModel = (function () {
             self.childViewModels.push(new circleverse.viewModel.AlertsViewModel(object.alerts, self, globalSettings));
             //, new circleverse.viewModel.MoneyViewModel(new becu_org.domain.Money(100), 4)
 
-            self.dimensions = ko.observable();
             self.dimensions({ height: self.scale() * initSize, width: self.scale() * initSize });
 
 

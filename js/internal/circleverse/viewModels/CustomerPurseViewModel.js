@@ -11,12 +11,13 @@ circleverse.viewModel.CustomerPurseViewModel = (function () {
     //var that;
     return new JS.Class('circleverse.viewModel.CustomerPurseViewModel', circleverse.viewModel.ResizeableBase, {
         include: [becu_org.ui.viewModel.baseModule, 
-            circleverse.viewModel.satellite,circleverse.viewModel.centerCircle, becu_org.ui.viewModel.draggableModule, becu_org.ui.viewModel.droppableModule, becu_org.ui.viewModel.circleModule],
+            circleverse.viewModel.satellite,circleverse.viewModel.centerCircle, becu_org.ui.viewModel.draggableModule, becu_org.ui.viewModel.droppableModule, becu_org.ui.viewModel.circleModule,
+            becu_org.ui.viewModel.labelModule],
 
         initialize: function (object, parent, globalSettings) {// (tracker, uri, templateUri, templateId, resultTemplateUri, callSpec, name, id, businessClass, opts) {
 
             var self = this;
-            var initSize = 60;
+            var initSize = 70;
  self.size = ko.observable(initSize);
             //properties
             this.__reqDiameter = 20;
@@ -34,10 +35,10 @@ circleverse.viewModel.CustomerPurseViewModel = (function () {
 
             //, new circleverse.viewModel.MoneyViewModel(new becu_org.domain.Money(100), 4)
 
-            this.dimensions = ko.observable();
             this.dimensions({ height: this.scale() * initSize, width: this.scale() * initSize });
 
-            
+            self.label("Wallet");
+
             this.icon.location = { center: true, offset: { y: -35} }; //ko.observable(false);//
 
             this.icon.url = ko.observable('url("/media/img/wallet64x48.png")');

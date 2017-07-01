@@ -25,7 +25,6 @@ littleUmbrella.circleverse.viewModel.CustomerAccountTransactionsViewModel = (fun
 
             
 
-            this.dimensions = ko.observable();
             this.dimensions({ height: this.scale() * initSize, width: this.scale() * initSize });
 
             this.icon.name('icon-exchange icon-size-2x');

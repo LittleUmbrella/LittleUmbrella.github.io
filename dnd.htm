@@ -137,205 +137,58 @@
 
             <!-- /ko -->
         </script>
+        
+        <script type="text/html" id="interactiveTool">
+            <div data-bind="dragdrop: $data,
+                visible: showMe,
+                style: {
+                    'width': (dimensions().width) + 'px'
+                , 'height': (dimensions().height) + 'px'
+                , 'top': (location().top) + 'px'
+                , 'left': (location().left) + 'px'
+                }"
+                class="drag drop circle tool backgroundCenter refresh ">
 
+                <i data-bind="css: icon.name, style: { 'line-height': dimensions().height + 'px' }"></i>
+            </div>
+        </script>
+        
+        <script type="text/html" id="standAloneTool">
+            <div data-bind="dragdrop: $data,
+                visible: showMe,
+                style: {
+                    'width': (dimensions().width) + 'px'
+                , 'height': (dimensions().height) + 'px'
+                , 'top': (location().top) + 'px'
+                , 'left': (location().left) + 'px'
+                }
+                , event: { 'click': function (data, e) { toggleMainForm(); e.cancelBubble = true; if (e.stopPropagation) e.stopPropagation(); return false }, dblclickBubble: false }
+                , 'tap': function (data, e) { toggleMainForm(); e.cancelBubble = true; if (e.stopPropagation) e.stopPropagation(); return false }, dblclickBubble: false "
+                class="drag drop circle tool form-entry backgroundCenter settings">
 
+                <i data-bind="css: icon.name, style: { 'line-height': dimensions().height + 'px' }"></i>
+            </div>
+        </script>
 
+        <!-- ko foreach: childViewModels -->
 
-        <!-- ko template: 'earthTemplate' -->
+<!-- ko template: 'genericChildTemplate' -->
+        <!-- /ko -->
+        <!-- /ko -->
 
+        
+
+       
+        <!-- ko foreach: tools -->
+            <!-- ko ifnot: typeof toggleMainForm == 'undefined' -->
+                <!-- ko template: 'standAloneTool' --><!-- /ko -->
             <!-- /ko -->
 
-
-
-        <!-- ko with: exitViewModel -->
-        <div id="exit" data-bind="drag: $data,
-    attr: { 'id': id }
-            ,
-    fadeToggle: !isAvailable()
-            ,
-    style: {
-        'width': (dimensions().width) + 'px'
-    , 'height': (dimensions().height) + 'px'
-    , 'top': (location().top) + 'px'
-    , 'left': (location().left) + 'px'
-    }"
-            class="drag drop circle backgroundCenter exit hidden">
-
-            <i data-bind="css: icon.name, style: { 'line-height': dimensions().height + 'px' }"></i>
-        </div>
+            <!-- ko if: typeof toggleMainForm == 'undefined'  -->
+                <!-- ko template: 'interactiveTool' --><!-- /ko -->
+            <!-- /ko -->
         <!-- /ko -->
-        <!-- ko with: refreshViewModel -->
-        <div id="refresh" data-bind="dragdrop: $data,
-    visible: showMe,
-    style: {
-        'width': (dimensions().width) + 'px'
-    , 'height': (dimensions().height) + 'px'
-    , 'top': (location().top) + 'px'
-    , 'left': (location().left) + 'px'
-    }"
-            class="drag drop circle tool backgroundCenter refresh ">
-
-            <i data-bind="css: icon.name, style: { 'line-height': dimensions().height + 'px' }"></i>
-        </div>
-        <!-- /ko -->
-        <!-- ko with: filterViewModel -->
-        <div id="filter" data-bind="dragdrop: $data,
-    visible: showMe,
-    style: {
-        'width': (dimensions().width) + 'px'
-    , 'height': (dimensions().height) + 'px'
-    , 'top': (location().top) + 'px'
-    , 'left': (location().left) + 'px'
-    }"
-            class="drag drop circle tool backgroundCenter filter ">
-
-            <i data-bind="css: icon.name, style: { 'line-height': dimensions().height + 'px' }"></i>
-        </div>
-        <!-- /ko -->
-        <!-- ko with: loginViewModel -->
-        <div id="login" data-bind="dragdrop: $data
-            , visible: showMe, infoize: actionInfo,
-    style: {
-        'width': (dimensions().width) + 'px'
-    , 'height': (dimensions().height) + 'px'
-    , 'top': (location().top) + 'px'
-    , 'left': (location().left) + 'px'
-    }"
-            class="drag drop circle tool backgroundCenter login">
-
-            <i data-bind="css: icon.name, style: { 'line-height': dimensions().height + 'px' }"></i>
-        </div>
-        <!-- /ko -->
-        <!-- ko with: favoriteViewModel -->
-
-        <div id="favorite" data-bind="dragdrop: $data
-            , visible: showMe,
-    infoize: actionInfo,
-    style: {
-        'width': (dimensions().width) + 'px'
-    , 'height': (dimensions().height) + 'px'
-    , 'top': (location().top) + 'px'
-    , 'left': (location().left) + 'px'
-    }"
-            style="border: 0;"
-            class="drag drop circle tool backgroundCenter favorite">
-
-            <i data-bind="css: icon.name, style: { 'line-height': dimensions().height + 'px' }"></i>
-        </div>
-        <!-- /ko -->
-        <!-- ko with: settingsViewModel -->
-
-        <div id="settings" data-bind="dragdrop: $data,
-    visible: showMe,
-    style: {
-        'width': (dimensions().width) + 'px'
-    , 'height': (dimensions().height) + 'px'
-    , 'top': (location().top) + 'px'
-    , 'left': (location().left) + 'px'
-    }
-            , event: { 'click': function (data, e) { toggleMainForm(); e.cancelBubble = true; if (e.stopPropagation) e.stopPropagation(); return false }, dblclickBubble: false }
-            , 'tap': function (data, e) { toggleMainForm(); e.cancelBubble = true; if (e.stopPropagation) e.stopPropagation(); return false }, dblclickBubble: false "
-            class="drag drop circle tool form-entry backgroundCenter settings">
-
-
-
-            <i data-bind="css: icon.name, style: { 'line-height': dimensions().height + 'px' }"></i>
-        </div>
-        <!-- /ko -->
-        <!-- ko with: helpViewModel -->
-
-        <div id="help" data-bind="dragdrop: $data,
-    visible: showMe,
-    style: {
-        'width': (dimensions().width) + 'px'
-    , 'height': (dimensions().height) + 'px'
-    , 'top': (location().top) + 'px'
-    , 'left': (location().left) + 'px'
-    }"
-            style="border: 0;"
-            class="drag drop circle tool backgroundCenter help">
-
-            <i data-bind="css: icon.name, style: { 'line-height': dimensions().height + 'px' }"></i>
-        </div>
-        <!-- /ko -->
-
-        <!-- ko with: newViewModel -->
-        <div id="new" data-bind="dragdrop: $data,
-    visible: showMe,
-    style: {
-        'width': (dimensions().width) + 'px'
-    , 'height': (dimensions().height) + 'px'
-    , 'top': (location().top) + 'px'
-    , 'left': (location().left) + 'px'
-    }"
-            style="border: 0;"
-            class="drag drop circle tool backgroundCenter new">
-
-            <i data-bind="css: icon.name, style: { 'line-height': dimensions().height + 'px' }"></i>
-        </div>
-        <!-- /ko -->
-
-        <!-- ko with: editViewModel -->
-        <div id="edit" data-bind="dragdrop: $data,
-    visible: showMe,
-    style: {
-        'width': (dimensions().width) + 'px'
-    , 'height': (dimensions().height) + 'px'
-    , 'top': (location().top) + 'px'
-    , 'left': (location().left) + 'px'
-    }"
-            style="border: 0;"
-            class="drag drop circle tool backgroundCenter new">
-
-            <i data-bind="css: icon.name, style: { 'line-height': dimensions().height + 'px' }"></i>
-        </div>
-        <!-- /ko -->
-
-        <!-- ko with: saveViewModel -->
-        <div id="save" data-bind="dragdrop: $data,
-    visible: showMe,
-    style: {
-        'width': (dimensions().width) + 'px'
-    , 'height': (dimensions().height) + 'px'
-    , 'top': (location().top) + 'px'
-    , 'left': (location().left) + 'px'
-    }"
-            style="border: 0;"
-            class="drag drop circle tool backgroundCenter new">
-
-            <i data-bind="css: icon.name, style: { 'line-height': dimensions().height + 'px' }"></i>
-        </div>
-        <!-- /ko -->
-        <!-- ko with: garbageViewModel -->
-        <div id="garbage" data-bind="dragdrop: $data,
-    visible: showMe,
-    style: {
-        'width': (dimensions().width) + 'px'
-    , 'height': (dimensions().height) + 'px'
-    , 'top': (location().top) + 'px'
-    , 'left': (location().left) + 'px'
-    }"
-            style="border: 0;"
-            class="drag drop circle tool backgroundCenter trash">
-
-            <i data-bind="css: icon.name, style: { 'line-height': dimensions().height + 'px' }"></i>
-        </div>
-        <!-- /ko -->
-        <!-- ko with: searchViewModel -->
-        <div id="search" data-bind="dragdrop: $data,
-    visible: showMe,
-    style: {
-        'width': (dimensions().width) + 'px'
-    , 'height': (dimensions().height) + 'px'
-    , 'top': (location().top) + 'px'
-    , 'left': (location().left) + 'px'
-    }"
-            style="border: 0;"
-            class="drag drop circle tool backgroundCenter search">
-
-            <i data-bind="css: icon.name, style: { 'line-height': dimensions().height + 'px' }"></i>
-        </div>
-        <!-- /ko -->
+        
         <ul id="log" style="position: absolute; left: 500px;"></ul>
 
 
@@ -852,200 +705,10 @@
 
     <script type="text/html" id="earthTemplate">
         <!-- ko with: earth -->
-        <div id="earth" data-bind="dragdrop: $data,
-    visible: showMe
-    , style: {
-        'left': location().left
-            , 'top': location().top
-            , 'width': dimensions().width + 'px'
-            , 'height': dimensions().height + 'px'
-            , 'backgroundPositionX': backgroundPosition() + 'px'
-    }, intro: { eventAggregator: eventAggregator, animationLength: popAnimationLength, delay: popDuration, scale: introScaleEnd, top: endLocation.top, left: endLocation.left, width: endDimensions.width, height: endDimensions.height }
-    , event: { 'click': function (data, e) { toggleChildrenVisibility(data, e); e.cancelBubble = true; if (e.stopPropagation) e.stopPropagation(); return false }, dblclickBubble: false }
-    , 'tap': function (data, e) { toggleChildrenVisibility(data, e); e.cancelBubble = true; if (e.stopPropagation) e.stopPropagation(); return false } "
-            class="ball" style="display: none;">
+            <!-- ko template: 'genericChildTemplate' -->
 
-            <!-- ko with: allPersonsViewModel -->
-            <div id="allPersons" data-bind="dragdrop: $data
-
-            , style: {
-                'left': location().left + 'px'
-            , 'top': location().top + 'px'
-            , 'width': dimensions().width + 'px'
-            , 'height': dimensions().height + 'px'
-            }
-    , visible: showMe
-            , busy: isBusy
-   , satellitePopInOut: { animationLength: popAnimationLength, delay: popDuration, base: $data.parent, satellite: $data, callback: popAnimationEnded },
-    event: { 'click': function (data, e) { toggleChildrenVisibility(data, e); e.cancelBubble = true; if (e.stopPropagation) e.stopPropagation(); return false }, dblclickBubble: false }
-    , 'tap': function (data, e) { toggleChildrenVisibility(data, e); e.cancelBubble = true; if (e.stopPropagation) e.stopPropagation(); return false } "
-                class="drag drop service circle"
-                style="display: none; z-index: 2">
-
-                    <!-- ko template: { name: 'pinTemplate', data: pinViewModel } --><!-- /ko -->
-                <i data-bind="css: icon.name, style: { 'line-height': dimensions().height + 'px' }"></i>
-            </div>
-            <!-- /ko -->
-
-
-            <!-- ko with: allOrganizationsViewModel -->
-            <div id="allOrganizationsViewModel" data-bind="dragdrop: $data
-
-            , style: {
-                'left': location().left + 'px'
-            , 'top': location().top + 'px'
-            , 'width': dimensions().width + 'px'
-            , 'height': dimensions().height + 'px'
-            }
-    , visible: showMe
-            , busy: isBusy
-    , satellitePopInOut: { animationLength: popAnimationLength, delay: popDuration, base: $data.parent, satellite: $data, callback: popAnimationEnded },
-    event: { 'click': function (data, e) { toggleChildrenVisibility(data, e); e.cancelBubble = true; if (e.stopPropagation) e.stopPropagation(); return false }, dblclickBubble: false }
-    , 'tap': function (data, e) { toggleChildrenVisibility(data, e); e.cancelBubble = true; if (e.stopPropagation) e.stopPropagation(); return false } "
-                class="drag drop service circle"
-                style="display: none; z-index: 2">
-
-                    <!-- ko template: { name: 'pinTemplate', data: pinViewModel } --><!-- /ko -->
-                <i data-bind="css: icon.name, style: { 'line-height': dimensions().height + 'px' }"></i>
-
-                <!-- ko with: becuViewModel -->
-                <div id="becu" data-bind="dragdrop: $data
-
-            , style: {
-                'left': location().left + 'px'
-            , 'top': location().top + 'px'
-            , 'width': dimensions().width + 'px'
-            , 'height': dimensions().height + 'px'
-                , 'box-shadow': shadow
-            }
-    , visible: showMe
-            , busy: isBusy
-    , satellitePopInOut: { animationLength: popAnimationLength, delay: 0, base: $data.parent, satellite: $data, callback: popAnimationEnded },
-    event: { 'click': function (data, e) { toggleChildrenVisibility(data, e); e.cancelBubble = true; if (e.stopPropagation) e.stopPropagation(); return false }, dblclickBubble: false }
-    , 'tap': function (data, e) { toggleChildrenVisibility(data, e); e.cancelBubble = true; if (e.stopPropagation) e.stopPropagation(); return false } "
-                    class="drag drop service circle becu-main"
-                    style="display: none; z-index: 2">
-                    <div style="width: 100%; height: 100%" data-bind="infoize: 'Double-click'"></div>
-
-
-                    <!-- ko with: allMembersViewModel-->
-                    <div data-bind="dragdrop: $data
-            , style: {
-                'left': location().left + 'px'
-            , 'top': location().top + 'px'
-            , 'width': dimensions().width + 'px'
-            , 'height': dimensions().height + 'px'
-
-
-            }
-    , visible: showMe
-            , busy: isBusy
-            , infoize: 'Members'
-            , satellitePopInOut: { base: $data.parent, satellite: $data, callback: popAnimationEnded }"
-                        class="drag drop circle"
-                        style="display: none">
-                    <!-- ko template: { name: 'pinTemplate', data: pinViewModel } --><!-- /ko -->
-                        <i data-bind="css: icon.name, style: { 'line-height': dimensions().height + 'px' }"></i>
-
-                    </div>
-                    <!-- /ko -->
-                    <!-- ko with: allEmployeesViewModel-->
-                    <div data-bind="dragdrop: $data
-            , style: {
-                'left': location().left + 'px'
-            , 'top': location().top + 'px'
-            , 'width': dimensions().width + 'px'
-            , 'height': dimensions().height + 'px'
-
-            }
-    , visible: showMe
-            , busy: isBusy
-            , infoize: 'Staff'
-            , event: { 'click': function (data, e) { dblclick(data, e); e.cancelBubble = true; if (e.stopPropagation) e.stopPropagation(); return false }, dblclickBubble: false }
-            , 'tap': function (data, e) { dblclick(data, e); e.cancelBubble = true; if (e.stopPropagation) e.stopPropagation(); return false }, dblclickBubble: false
-    , satellitePopInOut: { base: $data.parent, satellite: $data, callback: popAnimationEnded }"
-                        class="drag drop service circle"
-                        style="display: none">
-
-                    <!-- ko template: { name: 'pinTemplate', data: pinViewModel } --><!-- /ko -->
-                        <i data-bind="css: icon.name, style: { 'line-height': dimensions().height + 'px' }"></i>
-
-                        <!-- ko with: allBusinessCentersViewModel-->
-                        <div data-bind="dragdrop: $data
-            , style: {
-                'left': location().left + 'px'
-            , 'top': location().top + 'px'
-            , 'width': dimensions().width + 'px'
-            , 'height': dimensions().height + 'px'
-            , 'backgroundImage': icon.url
-            }
-    , visible: showMe
-            , busy: isBusy
-            , infoize: 'Staff'
-            , template: { name: 'businessCenters', data: self }
-    , satellitePopInOut: { base: $data.parent, satellite: $data, callback: popAnimationEnded }
-            "
-                            class="drag drop service circle"
-                            style="display: none">
-                    <!-- ko template: { name: 'pinTemplate', data: pinViewModel } --><!-- /ko -->
-                        </div>
-                        <!-- /ko -->
-
-                    </div>
-                    <!-- /ko -->
-                    <!-- ko with: becuServicesViewModel-->
-                    <div data-bind="dragdrop: $data
-            , style: {
-                'left': location().left + 'px'
-            , 'top': location().top + 'px'
-            , 'width': dimensions().width + 'px'
-            , 'height': dimensions().height + 'px'
-
-            }
-    , visible: showMe
-            , busy: isBusy
-            , infoize: 'Products and Services'
-            , event: { 'click': function (data, e) { dblclick(data, e); e.cancelBubble = true; if (e.stopPropagation) e.stopPropagation(); return false }, dblclickBubble: false }
-            , 'tap': function (data, e) { dblclick(data, e); e.cancelBubble = true; if (e.stopPropagation) e.stopPropagation(); return false }, dblclickBubble: false
-    , satellitePopInOut: { base: $data.parent, satellite: $data, callback: popAnimationEnded }"
-                        class="drag drop service circle"
-                        style="display: none">
-                    <!-- ko template: { name: 'pinTemplate', data: pinViewModel } --><!-- /ko -->
-                        <i data-bind="css: icon.name, style: { 'line-height': dimensions().height + 'px' }"></i>
-
-                    </div>
-                    <!-- /ko -->
-                    <!-- ko with: becuPurseViewModel-->
-                    <div data-bind="dragdrop: $data
-            , style: {
-                'left': location().left + 'px'
-            , 'top': location().top + 'px'
-            , 'width': dimensions().width + 'px'
-            , 'height': dimensions().height + 'px'
-
-            }
-    , visible: showMe
-            , busy: isBusy
-            , infoize: 'Vault'
-            , event: { 'click': function (data, e) { dblclick(data, e); e.cancelBubble = true; if (e.stopPropagation) e.stopPropagation(); return false }, dblclickBubble: false }
-            , 'tap': function (data, e) { dblclick(data, e); e.cancelBubble = true; if (e.stopPropagation) e.stopPropagation(); return false }, dblclickBubble: false
-    , satellitePopInOut: { base: $data.parent, satellite: $data, callback: popAnimationEnded }"
-                        class="drag drop service circle"
-                        style="display: none">
-                    <!-- ko template: { name: 'pinTemplate', data: pinViewModel } --><!-- /ko -->
-                        <i data-bind="css: icon.name, style: { 'line-height': dimensions().height + 'px' }"></i>
-
-                    </div>
-                    <!-- /ko -->
-
-
-                </div>
-                <!-- /ko -->
-            </div>
-
-            <!-- /ko -->
-
-        </div>
+        <!-- /ko -->
+        
         <!-- /ko -->
     </script>
 
@@ -1084,7 +747,8 @@
             , 'width': dimensions().width + 'px'
             , 'height': dimensions().height + 'px'
 
-            }
+            },
+            css: mainCss
             , visible: showMe, satellitePopInOut: { base: $data.parent, satellite: $data, callback: popAnimationEnded }
             , event: { 'click': function (data, e) { toggleChildrenVisibility(data, e); e.cancelBubble = true; if (e.stopPropagation) e.stopPropagation() } }
             , 'tap': function (data, e) { toggleChildrenVisibility(data, e); e.cancelBubble = true; if (e.stopPropagation) e.stopPropagation() }
@@ -1092,6 +756,9 @@
             class="drag drop circle"
             style="display: none;" >
             
+            <!-- ko if: isA(becu_org.ui.viewModel.labelModule) && labelData().isReady -->               
+                <!-- ko template: { name: 'circleTextTemplate', data: labelData } --><!-- /ko -->
+            <!-- /ko -->
             <!-- ko template: { name: 'pinTemplate', data: pinViewModel } --><!-- /ko -->    
             <!-- ko template: { name: contentTemplate } --><!-- /ko -->
         </div>
@@ -1105,8 +772,9 @@
             , 'width': dimensions().width + 'px'
             , 'height': dimensions().height + 'px'
             , 'opacity': opacity
-                , 'box-shadow': shadow
-            }
+                
+            },
+            css: mainCss
             , visible: showMe
             , busy: isBusy
             , onTop: onTop
@@ -1118,6 +786,10 @@
                         style="display: none;">
                           
             <!-- ko template: { name: contentTemplate } --><!-- /ko -->
+            
+            <!-- ko if: isA(becu_org.ui.viewModel.labelModule) && labelData().isReady -->               
+                <!-- ko template: { name: 'circleTextTemplate', data: labelData } --><!-- /ko -->
+            <!-- /ko -->
             <!-- ko if: hasChildrenToggled -->
                 <!-- ko foreach: childViewModels-->                    
                     <!-- ko template: { name: 'genericChildTemplate' } --><!-- /ko -->
@@ -1133,8 +805,9 @@
             , 'width': dimensions().width + 'px'
             , 'height': dimensions().height + 'px'
             , 'opacity': opacity
-                , 'box-shadow': $rawData().shadow
-            }
+                
+            },
+            css: mainCss
             , visible: showMe
             , busy: isBusy
             , pulse: pulse
@@ -1148,6 +821,10 @@
                         
                         
             <!-- ko template: { name: contentTemplate } --><!-- /ko -->
+            
+            <!-- ko if: isA(becu_org.ui.viewModel.labelModule) && labelData().isReady -->                
+                <!-- ko template: { name: 'circleTextTemplate', data: labelData } --><!-- /ko -->
+            <!-- /ko -->
             <!-- ko if: hasChildrenToggled -->
                 <!-- ko foreach: childViewModels-->                    
                     <!-- ko template: { name: 'genericChildTemplate' } --><!-- /ko -->
@@ -1157,6 +834,19 @@
     </script>
     <script type="text/html" id="standardContentTemplate">        
         <i data-bind="css: icon.name, style: { 'line-height': dimensions().height + 'px' }"></i>
+    </script>
+    <script type="text/html" id="emptyContentTemplate">        
+    </script>
+    <script type="text/html" id="fiContentTemplate">
+              
+        <div class="wrapper">
+            <div class="floater">
+                <div class="center-container">
+        FI      
+                </div>
+
+            </div>
+        </div>  
     </script>
     <script type="text/html" id="accountContentTemplate">        
         <div class="wrapper">
@@ -1196,6 +886,29 @@
             <i data-bind="style: { 'line-height': dimensions().height + 'px' }" class="icon-hand-o-up icon-size-2x"></i>
             <i data-bind="style: { 'line-height': dimensions().height + 'px' }" class="icon-hand-o-down icon-size-2x"></i>
         </div>
+    </script>
+
+    <script type="text/html" id="circleTextTemplate">
+        <svg class="circleText" data-bind="attr: {'width': width, 'height': width}">
+            <defs>
+                <path data-bind="attr: {'d': path, 'id': id}"></path>
+            </defs>
+            <!--<circle data-bind="attr: {'cx': width/2, 'cy': width/2, 'r': width/2 * .95}"></circle>-->
+            <path data-bind="attr: {'d': path}"></path>
+            <text data-bind="html: '<textPath startOffset=&quot;50%&quot; xmlns:xlink=&quot;http://www.w3.org/1999/xlink&quot; xlink:href=&quot;#' + id + '&quot;>' + label + '</textPath>'">
+                
+            </text>
+        </svg>
+        <!--<svg height="500" width="100">
+            <defs>
+                <path d="m2.5,250 a47.5,47.5 0 0 0 95,0" id="curvedTextPath"></path>
+            </defs>
+            <circle cx="50" cy="250" r="50"></circle>
+            <path d="m2.5,250 a47.5,47.5 0 0 0 95,0"></path>
+            <text>
+                <textPath startOffset="50%" xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#curvedTextPath">Hello, world!</textPath>
+            </text>
+        </svg>-->
     </script>
 
     <script type="text/html" id="Script2">
@@ -1273,7 +986,8 @@
 
                 $log = $("#log");
 
-                var app = new becu_org.app();
+                var globalDimensions = {width: $(document).width(), height: $(document).height()};
+                var app = new becu_org.app(globalDimensions);
 
                 var promise = app.preSetup();
 
@@ -1333,5 +1047,7 @@
     </script>
     <!--<link href="css/circleverse.css" rel="stylesheet" type="text/css" />-->
     <!--<link href="css/circleverse_light.css" rel="stylesheet" type="text/css" />-->
+    <link href="css/style.css" rel="stylesheet" />
+    
     <link href="css/font.css" rel="stylesheet" />
 </html>

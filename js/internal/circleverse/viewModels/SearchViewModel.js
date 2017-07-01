@@ -7,7 +7,7 @@ circleverse.viewModel.SearchViewModel = (function () {
     var initSize = 94;
 
     return new JS.Class('circleverse.viewModel.SearchViewModel', circleverse.viewModel.ResizeableBase, {
-        include: [becu_org.ui.viewModel.baseModule, becu_org.ui.viewModel.draggableModule, becu_org.ui.viewModel.droppableModule, becu_org.ui.viewModel.circleModule, circleverse.viewModel.noActionModule],
+        include: [becu_org.ui.viewModel.baseModule, circleverse.viewModel.satellite, circleverse.viewModel.centerCircle, becu_org.ui.viewModel.draggableModule, becu_org.ui.viewModel.droppableModule, becu_org.ui.viewModel.circleModule, circleverse.viewModel.noActionModule],
 
 
         __getCoords: function () {
@@ -26,25 +26,31 @@ circleverse.viewModel.SearchViewModel = (function () {
         }
              ,
 
-        initialize: function (object) {// (tracker, uri, templateUri, templateId, resultTemplateUri, callSpec, name, id, businessClass, opts) {
+        initialize: function (object, parent, globalSettings) {// (tracker, uri, templateUri, templateId, resultTemplateUri, callSpec, name, id, businessClass, opts) {
             var self = this;
 
-            this.callSuper();
+            var settings = {
+                itemDiameter: initSize + 5,
+                startSatellitesOnEdge: false,
+                startingDegree: 230,
+                evenDistribution: false
+            };
+            
+            self.callSuper(object, parent, globalSettings, settings);
             //properties
              // = ko.observableArray([]);
 
-            var self = this;
             self.size = ko.observable(initSize);
-            this.location = ko.observable();
+            //this.location = ko.observable();
             //left: scale() * 300, top:,
 
-            this.dimensions = ko.observable();
+            
             this.dimensions({ height: this.scale() * initSize, width: this.scale() * initSize });
 
             
 
-            var coords = this.__getCoords();
-            this.location({ left: coords.left, top: coords.top });
+            //var coords = this.__getCoords();
+            //this.location({ left: coords.left, top: coords.top });
 
 
             

@@ -9,7 +9,8 @@ littleUmbrella.circleverse.viewModel.AllPersonsViewModel = (function () {
     };
 
     return new JS.Class('littleUmbrella.circleverse.viewModel.AllPersonsViewModel', circleverse.viewModel.ResizeableBase, {
-        include: [becu_org.ui.viewModel.baseModule, circleverse.viewModel.satellite, circleverse.viewModel.centerCircle, becu_org.ui.viewModel.draggableModule, becu_org.ui.viewModel.droppableModule, becu_org.ui.viewModel.circleModule],
+        include: [becu_org.ui.viewModel.baseModule, circleverse.viewModel.satellite, circleverse.viewModel.centerCircle, becu_org.ui.viewModel.draggableModule, becu_org.ui.viewModel.droppableModule, becu_org.ui.viewModel.circleModule,
+            becu_org.ui.viewModel.labelModule],
         __getCoords: function () {
             var minTop = 0;
             var minLeft = 10;
@@ -53,7 +54,7 @@ littleUmbrella.circleverse.viewModel.AllPersonsViewModel = (function () {
             //this.showMainForm = ko.observable(false);
             this.initDisplay = 'none';
 
-            var initSize = 60;
+            var initSize = 70;
  self.size = ko.observable(initSize);
 
             this.__size = initSize;
@@ -69,7 +70,7 @@ littleUmbrella.circleverse.viewModel.AllPersonsViewModel = (function () {
 
 
             var settings = {
-                itemDiameter: initSize + 20,
+                itemDiameter: initSize + 5,
                 startSatellitesOnEdge: false,
                 startingDegree: 230,
                 evenDistribution: false
@@ -87,7 +88,7 @@ littleUmbrella.circleverse.viewModel.AllPersonsViewModel = (function () {
 
             this.dimensions({ height: this.scale() * initSize, width: this.scale() * initSize });
 
-
+            self.label("People");
 
             
             this.icon.location = { center: true, offset: { y: -35} }; //ko.observable(false);//

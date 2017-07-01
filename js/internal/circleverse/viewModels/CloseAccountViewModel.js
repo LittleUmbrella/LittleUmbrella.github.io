@@ -31,7 +31,6 @@ circleverse.viewModel.CloseAccountViewModel = (function () {
 
             var initSize = 35;
  self.size = ko.observable(initSize);
-            this.dimensions = ko.observable();
             this.dimensions({ height: this.scale() * initSize, width: this.scale() * initSize });
 
             

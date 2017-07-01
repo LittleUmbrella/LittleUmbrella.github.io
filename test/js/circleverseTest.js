@@ -16,7 +16,7 @@ circleverse.viewModel.CenterSun = new JS.Class(circleverse.viewModel.ResizeableB
         //left: scale() * 300, top:,
 
         this.location({ left: 0, top: 0 });
-        this.dimensions = ko.observable();
+        
         this.dimensions({ height: this.scale() * initSize, width: this.scale() * initSize });
 
 
@@ -44,7 +44,7 @@ circleverse.viewModel.CenterSun = new JS.Class(circleverse.viewModel.ResizeableB
         //left: scale() * 300, top:,
 
         this.location({ left: 0, top: 0 });
-        this.dimensions = ko.observable();
+        
         this.dimensions({ height: this.scale() * initSize, width: this.scale() * initSize });
 
 

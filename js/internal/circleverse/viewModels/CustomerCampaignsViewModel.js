@@ -10,12 +10,13 @@ circleverse.viewModel.CustomerCampaignsViewModel = (function () {
 
     //var that;
     return new JS.Class('circleverse.viewModel.CustomerCampaignsViewModel', circleverse.viewModel.ResizeableBase, {
-        include: [becu_org.ui.viewModel.baseModule, circleverse.viewModel.satellite, circleverse.viewModel.centerCircle, becu_org.ui.viewModel.draggableModule, becu_org.ui.viewModel.droppableModule],
+        include: [becu_org.ui.viewModel.baseModule, circleverse.viewModel.satellite, circleverse.viewModel.centerCircle, becu_org.ui.viewModel.draggableModule, becu_org.ui.viewModel.droppableModule,
+            becu_org.ui.viewModel.labelModule],
 
         initialize: function (object, parent, globalSettings) {// (tracker, uri, templateUri, templateId, resultTemplateUri, callSpec, name, id, businessClass, opts) {
 
             var self = this;
-            var initSize = 60;
+            var initSize = 70;
  self.size = ko.observable(initSize);
             //properties
             this.__reqDiameter = 20;
@@ -28,12 +29,12 @@ circleverse.viewModel.CustomerCampaignsViewModel = (function () {
             this.callSuper();
 
             
-                
+            self.label("Campaigns");    
 
 
             //, new circleverse.viewModel.MoneyViewModel(new becu_org.domain.Money(100), 4)
 
-            this.dimensions = ko.observable();
+            
             this.dimensions({ height: this.scale() * initSize, width: this.scale() * initSize });
 
             

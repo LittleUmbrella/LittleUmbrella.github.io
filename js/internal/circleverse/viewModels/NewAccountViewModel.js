@@ -40,7 +40,7 @@ circleverse.viewModel.NewAccountViewModel = (function () {
 
             var initSize = 35;
  self.size = ko.observable(initSize);
-            self.dimensions = ko.observable();
+            
             self.dimensions({ height: self.scale() * initSize, width: self.scale() * initSize });
 
             
