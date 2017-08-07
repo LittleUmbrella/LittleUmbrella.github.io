@@ -70,7 +70,7 @@ border-radius:20px;
 
 position: absolute;
 
-border: 2px solid #5A6B7C;
+border: 2px solid rgb(90, 107, 124);
 
 vertical-align: middle;
 background-color: #1E2730; /*#1E2730; 555557;*/
@@ -87,8 +87,15 @@ padding: 0 0 0 0;
 
 margin: 0 0 0 0;
 
-color: #6b798d;
+color: 	rgb(86, 174, 224);
+fill: 	rgb(86, 174, 224);
 
+}
+
+.faded{
+    color: 	rgba(86, 174, 224, 0.23);
+    fill: 	rgba(86, 174, 224, 0.23);
+    border: 2px solid rgba(90, 107, 124, 0.23);
 }
 
 /*.drag * {
@@ -97,8 +104,8 @@ color: #6b798d;
 }*/
 
 
-i {
-    color: #56aee0; /*#ADA8A5;*/
+/*i {
+    color: #56aee0; 
 }
 
 .tool i {
@@ -107,7 +114,7 @@ i {
 
 .navigator i {
     color: #5A6B7C;
-}
+}*/
 
 
 
@@ -1338,7 +1345,6 @@ svg.circleText text{
         font-size: 12px;
         font-weight: bold;
         text-anchor: middle;
-        fill:#56aee0;
         text-transform: uppercase;
 }
 

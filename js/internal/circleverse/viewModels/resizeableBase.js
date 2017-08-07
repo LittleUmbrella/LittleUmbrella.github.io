@@ -80,9 +80,54 @@ circleverse.viewModel.ResizeableBase = //(function () {
                 }.bind(this));
 
 
+                self.faded = ko.observable(false);
+                
+                self.faded.subscribe(function(val){
+                    if (val){
+                        self.addClass(self.mainCss, 'faded');
+                    }
+                    else{
+                        self.removeClass(self.mainCss, 'faded');
+                    }
+                });
+
+                self.move = ko.observable({top: null, left: null}); //used to initiate animated movement.  see binding related to same
 
                 self.hideChildren = ko.observable(false);
 
+            },        
+
+            moveRoot: function(config){
+                var self = this;
+                
+
+                if (self.parent && self.parent.moveRoot){
+                    self.parent.moveRoot(config);
+                }
+                else{
+                    self.move(config.movement);
+                }
+            },
+
+            moveEnded: function(){
+
+            }
+
+            ,addClass: function(classNames, css){
+                var tem, C= (classNames()||'').split(/\s+/), A=[];    
+                while(C.length){
+                    tem= C.shift();
+                    if(tem && tem!= css) A[A.length]= tem;
+                }
+                A[A.length]= css;
+                return classNames(A.join(' '));   
+            }
+            ,removeClass: function(classNames, css){
+                var C= classNames();    
+                
+                if (C && C.indexOf(css) > -1)
+                    C = C.replace(css, '');
+                return classNames(C);   
             }
             ,
             setIsAvailable: function (dragItem, dropItem) {

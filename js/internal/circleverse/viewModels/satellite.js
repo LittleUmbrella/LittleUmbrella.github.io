@@ -90,7 +90,13 @@ circleverse.viewModel.satellite = (function () {
             self.popDuration = null;
             self.popAnimationLength = 0.7;
 
-            self.popToggle = ko.observable(false);
+            self.popped = false; //need a non-observable for binding that doesn't trigger the binding again'
+
+            self.popToggle = ko.observable(self.popped);
+
+            self.popToggle.subscribe(function(val){
+                self.popped = val;
+            });
 
             if (!self.isA(circleverse.viewModel.PinViewModel))
                 self.pinViewModel = new circleverse.viewModel.PinViewModel(object, self, globalSettings, opts);
@@ -129,7 +135,8 @@ circleverse.viewModel.satellite = (function () {
                 }
             }
 
-            self.__loc({ left: pos.x, top: pos.y });
+            if (self.__loc().left != pos.x || self.__loc().top != pos.y)
+                self.__loc({ left: pos.x, top: pos.y });
 
             return self.__loc();
         }
@@ -177,6 +184,16 @@ circleverse.viewModel.satellite = (function () {
     });
 })();
 
+
+//child in lime light
+//in lime light, with child in lime light
+//
+circleverse.viewModel.pedigreeState = (function () {
+
+    return new JS.Class('circleverse.viewModel.pedigreeState', circleverse.viewModel.ResizeableBase, {
+    });
+
+})();
 
 
 circleverse.viewModel.PinViewModel = (function () {

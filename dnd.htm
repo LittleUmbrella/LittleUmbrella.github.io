@@ -752,6 +752,7 @@
             , visible: showMe, satellitePopInOut: { base: $data.parent, satellite: $data, callback: popAnimationEnded }
             , event: { 'click': function (data, e) { toggleChildrenVisibility(data, e); e.cancelBubble = true; if (e.stopPropagation) e.stopPropagation() } }
             , 'tap': function (data, e) { toggleChildrenVisibility(data, e); e.cancelBubble = true; if (e.stopPropagation) e.stopPropagation() }
+            , animatedMove: {satellite: $data, callback: moveEnded, top: move().top, left: move().left}
             "
             class="drag drop circle"
             style="display: none;" >
@@ -772,7 +773,6 @@
             , 'width': dimensions().width + 'px'
             , 'height': dimensions().height + 'px'
             , 'opacity': opacity
-                
             },
             css: mainCss
             , visible: showMe
@@ -781,6 +781,7 @@
             , event: { 'click': function (data, e) { toggleChildrenVisibility(data, e); e.cancelBubble = true; if (e.stopPropagation) e.stopPropagation() } }
             , 'tap': function (data, e) { toggleChildrenVisibility(data, e); e.cancelBubble = true; if (e.stopPropagation) e.stopPropagation() }
             , satellitePopInOut: { base: $data.parent, satellite: $data, callback: popAnimationEnded, index: $index() }
+            , animatedMove: {satellite: $data, callback: moveEnded, top: move().top, left: move().left}
 "
                         class="drag drop circle"
                         style="display: none;">
@@ -815,6 +816,7 @@
             , event: { 'click': function (data, e) { toggleChildrenVisibility(data, e); e.cancelBubble = true; if (e.stopPropagation) e.stopPropagation() } }
             , 'tap': function (data, e) { toggleChildrenVisibility(data, e); e.cancelBubble = true; if (e.stopPropagation) e.stopPropagation() }
             , satellitePopInOut: { disabled: isBeingFiltered, base: $data.parent, satellite: $rawData, callback: popAnimationEnded, index: $index() }
+            , animatedMove: {satellite: $data, callback: moveEnded, top: move().top, left: move().left}
 "
                         class="drag drop account service circle {size: 100} filterable"
                         style="display: none;">

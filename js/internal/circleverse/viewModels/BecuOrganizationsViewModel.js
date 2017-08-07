@@ -64,6 +64,7 @@ littleUmbrella.circleverse.viewModel.BecuOrganizationsViewModel = (function () {
             self.kickoffIntro = ko.observable(false);
 
 
+            
             var settings = {
                 itemDiameter: initSize + 5,
                 startSatellitesOnEdge: false,
@@ -72,17 +73,7 @@ littleUmbrella.circleverse.viewModel.BecuOrganizationsViewModel = (function () {
             };
 
             self.callSuper(object, parent, globalSettings, settings);
-            //self.callSuper(object, parent, globalSettings);
             
-
-
-
-            //this.childViewModels.push(self.becuViewModel);
-
-            //this.position = initialPosition || { top: 0, left: 0 };
-            this.size(this.__size);
-
-            var vm;
 
             this.dimensions({ height: this.scale() * initSize, width: this.scale() * initSize });
 
@@ -94,9 +85,16 @@ littleUmbrella.circleverse.viewModel.BecuOrganizationsViewModel = (function () {
             
             this.icon.name('icon-building-o icon-size-2x');
 
+            
+            var searchViewModel = new circleverse.viewModel.SearchViewModel(self.rawModel()[0], self, globalSettings);
+            
+            self.childViewModels.push(searchViewModel);
+
             this.icon.url = ko.observable('url("/media/img/logo_red_transparent_sm.png")');
 
             this.isBusy = ko.observable(false);
+
+            
 
         }
 

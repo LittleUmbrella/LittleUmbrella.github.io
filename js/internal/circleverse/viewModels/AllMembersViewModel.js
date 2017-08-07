@@ -10,7 +10,7 @@ circleverse.viewModel.AllMembersViewModel = (function () {
 
     //var that;
     return new JS.Class('circleverse.viewModel.AllMembersViewModel', circleverse.viewModel.ResizeableBase, {
-        include: [becu_org.ui.viewModel.baseModule, circleverse.viewModel.satellite, circleverse.viewModel.centerCircle, becu_org.ui.viewModel.draggableModule, becu_org.ui.viewModel.droppableModule, circleverse.viewModel.SearchableViewModel],
+        include: [becu_org.ui.viewModel.baseModule, circleverse.viewModel.satellite, circleverse.viewModel.centerCircle, becu_org.ui.viewModel.draggableModule, becu_org.ui.viewModel.droppableModule],
 
         initialize: function (object, parent, globalSettings) {// (tracker, uri, templateUri, templateId, resultTemplateUri, callSpec, name, id, businessClass, opts) {
 
@@ -48,9 +48,9 @@ var settings = {
             this.icon.name('icon-group icon-size-2x');
 
 
-            // var searchViewModel = new circleverse.viewModel.SearchViewModel(self.rawModel()[0], self, globalSettings);
+            var searchViewModel = new circleverse.viewModel.SearchViewModel(self.rawModel()[0], self, globalSettings);
             
-            // self.childViewModels.push(searchViewModel);
+            self.childViewModels.push(searchViewModel);
 
         }
 

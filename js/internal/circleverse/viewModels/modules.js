@@ -271,6 +271,7 @@
             }
 
             self.label = ko.observable();
+            self.labelCss = ko.observable();
 
             self.labelData = ko.computed(function(){
                 var label = self.label(), dims = self.dimensions,
@@ -281,7 +282,8 @@
                     width: width, 
                     path: self.getLablePathData(width, width),
                     id: eaf.util.getUniqueId(),
-                    isReady: width != 0 && eaf.util.isDefinedAndNotNull(label)
+                    isReady: width != 0 && eaf.util.isDefinedAndNotNull(label),
+                    css: self.labelCss()
                 };
             }).bind(self);
         }
@@ -307,7 +309,7 @@
                 event.preventDefault();
             if ('undefined' !== typeof (event.stopImmediatePropagation))
                 event.stopImmediatePropagation();
-
+            
         }
     });
 

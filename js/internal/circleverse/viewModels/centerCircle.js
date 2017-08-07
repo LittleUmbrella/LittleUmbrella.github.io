@@ -87,6 +87,7 @@
 
                 });
 
+
                 self.shadow = ko.computed(function () {
                     var ss = showShadow();
 
@@ -161,22 +162,182 @@
         ,
             
             toggleChildrenVisibility: function () {
-                var self = this, arr = self.childViewModels(), len = arr.length, item;
+                var self = this, arr = self.childViewModels(), len = arr.length, item, anyChildPopped = false, anyChildUnPopped = false, mixPop = false;
+
+                //var currentLimeList = self.limeLight();
+                // if (currentLimeList){
+                //     self.limeLight(!self.limeLight());
+                    
+                //     //if (anyChildPopped)
+                //     self.downToLeavesAndUnpopParents(arr, self);
+                // }
+
 
                 if (!self.hasChildrenToggled()){
                     self.hasChildrenToggled(true);
                 }
 
-                for (var i = 0; i < len; i++) {
-                    item = ko.unwrap(arr[i]);
-                    item.pop();
+                
+                if (self.faded()){
+                    self.faded(false);
+
+                    var movement = self.downToLeavesAndUnpopParents(arr, self);
+
+                    if (movement.top != 0 && movement.left != 0)
+                        self.moveRoot({movement: movement});
+                    
+                    for (var i = 0; i < len; i++) {
+                        item = ko.unwrap(arr[i]);
+                        if (!item.popped)
+                            item.pop();
+
+                        if (item.faded())
+                            self.faded(false);
+
+                    }
+                    self.childrenVisible(true);
+                }
+                else{
+
+                    for (var i = 0; i < len; i++) {
+                        item = ko.unwrap(arr[i]);
+
+                        if (item.popped){
+                            anyChildPopped = true;                            
+                        }
+                        else{
+                            anyChildUnPopped = true; 
+                        }
+
+                        if (anyChildPopped && anyChildUnPopped){
+                            mixPop = true;
+                            break;
+                        }
+                        //anyChildPopped = true;
+                    }
+
+                    if (!mixPop)
+                        self.childrenVisible(!self.childrenVisible());
+
+                    var childrenVisible = self.childrenVisible();
+                    for (var i = 0; i < len; i++) {
+                        item = ko.unwrap(arr[i]);
+
+                        if (childrenVisible){
+                            if (!item.popped){ 
+                                item.pop();
+                            }
+                        }
+                        else{
+                            if (item.popped){
+                                item.pop();
+                            }
+                        }
+
+                        //anyChildPopped = true;
+                    }
+
+                    if (mixPop){
+                        return;
+                    }
+
+                    var loc;
+                    if (self.childrenVisible()){
+                        if (self.parent && self.parent.moveRoot){
+                            loc = self.location();
+                            
+                            self.parent.faded(true);
+                            self.parent.moveRoot({movement: {top: -loc.top, left: -loc.left}});
+
+                            self.parent.unpopAllBut(self);
+                        }
+                    }
+                    else{
+                        if (self.parent && self.parent.moveRoot){
+                            loc = self.location();
+                            self.parent.faded(false);
+                            self.parent.moveRoot({movement: {top: loc.top, left: loc.left}});
+                        }
+                        var movement = self.downToLeavesAndUnpopParents(arr, self);
+
+                        if (movement.top != 0 && movement.left != 0)
+                            self.parent.moveRoot({movement: movement});
+                    }
+
+
+
+                    if (self.globalSettings['autoPin'].value()) {
+                        if (self.pinViewModel)
+                            self.pinViewModel.togglePin([self.pinViewModel]);
+                    }
                 }
 
-                self.childrenVisible(!self.childrenVisible());
+                // if (!currentLimeList)
+                // {
+                //     self.limeLight(!self.limeLight());
+                // }
 
-                if (self.globalSettings['autoPin'].value()) {
-                    if (self.pinViewModel)
-                        self.pinViewModel.togglePin([self.pinViewModel]);
+                
+            },
+
+            unpopAllBut: function(exclusion){
+                var self = this, arr = self.childViewModels(), len = arr.length, item;
+
+                for (var i = 0; i < len; i++) {
+                    item = ko.unwrap(arr[i]);
+                    if (item != exclusion && item.popped){
+                        item.pop();                        
+                        //item.parent.childrenVisible(false);
+                    }
+                }
+            },
+
+            downToLeavesAndUnpopParents: function(branches, originalNode){
+                
+                if (!branches) return;
+
+                var self = this, len = branches.length, item, movement = {top: 0, left: 0}, retVal, adjusted = false;
+
+                for (var i = 0; i < len; i++) {
+                    item = ko.unwrap(branches[i]);
+                    if (item){
+                        if (item.childViewModels){
+                            var arr = item.childViewModels(), childLen = arr.length;
+                            if (childLen > 0){                        
+                                retVal = item.downToLeavesAndUnpopParents(arr, originalNode);
+                                
+                                movement.top += retVal.top;
+                                movement.left += retVal.left;
+                                //return;
+                            }                                                                        
+                        }
+
+                        item.faded(false);
+                        if (originalNode != item.parent && item.popped){
+                            item.parent.childrenVisible(false);
+                            item.pop();
+
+                            if (!adjusted){
+                                var loc = item.parent.location();
+                                movement.top += loc.top;
+                                movement.left += loc.left;
+                                adjusted = true;
+                            }
+                            //self.unpopParents(node.parent, originalNode);
+                        }    
+                        //self.unpopParents(item, originalNode);
+                    } 
+                }
+                
+                
+                return movement;
+            },
+
+            unpopParents: function(node, originalNode){
+                var self = this;
+                if (originalNode != node.parent && node.parent.popped){
+                    node.parent.pop();
+                    self.unpopParents(node.parent, originalNode);
                 }
             }
             ,
