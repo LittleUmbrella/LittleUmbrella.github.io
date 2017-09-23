@@ -125,7 +125,8 @@
             var svg = document.createElement("svg");
 
             ko.virtualElements.prepend(element, nodeToPrepend)
-        },
+        }
+        ,
         update: function (element, valueAccessor, allBindingAccessors, viewModel) {
             JS.Console.puts(viewModel + ' ' + ko.unwrap(valueAccessor()));
         }

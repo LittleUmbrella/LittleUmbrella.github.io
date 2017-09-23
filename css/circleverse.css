@@ -3,7 +3,7 @@
 body
 {
     background-color: #1E2730; color: #ccc; margin:0px 0px 0px 0px;
-font: normal 11pt Tahoma, Verdana, Segoe, sans-serif;
+font: normal 8pt Tahoma, Verdana, Segoe, sans-serif;
 }
 
 .circle
@@ -72,7 +72,11 @@ position: absolute;
 
 border: 2px solid rgb(90, 107, 124);
 
-vertical-align: middle;
+display: flex;
+flex-direction:row;
+align-items: center;
+justify-content: center;
+
 background-color: #1E2730; /*#1E2730; 555557;*/
 
 /*height: 58px;
@@ -191,7 +195,8 @@ button {
 
 .drop {
 
-background-color: #1E2730; /*#1E2730 555558;
+
+  background-color: #1E2730;; /*#1E2730 555558;
 
 box-shadow: 0px 0px 15px #888888;
 
@@ -215,7 +220,6 @@ line-height: 12px;
 
 /*overflow: hidden;*/
 
-text-align: center;
 
 padding: 0 0 0 0;
 
@@ -974,6 +978,7 @@ background-position: center;*/
 
 border: 0px solid #56aee0;
 color: #666;
+fill: #666;
 /*#8fc9eb*/
 
 background-color: transparent;
@@ -1202,6 +1207,16 @@ padding: 10px;
 color:#ccc;
 }
 
+.customer-info .close-button {
+    position: absolute;
+right: 2px;
+text-decoration: none;
+top: 2px;
+font-size: 2em;
+padding: 10px;
+color:#ccc;
+}
+
 .account-ransactions {
     min-width: 600px;
     min-height: 300px;
@@ -1295,7 +1310,7 @@ background-color: #1E2730;
     height:auto !important;
     /*min-width: 40px;
     width:auto !important;*/
-	background-image: url('../media/img/spiffygif_40x40_dark.gif');
+	background-image: url('../media/img/ajax-loader.gif');
 	background-repeat: no-repeat;
 	background-position: center center;
 }
@@ -1328,7 +1343,6 @@ background-color: #1E2730;
 }
 
 .customer-info{
-  min-width: 400px;
 }
 
 svg.circleText{
@@ -1348,6 +1362,8 @@ svg.circleText text{
         text-transform: uppercase;
 }
 
+
+
 svg.circleText path {
         fill: none;
         stroke: white;
@@ -1358,4 +1374,227 @@ svg.circleText path {
     border: none !important;
     /*top: 42% !important;
     left: 43% !important;*/
+}
+/*
+form.customer-address-info input.question,
+form.customer-address-info textarea.question{
+
+    width: 70%;
+}
+
+form.customer-address-info input.question + label,
+form.customer-address-info textarea.question + label {
+  
+    width: 70%;
+}
+
+
+
+form.customer-address-info input.question + label + i.bar {       
+    
+    width: 70%;  
+}*/
+
+.drag form{
+    width: 95%;
+}
+
+form input,
+form span,
+form label,
+form textarea {
+  font-family: 'Ubuntu', sans-serif;
+  display: block;
+  margin: 10px;
+  padding: 5px;
+  border: none;
+  font-size: 22px;
+}
+
+form input, 
+form textarea{
+    
+  z-index: 30;
+}
+
+form textarea:focus,
+form input:focus {
+  outline: 0;
+}
+
+form input.question,
+form textarea.question {
+  font-size: 22px;
+  font-weight: 300;
+  border-radius: 2px;
+  margin: 0;
+  border: none;
+  width: 95%;
+  background-color: transparent;
+  position: relative;
+  transition: padding-top 0.2s ease, margin-top 0.2s ease;
+  overflow-x: hidden; 
+}
+
+form input.question + label,
+form textarea.question + label {
+  display: block;
+  position: relative;
+  white-space: nowrap;
+  padding: 0;
+  margin: 0;
+  width: 95%;
+  border-top: 1px solid #555;
+  transition: width 0.4s ease, border-top 0.4s ease;
+  height: 0px;
+}
+
+
+
+form input.question + label + i.bar {       
+    transform: scaleX(0);  
+    transition: transform 0.3s ease; 
+    border-top: 1px solid #555; 
+    height: 1px;
+    width: 95%;
+    display: block;   
+}
+
+form input.question:valid + label + i.bar,
+form input.question:focus + label + i.bar {      
+    transform: scaleX(1);    
+}
+
+form input.question:focus,
+form input.question:valid {
+  padding-top: 22px;
+}
+
+form textarea.question:valid,
+form textarea.question:focus {
+  margin-top: 22px;
+}
+
+form input.question:focus + label > span,
+form input.question:valid + label > span {
+  top: -60px;
+  font-size: 16px;
+}
+
+form textarea.question:focus + label > span,
+form textarea.question:valid + label > span {
+  top: -110px;
+  font-size: 16px;
+}
+
+form input.question:valid + label,
+form textarea.question:valid + label {
+  border-color: #8F8F8F;
+}
+
+form input.question:invalid,
+form textarea.question:invalid {
+  box-shadow: none;
+  border-color: #8F8F8F;
+}
+
+form input.question + label > span,
+form textarea.question + label > span {
+  font-weight: 300;
+  margin: 0;
+  position: absolute;
+  color: #8F8F8F;
+  font-size: 22px;
+  top: -33px;
+  left: 0px;
+  /*z-index: -1;*/
+  transition: top 0.2s ease, font-size 0.2s ease, color 0.2s ease;
+}
+
+
+form div.row{
+    margin-top: 30px;
+    /*float:left;padding:10px;*/
+}
+
+form div.title{
+    padding: 10px;
+    /*float:left;padding:10px;*/
+}
+
+form div.col{
+    width: 90%;
+    display: inline-block;
+    /*float:left;padding:10px;text-align: left;*/
+}
+
+form div.col:first-child{
+    width: auto;
+    /*float:left;padding:10px;text-align: left;*/
+}
+
+.flex-container {
+        display: flex;
+        align-items:center;
+    }
+
+    .horizontal {flex-direction:row;}
+
+    .vertical {flex-direction:column;}
+
+.vertical.customer-address{
+    width: 80%;
+}
+
+.drag .flex-grid{
+    border-radius: 50%; 
+
+}
+
+.drag .flex-grid.data, .drag .data {
+    color: rgb(90, 107, 124); 
+
+}
+
+.search-members-result.flex-grid{
+    /*font-size: 11px;*/
+}
+
+.flex-row {
+  display: flex;
+}
+.flex-row .col {
+  flex: none;
+    margin: 2px;
+}
+
+
+.aligner {
+  display: flex;
+  align-items: center;
+  justify-content: left;
+}
+
+/*.aligner-item {
+  max-width: 50%;
+}
+
+.aligner-item--top {
+  align-self: flex-start;
+}
+
+.aligner-item--bottom {
+  align-self: flex-end;
+}*/
+
+@-webkit-keyframes appear {
+  100% {
+    opacity: 1;
+  }
+}
+
+@keyframes appear {
+  100% {
+    opacity: 1;
+  }
 }

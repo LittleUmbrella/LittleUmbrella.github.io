@@ -24,7 +24,7 @@
         //}
         ,
 
-        __droppedOn: function (args, droppedFirst) {//droppedFirst, 
+        __droppedOn: function (args, droppedFirst, prom) {//droppedFirst, 
             if (!args) throw new Error("args is undefined");
             //if (!fnName) throw new Error("fnName is undefined");
 
@@ -59,23 +59,23 @@
             if (droppedFirst) {
                 if (undefined != dragViewModel && dragViewModel.dropped) {
                     if (dragViewModel)
-                        dragViewModel.dropped(dropModel, dropViewModel, args);
+                        dragViewModel.dropped(dropModel, dropViewModel, args, prom);
                 }
 
                 if (undefined != dropViewModel && dropViewModel.droppedOn) {
                     if (dropViewModel)
-                        dropViewModel.droppedOn(dragModel, dragViewModel, args);
+                        dropViewModel.droppedOn(dragModel, dragViewModel, args, prom);
                 }
             }
             else {
                 if (undefined != dropViewModel && dropViewModel.droppedOn) {
                     if (dropViewModel)
-                        dropViewModel.droppedOn(dragModel, dragViewModel, args);
+                        dropViewModel.droppedOn(dragModel, dragViewModel, args, prom);
                 }
 
                 if (undefined != dragViewModel && dragViewModel.dropped) {
                     if (dragViewModel)
-                        dragViewModel.dropped(dropModel, dropViewModel, args);
+                        dragViewModel.dropped(dropModel, dropViewModel, args, prom);
                 }
             }
 
@@ -271,16 +271,27 @@
             }
 
             self.label = ko.observable();
+            self.showLabel = ko.observable(true);
             self.labelCss = ko.observable();
 
-            self.labelData = ko.computed(function(){
-                var label = self.label(), dims = self.dimensions,
-                width = dims? dims()? dims().width: 0: 0;
 
+            self.labelData = ko.computed(function(){
+                var label = self.label(), dims = self.dimensions;
+
+                if (self.showLabel()){
+                    width = dims? dims()? dims().width: 0: 0;
+                    height = dims? dims()? dims().height: 0: 0;
+                }
+                else{          
+                    width = 0;
+                    height = 0;                  
+                }
                 return {
                     label: label, 
                     width: width, 
-                    path: self.getLablePathData(width, width),
+                    height: height,
+                    showLabel: self.showLabel(),
+                    path: self.getLablePathData(width, height),
                     id: eaf.util.getUniqueId(),
                     isReady: width != 0 && eaf.util.isDefinedAndNotNull(label),
                     css: self.labelCss()
@@ -330,19 +341,19 @@
             //weirdness
             return;
             if ('undefined' !== typeof (dd.toggle) && dd.toggle) {
-                $this.stop(true, true);
+                $this.finish(true, true);
                 if (!$this.is('input') && $this.is('.drag'))
                     $this.toggleClass('selected');
             }
 
             if ('undefined' !== typeof (dd.selected)) {
                 if (dd.selected) {
-                    $this.stop(true, true);
+                    $this.finish(true, true);
                     if (!$this.is('input') && $this.is('.drag'))
                         $this.addClass('selected');
                 }
                 else {
-                    $this.stop(true, true);
+                    $this.finish(true, true);
                     if (!$this.is('input') && $this.is('.drag'))
                         $this.removeClass('selected');
                 }
@@ -631,11 +642,18 @@
             //    repeat: 1,
             //    yoyo: true, ease: Elastic.easeOut.config(8.5, 5)
             //});
+
+            
+            if (data.viewModel.onTop)
+                data.viewModel.onTop((data.viewModel.onTop() || 0) + 1);
+                
+            var deferred = jQuery.Deferred();
             TweenMax.to(_this, 0.13, { 'scaleX': 1, 'scaleY': 1,
                 repeat: 2,
                 yoyo: true, ease: Sine.easeIn//.config(8.5, 5)
+                ,onComplete: function(){deferred.resolve();}
             });
-            this.__droppedOn(arguments, true);
+            this.__droppedOn(arguments, true, deferred);
         }
             ,
 
@@ -646,19 +664,19 @@
             var $this = $(_this);
 
             if ('undefined' !== typeof (dd.toggle) && dd.toggle) {
-                $this.stop(true, true);
+                $this.finish(true, true);
                 if (!$this.is('input'))
                     $this.toggleClass('selected');
             }
 
             if ('undefined' !== typeof (dd.selected)) {
                 if (dd.selected) {
-                    $this.stop(true, true);
+                    $this.finish(true, true);
                     if (!$this.is('input'))
                         $this.addClass('selected');
                 }
                 else {
-                    $this.stop(true, true);
+                    $this.finish(true, true);
                     if (!$this.is('input'))
                         $this.removeClass('selected');
                 }
@@ -691,10 +709,13 @@
                 data.viewModel = this;
 
 
-            TweenLite.killTweensOf(_this);
-            TweenLite.to(_this, 0.15, { 'scaleX': 1, 'scaleY': 1, ease: Sine.easeIn });
 
-            this.__dropEnded(arguments, true);
+            var deferred = jQuery.Deferred();
+            TweenLite.killTweensOf(_this);
+            TweenLite.to(_this, 0.15, { 'scaleX': 1, 'scaleY': 1, ease: Sine.easeIn
+                ,onComplete: function(){deferred.resolve();} });
+
+            this.__dropEnded(arguments, true, deferred);
         }
 
     });

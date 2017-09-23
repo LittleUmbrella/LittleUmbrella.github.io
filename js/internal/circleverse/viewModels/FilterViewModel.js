@@ -7,7 +7,13 @@ circleverse.viewModel.FilterViewModel = (function () {
     var initSize = 94;
 
  return new JS.Class('circleverse.viewModel.FilterFormViewModel', circleverse.viewModel.ResizeableBase, {
-     include: [becu_org.ui.viewModel.baseModule, becu_org.ui.viewModel.draggableModule, becu_org.ui.viewModel.droppableModule, becu_org.ui.viewModel.circleModule, circleverse.viewModel.noActionModule],
+     include: [
+         becu_org.ui.viewModel.baseModule, 
+         becu_org.ui.viewModel.draggableModule, 
+         becu_org.ui.viewModel.droppableModule, 
+         becu_org.ui.viewModel.circleModule, 
+         circleverse.viewModel.noActionModule
+         ],
 
 
      __getCoords: function () {

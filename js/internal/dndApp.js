@@ -228,7 +228,7 @@ becu_org.app = (function () {
 
                 $.drop({ mode: "overlap", multi: true, tolerance:
                         function (event, proxy, target) {
-                            return isOverlapping(proxy, target)
+                            return isOverlapping(event, proxy, target)
                         }
                     //            function (event, proxy, target) {
                     //                var r = target.width / 2, x = target.left + r, y = target.top + r,
@@ -265,13 +265,19 @@ becu_org.app = (function () {
 
 
             //thanks: http://stackoverflow.com/questions/2355208/how-can-i-stop-elements-overlapping-using-javascript-and-the-raphael-javascript-l
-            function isOverlapping(circleLocation1, circleLocation2) {
+            function isOverlapping(event, circleLocation1, circleLocation2) {
                 //            var attrs = ["cx", "cy", "r"];
                 //            var c1 = circ1.attr(attrs);
                 //            var c2 = circ2.attr(attrs);
                 //            var dist = Math.sqrt(Math.pow(c1.cx - c2.cx, 2) + Math.pow(c1.cy - c2.cy, 2));
                 //            return (dist < (c1.r + c2.r));
                 //var circ1 = $.data(circle1, 'circle'), circ2 = $.data(circle2, 'circle');
+                if ($(circleLocation2.elem).css("borderBottomLeftRadius") != "50%"){//not a circle
+                    var target = circleLocation2, proxy = circleLocation1;
+                    return Math.max(0, Math.min(target.bottom, proxy.bottom) - Math.max(target.top, proxy.top))
+				        * Math.max(0, Math.min(target.right, proxy.right) - Math.max(target.left, proxy.left));
+                }
+
                 var $circle1 = circleLocation1;
                 var $circle2 = circleLocation2;
 
@@ -371,6 +377,8 @@ becu_org.app = (function () {
                 }
             };
 
+            self.spotlightContext = ko.observable();
+
             globalSettings.globalDimensions = self.opts;
 
             var filterViewModel = new circleverse.viewModel.FilterViewModel(null, self, globalSettings);
@@ -385,13 +393,15 @@ becu_org.app = (function () {
                 // new circleverse.viewModel.favoriteViewModel(null, self, globalSettings),                
                 settingsViewModel,                
                 // new circleverse.viewModel.loginViewModel(null, self, globalSettings),                
-                // new circleverse.viewModel.garbageViewModel(null, self, globalSettings),                
+                new circleverse.viewModel.garbageViewModel(null, self, globalSettings),                
                 // new circleverse.viewModel.RefreshViewModel(null, self, globalSettings),                
                 // filterViewModel,                    
-                // new circleverse.viewModel.NewViewModel(null, self, globalSettings),                
-                // new circleverse.viewModel.EditViewModel(null, self, globalSettings),                
-                // new circleverse.viewModel.SaveViewModel(null, self, globalSettings),                
-                // new circleverse.viewModel.SearchViewModel(null, self, globalSettings)
+                new circleverse.viewModel.NewViewModel(null, self, globalSettings), 
+                new circleverse.viewModel.OpenViewModel(null, self, globalSettings), 
+                new circleverse.viewModel.CloseViewModel(null, self, globalSettings),                
+                new circleverse.viewModel.EditViewModel(null, self, globalSettings),                
+                new circleverse.viewModel.SaveViewModel(null, self, globalSettings),                
+                new circleverse.viewModel.SearchViewModel(null, self, globalSettings)
                 
             ];
 
@@ -467,9 +477,11 @@ becu_org.app = (function () {
                     allMemberCards  = new littleUmbrella.circleverse.viewModel.AllMemberCards(globalSettings),
                     allMemberInfoFormsViewModel = new littleUmbrella.circleverse.viewModel.AllMemberInfoFormsViewModel(globalSettings),
                     getCustomerViewModel = new littleUmbrella.circleverse.viewModel.GetCustomerViewModel(globalSettings),//becu = new littleUmbrella.circleverse.viewModel.BecuViewModel(services)
-                    earth = new circleverse.viewModel.earthViewModel(null, self, globalSettings);
+                    //earth = new circleverse.viewModel.earthViewModel(null, self, globalSettings),
+                    allMembersViewModel = new circleverse.viewModel.AllMembersViewModel(null, self, globalSettings);
 
-                self.earth = ko.observable(earth);
+
+                //self.earth = ko.observable(earth);
                 self.getCustomerViewModel = ko.observable(getCustomerViewModel);
                 self.allAccountTransactionsViewModel = ko.observable(allAccountTransactionsViewModel);
                 self.allMemberInfoFormsViewModel = ko.observable(allMemberInfoFormsViewModel);
@@ -477,8 +489,9 @@ becu_org.app = (function () {
 
 self.childViewModels = ko.observableArray();
                 
-                self.childViewModels.push(earth);
+                self.childViewModels.push(allMembersViewModel);
 
+                globalSettings.eventAggregator.publish('circleverse.spotlightContext', allMembersViewModel);
                 //ko.applyBindings(earth, document.getElementById('earth'));
                 //ko.applyBindings(getCustomerViewModel, document.getElementById('foundCustomers'));
                 //ko.applyBindings(allAccountTransactionsViewModel, document.getElementById('accountTransactions'));

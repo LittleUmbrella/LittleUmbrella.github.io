@@ -9,7 +9,13 @@ littleUmbrella.circleverse.viewModel.CustomerViewModel = (function () {
     };
 
     return new JS.Class('littleUmbrella.circleverse.viewModel.CustomerViewModel', circleverse.viewModel.ResizeableBase, {
-        include: [becu_org.ui.viewModel.baseModule, circleverse.viewModel.centerCircle, becu_org.ui.viewModel.draggableModule, becu_org.ui.viewModel.droppableModule, becu_org.ui.viewModel.circleModule],
+        include: [becu_org.ui.viewModel.baseModule, 
+        circleverse.viewModel.centerCircle, 
+        becu_org.ui.viewModel.draggableModule, 
+        becu_org.ui.viewModel.droppableModule, 
+        circleverse.viewModel.satellite,
+        becu_org.ui.viewModel.labelModule,
+        becu_org.ui.viewModel.circleModule],
         __getCoords: function () {
             var minTop = 0;
             var minLeft = 10;
@@ -104,25 +110,25 @@ littleUmbrella.circleverse.viewModel.CustomerViewModel = (function () {
 
             //self.childViewModels();
 
-            self.customerPurseViewModel = new circleverse.viewModel.CustomerPurseViewModel(self.rawModel(), self, globalSettings);
-            self.customerAccountsViewModel = new circleverse.viewModel.CustomerAccountsViewModel(self.rawModel().accounts, self, globalSettings);
-            self.customerWorkflowViewModel = new circleverse.viewModel.CustomerWorkflowViewModel(self.rawModel(), self, globalSettings);
-            self.customerFinanceManagementViewModel = new circleverse.viewModel.CustomerFinanceManagementViewModel(self.rawModel(), self, globalSettings);
-            self.customerFilesViewModel = new circleverse.viewModel.CustomerFilesViewModel(self.rawModel(), self, globalSettings);
-            self.customerCampaignsViewModel = new circleverse.viewModel.CustomerCampaignsViewModel(self.rawModel(), self, globalSettings);
-            self.customerContactsViewModel = new circleverse.viewModel.CustomerContactsViewModel(self.rawModel().contacts, self, globalSettings);
-            self.customerInteractionsViewModel = new circleverse.viewModel.CustomerInteractionsViewModel(self.rawModel(), self, globalSettings);
+            // self.customerPurseViewModel = new circleverse.viewModel.CustomerPurseViewModel(self.rawModel(), self, globalSettings);
+            // self.customerAccountsViewModel = new circleverse.viewModel.CustomerAccountsViewModel(self.rawModel().accounts, self, globalSettings);
+            // self.customerWorkflowViewModel = new circleverse.viewModel.CustomerWorkflowViewModel(self.rawModel(), self, globalSettings);
+            // self.customerFinanceManagementViewModel = new circleverse.viewModel.CustomerFinanceManagementViewModel(self.rawModel(), self, globalSettings);
+            // self.customerFilesViewModel = new circleverse.viewModel.CustomerFilesViewModel(self.rawModel(), self, globalSettings);
+            // self.customerCampaignsViewModel = new circleverse.viewModel.CustomerCampaignsViewModel(self.rawModel(), self, globalSettings);
+            // self.customerContactsViewModel = new circleverse.viewModel.CustomerContactsViewModel(self.rawModel().contacts, self, globalSettings);
+            // self.customerInteractionsViewModel = new circleverse.viewModel.CustomerInteractionsViewModel(self.rawModel(), self, globalSettings);
             self.customerInfoViewModel = new circleverse.viewModel.CustomerInfoViewModel(self.rawModel(), self, globalSettings);
             //self.formsViewModel = new circleverse.viewModel.FormsViewModel(self.model(), self);
 
             self.childViewModels.push(self.customerInfoViewModel);
-            self.childViewModels.push(self.customerPurseViewModel);
-            self.childViewModels.push(self.customerAccountsViewModel);
+            //self.childViewModels.push(self.customerPurseViewModel);
+            //self.childViewModels.push(self.customerAccountsViewModel);
             //self.childViewModels.push(self.customerWorkflowViewModel);
             //self.childViewModels.push(self.customerFinanceManagementViewModel);
             //self.childViewModels.push(self.customerFilesViewModel);
             //self.childViewModels.push(self.customerCampaignsViewModel);
-            self.childViewModels.push(self.customerContactsViewModel);
+            //self.childViewModels.push(self.customerContactsViewModel);
             //self.childViewModels.push(self.customerInteractionsViewModel);
 
 
@@ -149,6 +155,8 @@ littleUmbrella.circleverse.viewModel.CustomerViewModel = (function () {
                 return .2;
             } .bind(self));
 
+            self.label(self.rawModel().firstName() + ' ' + self.rawModel().lastName());
+            //self.label(self.rawModel().fullName());
 
 
             //self.productsInfo = 'Products and Services ' + self.model().fullName() + ' is using';

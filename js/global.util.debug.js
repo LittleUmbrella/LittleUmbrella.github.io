@@ -760,7 +760,7 @@ ko.bindingHandlers['fadeIn'] = {
         var $element = $(element);
         var value = valueAccessor();
         if (value === true) {
-            $element.stop(true, true);
+            $element.finish(true, true);
             $element.fadeIn('slow');
             //alert('in');
             //$(element).hide('slow');
@@ -771,7 +771,7 @@ ko.bindingHandlers['fadeIn'] = {
         var value = ko.utils.unwrapObservable(valueAccessor());
         if (value === true) {
             //alert('in');
-            $element.stop(true, true);
+            $element.finish(true, true);
             $element.fadeIn('slow');
         }
     }
@@ -783,7 +783,7 @@ ko.bindingHandlers['fadeOut'] = {
         var $element = $(element);
         var value = valueAccessor();
         if (value === true) {
-            $element.stop(true, true);
+            $element.finish(true, true);
             $element.fadeOut('slow');
             //$(element).hide('slow');
         }
@@ -793,7 +793,7 @@ ko.bindingHandlers['fadeOut'] = {
         var $element = $(element);
         var value = ko.utils.unwrapObservable(valueAccessor());
         if (value === true) {
-            $element.stop(true, true);
+            $element.finish(true, true);
             $element.fadeOut('slow');
             //$(element).hide('slow');
         }
@@ -1114,7 +1114,7 @@ ko.bindingHandlers['infoize'] = {
                 ,
                 hide: {
                     effect: function () {
-                        $(this).stop(true).hide();
+                        $(this).finish(true).hide();
                     }
                 }
             });
@@ -1129,7 +1129,7 @@ ko.bindingHandlers['scale'] = {
         var value = ko.utils.unwrapObservable(valueAccessor());
         //alert(value);
         var $this = $(element);
-        $this.stop(true, true);
+        $this.finish(true, true);
 
         if ('undefined' != typeof value.speed) {
 
@@ -1181,4 +1181,6 @@ ko.bindingHandlers['busy'] = {
 
 
     }
+
+    
 };

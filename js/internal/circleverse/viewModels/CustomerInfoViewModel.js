@@ -52,7 +52,23 @@ circleverse.viewModel.CustomerInfoViewModel = (function () {
             //    self.childViewModels.push(new circleverse.viewModel.AccountTransactionViewModel(self.rawModel()[i], self, globalSettings));
             //}
 
+            if (self.rawModel().addresses().length > 1){                    
+                self.childViewModels.push(new circleverse.viewModel.CustomerAddressesViewModel(self.rawModel(), self, globalSettings));
+            }
+            else{
+                self.childViewModels.push(new circleverse.viewModel.CustomerAddressViewModel(self.rawModel(), self, globalSettings));
+            }
+            
+            self.rawModel().addresses.subscribe(function(changes){                
+                self.childViewModels.removeAll();
+                if (changes.length > 1){                    
+                    self.childViewModels.push(new circleverse.viewModel.CustomerAddressesViewModel(self.rawModel(), self, globalSettings));
+                }
+                else{
+                    self.childViewModels.push(new circleverse.viewModel.CustomerAddressViewModel(self.rawModel(), self, globalSettings));
+                }
 
+            }, null, "change");
 
             this.childrenOnTop = ko.observable(true);
 
@@ -70,8 +86,10 @@ circleverse.viewModel.CustomerInfoViewModel = (function () {
         toggleChildrenVisibility: function () {
             var self = this, isFormVisible = self.showForm();
 
+            self.callSuper();
+
             //if (self.__isKidsLoaded)
-            self.__globalSettings.eventAggregator.publish('member.view', self);
+            //self.__globalSettings.eventAggregator.publish('member.view', self);
         }
 
             ,
@@ -83,8 +101,8 @@ circleverse.viewModel.CustomerInfoViewModel = (function () {
 
         getSettings: function () {
             var settings = this.callSuper();
-            settings.drop = false;
-            settings.not = '.koGrid, .koGrid div, .kgRow, .kgCell div, .kgHeaderCell div, .kgTopPanel, .kgColMenu, .kgFooterPanel, .kgColListItem, .kgRow.odd, .kgRow.even, .kgRow.selected, .kgGroupIcon';
+            //settings.drop = false;
+            //settings.not = '.koGrid, .koGrid div, .kgRow, .kgCell div, .kgHeaderCell div, .kgTopPanel, .kgColMenu, .kgFooterPanel, .kgColListItem, .kgRow.odd, .kgRow.even, .kgRow.selected, .kgGroupIcon';
             return settings;
         }
             ,
@@ -92,18 +110,6 @@ circleverse.viewModel.CustomerInfoViewModel = (function () {
 
         close: function () {
             this.hideCloseForm(true);
-        }
-            ,
-
-        droppedOn: function (dragModel, dragViewModel) {
-            if (dragViewModel.isA(circleverse.viewModel.accountViewModel)) {
-            }
-        }
-            ,
-
-        dropped: function (dropModel, dropViewModel, args) {
-            if (dropViewModel.isA(circleverse.viewModel.garbageViewModel)) {
-            }
         }
 
     });

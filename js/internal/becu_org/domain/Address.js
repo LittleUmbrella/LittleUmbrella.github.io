@@ -13,6 +13,12 @@ var self = this; self.callSuper();
 				self.state = ko.observable();
 				self.country = ko.observable();
 
+				self.full = ko.computed(function(){
+					return self.line1() 
+						+ (eaf.util.isNullOrWhitespace(self.line2())? "": self.line2() + "\n")
+						+ (eaf.util.isNullOrWhitespace(self.line3())? "": self.line3() + "\n")
+						+ self.city() + ', ' + self.state()  + ' ' + self.postalCode()
+				});
 			}
 		});
 	})();

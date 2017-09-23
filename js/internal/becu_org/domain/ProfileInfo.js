@@ -9,7 +9,7 @@ var self = this; self.callSuper();
 				self.lastName = ko.observable();
 				self.taxId = ko.observable();
 				self.contactInfo = ko.observable();
-				self.id = ko.observable();
+				self.address = ko.observable();
 
 			}
 		});
@@ -26,8 +26,34 @@ var self = this; self.callSuper();
 				self.lastName;
 				self.taxId;
 				self.contactInfo;
-				self.id;
-
+				self.address;
 			}
 		});
 	})();
+
+
+[
+  {
+    'repeat(5, 10)': {
+      _id: '{{objectId()}}',
+      firstName: '{{random("Wink", "Chuck", "Ingleburt")}}',
+      lastName: function () {
+				var a = {"Wink": "Martindale", "Chuck": "Woolery", "Ingleburt": "Humperdink"};
+        return a[this.firstName];
+      },
+      taxId: '{{integer(1, 9)}}{{integer(1, 9)}}{{integer(1, 9)}}{{integer(1, 9)}}{{integer(1, 9)}}{{integer(1, 9)}}{{integer(1, 9)}}{{integer(1, 9)}}{{integer(1, 9)}}',
+      dateOfBirth: '{{date()}}',
+      mothersMaidenName: '{{random("blue", "brown", "green")}}',
+	  	emailAddress: function (tags) {
+        // Email tag is deprecated, because now you can produce an email as simple as this:
+        return (this.firstName + '.' + this.lastName + '@' + this.mothersMaidenName + tags.domainZone()).toLowerCase();
+      },
+      homePhone: '{{phone()}}',
+      mobilePhone: '{{phone()}}',
+      officePhone: '{{phone()}}',
+      address: '{{integer(100, 999)}} {{street()}}, {{city()}}, {{state()}}, {{integer(100, 10000)}}',
+      
+      
+    }
+  }
+]

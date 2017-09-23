@@ -135,6 +135,44 @@
                 self.hasChildrenToggled = ko.observable(false);
 
             }
+            
+        ,
+
+        dropped: function (dropModel, dropViewModel, args, prom) {
+            var self = this;
+
+            //this.model().callSpec().add(dragModel);
+            if (dropViewModel.isA(circleverse.viewModel.OpenViewModel) || dropViewModel.isA(circleverse.viewModel.CloseViewModel)) {
+                // var methodVm = this.model().services[0].methods()[0];
+                // var need = methodVm.model().callSpec().need()[0]
+                // //$parent.getObjects.call($parent, e, model)
+                // methodVm.getObjects.call(methodVm, null, need);
+                
+
+                prom.then(function(){
+                    self.toggleChildrenVisibility();
+                });
+            }
+        }
+            ,
+        droppedOn: function (dragModel, dragVm, args, prom) {
+            var self = this;
+
+            //this.model().callSpec().add(dragModel);
+            if (dragVm.isA(circleverse.viewModel.OpenViewModel) || dragVm.isA(circleverse.viewModel.CloseViewModel)) {
+                // var methodVm = this.model().services[0].methods()[0];
+                // var need = methodVm.model().callSpec().need()[0]
+                // //$parent.getObjects.call($parent, e, model)
+                // methodVm.getObjects.call(methodVm, null, need);
+                
+
+                prom.then(function(){                    
+                    self.toggleChildrenVisibility();
+                });
+
+
+            }
+        }
             ,
 
             reevaluateShadowState: function () {
@@ -173,10 +211,12 @@
                 // }
 
 
+                var deferred = jQuery.Deferred();
                 if (!self.hasChildrenToggled()){
                     self.hasChildrenToggled(true);
                 }
 
+                var popDeferreds = [];
                 
                 if (self.faded()){
                     self.faded(false);
@@ -188,14 +228,16 @@
                     
                     for (var i = 0; i < len; i++) {
                         item = ko.unwrap(arr[i]);
-                        if (!item.popped)
-                            item.pop();
+                        if (!item.popped){
+                            popDeferreds.push(item.pop());
+                        }
 
                         if (item.faded())
                             self.faded(false);
 
                     }
                     self.childrenVisible(true);
+                    
                 }
                 else{
 
@@ -225,20 +267,29 @@
 
                         if (childrenVisible){
                             if (!item.popped){ 
-                                item.pop();
+                                popDeferreds.push(item.pop());
                             }
                         }
                         else{
                             if (item.popped){
-                                item.pop();
+                                popDeferreds.push(item.pop());
                             }
                         }
 
                         //anyChildPopped = true;
                     }
 
+                    if (popDeferreds.length == 0)
+                        deferred.resolve();
+                    else
+                        $.when.apply(null, popDeferreds).then(function(){
+                            deferred.resolve();
+                        });
+                    
+                    self.globalSettings.eventAggregator.publish('circleverse.spotlightContext', self);
+
                     if (mixPop){
-                        return;
+                        return deferred;
                     }
 
                     var loc;
@@ -247,7 +298,7 @@
                             loc = self.location();
                             
                             self.parent.faded(true);
-                            self.parent.moveRoot({movement: {top: -loc.top, left: -loc.left}});
+                            self.parent.moveRoot({movement: {top: -(loc.top), left: -(loc.left)}});
 
                             self.parent.unpopAllBut(self);
                         }
@@ -278,6 +329,7 @@
                 // }
 
                 
+                return deferred;
             },
 
             unpopAllBut: function(exclusion){

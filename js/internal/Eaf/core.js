@@ -111,7 +111,9 @@
         return false;
     };
 
-    
+    eaf.util.isNullOrWhitespace = function ( input ) {
+        return !input || !input.trim();
+    }
 
     eaf.util.isDefinedAndNotNull = function (obj) {
         if ('undefined' != typeof obj && obj != null)  return true;

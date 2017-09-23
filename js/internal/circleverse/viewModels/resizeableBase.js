@@ -22,7 +22,7 @@ circleverse.viewModel.ResizeableBase = //(function () {
                 self.size = ko.observable();
 
                 self.isAvailable = ko.observable(false);
-
+                self.globalSettings = globalSettings;
                 self.contentTemplate = ko.observable('standardContentTemplate');
                 self.mainCss = ko.observable();
                 //self.eventAggregator.subscribe('circleverse.ui.viewModel.draggableModule.dragEnd', function (dd) {
@@ -90,6 +90,17 @@ circleverse.viewModel.ResizeableBase = //(function () {
                         self.removeClass(self.mainCss, 'faded');
                     }
                 });
+
+                self.animationSettings = ko.observable();
+
+                self.canCreate = ko.observable(true);
+                self.canEdit = ko.observable(true);
+                self.canDelete = ko.observable(true);
+                self.canSearch = ko.observable(false);
+                self.canRefresh = ko.observable(true);
+                self.canSave = ko.observable(true);
+                self.canOpen = ko.observable(true);
+                self.canClose = ko.observable(true);
 
                 self.move = ko.observable({top: null, left: null}); //used to initiate animated movement.  see binding related to same
 

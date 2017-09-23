@@ -4,10 +4,11 @@
 
 circleverse.viewModel.garbageViewModel = (function () {
 
-    var initSize = 94;
+    var initSize = 60;
 
  return new JS.Class('circleverse.viewModel.garbageViewModel', circleverse.viewModel.ResizeableBase, {
-        include: [becu_org.ui.viewModel.baseModule, becu_org.ui.viewModel.draggableModule, becu_org.ui.viewModel.droppableModule, becu_org.ui.viewModel.circleModule, circleverse.viewModel.noActionModule],
+        include: [becu_org.ui.viewModel.baseModule, becu_org.ui.viewModel.draggableModule, becu_org.ui.viewModel.droppableModule, becu_org.ui.viewModel.circleModule, circleverse.viewModel.noActionModule,
+            becu_org.ui.viewModel.labelModule],
 
 
         __getCoords: function () {
@@ -26,7 +27,7 @@ circleverse.viewModel.garbageViewModel = (function () {
         }
              ,
 
-        initialize: function (object) {// (tracker, uri, templateUri, templateId, resultTemplateUri, callSpec, name, id, businessClass, opts) {
+        initialize: function (object, parent, globalSettings, opts) {// (tracker, uri, templateUri, templateId, resultTemplateUri, callSpec, name, id, businessClass, opts) {
             this.callSuper();
             //properties
 
@@ -44,8 +45,19 @@ circleverse.viewModel.garbageViewModel = (function () {
             this.location({ left: coords.left, top: coords.top });
 
 
+            self.label("Trash");
             
-            this.icon.name('icon-trash-o icon-size-3x');
+            var subscription = null;
+            globalSettings.eventAggregator.subscribe('circleverse.spotlightContext', function(eventName, args){
+                self.showMe(args.canDelete());
+                if (subscription) subscription.dispose();
+
+                subscription = args.canClose.subscribe(function(){
+                    self.showMe(args.canDelete());
+                });
+            });
+            
+            this.icon.name('icon-trash-o icon-size-2x');
             this.icon.color('#999999');
             this.borderColor('#999999');
             //log('garbage position: ' + this.position().top);

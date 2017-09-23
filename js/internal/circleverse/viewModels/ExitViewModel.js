@@ -4,7 +4,7 @@
 
 circleverse.viewModel.ExitViewModel = (function () {
 
-    var initSize = 94;
+    var initSize = 60;
 
     return new JS.Class('circleverse.viewModel.ExitViewModel', circleverse.viewModel.ResizeableBase, {
         include: [becu_org.ui.viewModel.baseModule, becu_org.ui.viewModel.draggableModule, becu_org.ui.viewModel.droppableModule, becu_org.ui.viewModel.circleModule, circleverse.viewModel.noActionModule],
@@ -45,7 +45,7 @@ circleverse.viewModel.ExitViewModel = (function () {
             this.dimensions({ height: this.scale() * initSize, width: this.scale() * initSize });
 
 
-            this.icon.name('icon-hand-o-right icon-size-3x');
+            this.icon.name('icon-hand-o-right icon-size-2x');
             
             
 

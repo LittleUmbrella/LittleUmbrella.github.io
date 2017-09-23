@@ -79,7 +79,7 @@
                         else if(positionY + $(draggable).innerHeight() > limitBottom && o.boundary) {
                             positionY = limitBottom - $(draggable).outerHeight();
                         }
-                        $(draggable).stop().animate({
+                        $(draggable).finish().animate({
                             left: positionX + 'px',
                             top: positionY + 'px'
                         }, o.speed, o.easing, function(){o.afterEachAnimation.call(draggable, Ev)});

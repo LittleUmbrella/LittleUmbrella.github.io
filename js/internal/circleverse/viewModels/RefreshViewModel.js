@@ -4,7 +4,7 @@
 
 circleverse.viewModel.RefreshViewModel = (function () {
 
-    var initSize = 94;
+    var initSize = 60;
 
     return new JS.Class('circleverse.viewModel.RefreshViewModel', circleverse.viewModel.ResizeableBase, {
         include: [becu_org.ui.viewModel.baseModule, becu_org.ui.viewModel.draggableModule, becu_org.ui.viewModel.droppableModule, becu_org.ui.viewModel.circleModule, circleverse.viewModel.noActionModule],
@@ -46,7 +46,7 @@ circleverse.viewModel.RefreshViewModel = (function () {
 
 
             
-            this.icon.name('icon-refresh icon-size-3x');
+            this.icon.name('icon-refresh icon-size-2x');
             this.icon.color('#999999');
             this.borderColor('#999999');
             //log('garbage position: ' + this.position().top);

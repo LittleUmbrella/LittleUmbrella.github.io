@@ -92,7 +92,7 @@
             }
 
             function run(elem, i) {
-                $(elem).stop().animate(aniObject[i], s.duration);
+                $(elem).finish().animate(aniObject[i], s.duration);
             }
 
             if (!s.events || !s.events.length) {

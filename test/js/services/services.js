@@ -183,7 +183,7 @@
                             ,
                             hide: {
                                 effect: function () {
-                                    $(this).stop(true).hide();
+                                    $(this).finish(true).hide();
                                 }
                             }
                         });
@@ -222,7 +222,7 @@
                             ,
                             hide: {
                                 effect: function () {
-                                    $(this).stop(true).hide();
+                                    $(this).finish(true).hide();
                                 }
                             }
                         });
@@ -263,7 +263,7 @@
                             ,
                             hide: {
                                 effect: function () {
-                                    $(this).stop(true).hide();
+                                    $(this).finish(true).hide();
                                 }
                             }
                         });

@@ -5,10 +5,11 @@
 circleverse.viewModel.settingsViewModel = (function () {
 
 
-    var initSize = 94;
+    var initSize = 60;
 
  return new JS.Class(circleverse.viewModel.ResizeableBase, {
-     include: [becu_org.ui.viewModel.baseModule, becu_org.ui.viewModel.draggableModule, becu_org.ui.viewModel.droppableModule, becu_org.ui.viewModel.circleModule, circleverse.viewModel.noActionModule],
+     include: [becu_org.ui.viewModel.baseModule, becu_org.ui.viewModel.draggableModule, becu_org.ui.viewModel.droppableModule, becu_org.ui.viewModel.circleModule, circleverse.viewModel.noActionModule,
+            becu_org.ui.viewModel.labelModule],
 
 
      __getCoords: function () {
@@ -58,6 +59,9 @@ circleverse.viewModel.settingsViewModel = (function () {
          var coords = self.__getCoords();
          self.location({ left: coords.left, top: coords.top });
 
+         
+         self.label("Settings");
+
          var defaultSettings = {};
 
          defaultSettings['theme'] = { displayTitle: 'Theme', value: ko.observable('light'), options: self.__getThemes() };
@@ -104,7 +108,7 @@ circleverse.viewModel.settingsViewModel = (function () {
             self.setTheme(self.appSettings['theme'].value());
 
             
-            self.icon.name('icon-gear icon-size-3x');
+            self.icon.name('icon-gear icon-size-2x');
             self.icon.color('#999999');
             self.borderColor('#999999');
         }

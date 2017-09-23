@@ -10,17 +10,12 @@
 	            self.taxId = ko.observable();
 	            self.dateOfBirth = ko.observable();
 	            self.mothersMaidenName = ko.observable();
-	            self.addressLine1 = ko.observable();
-	            self.addressLine2 = ko.observable();
-	            self.city = ko.observable();
-	            self.state = ko.observable();
-	            self.zip = ko.observable();
-	            self.country = ko.observable();
 	            self.homePhone = ko.observable();
 	            self.mobilePhone = ko.observable();
 	            self.officePhone = ko.observable();
 	            self.faxNumber = ko.observable();
 	            self.emailAddress = ko.observable();
+				self.addresses = ko.observableArray();
 
 	            self.icon = ko.observable();
 
@@ -43,19 +38,49 @@ var self = this; self.callSuper();
 				self.taxId;
 				self.dateOfBirth;
 				self.mothersMaidenName;
-				self.addressLine1;
-				self.addressLine2;
-				self.city;
-				self.state;
-				self.zip;
-				self.country;
 				self.homePhone;
 				self.mobilePhone;
 				self.officePhone;
 				self.faxNumber;
 				self.emailAddress;
+				self.addresses;
 				self.icon;
 
 			}
 		});
 	})();
+
+/*
+[
+  {
+    'repeat(5, 10)': {
+      id: '{{index()}}',
+      firstName: '{{random("Wink", "Chuck", "Ingleburt")}}',
+      lastName: function () {
+				var a = {"Wink": "Martindale", "Chuck": "Woolery", "Ingleburt": "Humperdink"};
+        return a[this.firstName];
+      },
+      taxId: '{{integer(1, 9)}}{{integer(1, 9)}}{{integer(1, 9)}}{{integer(1, 9)}}{{integer(1, 9)}}{{integer(1, 9)}}{{integer(1, 9)}}{{integer(1, 9)}}{{integer(1, 9)}}',
+      dateOfBirth: '{{date()}}',
+      mothersMaidenName: '{{random("blue", "brown", "green")}}',
+	  	emailAddress: function (tags) {
+        // Email tag is deprecated, because now you can produce an email as simple as this:
+        return (this.firstName + '.' + this.lastName + '@' + this.mothersMaidenName + tags.domainZone()).toLowerCase();
+      },
+      homePhone: '{{phone()}}',
+      mobilePhone: '{{phone()}}',
+      officePhone: '{{phone()}}',
+      addresses: [
+        {
+          'repeat(3)': {
+            line1: '{{integer(100, 999)}} {{street()}}',
+			city: '{{city()}}',
+			state: '{{state()}}',
+			postalCode: '{{integer(10000, 90000)}}'
+          }
+        }
+      ]
+    }
+  }
+]
+*/

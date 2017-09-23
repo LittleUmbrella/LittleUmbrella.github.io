@@ -884,6 +884,109 @@ function attachPagedArrayBehavior(array, element, options) {
     element.data('pagedArray', pagedArrayViewModel);
 };
 
+    ko.bindingHandlers['util'] = ko.bindingHandlers['util'] || {};
+
+    ko.bindingHandlers['util'].truncate = function (text, length, ellipses) {
+
+        if (text == null) return text;
+
+        if (null == text)
+            throw new Error("must provide a text property");
+
+        if (null == length)
+            throw new Error("must provide a length property");
+
+        if (text.toString().length <= length) return text;
+
+        ellipses = ellipses || "...";
+
+        return text.toString().substring(0, length) + ellipses;
+    }
+
+    var truncatedTextOrValue = function (value, element, binding) {
+
+        if (value && value.length > 0) {
+            var text = ko.utils.unwrapObservable(value.text),
+                length = ko.utils.unwrapObservable(value.length),
+                ellipses = ko.utils.unwrapObservable(value.ellipses);
+
+            var truncated = ko.bindingHandlers['util'].truncate(text, length, ellipses);
+
+            ko.bindingHandlers[binding].update(element, function () { return truncated });
+        }
+    }
+
+    ko.bindingHandlers['util'].coalesce = function (arr) {
+        var values = ko.utils.unwrapObservable(arr), winner;
+
+        if (values) {
+            //if not array, error
+            if (!$.isArray(values))
+                throw new Error(values.toString() + ' is not an array');
+
+            var len = values.length;
+
+            for (var i = 0; i < len; i++) {
+                winner = ko.utils.unwrapObservable(values[i]);
+                if (winner)
+                    break;
+            }
+        }
+
+        return winner;
+    }
+
+    var coalesceTextOrValue = function (value, element, binding) {
+
+            
+
+        ko.bindingHandlers[binding].update(element, function () { return ko.bindingHandlers['util'].coalesce(value) });
+            
+        
+    }
+
+
+    ko.bindingHandlers['coalesceText'] = {
+
+        'update': function (element, valueAccessor, allBindingsAccessor, viewModel) {
+            var value = ko.utils.unwrapObservable(valueAccessor());
+
+            truncatedTextOrValue(value, element, 'text');
+
+        }
+    };
+
+    ko.bindingHandlers['coalesceValue'] = {
+
+        'update': function (element, valueAccessor, allBindingsAccessor, viewModel) {
+            var value = ko.utils.unwrapObservable(valueAccessor());
+
+            truncatedTextOrValue(value, element, 'value');
+
+        }
+    };
+
+    ko.bindingHandlers['truncatedText'] = {
+
+        'update': function (element, valueAccessor, allBindingsAccessor, viewModel) {
+            var value = ko.utils.unwrapObservable(valueAccessor());
+            
+            truncatedTextOrValue(value, element, 'text');
+
+        }
+    };
+
+    ko.bindingHandlers['truncatedValue'] = {
+
+        'update': function (element, valueAccessor, allBindingsAccessor, viewModel) {
+            var value = ko.utils.unwrapObservable(valueAccessor());
+
+            truncatedTextOrValue(value, element, 'value');
+
+        }
+    };
+
+
 ko.bindingHandlers['unparent'] = {
     init: function (element, valueAccessor, allBindingAccessors) {
 
@@ -960,7 +1063,7 @@ ko.bindingHandlers['fadeDelete'] = {
         var value = ko.unwrap(valueAccessor());
         if (value === true) {
             var $element = $(element);
-            $element.stop(true, true);
+            $element.finish(true, true);
             $element.fadeOut('slow');
             //$(element).hide('slow');
         }
@@ -969,7 +1072,7 @@ ko.bindingHandlers['fadeDelete'] = {
         var value = ko.unwrap(valueAccessor());
         if (value === true) {
             var $element = $(element);
-            $element.stop(true, true);
+            $element.finish(true, true);
             $element.fadeOut('slow', function () {
                 $element.remove();
                 //element.parentNode.removeChild(element);
@@ -986,7 +1089,7 @@ ko.bindingHandlers['fadeIn'] = {
         var $element = $(element);
         var value = ko.unwrap(valueAccessor());
         if (value === true) {
-            $element.stop(true, true);
+            $element.finish(true, true);
             $element.fadeIn('slow');
             //alert('in');
             //$(element).hide('slow');
@@ -997,7 +1100,7 @@ ko.bindingHandlers['fadeIn'] = {
         var value = ko.unwrap(valueAccessor());
         if (value === true) {
             //alert('in');
-            $element.stop(true, true);
+            $element.finish(true, true);
             $element.fadeIn('slow');
         }
     }
@@ -1009,7 +1112,7 @@ ko.bindingHandlers['fadeOut'] = {
         var $element = $(element);
         var value = ko.unwrap(valueAccessor());
         if (value === true) {
-            $element.stop(true, true);
+            $element.finish(true, true);
             $element.fadeOut('slow');
             //$(element).hide('slow');
         }
@@ -1019,7 +1122,7 @@ ko.bindingHandlers['fadeOut'] = {
         var $element = $(element);
         var value = ko.unwrap(valueAccessor());
         if (value === true) {
-            $element.stop(true, true);
+            $element.finish(true, true);
             $element.fadeOut('slow');
             //$(element).hide('slow');
         }
@@ -1031,12 +1134,12 @@ ko.bindingHandlers['fadeToggle'] = {
         var $element = $(element);
         var value = ko.unwrap(valueAccessor());
         if (value === true) {
-            $element.stop(true, true);
+            $element.finish(true, true);
             $element.fadeOut('fast');
             //$(element).hide('slow');
         }
         else if (value === false) {
-            $element.stop(true, true);
+            $element.finish(true, true);
             $element.fadeIn('fast');
             //$(element).hide('slow');
         }
@@ -1587,7 +1690,7 @@ ko.bindingHandlers['fadeTo'] = {
                 //startTop = coords.bottom - coords.height;
                 //startLeft = coords.left;
 
-                $elementOrClone.stop(true, true);
+                $elementOrClone.finish(true, true);
                 // shrink$element
                 $elementOrClone.appendTo(document.body);
                 $elementOrClone
@@ -1704,7 +1807,7 @@ ko.bindingHandlers['scale'] = {
         var value = ko.unwrap(valueAccessor());
         //alert(value);
         var $this = $(element);
-        $this.stop(true, true);
+        $this.finish(true, true);
 
         if ('undefined' != typeof value.speed) {
 
@@ -1745,10 +1848,17 @@ ko.bindingHandlers['busy'] = {
         //            options = { message: 'Please wait...' };
         //        }
         $.blockUI.defaults.css = $.extend($.blockUI.defaults.css, { border: 'none', backgroundColor: 'transparent' });
-        $.extend($.blockUI.defaults.overlayCSS, { 'box-shadow': 'rgba(0, 0, 0, 0.8) 0px 0px 0px 2px' }); //{ opacity: 0.8, background: 'white' };
+        //circlular $.extend($.blockUI.defaults.overlayCSS, { 'box-shadow': 'rgba(0, 0, 0, 0.8) 0px 0px 0px 2px' }); //{ opacity: 0.8, background: 'white' };
+        $.blockUI.defaults.overlayCSS = { opacity: 0.5, background: 'white' };
+            
         //todo: copy all scale, border-radius and rotation settings
         var transformMimicryOps = {
             message: " "
+            , overlayCSS: {
+                //Four values: first value applies to top-left, second value applies to top-right, third value applies to bottom-right, and fourth value applies to bottom-left corner
+                'border-radius': $this.css("borderTopLeftRadius") + ' ' + $this.css("borderTopRighttRadius") + ' ' + $this.css("borderBottomRightRadius") + ' ' + $this.css("borderBottomLeftRadius")
+            }
+            
         }
 
         var options = $.extend(transformMimicryOps, options);
@@ -1760,6 +1870,38 @@ ko.bindingHandlers['busy'] = {
             $this.unblock();
         }
 
+
+    }
+};
+
+
+
+ko.bindingHandlers['what'] = {
+    //init: function (elem, valueAccessor) {
+    //    return { controlsDescendantBindings: true };
+    //},
+    'update': function (element, valueAccessor) {
+        //return; //block seems to have a memory leak???
+
+        var value = ko.utils.unwrapObservable(valueAccessor());
+        //alert(value);
+        var $this = $(element);
+        
+        $this.empty();
+
+
+        if (value){
+            if (value.klass){
+                var $newdiv = $( "<div>class: " + value.klass + "</div>" )
+                $this.append($newdiv);                
+            }
+            
+            for (n in value){
+                
+                var $newdiv = $( "<div>" + n + ' ' + ko.unwrap(value[n]) + "</div>" )
+                $this.append($newdiv);
+            }
+        }
 
     }
 };
@@ -2414,4 +2556,68 @@ ko.bindingHandlers.cleditor.__getNextFocusable = function ($start) {
     }
 }
 
+
+
+ko.bindingHandlers.grow = {
+        //init: function (element, valueAccessor, allBindingAccessors) {
+        //    var $element = $(element),
+        //        value = ko.unwrap(valueAccessor()),
+        //        satellite = ko.unwrap(value.satellite),
+        //        visibilityPropName = ko.unwrap(value.visibilityPropName) || 'hideChildren';
+
+        //    if (satellite[visibilityPropName]()) {
+        //        $element.hide();
+        //    }
+        //}
+        //,
+        'update': function (element, valueAccessor, allBindingAccessors) {
+            var value = ko.unwrap(valueAccessor()),
+                $element = $(element),
+                toOrFrom = 'undefined' == typeof ko.unwrap(value.toOrFrom) ? 'to': ko.unwrap(value.toOrFrom),
+                vm = ko.unwrap(value.vm),                
+                animationLength = 'undefined' == typeof ko.unwrap(value.animationLength) ? .4 : ko.unwrap(value.animationLength),
+                //offset = 'undefined' == typeof ko.unwrap(value.offset) ? true: ko.unwrap(value.offset),
+                //left = ko.unwrap(value.left),
+                //top = ko.unwrap(value.top),
+                disabled = 'undefined' == typeof ko.unwrap(value.disabled) ? false : ko.unwrap(value.disabled),
+                animationSettings = ko.unwrap(value.animationSettings)
+                // width = ko.unwrap(value.width),
+                // height = ko.unwrap(value.height),
+                // borderRadius = 'undefined' == typeof ko.unwrap(value.borderRadius) ? 20: ko.unwrap(value.borderRadius),
+                // callback = ('undefined' == typeof value.callback)? function () { }: value.callback,
+                // animationLength = 'undefined' == typeof ko.unwrap(value.animationLength) ? .3 : ko.unwrap(value.animationLength),
+                //opacity = 0, //'undefined' == typeof ko.unwrap(value.opacity) ? 0 : ko.unwrap(value.opacity),
+                //delay = ko.unwrap(value.delay)
+                ;
+
+            if (!animationSettings) return;
+
+            if ('undefined' == typeof animationSettings.borderRadius) animationSettings.borderRadius = 20;
+            if ('undefined' == typeof animationSettings.onComplete) animationSettings.onComplete = function () { };
+            if ('undefined' == typeof animationSettings.animationLength) animationSettings.animationLength = .3 ;
+
+            //don't do anything on initial bind
+            if (ko.computedContext.isInitial() || disabled) {
+                return;
+            }
+
+            var settings = {};
+
+            for(n in animationSettings){
+                if (animationSettings.hasOwnProperty(n))
+                    settings[n] = animationSettings[n];
+            }
+
+            // if (offset){
+            //     var existingTop = parseInt($element.css('top'));
+            //     var existingLeft = parseInt($element.css('left'));
+
+            //     top += existingTop;
+            //     left += existingLeft;
+            // }                
+
+                
+            TweenLite[toOrFrom](element, animationLength, settings);
+        }
+    };
                                 

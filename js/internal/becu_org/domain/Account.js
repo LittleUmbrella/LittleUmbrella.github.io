@@ -19,6 +19,7 @@ var self = this; self.callSuper();
 				self.pendingPayments = ko.observableArray();
 				self.financialEntity = ko.observable();
 				self.product = ko.observable();
+				self.addresses = ko.observableArray();
 
 			}
 		});
@@ -45,6 +46,7 @@ var self = this; self.callSuper();
 				self.pendingPayments = [];
 				self.financialEntity;
 				self.product;
+				self.addresses;
 
 			}
 		});

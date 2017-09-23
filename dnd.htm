@@ -43,7 +43,7 @@
             height:auto !important;
             /*min-width: 40px;
             width:auto !important;*/
-	        background-image: url('../media/img/ajax-loader-small.gif');
+	        background-image: url('../media/img/ajax-loader.gif');
 	        background-repeat: no-repeat;
 	        background-position: center center;
         }
@@ -125,14 +125,8 @@
                 class="drag drop service circle"
                 style=''>
 
-                <div class="wrapper">
-                    <div class="floater">
-                        <div class="center-container">
                             <div data-bind="text: model().name" />
-                        </div>
-
-                    </div>
-                </div>
+                        
             </div>
 
             <!-- /ko -->
@@ -150,6 +144,9 @@
                 class="drag drop circle tool backgroundCenter refresh ">
 
                 <i data-bind="css: icon.name, style: { 'line-height': dimensions().height + 'px' }"></i>
+                <!-- ko if: isA(becu_org.ui.viewModel.labelModule) && labelData().isReady -->               
+                    <!-- ko template: { name: 'circleTextTemplate', data: labelData } --><!-- /ko -->
+                <!-- /ko -->
             </div>
         </script>
         
@@ -167,6 +164,9 @@
                 class="drag drop circle tool form-entry backgroundCenter settings">
 
                 <i data-bind="css: icon.name, style: { 'line-height': dimensions().height + 'px' }"></i>
+                <!-- ko if: isA(becu_org.ui.viewModel.labelModule) && labelData().isReady -->               
+                    <!-- ko template: { name: 'circleTextTemplate', data: labelData } --><!-- /ko -->
+                <!-- /ko -->
             </div>
         </script>
 
@@ -310,6 +310,75 @@
             </div>
         <!-- /ko -->
 
+
+        
+        <script type="text/html" id="findMemebersTemplate">
+            <form class="customer-info flex-container vertical" style="left: inherit; top: inherit;" >
+
+                          <!--<div data-bind="style: {
+                              'background-image': 'url(' + memberIcon() + ')'
+                          }" class="circle person member-form center-container-fixed">
+                          </div>-->
+                <div class="title">
+                    <i class="icon-search icon-size-3x"/>
+                          </div>
+
+                <div>
+                    <div class="row">
+                        <div class="col">
+                        <i class="icon-user icon-size-2x"></i>
+                        </div>
+                        <div class="col">
+                            <input type="text" id="firstName" data-bind="value: firstName" class="question" required/>
+                            <label for="firstName">
+                                <span>First Name</span>
+                            </label>    
+                            <i class="bar"></i>                  
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col">
+                        <i class="icon-user icon-size-2x"></i>
+                        </div>
+                        <div class="col">
+                            <input type="text" id="lastName" data-bind="value: lastName" class="question" required/>
+                            <label for="lastName">
+                                <span>Last Name</span>
+                            </label>    
+                            <i class="bar"></i>                  
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col">
+                        <i class="icon-profile icon-size-2x"></i>
+                        </div>
+                        <div class="col">
+                            <input type="text" id="taxId" data-bind="value: taxId" class="question" required/>
+                            <label for="taxId">
+                                <span>Tax ID</span>
+                            </label>    
+                            <i class="bar"></i>                  
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                        <i class="icon-hash icon-size-2x"></i>
+                        </div>
+                        <div class="col">
+                            <input type="text" id="id" data-bind="value: id" class="question" required/>
+                            <label for="id">
+                                <span>Person / Org Number</span>
+                            </label>
+                            <i class="bar"></i>
+                        </div>
+                        
+                    </div>
+                </div>
+            </form>
+        </script>
+
         <!--*********************
 
                     END VARIOUS FORMS
@@ -321,7 +390,8 @@
         <!-- ko foreach: allAccountTransactionsViewModel().accountTransactionsViewModels -->
 
             <div data-bind="busy: isBusy, center: $data, drag: $data, visible: showForm, onTop: showForm" class="drag drop form-container center account-ransactions" style="display: none;">
-                <a href="javascript:;" data-bind="click: toggleMainForm" class="close-button icon-close"></a>
+                <a href="javascript:;" data-bind="event: { 'click': function (data, e) { toggleMainForm(data, e); e.cancelBubble = true; if (e.stopPropagation) e.stopPropagation() } }
+            , 'tap': function (data, e) { toggleMainForm(data, e); e.cancelBubble = true; if (e.stopPropagation) e.stopPropagation() }" class="close-button icon-close"></a>
                 <div style="float:left;padding:10px;">
                     <div style="float:left;padding:10px;">
 
@@ -374,18 +444,11 @@
                 </div>-->
 
 
-                <div class="wrapper">
-                    <div class="floater">
-                        <div class="center-container">
                             <!-- ko ifnot: icon.url() -->
                             <i data-bind="css: icon.name"></i>
                             <div data-bind="text: model().firstName() + ' ' + model().lastName() "></div>
                             <!-- /ko -->
 
-                        </div>
-
-                    </div>
-                </div>
 
                 <div data-bind="fadeToggle: hideMainForm" style="display: none;" class="drag drop entry-form center person">
                     <div
@@ -717,31 +780,39 @@
 
 
     <script type="text/html" id="genericChildTemplate">
-        <!-- ko if: $data.isA(circleverse.viewModel.SatelliteNavigatorViewModel) -->
+        <!-- ko if: $data.isA(circleverse.viewModel.SpecialViewViewModel) -->
 
-            <!-- ko template: { name: 'navigationTemplate' } --><!-- /ko -->
+            <!-- ko template: { name: templateName } --><!-- /ko -->
             
         <!-- /ko -->
-        <!-- ko ifnot: $data.isA(circleverse.viewModel.SatelliteNavigatorViewModel) -->
-            
-            <!-- ko if: $data.isA(circleverse.viewModel.centerCircle) -->
+        <!-- ko ifnot: $data.isA(circleverse.viewModel.SpecialViewViewModel) -->
+            <!-- ko if: $data.isA(circleverse.viewModel.SatelliteNavigatorViewModel) -->
+
+                <!-- ko template: { name: 'navigationTemplate' } --><!-- /ko -->
                 
-                <!-- ko if: $data.isA(circleverse.viewModel.NavigableSatellite) -->
-                    <!-- ko template: { name: 'navigableParentChildTemplate' } --><!-- /ko -->
-                <!-- /ko -->
-                <!-- ko ifnot: $data.isA(circleverse.viewModel.NavigableSatellite) -->
-                    <!-- ko template: { name: 'standardParentChildTemplate' } --><!-- /ko -->
-                <!-- /ko -->
             <!-- /ko -->
+            <!-- ko ifnot: $data.isA(circleverse.viewModel.SatelliteNavigatorViewModel) -->
+                
+                <!-- ko if: $data.isA(circleverse.viewModel.centerCircle) -->
+                    
+                    <!-- ko if: $data.isA(circleverse.viewModel.NavigableSatellite) -->
+                        <!-- ko template: { name: 'navigableParentChildTemplate' } --><!-- /ko -->
+                    <!-- /ko -->
+                    <!-- ko ifnot: $data.isA(circleverse.viewModel.NavigableSatellite) -->
+                        <!-- ko template: { name: 'standardParentChildTemplate' } --><!-- /ko -->
+                    <!-- /ko -->
+                <!-- /ko -->
 
-            <!-- ko ifnot: $data.isA(circleverse.viewModel.centerCircle) -->
-                <!-- ko template: { name: 'standardChildTemplate' } --><!-- /ko -->
+                <!-- ko ifnot: $data.isA(circleverse.viewModel.centerCircle) -->
+                    <!-- ko template: { name: 'standardChildTemplate' } --><!-- /ko -->
+                <!-- /ko -->
+                
             <!-- /ko -->
-            
         <!-- /ko -->
+        
     </script>
     <script type="text/html" id="standardChildTemplate">        
-        <div data-bind="dragdrop: $data, style: {
+        <div data-bind="busy: isBusy,dragdrop: $data, style: {
                 'left': location().left + 'px'
             , 'top': location().top + 'px'
             , 'width': dimensions().width + 'px'
@@ -750,9 +821,8 @@
             },
             css: mainCss
             , visible: showMe, satellitePopInOut: { base: $data.parent, satellite: $data, callback: popAnimationEnded }
-            , event: { 'click': function (data, e) { toggleChildrenVisibility(data, e); e.cancelBubble = true; if (e.stopPropagation) e.stopPropagation() } }
-            , 'tap': function (data, e) { toggleChildrenVisibility(data, e); e.cancelBubble = true; if (e.stopPropagation) e.stopPropagation() }
             , animatedMove: {satellite: $data, callback: moveEnded, top: move().top, left: move().left}
+            , grow: {vm: $data, animationSettings: animationSettings}
             "
             class="drag drop circle"
             style="display: none;" >
@@ -765,7 +835,7 @@
         </div>
     </script>
     <script type="text/html" id="standardParentChildTemplate">        
-        <div data-bind="
+        <div data-bind="busy: isBusy,
             dragdrop: $data
             , style: {
                 'left': location().left + 'px'
@@ -778,10 +848,9 @@
             , visible: showMe
             , busy: isBusy
             , onTop: onTop
-            , event: { 'click': function (data, e) { toggleChildrenVisibility(data, e); e.cancelBubble = true; if (e.stopPropagation) e.stopPropagation() } }
-            , 'tap': function (data, e) { toggleChildrenVisibility(data, e); e.cancelBubble = true; if (e.stopPropagation) e.stopPropagation() }
             , satellitePopInOut: { base: $data.parent, satellite: $data, callback: popAnimationEnded, index: $index() }
             , animatedMove: {satellite: $data, callback: moveEnded, top: move().top, left: move().left}
+            , grow: {vm: $data, animationSettings: animationSettings}
 "
                         class="drag drop circle"
                         style="display: none;">
@@ -798,7 +867,7 @@
             <!-- /ko -->
         </div>
     <script type="text/html" id="navigableParentChildTemplate">        
-        <div data-bind="
+        <div data-bind="busy: isBusy,
             dragdrop: $rawData
             , style: {
                 'left': location().left + 'px'
@@ -813,10 +882,9 @@
             , busy: isBusy
             , pulse: pulse
             , onTop: onTop
-            , event: { 'click': function (data, e) { toggleChildrenVisibility(data, e); e.cancelBubble = true; if (e.stopPropagation) e.stopPropagation() } }
-            , 'tap': function (data, e) { toggleChildrenVisibility(data, e); e.cancelBubble = true; if (e.stopPropagation) e.stopPropagation() }
             , satellitePopInOut: { disabled: isBeingFiltered, base: $data.parent, satellite: $rawData, callback: popAnimationEnded, index: $index() }
             , animatedMove: {satellite: $data, callback: moveEnded, top: move().top, left: move().left}
+            , grow: {vm: $data, animationSettings: animationSettings}
 "
                         class="drag drop account service circle {size: 100} filterable"
                         style="display: none;">
@@ -841,29 +909,16 @@
     </script>
     <script type="text/html" id="fiContentTemplate">
               
-        <div class="wrapper">
-            <div class="floater">
-                <div class="center-container">
         FI      
-                </div>
-
-            </div>
-        </div>  
     </script>
-    <script type="text/html" id="accountContentTemplate">        
-        <div class="wrapper">
-            <div class="floater">
-                <div class="center-container">
+    <script type="text/html" id="accountContentTemplate">   
                     <i data-bind="css: icon.name"></i>
 
                     <!-- ko with: model -->
                     <div data-bind="text: accountNumber"></div>
                     <div data-bind="format: { format: 'c', value: balance }"></div>
                     <!-- /ko -->
-                </div>
-
-            </div>
-        </div>
+               
     </script>
 
 
@@ -891,7 +946,7 @@
     </script>
 
     <script type="text/html" id="circleTextTemplate">
-        <svg class="circleText" data-bind="attr: {'width': width, 'height': width}">
+        <svg class="circleText" data-bind="attr: {'width': width, 'height': height}, visible: showLabel">
             <defs>
                 <path data-bind="attr: {'d': path, 'id': id}"></path>
             </defs>
@@ -911,6 +966,107 @@
                 <textPath startOffset="50%" xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#curvedTextPath">Hello, world!</textPath>
             </text>
         </svg>-->
+    </script>
+
+
+    
+    
+    
+    <script type="text/html" id="CustomerAddressViewModelContentTemplate"> 
+        
+        <!-- ko with: model --> 
+            <div class="flex-container vertical customer-address">         
+            
+                <i class="icon-address icon-size-2x"> </i><span class="data" data-bind="text: full"></span>
+            </div>
+        <!-- /ko -->
+    </script>
+
+    
+    
+    <script type="text/html" id="CustomerAddressEditViewModelContentTemplate"> 
+        
+        <!-- ko with: model --> 
+            
+            
+            <form class="customer-address-info" >
+                <div class="row">
+                    <div class="col">
+                      <i class="icon-address icon-size-2x"></i>
+                    </div>
+                    <div class="col">
+                        <input type="text" id="full" data-bind="value: full" class="question" required/>
+                        <label for="full">
+                            <span>Address</span>
+                        </label>    
+                        <i class="bar"></i>                  
+                    </div>
+                </div>
+            </form>
+        <!-- /ko -->
+    </script>
+
+    <script type="text/html" id="SearchMembersResultViewModelContentTemplate"> 
+        
+        <!-- ko with: model --> 
+                <div class="flex-grid search-members-result data">
+                    <div class="flex-row aligner">
+                        <div class="col">
+                            <i class="icon-user icon-size-2x"></i>            
+                        </div>
+                        <div class="col">
+                             <span data-bind="truncatedText: {text: name, length: 15}"></span>            
+                        </div>
+                    </div>
+                    
+                    <div class="flex-row aligner">
+                        <div class="col">
+                            <i class="icon-id icon-size-2x"></i>            
+                        </div>
+                        <div class="col">
+                             <span data-bind="truncatedText: {text: taxId, length: 15}"></span>            
+                        </div>
+                    </div>
+                    
+                    <div class="flex-row aligner">
+                        <div class="col">
+                            <i class="icon-clock icon-size-2x"></i>            
+                        </div>
+                        <div class="col">
+                             <span data-bind="truncatedText: {text: age, length: 15}"></span>            
+                        </div>
+                    </div>
+                </div>
+        <!-- /ko -->
+    </script>
+
+    <script type="text/html" id="SearchMembersResultsViewModelTemplate"> 
+        <div data-bind="busy: isBusy, center: $data, drag: $data         
+            , style: {
+                'left': location().left + 'px'
+            , 'top': location().top + 'px'
+            , 'width': dimensions().width + 'px'
+            , 'height': dimensions().height + 'px'
+
+            },
+            css: mainCss
+            , visible: showMe, satellitePopInOut: { base: $data.parent, satellite: $data, callback: popAnimationEnded }
+            , event: { 'click': function (data, e) { e.cancelBubble = true; if (e.stopPropagation) e.stopPropagation() } }
+            , 'tap': function (data, e) { e.cancelBubble = true; if (e.stopPropagation) e.stopPropagation() }
+            , animatedMove: {satellite: $data, callback: moveEnded, top: move().top, left: move().left}
+            , grow: {vm: $data, animationSettings: animationSettings}
+            " class="drag drop form-container center account-ransactions" style="display: none;">
+            <a href="javascript:;" class="close-button icon-close"></a>
+                
+                <div class="clear"></div>
+                <!--<div class="gridStyle" data-bind="koGrid: {
+                    data: searchResults,
+                    columnDefs: [{ field: 'lastName', displayName: 'Name' }, { field: 'taxId', displayName: 'Tax ID' }, { field: 'dateOfBirth', displayName: 'DOB' }]
+                }" ></div>-->
+                <!-- ko foreach: searchResults-->  
+                    
+                <!-- /ko -->
+        </div>
     </script>
 
     <script type="text/html" id="Script2">
@@ -975,7 +1131,8 @@
         $.blockUI({ message: " " }, null);
         //});
 
-        JS.require('jQuery.migrateWarnings', 'PubSub', 'becu_org.app', 'ko.mapping', 'JSextend', 'JS.Class', 'JS.Console', 'TweenMax', 'jQuery.fn.qtip', 'eaf.util', 'eaf.core', 'jQuery.event.special.dragx', 'jQuery.event.special.dropx', 'littleUmbrella.circleverse.ui.app.bindings', 'circleverse.viewModel.garbageViewModel', 'circleverse.viewModel.SearchViewModel', 'circleverse.viewModel.RefreshViewModel', 'circleverse.viewModel.FilterViewModel', 'circleverse.viewModel.FilterFormViewModel', 'circleverse.viewModel.ExitViewModel', 'circleverse.viewModel.settingsViewModel', 'circleverse.viewModel.favoriteViewModel', 'circleverse.viewModel.helpViewModel', 'circleverse.viewModel.loginViewModel', function () {
+        JS.require('jQuery.migrateWarnings', 'PubSub', 'becu_org.app', 'ko.mapping', 'JSextend', 'JS.Class', 'JS.Console', 'TweenMax', 'jQuery.fn.qtip', 'eaf.util', 'eaf.core', 'jQuery.event.special.dragx', 'jQuery.event.special.dropx', 'littleUmbrella.circleverse.ui.app.bindings',
+        'becu_org.ob.services.Repository', 'circleverse.viewModel.garbageViewModel', 'circleverse.viewModel.CloseViewModel', 'circleverse.viewModel.OpenViewModel', 'circleverse.viewModel.SearchViewModel', 'circleverse.viewModel.RefreshViewModel', 'circleverse.viewModel.FilterViewModel', 'circleverse.viewModel.FilterFormViewModel', 'circleverse.viewModel.ExitViewModel', 'circleverse.viewModel.settingsViewModel', 'circleverse.viewModel.favoriteViewModel', 'circleverse.viewModel.helpViewModel', 'circleverse.viewModel.loginViewModel', function () {
 
             ko.validation.init();
             $(function () {

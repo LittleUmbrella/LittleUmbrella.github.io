@@ -1,10 +1,10 @@
 @font-face {
   font-family: 'icomoon';
-  src:  url('fonts/icomoon.eot?o58d4');
-  src:  url('fonts/icomoon.eot?o58d4#iefix') format('embedded-opentype'),
-    url('fonts/icomoon.ttf?o58d4') format('truetype'),
-    url('fonts/icomoon.woff?o58d4') format('woff'),
-    url('fonts/icomoon.svg?o58d4#icomoon') format('svg');
+  src:  url('fonts/icomoon.eot?gkoea0');
+  src:  url('fonts/icomoon.eot?gkoea0#iefix') format('embedded-opentype'),
+    url('fonts/icomoon.ttf?gkoea0') format('truetype'),
+    url('fonts/icomoon.woff?gkoea0') format('woff'),
+    url('fonts/icomoon.svg?gkoea0#icomoon') format('svg');
   font-weight: normal;
   font-style: normal;
 }
@@ -24,6 +24,15 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
+.icon-hash:before {
+  content: "\e90a";
+}
+.icon-number:before {
+  content: "\e90a";
+}
+.icon-addressbook:before {
+  content: "\e910";
+}
 .icon-earth:before {
   content: "\e908";
 }
@@ -57,11 +66,59 @@
 .icon-phone:before {
   content: "\e942";
 }
+.icon-history:before {
+  content: "\e94d";
+}
+.icon-clock:before {
+  content: "\e94e";
+}
+.icon-alarm:before {
+  content: "\e950";
+}
+.icon-calendar2:before {
+  content: "\e953";
+}
 .icon-mobile:before {
   content: "\e958";
 }
 .icon-airplane:before {
   content: "\e9af";
+}
+.icon-sphere:before {
+  content: "\e9c9";
+}
+.icon-checkmark:before {
+  content: "\ea10";
+}
+.icon-profile:before {
+  content: "\e90b";
+}
+.icon-card:before {
+  content: "\e90b";
+}
+.icon-id:before {
+  content: "\e90b";
+}
+.icon-vcard:before {
+  content: "\e90b";
+}
+.icon-box:before {
+  content: "\e601";
+}
+.icon-products:before {
+  content: "\e602";
+}
+.icon-vehicle:before {
+  content: "\e603";
+}
+.icon-uniE600:before {
+  content: "\e600";
+}
+.icon-banknote:before {
+  content: "\e604";
+}
+.icon-wallet3:before {
+  content: "\e605";
 }
 .icon-brand2:before {
   content: "\e901";
@@ -204,26 +261,14 @@
 .icon-products2:before {
   content: "\e60e";
 }
+.icon-contacts:before {
+  content: "\e913";
+}
+.icon-perm_contact_calendar:before {
+  content: "\e914";
+}
 .icon-close:before {
   content: "\e904";
-}
-.icon-box:before {
-  content: "\e601";
-}
-.icon-products:before {
-  content: "\e602";
-}
-.icon-vehicle:before {
-  content: "\e603";
-}
-.icon-uniE600:before {
-  content: "\e600";
-}
-.icon-banknote:before {
-  content: "\e604";
-}
-.icon-wallet3:before {
-  content: "\e605";
 }
 .icon-search:before {
   content: "\f002";
@@ -371,6 +416,33 @@
 }
 .icon-long-arrow-right:before {
   content: "\f178";
+}
+.icon-birthday-cake:before {
+  content: "\e915";
+}
+.icon-address-card-o:before {
+  content: "\e911";
+}
+.icon-address-card:before {
+  content: "\e912";
+}
+.icon-hashtag:before {
+  content: "\e90c";
+}
+.icon-drivers-license-o:before {
+  content: "\e90d";
+}
+.icon-id-card-o:before {
+  content: "\e90d";
+}
+.icon-drivers-license:before {
+  content: "\e90e";
+}
+.icon-id-card:before {
+  content: "\e90e";
+}
+.icon-crosshairs:before {
+  content: "\e90f";
 }
 .icon-cc-mastercard:before {
   content: "\e905";

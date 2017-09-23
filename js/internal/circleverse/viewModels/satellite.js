@@ -5,7 +5,7 @@ eaf.util.namespace('circleverse.viewModel');
 
 circleverse.viewModel.satellite = (function () {
 
-
+    
 
     return new JS.Module('circleverse.viewModel.satellite', {
 
@@ -60,7 +60,7 @@ circleverse.viewModel.satellite = (function () {
                 var settings = {
                     collection: 'undefined' == typeof (safeSettings.collection) ? parent.childViewModels() : ko.unwrap(safeSettings.collection)
                     , item: 'undefined' == typeof (safeSettings.item) ? self : safeSettings.item
-                    , itemDiameter: 'undefined' == typeof (safeSettings.itemDiameter) ? selfSize : safeSettings.itemDiameter
+                    , itemDiameter: selfSize //typeof (safeSettings.itemDiameter) ? selfSize : safeSettings.itemDiameter
                     , minCenterDiameter: 'undefined' == typeof (safeSettings.minCenterDiameter) ? parentSize : safeSettings.minCenterDiameter
                     , itemSeparation: 'undefined' == typeof (safeSettings.itemSeparation) ? 0 : safeSettings.itemSeparation
                     , itemPadding: 'undefined' == typeof (safeSettings.itemPadding) ? self.borderWidth : safeSettings.itemPadding
@@ -79,7 +79,8 @@ circleverse.viewModel.satellite = (function () {
             self.location = ko.dependentObservable({
                 read: function () {
                     return self.getCalculatedLocation();
-                }
+                },
+                deferEvaluation: true
                 ,
                 write: function (val) {
                     self.__overridden = true;
@@ -97,6 +98,18 @@ circleverse.viewModel.satellite = (function () {
             self.popToggle.subscribe(function(val){
                 self.popped = val;
             });
+
+            self.__popAnimationEndedTemplate = function () {
+                
+                if (!self.popToggle()) {
+                    self.showMe(false);
+                }
+                else {
+                    self.eventAggregator.publish('circleverse.viewModel.satellite.popped.out', self);
+                }
+            };
+
+            self.popAnimationEnded = self.__popAnimationEndedTemplate;
 
             if (!self.isA(circleverse.viewModel.PinViewModel))
                 self.pinViewModel = new circleverse.viewModel.PinViewModel(object, self, globalSettings, opts);
@@ -157,29 +170,27 @@ circleverse.viewModel.satellite = (function () {
         //,
 
 
-        popAnimationEnded: function () {
-            var self = this;
-
-            if (!self.popToggle()) {
-                self.showMe(false);
-            }
-            else {
-                self.eventAggregator.publish('circleverse.viewModel.satellite.popped.out', self);
-            }
-        }
+        popAnimationEnded: undefined
         ,
 
 
         pop: function () {
             var self = this;
+            
+            var deferred = jQuery.Deferred();
 
-
+            self.popAnimationEnded = function(){
+                self.__popAnimationEndedTemplate();
+                deferred.resolve();
+            }
 
 
             self.popToggle(!self.popToggle());
             if (self.popToggle()) {
                 self.showMe(true);
             }
+
+            return deferred;
         }
     });
 })();
