@@ -12,13 +12,13 @@ circleverse.viewModel.SaveViewModel = (function () {
 
 
         __getCoords: function () {
-            var minTop = 100;
+            var minTop = 0;
             var minLeft = 180;
 
-            var calcTop = (($(window).height()) - this.dimensions().height) - 25;
+            var calcTop = 0;
             var top = (calcTop < minTop) ? minTop : calcTop;
 
-            var calcLeft = ((($(window).width() / 3) - (this.dimensions().width / 3))) * 1.3;
+            var calcLeft = ((($(window).width() / 3) - (this.dimensions().width / 3))) * .9;
             var left = (calcLeft < minLeft) ? minLeft : calcLeft;
 
             //            log('garbage left: ' + left);

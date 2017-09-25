@@ -80,7 +80,7 @@ circleverse.viewModel.CustomerAddressesViewModel = (function () {
 
             self.showForm = ko.observable(false);
 
-            self.canSave(false);
+            self.canSave(true);
 
         }
         ,

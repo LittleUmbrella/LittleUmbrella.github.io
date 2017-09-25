@@ -113,6 +113,7 @@ circleverse.viewModel.CustomerAddressViewModel = (function () {
 
             self.canOpen(false);
             self.canClose(true);
+            self.canSave(true);
             //self.canEdit(true);
             self.mainFormOpen = true ;
 

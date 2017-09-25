@@ -66,10 +66,10 @@ littleUmbrella.circleverse.viewModel.CustomerViewModel = (function () {
             self.initLocation({ left: 0, top: 0 });
 
 
-            globalSettings.eventAggregator.subscribe('circleverse.viewModel.satellite.popped.out', function (topic, vm) {
-                if (vm == self)
-                    self.toggleChildrenVisibility();
-            });
+            // globalSettings.eventAggregator.subscribe('circleverse.viewModel.satellite.popped.out', function (topic, vm) {
+            //     if (vm == self)
+            //         self.toggleChildrenVisibility();
+            // });
 
             self.callSuper(object, parent, globalSettings, {
                 mapping: {
@@ -165,6 +165,7 @@ littleUmbrella.circleverse.viewModel.CustomerViewModel = (function () {
             //self.campaignsInfo = 'Campaigns for ' + self.model().fullName() + '';
 
 
+            self.canSave(false);
 
         }
             ,

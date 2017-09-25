@@ -98,7 +98,7 @@ circleverse.viewModel.ResizeableBase = //(function () {
                 self.canDelete = ko.observable(true);
                 self.canSearch = ko.observable(false);
                 self.canRefresh = ko.observable(true);
-                self.canSave = ko.observable(true);
+                self.canSave = ko.observable(false);
                 self.canOpen = ko.observable(true);
                 self.canClose = ko.observable(true);
 

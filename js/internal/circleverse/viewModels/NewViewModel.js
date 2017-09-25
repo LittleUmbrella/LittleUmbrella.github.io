@@ -17,12 +17,12 @@ circleverse.viewModel.NewViewModel = (function () {
 
         __getCoords: function () {
             var minTop = 100;
-            var minLeft = 180;
+            var minLeft = 20;
 
-            var calcTop = (($(window).height()) - this.dimensions().height) - 25;
+            var calcTop = this.dimensions().height *2.7;
             var top = (calcTop < minTop) ? minTop : calcTop;
 
-            var calcLeft = ((($(window).width() / 3) - (this.dimensions().width / 3))) * .9;
+            var calcLeft = 20;
             var left = (calcLeft < minLeft) ? minLeft : calcLeft;
 
             //            log('garbage left: ' + left);
