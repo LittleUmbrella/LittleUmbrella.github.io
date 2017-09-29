@@ -165,6 +165,7 @@ littleUmbrella.circleverse.viewModel.CustomerViewModel = (function () {
             //self.campaignsInfo = 'Campaigns for ' + self.model().fullName() + '';
 
 
+            self.canEdit(false);
             self.canSave(false);
 
         }

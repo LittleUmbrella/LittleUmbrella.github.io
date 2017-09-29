@@ -31,29 +31,134 @@ var self = this; self.callSuper();
 		});
 	})();
 
-
+/*
 [
   {
     'repeat(5, 10)': {
-      _id: '{{objectId()}}',
-      firstName: '{{random("Wink", "Chuck", "Ingleburt")}}',
+      id: '{{index()}}',
+      firstName: '{{random("Wink", "Chuck", "Ingleburt", "Paronskaft", "Charles")}}',
       lastName: function () {
-				var a = {"Wink": "Martindale", "Chuck": "Woolery", "Ingleburt": "Humperdink"};
+				var a = {"Wink": "Martindale", "Chuck": "Woolery", "Ingleburt": "Humperdink", "Paronskaft": "Rumpelstiltskin", "Charles": "Noris"};
         return a[this.firstName];
       },
-      taxId: '{{integer(1, 9)}}{{integer(1, 9)}}{{integer(1, 9)}}{{integer(1, 9)}}{{integer(1, 9)}}{{integer(1, 9)}}{{integer(1, 9)}}{{integer(1, 9)}}{{integer(1, 9)}}',
+      taxId: '{{random(462241293, 318553887, 637791872, 281123753, 164141344, 674586791)}}',
       dateOfBirth: '{{date()}}',
       mothersMaidenName: '{{random("blue", "brown", "green")}}',
-	  	emailAddress: function (tags) {
+			emailAddress: function (tags) {
         // Email tag is deprecated, because now you can produce an email as simple as this:
-        return (this.firstName + '.' + this.lastName + '@' + this.mothersMaidenName + tags.domainZone()).toLowerCase();
+        return (this.firstName + '.' + this.lastName + '@' + this.mothersMaidenName + '.com').toLowerCase();
       },
       homePhone: '{{phone()}}',
       mobilePhone: '{{phone()}}',
       officePhone: '{{phone()}}',
-      address: '{{integer(100, 999)}} {{street()}}, {{city()}}, {{state()}}, {{integer(100, 10000)}}',
+      address: function(tags){
+						var a = [
+                    {
+											line1: '1600 Pennsylvania Avenue',
+											city: 'Washington',
+											state: 'DC',
+											postalCode: '20500'
+										},
+										{
+											line1: '11 Wall Street',
+											city: 'New York',
+											state: 'NY',
+											postalCode: '10005'
+										},
+										{
+											line1: '350 Fifth Avenue',
+											city: 'New York',
+											state: 'NY',
+											postalCode: '10118'
+										},
+										{
+											line1: '4059 Mt Lee Dr.',
+											city: 'Hollywood',
+											state: 'CA',
+											postalCode: '90068'
+										},
+										{
+											line1: '792 Tehama Street',
+											city: 'Wright',
+											state: 'WA',
+											postalCode: '19499'
+										}
+                ];
+						return a[tags.integer(0, a.length - 1)];
+					}
       
       
     }
   }
 ]
+
+[
+  '{{repeat(7)}}', {
+      id: '{{index()}}',
+      lastName: function (tags) {
+				var a = ["Martindale", "Woolery", "Humperdink", "Rumpelstiltskin", "Noris", "Pendleton", "Northup"];
+        return a[tags.index()];
+      } ,
+      firstName: function () {
+				var a = {"Martindale": "Wink", "Woolery": "Chuck", "Humperdink": "Ingleburt", "Rumpelstiltskin": "Frank", "Noris": "Chuck", "Pendleton": "Frank", "Northup": "Frank"};
+        return a[this.lastName];
+      },
+      taxId: function(tags){
+		  var a = [462241293, 318553887, 637791872, 281123753, 164141344, 674586791, 444583887];
+		  return a[tags.index()];
+	  },
+      dateOfBirth: '{{date()}}',
+      mothersMaidenName: '{{random("blue", "brown", "green")}}',
+			emailAddress: function (tags) {
+        // Email tag is deprecated, because now you can produce an email as simple as this:
+        return (this.firstName + '.' + this.lastName + '@' + this.mothersMaidenName + '.com').toLowerCase();
+      },
+      homePhone: '{{phone()}}',
+      mobilePhone: '{{phone()}}',
+      officePhone: '{{phone()}}',
+      address: function(tags){
+						var a = [
+                    {
+											line1: '1600 Pennsylvania Avenue',
+											city: 'Washington',
+											state: 'DC',
+											postalCode: '20500'
+										},
+										{
+											line1: '11 Wall Street',
+											city: 'New York',
+											state: 'NY',
+											postalCode: '10005'
+										},
+										{
+											line1: '350 Fifth Avenue',
+											city: 'New York',
+											state: 'NY',
+											postalCode: '10118'
+										},
+										{
+											line1: '4059 Mt Lee Dr.',
+											city: 'Hollywood',
+											state: 'CA',
+											postalCode: '90068'
+										},
+										{
+											line1: '792 Tehama Street',
+											city: 'Wright',
+											state: 'WA',
+											postalCode: '19499'
+										}
+                ];
+						return a[tags.integer(0, a.length - 1)];
+					}
+      
+      
+    }
+  
+]
+
+
+*/
+
+
+

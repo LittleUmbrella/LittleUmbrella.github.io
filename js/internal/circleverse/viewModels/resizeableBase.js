@@ -93,6 +93,7 @@ circleverse.viewModel.ResizeableBase = //(function () {
 
                 self.animationSettings = ko.observable();
 
+                self.focus = ko.observable(false);
                 self.canCreate = ko.observable(true);
                 self.canEdit = ko.observable(true);
                 self.canDelete = ko.observable(true);

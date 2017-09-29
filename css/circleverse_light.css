@@ -358,7 +358,17 @@ form textarea.question + label > span {
 }
 
 
-.drag .flex-grid.data, .drag .data {
+.drag:not(.faded) .flex-grid.data, .drag .data {
     color: rgb(90, 107, 124); 
+
+}
+
+/*.drag.faded .drag .flex-grid.data {
+    color: rgb(90, 107, 124); 
+
+}*/
+
+div.drag.faded > div.flex-grid.data {
+    color: rgba(90, 107, 124, 0.23);
 
 }

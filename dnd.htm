@@ -986,25 +986,21 @@
     
     
     <script type="text/html" id="CustomerAddressEditViewModelContentTemplate"> 
-        
-        <!-- ko with: model --> 
-            
-            
-            <form class="customer-address-info" >
-                <div class="row">
-                    <div class="col">
-                      <i class="icon-address icon-size-2x"></i>
-                    </div>
-                    <div class="col">
-                        <input type="text" id="full" data-bind="value: full" class="question" required/>
-                        <label for="full">
-                            <span>Address</span>
-                        </label>    
-                        <i class="bar"></i>                  
-                    </div>
+        <form class="customer-address-info" >
+            <div class="row">
+                <div class="col">
+                    <i class="icon-address icon-size-2x"></i>
                 </div>
-            </form>
-        <!-- /ko -->
+                <div class="col">
+                    <!-- ko template: { name: 'Autofill' } --><!-- /ko -->
+                    <input type="text" id="full" data-bind="textInput: address, event: {blur: lostFocus}, hasFocus: focus" class="question" required/>
+                    <label for="full">
+                        <span>Address</span>
+                    </label>    
+                    <i class="bar"></i>                  
+                </div>
+            </div>
+        </form>
     </script>
 
     <script type="text/html" id="SearchMembersResultViewModelContentTemplate"> 
@@ -1068,6 +1064,16 @@
                     
                 <!-- /ko -->
         </div>
+    </script>
+
+    <script type="text/html" id="Autofill">
+        <ul data-bind="css: autofillMainCss(), visible: results().length > 0, onTop: onTop">
+            <!-- ko foreach: results-->  
+            <li data-bind="css: $parent.autofillItemCss()">
+                <a href='#' data-bind="click: $parent.autofillSelect, css: $parent.autofillSelectCss(), text: $data"></a>
+            </li> 
+            <!-- /ko -->
+          </ul>
     </script>
 
     <script type="text/html" id="Script2">

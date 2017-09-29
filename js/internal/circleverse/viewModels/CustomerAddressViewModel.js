@@ -63,6 +63,80 @@ circleverse.viewModel.CustomerAddressViewModel = (function () {
             self.searchDimensionSettingsBig = {width: width + self.dimensions().width, height: height + self.dimensions().height, top: top, left: left, borderRadius: 20, onComplete: eaf.core.createDelegate(self, self.toggleFormAnimationEnded), ease: Elastic.easeIn.config(4.5, 3)};
             self.searchDimensionSettingsRegular = {width: self.dimensions().width, top: searchLocation.top, left: searchLocation.left, height: self.dimensions().height, borderRadius: '50%', onComplete: eaf.core.createDelegate(self, self.toggleFormAnimationEnded), ease: Elastic.easeIn.config(4.5, 3)};
 
+            self.results = ko.observableArray();
+
+            self.lostFocus = function(){                
+                //because of the way value binding works, value will fire after and cause the auto-fill to re-appear, so as a kludge, use a timeout
+                setTimeout(function(){
+                    self.results.removeAll();
+                }, 1000);
+            };
+
+            self.autofillSelect = function(val){  
+                var model = self.model();
+                var parsed = parseAddress.parseLocation(val);
+                var model = self.model();
+
+                model.line1(parsed.number + ' ' + ((typeof(parsed.type) == 'undefined')? '' : parsed.type) + ' ' + ((typeof(parsed.prefix) == 'undefined')? '': parsed.prefix) + ' ' + parsed.street);
+                model.city(parsed.city);
+                model.state(parsed.state);
+                model.postalCode(parsed.zip);   
+
+                self.results.removeAll();
+            };
+
+            self.autofillMainCss = ko.observable('auto-fill list');
+            self.autofillItemCss = ko.observable('row');
+            self.autofillSelectCss = ko.observable('item');
+
+            self.parsed = {
+				line1 : ko.observable(),
+				postalCode : ko.observable(),
+				city : ko.observable(),
+				state : ko.observable()};
+
+            self.address = ko.pureComputed({
+                read: function(){
+                    console.log('read');
+                    return self.model().full();
+                },
+                write: function(val){
+                    console.log('write');
+                    if (val && val.length >= 2){
+                        //parse address and set model's
+                        var parsed = parseAddress.parseLocation(val);
+                        //var model = self.model();
+
+                        self.parsed.line1(parsed.number + ' ' + ((typeof(parsed.type) == 'undefined')? '' : parsed.type) + ' ' + ((typeof(parsed.prefix) == 'undefined')? '': parsed.prefix) + ' ' + parsed.street);
+                        self.parsed.city(parsed.city);
+                        self.parsed.state(parsed.state);
+                        self.parsed.postalCode(parsed.zip);
+                        //model.line1(parsed.number);
+
+// number: '1005',
+//  prefix: 'N',
+//  street: 'Gravenstein',
+//  type: 'Highway',
+//  city: 'Sebastopol',
+//  state: 'CA',
+//  zip: '95472' }
+
+                        //prompt
+                        self.globalSettings.repository.searchMemberAddress(val).then(function(result){
+                
+                            self.results.removeAll();
+
+                            if (result){
+                                for (var i = result.length; i > 0; i--){
+                                    self.results.push(result[i-1]);
+                                }
+                            }
+
+                        });
+                    }
+                },
+                owner: self
+            });
             
             self.contentTemplate('CustomerAddressViewModelContentTemplate');
 
@@ -102,6 +176,7 @@ circleverse.viewModel.CustomerAddressViewModel = (function () {
                 // if (self.childrenVisible()){
                 //     self.toggleChildrenVisibility();
                 // }
+                self.focus(true);
                 deferred.resolve();
             };
             self.animationSettings(self.searchDimensionSettingsBig);
@@ -112,7 +187,6 @@ circleverse.viewModel.CustomerAddressViewModel = (function () {
             //self.showLabel(false);
 
             self.canOpen(false);
-            self.canClose(true);
             self.canSave(true);
             //self.canEdit(true);
             self.mainFormOpen = true ;
@@ -127,6 +201,7 @@ circleverse.viewModel.CustomerAddressViewModel = (function () {
             var deferred = jQuery.Deferred();
 
             
+            self.focus(false);
             self.contentTemplate('emptyContentTemplate');
                 self.searchDimensionSettingsRegular.onComplete = function(){
                     self.toggleFormAnimationEnded();
@@ -141,7 +216,6 @@ circleverse.viewModel.CustomerAddressViewModel = (function () {
             //self.showLabel(true);
 
             self.canOpen(true);
-            self.canClose(false);
             self.mainFormOpen = false ;
 
             return deferred;

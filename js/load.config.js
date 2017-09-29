@@ -91,6 +91,10 @@
                     ;
 
 
+        file('/js/external/parse-address.min.js?r=2')
+                    .provides('parseAddress')
+                    ;
+
         file('/js/external/canvasloader.min.js?r=2')
                     .provides('CanvasLoader')
                     ;
@@ -1686,6 +1690,8 @@
                     'circleverse.viewModel.satellite' 
                     ,
                     'circleverse.viewModel.centerCircle'
+                    ,
+                    'parseAddress'
                     );
 
         file('/js/internal/circleverse/viewModels/CustomerAddressViewModel.js?r=2')

@@ -135,7 +135,9 @@ circleverse.viewModel.SearchMembersResultViewModel = (function () {
 
             var self = this;
 
+            self.isBusy(true);
             self.globalSettings.repository.getIndividual(self.model()).then(function(result){
+                self.isBusy(false);
                 self.childViewModels.push(new littleUmbrella.circleverse.viewModel.CustomerViewModel(result, self, self.globalSettings));
         
                 self.toggleChildrenVisibility();

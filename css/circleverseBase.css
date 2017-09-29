@@ -764,7 +764,7 @@ svg.circleText{
 
 svg.circleText text{
     
-        font-family: monospace, 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        font-family: Ubuntu, 'Segoe UI', Tahoma, Geneva, Verdana;
         font-size: 12px;
         font-weight: bold;
         text-anchor: middle;
@@ -846,6 +846,9 @@ form textarea.question {
 
 form input.question + label,
 form textarea.question + label {
+    border-left-width: 0;
+    border-right-width: 0;
+    border-bottom-width: 0;
     border-top-style: solid;
     border-top-width: 1px;
   display: block;
@@ -855,7 +858,6 @@ form textarea.question + label {
   margin: 0;
   width: 95%;
   
-border-width: 1px;
 border-style: solid; 
   transition: width 0.4s ease, border-top 0.4s ease;
   height: 0px;
@@ -869,11 +871,14 @@ form input.question + label + i.bar {
     
     border-left-width: 0;
     border-right-width: 0;
+    border-bottom-width: 0;
     border-top-width: 1px;
     border-top-style: solid; 
     height: 1px;
     width: 95%;
     display: block;   
+    padding: 0;
+    margin: 0;
 }
 
 form input.question:valid + label + i.bar,
@@ -978,6 +983,35 @@ form div.col:first-child{
   justify-content: left;
 }
 
+ul.auto-fill{
+    position: absolute;
+    /*transform: rotate(180deg);*/
+    transform-origin: 50% top;
+    background-color: rgb(236, 233, 230);
+    padding: 5px;
+    list-style: none;
+    border: 1px solid #999;
+    max-width: 80%;
+
+}
+ ul.auto-fill, ul.auto-fill li.row   {
+    transform: scaleY(-1);
+}
+
+ul.auto-fill li.row{
+    border-top: 1px solid #999;
+}
+
+ul.auto-fill li.row:last-child{
+    border-top: none;
+}
+
+
+ul.auto-fill li.row a{
+    text-decoration: none;
+    padding: 20px 5px;
+    display: block;
+}
 
 @-webkit-keyframes appear {
   100% {

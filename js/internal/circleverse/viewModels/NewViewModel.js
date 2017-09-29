@@ -19,7 +19,7 @@ circleverse.viewModel.NewViewModel = (function () {
             var minTop = 100;
             var minLeft = 20;
 
-            var calcTop = this.dimensions().height *2.7;
+            var calcTop = (($(window).height()) - (this.dimensions().height * 3)) - 25;
             var top = (calcTop < minTop) ? minTop : calcTop;
 
             var calcLeft = 20;
