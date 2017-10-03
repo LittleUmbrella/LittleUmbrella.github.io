@@ -73,7 +73,17 @@ circleverse.viewModel.CloseViewModel = (function () {
 
             self.memberIcon = ko.observable('icon-search icon-size-2x');
 
+
+            if (self.globalSettings['tindr'].value() == true) {
+                self.contentTemplate('CloseViewModelContentTemplate');
+                
+                self.dimensions({ height: $(window).height(), width: 500 });
+                
+                this.location({ left: coords.left + 40, top: 0 });
+            }
+            else{
             self.label("Close");
+            }
 
             var subscription = null;
             globalSettings.eventAggregator.subscribe('circleverse.spotlightContext', function(eventName, args){

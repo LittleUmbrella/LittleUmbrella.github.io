@@ -68,6 +68,7 @@ circleverse.viewModel.settingsViewModel = (function () {
          defaultSettings['autoPin'] = { displayTitle: 'Auto-pin', value: ko.observable(false), options: self.__getBoolean() };
          defaultSettings['shadeChildren'] = { displayTitle: 'Nested circles have shadows', value: ko.observable(false), options: self.__getBoolean() };
          defaultSettings['navigationEffect'] = { displayTitle: 'Navigation effect', value: ko.observable(false), options: self.__getBoolean() };
+         defaultSettings['tindr'] = { displayTitle: 'Swipe Open/Close', value: ko.observable(true), options: self.__getBoolean() };
 
          var cache, cachedSettings = {}, mappedItem, key;
          cache = self.model().get('bankPreferences');

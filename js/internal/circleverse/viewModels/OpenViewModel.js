@@ -49,7 +49,7 @@ circleverse.viewModel.OpenViewModel = (function () {
             self.callSuper(object, parent, globalSettings, settings);
 
             
-            this.dimensions({ height: this.scale() * initSize, width: this.scale() * initSize });
+            self.dimensions({ height: this.scale() * initSize, width: this.scale() * initSize });
 
 
             self.settings = $.extend(self.settings || {}, { dropFilter: '.searchable' }, opts);
@@ -73,14 +73,24 @@ circleverse.viewModel.OpenViewModel = (function () {
 
             self.memberIcon = ko.observable('icon-enter icon-size-2x');
 
-            self.label("Open");
+            if (self.globalSettings['tindr'].value() == true) {
+                self.contentTemplate('OpenViewModelContentTemplate');
+                
+                self.dimensions({ height: $(window).height(), width: 500 });
+                
+                this.location({ left: -460, top: 0 });
+            }
+            else{
+                self.label("Open");
+            }
+
             
             var subscription = null;
             globalSettings.eventAggregator.subscribe('circleverse.spotlightContext', function(eventName, args){
                 self.showMe(args.canOpen());
                 if (subscription) subscription.dispose();
 
-                subscription = args.canClose.subscribe(function(){
+                subscription = args.canOpen.subscribe(function(){
                     self.showMe(args.canOpen());
                 });
             });

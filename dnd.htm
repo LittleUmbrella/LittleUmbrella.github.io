@@ -144,10 +144,10 @@
                 }"
                 class="drag drop circle tool backgroundCenter refresh ">
 
-                <i data-bind="css: icon.name, style: { 'line-height': dimensions().height + 'px' }"></i>
                 <!-- ko if: isA(becu_org.ui.viewModel.labelModule) && labelData().isReady -->               
                     <!-- ko template: { name: 'circleTextTemplate', data: labelData } --><!-- /ko -->
                 <!-- /ko -->
+                <!-- ko template: { name: contentTemplate } --><!-- /ko -->
             </div>
         </script>
         
@@ -164,10 +164,10 @@
                 , 'tap': function (data, e) { toggleMainForm(); e.cancelBubble = true; if (e.stopPropagation) e.stopPropagation(); return false }, dblclickBubble: false "
                 class="drag drop circle tool form-entry backgroundCenter settings">
 
-                <i data-bind="css: icon.name, style: { 'line-height': dimensions().height + 'px' }"></i>
                 <!-- ko if: isA(becu_org.ui.viewModel.labelModule) && labelData().isReady -->               
                     <!-- ko template: { name: 'circleTextTemplate', data: labelData } --><!-- /ko -->
                 <!-- /ko -->
+                <!-- ko template: { name: contentTemplate } --><!-- /ko -->
             </div>
         </script>
 
@@ -330,7 +330,7 @@
                         <i class="icon-user icon-size-2x"></i>
                         </div>
                         <div class="col">
-                            <input type="text" id="firstName" data-bind="value: firstName" class="question" required/>
+                            <input type="text" id="firstName" data-bind="textInput: firstName" class="question" required/>
                             <label for="firstName">
                                 <span>First Name</span>
                             </label>    
@@ -343,7 +343,7 @@
                         <i class="icon-user icon-size-2x"></i>
                         </div>
                         <div class="col">
-                            <input type="text" id="lastName" data-bind="value: lastName" class="question" required/>
+                            <input type="text" id="lastName" data-bind="textInput: lastName" class="question" required/>
                             <label for="lastName">
                                 <span>Last Name</span>
                             </label>    
@@ -356,7 +356,7 @@
                         <i class="icon-profile icon-size-2x"></i>
                         </div>
                         <div class="col">
-                            <input type="text" id="taxId" data-bind="value: taxId" class="question" required/>
+                            <input type="text" id="taxId" data-bind="textInput: taxId" class="question" required/>
                             <label for="taxId">
                                 <span>Tax ID</span>
                             </label>    
@@ -368,7 +368,7 @@
                         <i class="icon-hash icon-size-2x"></i>
                         </div>
                         <div class="col">
-                            <input type="text" id="id" data-bind="value: id" class="question" required/>
+                            <input type="text" id="id" data-bind="textInput: id" class="question" required/>
                             <label for="id">
                                 <span>Person / Org Number</span>
                             </label>
@@ -912,13 +912,16 @@
               
         FI      
     </script>
-    <script type="text/html" id="accountContentTemplate">   
+    <script type="text/html" id="accountContentTemplate">  
+        <div class="flex-container vertical customer-address data">         
+            
                     <i data-bind="css: icon.name"></i>
 
                     <!-- ko with: model -->
                     <div data-bind="text: accountNumber"></div>
                     <div data-bind="format: { format: 'c', value: balance }"></div>
                     <!-- /ko -->
+            </div> 
                
     </script>
 
@@ -976,9 +979,11 @@
     <script type="text/html" id="CustomerAddressViewModelContentTemplate"> 
         
         <!-- ko with: model --> 
-            <div class="flex-container vertical customer-address">         
-            
-                <i class="icon-address icon-size-2x"> </i><span class="data" data-bind="text: full"></span>
+            <div class="flex-container vertical customer-address data">         
+                <div class="flex-container horizontal">
+                    <i class="icon-address icon-size-2x"> </i> <div data-bind="visible: $parent.linksCount() > 0"><i class="icon-link icon-size-1x"> </i>:<span data-bind="text: $parent.linksCount"></span></div>
+                </div>
+                <span data-bind="text: full"></span>
             </div>
         <!-- /ko -->
     </script>
@@ -997,10 +1002,25 @@
                     <label for="full">
                         <span>Address</span>
                     </label>    
-                    <i class="bar"></i>                  
+                    <i class="bar"></i>                 
                 </div>
             </div>
         </form>
+        <div data-bind="visible: changeAdditional().length > 0">
+            <div class="flex-container horizontal">
+                Also editing:&nbsp;
+            <!-- ko foreach: changeAdditional-->                    
+                <span data-bind="text: $data"></span><!-- ko template: { name: 'ListDelimiterTemplate', data: {list: $parent.changeAdditional, index: $index()} } --><!-- /ko -->
+            <!-- /ko -->
+            </div>
+        </div>
+    </script>
+
+    
+    <script type="text/html" id="ListDelimiterTemplate">      
+        <!-- ko if: ko.unwrap($data.list).length != ($data.index + 1) --> 
+            <span data-bind="text: $data.delimiter|| ','"></span>&nbsp;
+        <!-- /ko -->
     </script>
 
     <script type="text/html" id="SearchMembersResultViewModelContentTemplate"> 
@@ -1012,7 +1032,7 @@
                             <i class="icon-user icon-size-2x"></i>            
                         </div>
                         <div class="col">
-                             <span data-bind="truncatedText: {text: name, length: 15}"></span>            
+                             <span data-bind="truncatedText: {text: name, length: 18}"></span>            
                         </div>
                     </div>
                     
@@ -1030,7 +1050,7 @@
                             <i class="icon-clock icon-size-2x"></i>            
                         </div>
                         <div class="col">
-                             <span data-bind="truncatedText: {text: age, length: 15}"></span>            
+                             <span data-bind="truncatedText: {text: age, length: 18}"></span>            
                         </div>
                     </div>
                 </div>
@@ -1075,6 +1095,17 @@
             <!-- /ko -->
           </ul>
     </script>
+
+
+    <script type="text/html" id="CloseViewModelContentTemplate">
+        <div class="tindr close">Close&nbsp;&raquo;</div>
+    </script>
+    
+    <script type="text/html" id="OpenViewModelContentTemplate">
+        <div class="tindr open">&laquo;&nbsp;Open</div>
+    </script>
+
+    
 
     <script type="text/html" id="Script2">
     </script>

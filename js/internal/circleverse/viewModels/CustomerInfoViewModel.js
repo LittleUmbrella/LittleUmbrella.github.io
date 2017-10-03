@@ -52,23 +52,23 @@ circleverse.viewModel.CustomerInfoViewModel = (function () {
             //    self.childViewModels.push(new circleverse.viewModel.AccountTransactionViewModel(self.rawModel()[i], self, globalSettings));
             //}
 
-            if (self.rawModel().addresses().length > 1){                    
+            //if (self.rawModel().addresses().length > 1){                    
                 self.childViewModels.push(new circleverse.viewModel.CustomerAddressesViewModel(self.rawModel(), self, globalSettings));
-            }
-            else{
-                self.childViewModels.push(new circleverse.viewModel.CustomerAddressViewModel(self.rawModel(), self, globalSettings));
-            }
+            // }
+            // else{
+            //     self.childViewModels.push(new circleverse.viewModel.CustomerAddressViewModel(self.rawModel(), self, globalSettings));
+            // }
             
-            self.rawModel().addresses.subscribe(function(changes){                
-                self.childViewModels.removeAll();
-                if (changes.length > 1){                    
-                    self.childViewModels.push(new circleverse.viewModel.CustomerAddressesViewModel(self.rawModel(), self, globalSettings));
-                }
-                else{
-                    self.childViewModels.push(new circleverse.viewModel.CustomerAddressViewModel(self.rawModel(), self, globalSettings));
-                }
+            // self.rawModel().addresses.subscribe(function(changes){                
+            //     self.childViewModels.removeAll();
+            //     //if (changes.length > 1){                    
+            //         self.childViewModels.push(new circleverse.viewModel.CustomerAddressesViewModel(self.rawModel(), self, globalSettings));
+            //     // }
+            //     // else{
+            //     //     self.childViewModels.push(new circleverse.viewModel.CustomerAddressViewModel(self.rawModel(), self, globalSettings));
+            //     // }
 
-            }, null, "change");
+            // }, null, "change");
 
             this.childrenOnTop = ko.observable(true);
 

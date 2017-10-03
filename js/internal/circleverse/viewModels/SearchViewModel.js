@@ -80,7 +80,7 @@ circleverse.viewModel.SearchViewModel = (function () {
                 self.showMe(args.canSearch());
                 if (subscription) subscription.dispose();
 
-                subscription = args.canClose.subscribe(function(){
+                subscription = args.canSearch.subscribe(function(){
                     self.showMe(args.canSearch());
                 });
             });

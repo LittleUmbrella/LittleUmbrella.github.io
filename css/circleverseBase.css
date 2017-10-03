@@ -4,7 +4,10 @@ body
 {
    margin:0px 0px 0px 0px;
 font: normal 8pt Tahoma, Verdana, Segoe, sans-serif;
+    overflow-x: hidden;
 }
+
+
 
 .circle
 
@@ -65,7 +68,7 @@ border-width: 2px;
 border-style: solid; 
 
 display: flex;
-flex-direction:row;
+flex-direction: column;
 align-items: center;
 justify-content: center;
 
@@ -1024,3 +1027,17 @@ ul.auto-fill li.row a{
     opacity: 1;
   }
 }
+
+.tindr {
+    position: relative;
+}
+
+.tindr.open {
+    left: 240px;
+}
+
+
+.tindr.close {
+    left: -245px;
+}
+

@@ -19,8 +19,8 @@
 
 	            self.icon = ko.observable();
 
-	            self.fullName = ko.computed(function () {
-	                self.firstName() + ' ' + self.lastName();
+	            self.fullName = ko.pureComputed(function () {
+	                return self.firstName() + ' ' + self.lastName();
 	            });
 	        }
 	    });
@@ -51,66 +51,154 @@ var self = this; self.callSuper();
 	})();
 
 /*
+
+
+
+
 [
   {
-    'repeat(5, 10)': {
+    'repeat(7)': {
       id: '{{index()}}',
-      firstName: '{{random("Wink", "Chuck", "Ingleburt", "Paronskaft")}}',
-      lastName: function () {
-				var a = {"Wink": "Martindale", "Chuck": "Woolery", "Ingleburt": "Humperdink", "Paronskaft": "Rumpelstiltskin"};
-        return a[this.firstName];
+      lastName: function (tags) {
+				var a = ["Martindale", "Woolery", "Humperdink", "Rumpelstiltskin", "Noris", "Pendleton", "Northup"];
+        return a[tags.index()];
+      } ,
+      firstName: function () {
+				var a = {"Martindale": "Wink", "Woolery": "Chuck", "Humperdink": "Ingleburt", "Rumpelstiltskin": "Frank", "Noris": "Chuck", "Pendleton": "Frank", "Northup": "Frank"};
+        return a[this.lastName];
       },
-      taxId: '{{integer(1, 9)}}{{integer(1, 9)}}{{integer(1, 9)}}{{integer(1, 9)}}{{integer(1, 9)}}{{integer(1, 9)}}{{integer(1, 9)}}{{integer(1, 9)}}{{integer(1, 9)}}',
+      taxId: function(tags){
+				var a = [462241293, 318553887, 637791872, 281123753, 164141344, 674586791, 444583887];
+				return a[tags.index()];
+			},
       dateOfBirth: '{{date()}}',
       mothersMaidenName: '{{random("blue", "brown", "green")}}',
-	  	emailAddress: function (tags) {
+			emailAddress: function (tags) {
         // Email tag is deprecated, because now you can produce an email as simple as this:
-        return (this.firstName + '.' + this.lastName + '@' + this.mothersMaidenName + tags.domainZone()).toLowerCase();
+        return (this.firstName + '.' + this.lastName + '@' + this.mothersMaidenName + '.com').toLowerCase();
+      },
+			__key__: function (tags) {
+        // Email tag is deprecated, because now you can produce an email as simple as this:
+        return {fn: this.firstName, ln: this.lastName};
       },
       homePhone: '{{phone()}}',
       mobilePhone: '{{phone()}}',
       officePhone: '{{phone()}}',
 			accounts: [
         {
-          'repeat(2, 5)': {
+          'repeat(2, 4)': {
 						accountNumber: '{{integer(1, 9)}}{{integer(1, 9)}}{{integer(1, 9)}}{{integer(1, 9)}}{{integer(1, 9)}}{{integer(1, 9)}}{{integer(1, 9)}}{{integer(1, 9)}}{{integer(1, 9)}}{{integer(1, 9)}}',
-						balance: {{integer(100, 90000)}},
+						balance: '{{integer(100, 90000)}}',
+						__key__: function (tags, parent) {
+							// Email tag is deprecated, because now you can produce an email as simple as this:
+							return {fn: parent.__key__.fn, ln: parent.__key__.ln};
+						},
 						product: {
 							primaryProductCode: '{{random("Checking", "Savings", "Mortgage")}}',
 							secondaryProductCode: '{{random("Advantage", "Checking", "Mortgage")}}'
 						},
-						addresses: [
-							{
-								'repeat(0, 1)': function(tags){
+						addresses: function(tags, parent){
 									var a = [
-													'1600 Pennsylvania Avenue, Washington DC 20500', //white house
-													'11 Wall Street New York, NY 10005', //stock exchange
-													'350 Fifth Avenue New York, NY 10118', //Empire State Building,
-													'4059 Mt Lee Dr. Hollywood, CA 90068', //holleywood State Building
-													'792 Tehama Street Wright, Washington 19499',
-													'123 6th St. Melbourne, FL 32904',
-													'4 Goldfield Rd. Honolulu, HI 96815',
-													'71 Pilgrim Avenue Chevy Chase, MD 20815',
-													'44 Shirley Ave. West Chicago, IL 60185',
-													'70 Bowman St. South Windsor, CT 06074'
+														{
+															line1: '1600 Pennsylvania Avenue',
+															city: 'Washington',
+															state: 'DC',
+															postalCode: '20500'
+														},
+														{
+															line1: '11 Wall Street',
+															city: 'New York',
+															state: 'NY',
+															postalCode: '10005'
+														},
+														{
+															line1: '350 Fifth Avenue',
+															city: 'New York',
+															state: 'NY',
+															postalCode: '10118'
+														},
+														{
+															line1: '4059 Mt Lee Dr.',
+															city: 'Hollywood',
+															state: 'CA',
+															postalCode: '90068'
+														},
+														{
+															line1: '792 Tehama Street',
+															city: 'Wright',
+															state: 'WA',
+															postalCode: '19499'
+														},
+														{
+															line1: '123 6th St.',
+															city: 'Melbourne',
+															state: 'FL',
+															postalCode: '32904'
+														},
+														{
+															line1: '4 Goldfield Rd.',
+															city: 'Honolulu',
+															state: 'HI',
+															postalCode: '96815'
+														},
+														{
+															line1: '71 Pilgrim Avenue',
+															city: 'Chevy Chase',
+															state: 'MD',
+															postalCode: '20815'
+														},
+														{
+															line1: '44 Shirley Ave. West',
+															city: 'Chicago',
+															state: 'IL',
+															postalCode: '60185'
+														},
+														{
+															line1: '70 Bowman St. South',
+															city: 'Windsor',
+															state: 'CT',
+															postalCode: '06074'
+														}
 											];
-									return a[tags.integer(0, a.length - 1)];
+									if (parent.__key__.ln == "Rumpelstiltskin" && tags.index() == 0){
+										return [a[2]];
+									}
+									else if (parent.__key__.ln == "Martindale")
+									{ 
+										return null;
+									}
+									else if (parent.__key__.ln == "Woolery")
+									{ 
+										return null;
+									}
+
+									return a.slice(3, tags.integer(1, 4));
 								}
-							}
-						],
+						,
 						relationships: [
 							{
-								'repeat(0, 4)': {
+								'repeat(0, 4)':{
 									accountRole: {
 										accountRoleDescription: '{{random("Signer", "Joint", "Viewer")}}'
 									},
-									customer: [
-										{
-											'repeat(5, 10)': {
+								__key__: function (tags, parent) {
+									// Email tag is deprecated, because now you can produce an email as simple as this:
+									return {fn: parent.__key__.fn, ln: parent.__key__.ln};
+								},
+									customer:  {
 												id: '{{index()}}',
-												firstName: '{{random("Wink", "Chuck", "Ingleburt", "Paronskaft")}}',
+												firstName: function(tags, parent){
+													var a = ["Arnold", "Harry", "Oscar", "Nicolas", "Oprah"];
+
+													if (parent.__key__.ln == "Woolery"){
+																return [a[4]];
+															}
+													
+													
+													return a[tags.integer(0, 4)];
+												},
 												lastName: function () {
-													var a = {"Wink": "Martindale", "Chuck": "Woolery", "Ingleburt": "Humperdink", "Paronskaft": "Rumpelstiltskin"};
+													var a = {"Arnold": "schwarzenegger", "Harry": "Houdini", "Oscar": "Wilde", "Nicolas": "Cage", "Oprah": "Winfrey"};
 													return a[this.firstName];
 												},
 												taxId: '{{integer(1, 9)}}{{integer(1, 9)}}{{integer(1, 9)}}{{integer(1, 9)}}{{integer(1, 9)}}{{integer(1, 9)}}{{integer(1, 9)}}{{integer(1, 9)}}{{integer(1, 9)}}',
@@ -118,52 +206,117 @@ var self = this; self.callSuper();
 												mothersMaidenName: '{{random("blue", "brown", "green")}}',
 												emailAddress: function (tags) {
 													// Email tag is deprecated, because now you can produce an email as simple as this:
-													return (this.firstName + '.' + this.lastName + '@' + this.mothersMaidenName + tags.domainZone()).toLowerCase();
+													return (this.firstName + '.' + this.lastName + '@' + this.mothersMaidenName + '.com').toLowerCase();
 												},
 												homePhone: '{{phone()}}',
 												mobilePhone: '{{phone()}}',
 												officePhone: '{{phone()}}',
-												addresses: [
-													{
-														'repeat(1, 5)': function(tags){
+												addresses: function(tags, parent){
 															var a = [
-																			'1600 Pennsylvania Avenue, Washington DC 20500', //white house
-																			'11 Wall Street New York, NY 10005', //stock exchange
-																			'350 Fifth Avenue New York, NY 10118', //Empire State Building,
-																			'4059 Mt Lee Dr. Hollywood, CA 90068', //holleywood State Building
-																			'792 Tehama Street Wright, Washington 19499'
+																			{
+																				line1: '1600 Pennsylvania Avenue',
+																				city: 'Washington',
+																				state: 'DC',
+																				postalCode: '20500'
+																			},
+																			{
+																				line1: '11 Wall Street',
+																				city: 'New York',
+																				state: 'NY',
+																				postalCode: '10005'
+																			},
+																			{
+																				line1: '350 Fifth Avenue',
+																				city: 'New York',
+																				state: 'NY',
+																				postalCode: '10118'
+																			},
+																			{
+																				line1: '4059 Mt Lee Dr.',
+																				city: 'Hollywood',
+																				state: 'CA',
+																				postalCode: '90068'
+																			},
+																			{
+																				line1: '792 Tehama Street',
+																				city: 'Wright',
+																				state: 'WA',
+																				postalCode: '19499'
+																			}
 																	];
-															return a[tags.integer(0, a.length - 1)];
+
+															
+															if (parent.__key__.ln == "Woolery" && this.firstName == "Oprah"){
+																return [a[2]];
+															}
+															else if (parent.__key__.ln == "Martindale")
+															{ 
+																return null;
+															}
+
+															return a.slice(0, tags.integer(1, 4));
 														}
-													}
-												]
 											}
-										}
-									]
+										
 								}
 							}
 						]
 					}
-        }
+				}
       ],
-      addresses: [
-        {
-          'repeat(1, 5)': function(tags){
+      addresses: function(tags, parent){
 						var a = [
-                    '1600 Pennsylvania Avenue, Washington DC 20500', //white house
-                    '11 Wall Street New York, NY 10005', //stock exchange
-                    '350 Fifth Avenue New York, NY 10118', //Empire State Building,
-                    '4059 Mt Lee Dr. Hollywood, CA 90068', //holleywood State Building
-										'792 Tehama Street Wright, Washington 19499'
+                    {
+											line1: '1600 Pennsylvania Avenue',
+											city: 'Washington',
+											state: 'DC',
+											postalCode: '20500'
+										},
+										{
+											line1: '11 Wall Street',
+											city: 'New York',
+											state: 'NY',
+											postalCode: '10005'
+										},
+										{
+											line1: '350 Fifth Avenue',
+											city: 'New York',
+											state: 'NY',
+											postalCode: '10118'
+										},
+										{
+											line1: '4059 Mt Lee Dr.',
+											city: 'Hollywood',
+											state: 'CA',
+											postalCode: '90068'
+										},
+										{
+											line1: '792 Tehama Street',
+											city: 'Wright',
+											state: 'WA',
+											postalCode: '19499'
+										}
                 ];
-						return a[tags.integer(0, a.length - 1)];
-					}
-        }
-      ]
-    }
-  }
-]
+						 if (this.lastName == "Martindale")
+						 { 
+							 return [a[tags.index()]];
+						 }
+						 else if (this.lastName == "Rumpelstiltskin")
+						 { 
+							 return [a[1], a[2] ];
+						 }
+						 else if (this.lastName == "Woolery")
+						 { 
+							 return [a[tags.index()]];
+						 }
+						 else {
 
+							return a.slice(0, tags.integer(1, 4));
+						 }
+					}
+    }
+	}
+]
 
 
 [
@@ -372,6 +525,18 @@ var self = this; self.callSuper();
 											city: 'Wright',
 											state: 'WA',
 											postalCode: '19499'
+										},
+										{
+											line1: '44 Shirley Ave. West',
+											city: 'Chicago',
+											state: 'IL',
+											postalCode: '60185'
+										},
+										{
+											line1: '70 Bowman St. South',
+											city: 'Windsor',
+											state: 'CT',
+											postalCode: '06074'
 										}
                 ];
 						return a[tags.integer(0, a.length - 1)];
@@ -391,7 +556,6 @@ var self = this; self.callSuper();
 // 			state: '{{state()}}',
 // 			postalCode: '{{integer(10000, 90000)}}'
 //           }
-
 
 
 

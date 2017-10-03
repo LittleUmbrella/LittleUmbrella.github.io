@@ -153,6 +153,18 @@
                     self.toggleChildrenVisibility();
                 });
             }
+            else if (dropViewModel.isA(circleverse.viewModel.garbageViewModel)) {
+                // var methodVm = this.model().services[0].methods()[0];
+                // var need = methodVm.model().callSpec().need()[0]
+                // //$parent.getObjects.call($parent, e, model)
+                // methodVm.getObjects.call(methodVm, null, need);
+                
+                if (self.parent.isA(circleverse.viewModel.LinksViewModel)){
+                    prom.then(function(){
+                        self.parent.breakLink(self);
+                    });
+                }
+            }
         }
             ,
         droppedOn: function (dragModel, dragVm, args, prom) {
@@ -170,6 +182,21 @@
                     self.toggleChildrenVisibility();
                 });
 
+
+            }
+            else if (dragVm.isA(circleverse.viewModel.garbageViewModel)) {
+                // var methodVm = this.model().services[0].methods()[0];
+                // var need = methodVm.model().callSpec().need()[0]
+                // //$parent.getObjects.call($parent, e, model)
+                // methodVm.getObjects.call(methodVm, null, need);
+                
+
+                
+                if (self.parent.isA(circleverse.viewModel.LinksViewModel)){
+                    prom.then(function(){
+                        self.parent.breakLink(self);
+                    });
+                }
 
             }
         }

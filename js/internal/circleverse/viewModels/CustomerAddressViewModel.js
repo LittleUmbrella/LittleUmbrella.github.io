@@ -26,24 +26,18 @@ circleverse.viewModel.CustomerAddressViewModel = (function () {
             var initSize = 120;
             self.size = ko.observable(initSize);
             //properties
-            this.__reqDiameter = 20;
-            this.methodDiameter = ko.observable(initSize);
-            this.insideDiameter = 40;
 
             self.hasIntroOcurred = ko.observable(false);
             self.kickoffIntro = ko.observable(false);
- self.size = ko.observable(initSize);
 
             this.callSuper();
 
             this.dimensions({ height: this.scale() * initSize, width: this.scale() * initSize });
 
 
-            this.icon.location = { center: true, offset: { y: -35} }; //ko.observable(false);//
 
             this.icon.name('icon-address icon-size-2x');
 
-            this.icon.location = { center: true, offset: { y: -2, x: -4} }; //ko.observable(false);//
 
             self.animationSettings({width: self.parent.dimensions().width, height: self.parent.dimensions().height, callback: self.toggleFormAnimationEnded});
 
@@ -52,6 +46,53 @@ circleverse.viewModel.CustomerAddressViewModel = (function () {
 
             self.memberIcon = ko.observable('icon-search icon-size-3x');
 
+
+            self.changeAdditional = ko.observableArray();
+
+
+            self.linksCount = ko.computed(function(){                
+                
+
+                return self.changeAdditional().length;
+
+            });
+
+            var linksSubscription = null;
+
+            var strawberry = function(linksVm){
+                var llen = linksVm.childViewModels().length;
+
+                self.changeAdditional.removeAll();
+
+                for (var i = 0; i < llen; i++) { 
+                    var lmodel = linksVm.childViewModels()[i].rawModel();
+
+                    if (lmodel.isA(becu_org.domain.model.PersonObservable)){
+                        self.changeAdditional.push(lmodel.fullName());
+                    }
+                    else if (lmodel.isA(becu_org.domain.model.AccountObservable)){
+                        self.changeAdditional.push(lmodel.accountNumber());
+                    }
+                }
+            }
+
+            var childrenSubscription = self.childViewModels.subscribe(function(){  
+
+                var clen = self.childViewModels().length;
+                for (var h = 0; h < clen; h++) {          
+                    var cvm = self.childViewModels()[h];
+
+                    if (cvm.isA(circleverse.viewModel.LinksViewModel)){
+                        if (!linksSubscription)
+                            linksSubscription = cvm.childViewModels.subscribe(function(){
+                                strawberry(cvm);
+                            });
+
+                        strawberry(cvm);                        
+                    }
+                }
+
+            });
 
 
             var searchLocation = self.location(),
@@ -145,7 +186,6 @@ circleverse.viewModel.CustomerAddressViewModel = (function () {
 
             this.info = "Account Transactions (includes Pending)";
 
-            var acct = self.parent.rawModel();
 
 
             self.showForm = ko.observable(false);
@@ -216,6 +256,7 @@ circleverse.viewModel.CustomerAddressViewModel = (function () {
             //self.showLabel(true);
 
             self.canOpen(true);
+            self.canSave(false);
             self.mainFormOpen = false ;
 
             return deferred;
@@ -258,6 +299,7 @@ circleverse.viewModel.CustomerAddressViewModel = (function () {
                 self.size(self.searchDimensionSettingsRegular.width);
                 self.__overridden = false;
                 self.location(self.getCalculatedLocation());
+                self.__overridden = false;
 
             }
         }

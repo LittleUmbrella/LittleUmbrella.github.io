@@ -40,6 +40,8 @@
 
             var dragItem = $(args[2].drag);
             var dragData = dragItem.data("dragdata");
+            if ('undefined' == typeof dragData) //happens when dragged item is removed
+                return; 
             var dragViewModel = dragData.viewModel;
             if ('undefined' == typeof dragViewModel)
                 return;
@@ -217,6 +219,8 @@
 
             var dd = args[2], dragItem = $(dd.drag);
             var dragData = dragItem.data("dragdata");
+            if ('undefined' == typeof dragData) //happens when dragged item is removed
+                return; 
             var dragViewModel = dragData.viewModel;
             if ('undefined' == typeof dragViewModel)
                 return;
@@ -646,7 +650,7 @@
             
             if (data.viewModel.onTop)
                 data.viewModel.onTop((data.viewModel.onTop() || 0) + 1);
-                
+
             var deferred = jQuery.Deferred();
             TweenMax.to(_this, 0.13, { 'scaleX': 1, 'scaleY': 1,
                 repeat: 2,

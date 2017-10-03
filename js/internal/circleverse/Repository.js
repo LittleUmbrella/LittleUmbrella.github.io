@@ -43,9 +43,84 @@ littleUmbrella.circleverse.Repository = (function () {
                 if (options.data != null){                    
                     var address = new becu_org.domain.model.AddressObservable();
                     
-                    ko.mapping.fromJS(options.data, options, address);                        
+                    ko.mapping.fromJS(options.data, mapping.customer, address);                        
                     
                     return address;//new myChildModel(options.data);
+                }
+                
+
+            }
+            //,
+
+        },
+        'accounts': {
+            create: function (options) {
+                if (options.data != null){                    
+                    var acct = new becu_org.domain.model.AccountObservable();
+                    
+                    ko.mapping.fromJS(options.data, mapping.customer, acct);                        
+                    
+                    return acct;//new myChildModel(options.data);
+                }
+                
+
+            }
+            //,
+
+        },
+        'product': {
+            create: function (options) {
+                if (options.data != null){                    
+                    var product = new becu_org.domain.model.ProductObservable();
+                    
+                    ko.mapping.fromJS(options.data, mapping.customer, product);                        
+                    
+                    return product;//new myChildModel(options.data);
+                }
+                
+
+            }
+            //,
+
+        },
+        'relationships': {
+            create: function (options) {
+                if (options.data != null){                    
+                    var rel = new becu_org.domain.model.AccountRelationshipObservable();
+                    
+                    ko.mapping.fromJS(options.data, mapping.customer, rel);                        
+                    
+                    return rel;//new myChildModel(options.data);
+                }
+                
+
+            }
+            //,
+
+        },
+        'accountRole': {
+            create: function (options) {
+                if (options.data != null){                    
+                    var role = new becu_org.domain.model.AccountRoleObservable();
+                    
+                    ko.mapping.fromJS(options.data, mapping.customer, role);                        
+                    
+                    return role;//new myChildModel(options.data);
+                }
+                
+
+            }
+            //,
+
+        },
+        'customer': {
+            create: function (options) {
+                if (options.data != null){                    
+                    var cust = new becu_org.domain.model.CustomerObservable();
+                    
+                    ko.mapping.fromJS(options.data, mapping.customer, cust);                        
+                    
+                    return cust;//new myChildModel(options.data);
                 }
                 
 
@@ -157,14 +232,9 @@ littleUmbrella.circleverse.Repository = (function () {
                     '350 Fifth Avenue New York, NY 10118', //Empire State Building,
                     '350 Fifth A New York, NY 10118', //Empire State Building,
                     '350 Fifth Ave New York, NY 10118', //Empire State Building
-                    '221 B Baker St, London, England', //holmes
-                    '221 B Baker St, London, England', 
-                    '221 B Baker St, London, England', 
-                    '221B Baker St, Marylebone, London NW1 6XE, UK', 
-                    '221B Baker St, Marylebone, London NW1 6XE, UK', 
-                    '221B Baker St, Marylebone, London NW1 6XE, UK', 
                     '4059 Mt Lee Dr. Hollywood, CA 90068', //holleywood State Building
-                    '4059 Mt Lee Dr. Hollywood, CA 90068'
+                    '4059 Mt Lee Dr. Hollywood, CA 90068',
+                    '951 Silver Spring Ct St Augustine, FL 32092'
                 ];
 
                 for(var i = 0; i < arr.length; i++){
@@ -258,7 +328,8 @@ littleUmbrella.circleverse.Repository = (function () {
             var deferred = $.Deferred();
 
             setTimeout(function () {
-                var arr = [
+                var arr = 
+                [
   {
     "id": 0,
     "lastName": "Martindale",
@@ -387,6 +458,33 @@ littleUmbrella.circleverse.Repository = (function () {
   }
 ];
                 
+                if (cmd){
+                    if (!eaf.util.isNullOrWhitespace(cmd.firstName)){
+                        for(var i = 0; i < arr.length; i++){
+                            if (eaf.util.isNullOrWhitespace(arr[i].firstName) || arr[i].firstName.toLowerCase().indexOf(cmd.firstName.toLowerCase()) == -1){
+                                arr.splice(i, 1);
+                                i--;
+                            }
+                        }
+                    }
+                    if (!eaf.util.isNullOrWhitespace(cmd.lastName)){
+                        for(var i = 0; i < arr.length; i++){
+                            if (eaf.util.isNullOrWhitespace(arr[i].lastName) || arr[i].lastName.toLowerCase().indexOf(cmd.lastName.toLowerCase()) == -1){
+                                arr.splice(i, 1);
+                                i--;
+                            }
+                        }
+                    }
+                    if (!eaf.util.isNullOrWhitespace(cmd.taxId)){
+                        for(var i = 0; i < arr.length; i++){
+                            if (eaf.util.isNullOrWhitespace(arr[i].taxId) || arr[i].taxId.toLowerCase().indexOf(cmd.taxId.toLowerCase()) == -1){
+                                arr.splice(i, 1);
+                                i--;
+                            }
+                        }
+                    }
+                }
+
                 deferred.resolve(arr);
             }, 200);
 
@@ -408,184 +506,245 @@ littleUmbrella.circleverse.Repository = (function () {
     "lastName": "Martindale",
     "firstName": "Wink",
     "taxId": 462241293,
-    "dateOfBirth": "Fri Apr 29 1983 00:16:59 GMT-0700 (Pacific Daylight Time)",
-    "mothersMaidenName": "green",
-    "emailAddress": "wink.martindale@green.com",
-    "homePhone": "(833) 401-2244",
-    "mobilePhone": "(929) 536-3079",
-    "officePhone": "(929) 414-3609",
+    "dateOfBirth": "Fri Aug 26 1977 07:41:10 GMT+0000 (UTC)",
+    "mothersMaidenName": "brown",
+    "emailAddress": "wink.martindale@brown.com",
+    "__key__": {
+      "fn": "Wink",
+      "ln": "Martindale"
+    },
+    "homePhone": "(833) 422-2510",
+    "mobilePhone": "(956) 556-2578",
+    "officePhone": "(943) 437-3359",
     "accounts": [
       {
-        "accountNumber": 8192231637,
-        "balance": 36225,
+        "accountNumber": 3567152215,
+        "balance": 42679,
+        "__key__": {
+          "fn": "Wink",
+          "ln": "Martindale"
+        },
         "product": {
           "primaryProductCode": "Savings",
           "secondaryProductCode": "Advantage"
         },
-        "addresses": [],
+        "addresses": null,
         "relationships": [
           {
             "accountRole": {
               "accountRoleDescription": "Joint"
             },
+            "__key__": {
+              "fn": "Wink",
+              "ln": "Martindale"
+            },
             "customer": {
               "id": 0,
-              "firstName": "Oscar ",
-              "taxId": 362639413,
-              "dateOfBirth": "Wed Jun 06 1984 15:59:06 GMT-0700 (Pacific Daylight Time)",
-              "mothersMaidenName": "blue",
-              "emailAddress": "oscar .undefined@blue.com",
-              "homePhone": "(861) 439-3351",
-              "mobilePhone": "(827) 429-2651",
-              "officePhone": "(938) 438-3808",
-              "addresses": [
-                {
-                  "line1": "792 Tehama Street",
-                  "city": "Wright",
-                  "state": "WA",
-                  "postalCode": "19499"
-                },
-                {
-                  "line1": "11 Wall Street",
-                  "city": "New York",
-                  "state": "NY",
-                  "postalCode": "10005"
-                },
-                {
-                  "line1": "792 Tehama Street",
-                  "city": "Wright",
-                  "state": "WA",
-                  "postalCode": "19499"
-                },
-                {
-                  "line1": "11 Wall Street",
-                  "city": "New York",
-                  "state": "NY",
-                  "postalCode": "10005"
-                },
-                {
-                  "line1": "11 Wall Street",
-                  "city": "New York",
-                  "state": "NY",
-                  "postalCode": "10005"
-                }
-              ]
+              "firstName": "Harry",
+              "lastName": "Houdini",
+              "taxId": 861157389,
+              "dateOfBirth": "Sat Jun 01 1985 14:47:24 GMT+0000 (UTC)",
+              "mothersMaidenName": "green",
+              "emailAddress": "harry.houdini@green.com",
+              "homePhone": "(993) 450-2004",
+              "mobilePhone": "(955) 563-2414",
+              "officePhone": "(917) 590-3731",
+              "addresses": null
+            }
+          },
+          {
+            "accountRole": {
+              "accountRoleDescription": "Joint"
+            },
+            "__key__": {
+              "fn": "Wink",
+              "ln": "Martindale"
+            },
+            "customer": {
+              "id": 1,
+              "firstName": "Arnold",
+              "lastName": "schwarzenegger",
+              "taxId": 657361419,
+              "dateOfBirth": "Mon Sep 10 2012 03:18:04 GMT+0000 (UTC)",
+              "mothersMaidenName": "green",
+              "emailAddress": "arnold.schwarzenegger@green.com",
+              "homePhone": "(895) 484-3785",
+              "mobilePhone": "(910) 515-2152",
+              "officePhone": "(819) 520-2778",
+              "addresses": null
+            }
+          },
+          {
+            "accountRole": {
+              "accountRoleDescription": "Joint"
+            },
+            "__key__": {
+              "fn": "Wink",
+              "ln": "Martindale"
+            },
+            "customer": {
+              "id": 2,
+              "firstName": "Arnold",
+              "lastName": "schwarzenegger",
+              "taxId": 962634165,
+              "dateOfBirth": "Thu Feb 26 1987 07:43:59 GMT+0000 (UTC)",
+              "mothersMaidenName": "brown",
+              "emailAddress": "arnold.schwarzenegger@brown.com",
+              "homePhone": "(907) 556-3637",
+              "mobilePhone": "(810) 531-3190",
+              "officePhone": "(826) 557-2284",
+              "addresses": null
             }
           }
         ]
       },
       {
-        "accountNumber": 8793751391,
-        "balance": 7751,
-        "product": {
-          "primaryProductCode": "Checking",
-          "secondaryProductCode": "Advantage"
+        "accountNumber": 9356198248,
+        "balance": 20303,
+        "__key__": {
+          "fn": "Wink",
+          "ln": "Martindale"
         },
-        "addresses": [],
+        "product": {
+          "primaryProductCode": "Savings",
+          "secondaryProductCode": "Mortgage"
+        },
+        "addresses": null,
         "relationships": [
           {
             "accountRole": {
               "accountRoleDescription": "Joint"
             },
+            "__key__": {
+              "fn": "Wink",
+              "ln": "Martindale"
+            },
             "customer": {
               "id": 0,
-              "firstName": "Nicolas",
-              "lastName": "Cage",
-              "taxId": 868762848,
-              "dateOfBirth": "Fri Jan 18 1974 10:11:17 GMT-0800 (Pacific Standard Time)",
+              "firstName": "Oscar",
+              "lastName": "Wilde",
+              "taxId": 668728631,
+              "dateOfBirth": "Tue May 29 2001 13:40:11 GMT+0000 (UTC)",
               "mothersMaidenName": "brown",
-              "emailAddress": "nicolas.cage@brown.com",
-              "homePhone": "(841) 416-2045",
-              "mobilePhone": "(992) 466-3908",
-              "officePhone": "(871) 495-3585",
-              "addresses": [
-                {
-                  "line1": "1600 Pennsylvania Avenue",
-                  "city": "Washington",
-                  "state": "DC",
-                  "postalCode": "20500"
-                },
-                {
-                  "line1": "792 Tehama Street",
-                  "city": "Wright",
-                  "state": "WA",
-                  "postalCode": "19499"
-                }
-              ]
+              "emailAddress": "oscar.wilde@brown.com",
+              "homePhone": "(899) 487-2788",
+              "mobilePhone": "(805) 522-2330",
+              "officePhone": "(841) 499-2791",
+              "addresses": null
+            }
+          },
+          {
+            "accountRole": {
+              "accountRoleDescription": "Signer"
+            },
+            "__key__": {
+              "fn": "Wink",
+              "ln": "Martindale"
+            },
+            "customer": {
+              "id": 1,
+              "firstName": "Arnold",
+              "lastName": "schwarzenegger",
+              "taxId": 489571347,
+              "dateOfBirth": "Mon Mar 23 2009 05:24:07 GMT+0000 (UTC)",
+              "mothersMaidenName": "brown",
+              "emailAddress": "arnold.schwarzenegger@brown.com",
+              "homePhone": "(890) 591-2799",
+              "mobilePhone": "(965) 585-3509",
+              "officePhone": "(973) 491-2427",
+              "addresses": null
             }
           },
           {
             "accountRole": {
               "accountRoleDescription": "Viewer"
             },
+            "__key__": {
+              "fn": "Wink",
+              "ln": "Martindale"
+            },
             "customer": {
-              "id": 1,
-              "firstName": "Oscar ",
-              "taxId": 227656354,
-              "dateOfBirth": "Tue Jun 21 2016 09:43:33 GMT-0700 (Pacific Daylight Time)",
+              "id": 2,
+              "firstName": "Oprah",
+              "lastName": "Winfrey",
+              "taxId": 471149738,
+              "dateOfBirth": "Wed Aug 10 2011 18:14:55 GMT+0000 (UTC)",
               "mothersMaidenName": "brown",
-              "emailAddress": "oscar .undefined@brown.com",
-              "homePhone": "(872) 429-3167",
-              "mobilePhone": "(811) 593-2069",
-              "officePhone": "(805) 565-3152",
-              "addresses": [
-                {
-                  "line1": "350 Fifth Avenue",
-                  "city": "New York",
-                  "state": "NY",
-                  "postalCode": "10118"
-                }
-              ]
+              "emailAddress": "oprah.winfrey@brown.com",
+              "homePhone": "(888) 564-3431",
+              "mobilePhone": "(842) 432-3172",
+              "officePhone": "(976) 469-2301",
+              "addresses": null
             }
           }
         ]
       },
       {
-        "accountNumber": 8492588174,
-        "balance": 74929,
+        "accountNumber": 6334216343,
+        "balance": 37205,
+        "__key__": {
+          "fn": "Wink",
+          "ln": "Martindale"
+        },
         "product": {
-          "primaryProductCode": "Checking",
+          "primaryProductCode": "Mortgage",
           "secondaryProductCode": "Mortgage"
         },
-        "addresses": [
+        "addresses": null,
+        "relationships": [
           {
-            "line1": "792 Tehama Street",
-            "city": "Wright",
-            "state": "WA",
-            "postalCode": "19499"
+            "accountRole": {
+              "accountRoleDescription": "Viewer"
+            },
+            "__key__": {
+              "fn": "Wink",
+              "ln": "Martindale"
+            },
+            "customer": {
+              "id": 0,
+              "firstName": "Oscar",
+              "lastName": "Wilde",
+              "taxId": 513353957,
+              "dateOfBirth": "Fri Dec 19 2003 14:47:23 GMT+0000 (UTC)",
+              "mothersMaidenName": "brown",
+              "emailAddress": "oscar.wilde@brown.com",
+              "homePhone": "(896) 595-3088",
+              "mobilePhone": "(845) 456-2662",
+              "officePhone": "(813) 424-3492",
+              "addresses": null
+            }
+          },
+          {
+            "accountRole": {
+              "accountRoleDescription": "Viewer"
+            },
+            "__key__": {
+              "fn": "Wink",
+              "ln": "Martindale"
+            },
+            "customer": {
+              "id": 1,
+              "firstName": "Oprah",
+              "lastName": "Winfrey",
+              "taxId": 961478595,
+              "dateOfBirth": "Fri Dec 24 2010 12:16:01 GMT+0000 (UTC)",
+              "mothersMaidenName": "brown",
+              "emailAddress": "oprah.winfrey@brown.com",
+              "homePhone": "(939) 442-3940",
+              "mobilePhone": "(932) 575-3302",
+              "officePhone": "(852) 515-2634",
+              "addresses": null
+            }
           }
-        ],
-        "relationships": []
-      },
-      {
-        "accountNumber": 3256259855,
-        "balance": 41419,
-        "product": {
-          "primaryProductCode": "Savings",
-          "secondaryProductCode": "Mortgage"
-        },
-        "addresses": [],
-        "relationships": []
+        ]
       }
     ],
     "addresses": [
       {
-        "line1": "350 Fifth Avenue",
+        "line1": "11 Wall Street",
         "city": "New York",
         "state": "NY",
-        "postalCode": "10118"
-      },
-      {
-        "line1": "792 Tehama Street",
-        "city": "Wright",
-        "state": "WA",
-        "postalCode": "19499"
-      },
-      {
-        "line1": "1600 Pennsylvania Avenue",
-        "city": "Washington",
-        "state": "DC",
-        "postalCode": "20500"
+        "postalCode": "10005"
       }
     ]
   },
@@ -594,316 +753,71 @@ littleUmbrella.circleverse.Repository = (function () {
     "lastName": "Woolery",
     "firstName": "Chuck",
     "taxId": 318553887,
-    "dateOfBirth": "Sat Nov 02 1985 16:28:08 GMT-0700 (Pacific Daylight Time)",
-    "mothersMaidenName": "green",
-    "emailAddress": "chuck.woolery@green.com",
-    "homePhone": "(993) 561-2502",
-    "mobilePhone": "(950) 459-3321",
-    "officePhone": "(805) 482-3243",
+    "dateOfBirth": "Sun Oct 05 1986 23:38:47 GMT+0000 (UTC)",
+    "mothersMaidenName": "brown",
+    "emailAddress": "chuck.woolery@brown.com",
+    "__key__": {
+      "fn": "Chuck",
+      "ln": "Woolery"
+    },
+    "homePhone": "(995) 530-2514",
+    "mobilePhone": "(807) 583-2291",
+    "officePhone": "(827) 531-2869",
     "accounts": [
       {
-        "accountNumber": 8652537614,
-        "balance": 39221,
-        "product": {
-          "primaryProductCode": "Checking",
-          "secondaryProductCode": "Mortgage"
+        "accountNumber": 9463845876,
+        "balance": 75416,
+        "__key__": {
+          "fn": "Chuck",
+          "ln": "Woolery"
         },
-        "addresses": [
-          {
-            "line1": "70 Bowman St. South",
-            "city": "Windsor",
-            "state": "CT",
-            "postalCode": "06074"
-          }
-        ],
-        "relationships": [
-          {
-            "accountRole": {
-              "accountRoleDescription": "Signer"
-            },
-            "customer": {
-              "id": 0,
-              "firstName": "Oprah",
-              "lastName": "Winfrey",
-              "taxId": 446699571,
-              "dateOfBirth": "Sat Jan 23 2010 17:41:09 GMT-0800 (Pacific Standard Time)",
-              "mothersMaidenName": "brown",
-              "emailAddress": "oprah.winfrey@brown.com",
-              "homePhone": "(992) 438-2538",
-              "mobilePhone": "(804) 527-3800",
-              "officePhone": "(979) 467-3119",
-              "addresses": [
-                {
-                  "line1": "350 Fifth Avenue",
-                  "city": "New York",
-                  "state": "NY",
-                  "postalCode": "10118"
-                },
-                {
-                  "line1": "1600 Pennsylvania Avenue",
-                  "city": "Washington",
-                  "state": "DC",
-                  "postalCode": "20500"
-                }
-              ]
-            }
-          },
-          {
-            "accountRole": {
-              "accountRoleDescription": "Signer"
-            },
-            "customer": {
-              "id": 1,
-              "firstName": "Arnold",
-              "lastName": "schwarzenegger",
-              "taxId": 611899776,
-              "dateOfBirth": "Mon Aug 23 1999 19:49:33 GMT-0700 (Pacific Daylight Time)",
-              "mothersMaidenName": "brown",
-              "emailAddress": "arnold.schwarzenegger@brown.com",
-              "homePhone": "(921) 553-2972",
-              "mobilePhone": "(819) 505-3067",
-              "officePhone": "(842) 412-3250",
-              "addresses": [
-                {
-                  "line1": "792 Tehama Street",
-                  "city": "Wright",
-                  "state": "WA",
-                  "postalCode": "19499"
-                },
-                {
-                  "line1": "11 Wall Street",
-                  "city": "New York",
-                  "state": "NY",
-                  "postalCode": "10005"
-                }
-              ]
-            }
-          },
-          {
-            "accountRole": {
-              "accountRoleDescription": "Joint"
-            },
-            "customer": {
-              "id": 2,
-              "firstName": "Oscar ",
-              "taxId": 996337552,
-              "dateOfBirth": "Sat May 04 2002 05:52:21 GMT-0700 (Pacific Daylight Time)",
-              "mothersMaidenName": "green",
-              "emailAddress": "oscar .undefined@green.com",
-              "homePhone": "(849) 489-3449",
-              "mobilePhone": "(849) 477-3436",
-              "officePhone": "(924) 476-2460",
-              "addresses": [
-                {
-                  "line1": "11 Wall Street",
-                  "city": "New York",
-                  "state": "NY",
-                  "postalCode": "10005"
-                },
-                {
-                  "line1": "1600 Pennsylvania Avenue",
-                  "city": "Washington",
-                  "state": "DC",
-                  "postalCode": "20500"
-                },
-                {
-                  "line1": "1600 Pennsylvania Avenue",
-                  "city": "Washington",
-                  "state": "DC",
-                  "postalCode": "20500"
-                },
-                {
-                  "line1": "11 Wall Street",
-                  "city": "New York",
-                  "state": "NY",
-                  "postalCode": "10005"
-                },
-                {
-                  "line1": "4059 Mt Lee Dr.",
-                  "city": "Hollywood",
-                  "state": "CA",
-                  "postalCode": "90068"
-                }
-              ]
-            }
-          },
-          {
-            "accountRole": {
-              "accountRoleDescription": "Viewer"
-            },
-            "customer": {
-              "id": 3,
-              "firstName": "Nicolas",
-              "lastName": "Cage",
-              "taxId": 722996714,
-              "dateOfBirth": "Thu Aug 14 1997 01:26:34 GMT-0700 (Pacific Daylight Time)",
-              "mothersMaidenName": "blue",
-              "emailAddress": "nicolas.cage@blue.com",
-              "homePhone": "(872) 514-2933",
-              "mobilePhone": "(805) 448-2224",
-              "officePhone": "(875) 433-2690",
-              "addresses": [
-                {
-                  "line1": "792 Tehama Street",
-                  "city": "Wright",
-                  "state": "WA",
-                  "postalCode": "19499"
-                },
-                {
-                  "line1": "11 Wall Street",
-                  "city": "New York",
-                  "state": "NY",
-                  "postalCode": "10005"
-                }
-              ]
-            }
-          }
-        ]
-      },
-      {
-        "accountNumber": 6846658292,
-        "balance": 32644,
-        "product": {
-          "primaryProductCode": "Checking",
-          "secondaryProductCode": "Mortgage"
-        },
-        "addresses": [],
-        "relationships": [
-          {
-            "accountRole": {
-              "accountRoleDescription": "Viewer"
-            },
-            "customer": {
-              "id": 0,
-              "firstName": "Arnold",
-              "lastName": "schwarzenegger",
-              "taxId": 445574179,
-              "dateOfBirth": "Mon Jun 22 1992 20:10:44 GMT-0700 (Pacific Daylight Time)",
-              "mothersMaidenName": "brown",
-              "emailAddress": "arnold.schwarzenegger@brown.com",
-              "homePhone": "(867) 501-2237",
-              "mobilePhone": "(829) 548-2254",
-              "officePhone": "(991) 420-2899",
-              "addresses": [
-                {
-                  "line1": "792 Tehama Street",
-                  "city": "Wright",
-                  "state": "WA",
-                  "postalCode": "19499"
-                },
-                {
-                  "line1": "792 Tehama Street",
-                  "city": "Wright",
-                  "state": "WA",
-                  "postalCode": "19499"
-                },
-                {
-                  "line1": "11 Wall Street",
-                  "city": "New York",
-                  "state": "NY",
-                  "postalCode": "10005"
-                }
-              ]
-            }
-          },
-          {
-            "accountRole": {
-              "accountRoleDescription": "Viewer"
-            },
-            "customer": {
-              "id": 1,
-              "firstName": "Nicolas",
-              "lastName": "Cage",
-              "taxId": 995412276,
-              "dateOfBirth": "Tue Jun 05 2001 01:55:47 GMT-0700 (Pacific Daylight Time)",
-              "mothersMaidenName": "green",
-              "emailAddress": "nicolas.cage@green.com",
-              "homePhone": "(917) 519-2906",
-              "mobilePhone": "(822) 406-2267",
-              "officePhone": "(997) 438-3111",
-              "addresses": [
-                {
-                  "line1": "792 Tehama Street",
-                  "city": "Wright",
-                  "state": "WA",
-                  "postalCode": "19499"
-                },
-                {
-                  "line1": "792 Tehama Street",
-                  "city": "Wright",
-                  "state": "WA",
-                  "postalCode": "19499"
-                },
-                {
-                  "line1": "11 Wall Street",
-                  "city": "New York",
-                  "state": "NY",
-                  "postalCode": "10005"
-                },
-                {
-                  "line1": "1600 Pennsylvania Avenue",
-                  "city": "Washington",
-                  "state": "DC",
-                  "postalCode": "20500"
-                },
-                {
-                  "line1": "1600 Pennsylvania Avenue",
-                  "city": "Washington",
-                  "state": "DC",
-                  "postalCode": "20500"
-                }
-              ]
-            }
-          }
-        ]
-      },
-      {
-        "accountNumber": 1411563895,
-        "balance": 27562,
         "product": {
           "primaryProductCode": "Savings",
           "secondaryProductCode": "Mortgage"
         },
-        "addresses": [],
+        "addresses": null,
+        "relationships": []
+      },
+      {
+        "accountNumber": 6766679816,
+        "balance": 70705,
+        "__key__": {
+          "fn": "Chuck",
+          "ln": "Woolery"
+        },
+        "product": {
+          "primaryProductCode": "Mortgage",
+          "secondaryProductCode": "Checking"
+        },
+        "addresses": null,
         "relationships": [
           {
             "accountRole": {
-              "accountRoleDescription": "Viewer"
+              "accountRoleDescription": "Joint"
+            },
+            "__key__": {
+              "fn": "Chuck",
+              "ln": "Woolery"
             },
             "customer": {
               "id": 0,
-              "firstName": "Oscar ",
-              "taxId": 636193245,
-              "dateOfBirth": "Wed Jan 10 1973 23:42:36 GMT-0800 (Pacific Standard Time)",
+              "firstName": [
+                "Oprah"
+              ],
+              "lastName": "Winfrey",
+              "taxId": 946123186,
+              "dateOfBirth": "Fri Aug 26 2011 18:45:57 GMT+0000 (UTC)",
               "mothersMaidenName": "blue",
-              "emailAddress": "oscar .undefined@blue.com",
-              "homePhone": "(999) 463-3546",
-              "mobilePhone": "(935) 563-2811",
-              "officePhone": "(927) 496-2445",
+              "emailAddress": "oprah.winfrey@blue.com",
+              "homePhone": "(894) 491-3470",
+              "mobilePhone": "(945) 421-2463",
+              "officePhone": "(872) 576-3998",
               "addresses": [
                 {
-                  "line1": "1600 Pennsylvania Avenue",
-                  "city": "Washington",
-                  "state": "DC",
-                  "postalCode": "20500"
-                },
-                {
-                  "line1": "4059 Mt Lee Dr.",
-                  "city": "Hollywood",
-                  "state": "CA",
-                  "postalCode": "90068"
-                },
-                {
-                  "line1": "792 Tehama Street",
-                  "city": "Wright",
-                  "state": "WA",
-                  "postalCode": "19499"
-                },
-                {
-                  "line1": "11 Wall Street",
+                  "line1": "350 Fifth Avenue",
                   "city": "New York",
                   "state": "NY",
-                  "postalCode": "10005"
+                  "postalCode": "10118"
                 }
               ]
             }
@@ -911,78 +825,30 @@ littleUmbrella.circleverse.Repository = (function () {
           {
             "accountRole": {
               "accountRoleDescription": "Joint"
+            },
+            "__key__": {
+              "fn": "Chuck",
+              "ln": "Woolery"
             },
             "customer": {
               "id": 1,
-              "firstName": "Oprah",
+              "firstName": [
+                "Oprah"
+              ],
               "lastName": "Winfrey",
-              "taxId": 821352333,
-              "dateOfBirth": "Sat Nov 01 1975 20:57:17 GMT-0700 (Pacific Daylight Time)",
+              "taxId": 593977286,
+              "dateOfBirth": "Fri Jul 11 2014 04:53:50 GMT+0000 (UTC)",
               "mothersMaidenName": "brown",
               "emailAddress": "oprah.winfrey@brown.com",
-              "homePhone": "(963) 556-2378",
-              "mobilePhone": "(865) 413-3009",
-              "officePhone": "(906) 565-2388",
+              "homePhone": "(933) 435-2630",
+              "mobilePhone": "(971) 480-2382",
+              "officePhone": "(866) 591-2286",
               "addresses": [
                 {
                   "line1": "350 Fifth Avenue",
                   "city": "New York",
                   "state": "NY",
                   "postalCode": "10118"
-                },
-                {
-                  "line1": "4059 Mt Lee Dr.",
-                  "city": "Hollywood",
-                  "state": "CA",
-                  "postalCode": "90068"
-                },
-                {
-                  "line1": "792 Tehama Street",
-                  "city": "Wright",
-                  "state": "WA",
-                  "postalCode": "19499"
-                }
-              ]
-            }
-          },
-          {
-            "accountRole": {
-              "accountRoleDescription": "Joint"
-            },
-            "customer": {
-              "id": 2,
-              "firstName": "Oscar ",
-              "taxId": 625132554,
-              "dateOfBirth": "Thu Jun 17 2004 22:08:45 GMT-0700 (Pacific Daylight Time)",
-              "mothersMaidenName": "green",
-              "emailAddress": "oscar .undefined@green.com",
-              "homePhone": "(903) 460-2011",
-              "mobilePhone": "(865) 558-3770",
-              "officePhone": "(820) 564-3388",
-              "addresses": [
-                {
-                  "line1": "11 Wall Street",
-                  "city": "New York",
-                  "state": "NY",
-                  "postalCode": "10005"
-                },
-                {
-                  "line1": "350 Fifth Avenue",
-                  "city": "New York",
-                  "state": "NY",
-                  "postalCode": "10118"
-                },
-                {
-                  "line1": "1600 Pennsylvania Avenue",
-                  "city": "Washington",
-                  "state": "DC",
-                  "postalCode": "20500"
-                },
-                {
-                  "line1": "1600 Pennsylvania Avenue",
-                  "city": "Washington",
-                  "state": "DC",
-                  "postalCode": "20500"
                 }
               ]
             }
@@ -991,83 +857,29 @@ littleUmbrella.circleverse.Repository = (function () {
             "accountRole": {
               "accountRoleDescription": "Viewer"
             },
-            "customer": {
-              "id": 3,
-              "firstName": "Oscar ",
-              "taxId": 696915788,
-              "dateOfBirth": "Wed May 03 1972 02:16:11 GMT-0700 (Pacific Daylight Time)",
-              "mothersMaidenName": "green",
-              "emailAddress": "oscar .undefined@green.com",
-              "homePhone": "(856) 514-2530",
-              "mobilePhone": "(987) 451-3063",
-              "officePhone": "(829) 445-3829",
-              "addresses": [
-                {
-                  "line1": "4059 Mt Lee Dr.",
-                  "city": "Hollywood",
-                  "state": "CA",
-                  "postalCode": "90068"
-                },
-                {
-                  "line1": "792 Tehama Street",
-                  "city": "Wright",
-                  "state": "WA",
-                  "postalCode": "19499"
-                }
-              ]
-            }
-          }
-        ]
-      },
-      {
-        "accountNumber": 4726888637,
-        "balance": 4805,
-        "product": {
-          "primaryProductCode": "Checking",
-          "secondaryProductCode": "Checking"
-        },
-        "addresses": [
-          {
-            "line1": "11 Wall Street",
-            "city": "New York",
-            "state": "NY",
-            "postalCode": "10005"
-          }
-        ],
-        "relationships": [
-          {
-            "accountRole": {
-              "accountRoleDescription": "Joint"
+            "__key__": {
+              "fn": "Chuck",
+              "ln": "Woolery"
             },
             "customer": {
-              "id": 0,
-              "firstName": "Nicolas",
-              "lastName": "Cage",
-              "taxId": 647632661,
-              "dateOfBirth": "Tue May 10 1994 22:04:09 GMT-0700 (Pacific Daylight Time)",
-              "mothersMaidenName": "brown",
-              "emailAddress": "nicolas.cage@brown.com",
-              "homePhone": "(924) 573-2399",
-              "mobilePhone": "(842) 543-2767",
-              "officePhone": "(884) 474-3349",
+              "id": 2,
+              "firstName": [
+                "Oprah"
+              ],
+              "lastName": "Winfrey",
+              "taxId": 739939855,
+              "dateOfBirth": "Fri May 21 1999 21:36:31 GMT+0000 (UTC)",
+              "mothersMaidenName": "green",
+              "emailAddress": "oprah.winfrey@green.com",
+              "homePhone": "(977) 597-2738",
+              "mobilePhone": "(912) 433-3365",
+              "officePhone": "(855) 406-3699",
               "addresses": [
                 {
-                  "line1": "1600 Pennsylvania Avenue",
-                  "city": "Washington",
-                  "state": "DC",
-                  "postalCode": "20500"
-                },
-                {
                   "line1": "350 Fifth Avenue",
                   "city": "New York",
                   "state": "NY",
-                  "postalCode": "10118"
-                },
-                {
-                  "line1": "350 Fifth Avenue",
-                  "city": "New York",
-                  "state": "NY",
-                  "postalCode": "10118"
+                  "postalCode": 10118
                 }
               ]
             }
@@ -1077,34 +889,10 @@ littleUmbrella.circleverse.Repository = (function () {
     ],
     "addresses": [
       {
-        "line1": "4059 Mt Lee Dr.",
-        "city": "Hollywood",
-        "state": "CA",
-        "postalCode": "90068"
-      },
-      {
         "line1": "350 Fifth Avenue",
         "city": "New York",
         "state": "NY",
         "postalCode": "10118"
-      },
-      {
-        "line1": "350 Fifth Avenue",
-        "city": "New York",
-        "state": "NY",
-        "postalCode": "10118"
-      },
-      {
-        "line1": "4059 Mt Lee Dr.",
-        "city": "Hollywood",
-        "state": "CA",
-        "postalCode": "90068"
-      },
-      {
-        "line1": "792 Tehama Street",
-        "city": "Wright",
-        "state": "WA",
-        "postalCode": "19499"
       }
     ]
   },
@@ -1113,195 +901,48 @@ littleUmbrella.circleverse.Repository = (function () {
     "lastName": "Humperdink",
     "firstName": "Ingleburt",
     "taxId": 637791872,
-    "dateOfBirth": "Mon Sep 17 2012 05:07:50 GMT-0700 (Pacific Daylight Time)",
-    "mothersMaidenName": "brown",
-    "emailAddress": "ingleburt.humperdink@brown.com",
-    "homePhone": "(880) 423-2064",
-    "mobilePhone": "(916) 474-2972",
-    "officePhone": "(805) 406-3267",
+    "dateOfBirth": "Wed Dec 10 1980 10:58:16 GMT+0000 (UTC)",
+    "mothersMaidenName": "green",
+    "emailAddress": "ingleburt.humperdink@green.com",
+    "__key__": {
+      "fn": "Ingleburt",
+      "ln": "Humperdink"
+    },
+    "homePhone": "(987) 560-3557",
+    "mobilePhone": "(828) 496-2233",
+    "officePhone": "(952) 474-2240",
     "accounts": [
       {
-        "accountNumber": 6581874157,
-        "balance": 32347,
-        "product": {
-          "primaryProductCode": "Mortgage",
-          "secondaryProductCode": "Checking"
+        "accountNumber": 4748526539,
+        "balance": 52785,
+        "__key__": {
+          "fn": "Ingleburt",
+          "ln": "Humperdink"
         },
-        "addresses": [],
-        "relationships": [
+        "product": {
+          "primaryProductCode": "Checking",
+          "secondaryProductCode": "Mortgage"
+        },
+        "addresses": [
           {
-            "accountRole": {
-              "accountRoleDescription": "Joint"
-            },
-            "customer": {
-              "id": 0,
-              "firstName": "Nicolas",
-              "lastName": "Cage",
-              "taxId": 782451315,
-              "dateOfBirth": "Tue Dec 05 1989 00:00:02 GMT-0800 (Pacific Standard Time)",
-              "mothersMaidenName": "blue",
-              "emailAddress": "nicolas.cage@blue.com",
-              "homePhone": "(976) 532-2166",
-              "mobilePhone": "(878) 570-3495",
-              "officePhone": "(982) 423-3535",
-              "addresses": [
-                {
-                  "line1": "792 Tehama Street",
-                  "city": "Wright",
-                  "state": "WA",
-                  "postalCode": "19499"
-                },
-                {
-                  "line1": "4059 Mt Lee Dr.",
-                  "city": "Hollywood",
-                  "state": "CA",
-                  "postalCode": "90068"
-                },
-                {
-                  "line1": "1600 Pennsylvania Avenue",
-                  "city": "Washington",
-                  "state": "DC",
-                  "postalCode": "20500"
-                },
-                {
-                  "line1": "350 Fifth Avenue",
-                  "city": "New York",
-                  "state": "NY",
-                  "postalCode": "10118"
-                }
-              ]
-            }
-          },
-          {
-            "accountRole": {
-              "accountRoleDescription": "Joint"
-            },
-            "customer": {
-              "id": 1,
-              "firstName": "Oprah",
-              "lastName": "Winfrey",
-              "taxId": 289771235,
-              "dateOfBirth": "Fri Feb 10 2006 07:53:04 GMT-0800 (Pacific Standard Time)",
-              "mothersMaidenName": "green",
-              "emailAddress": "oprah.winfrey@green.com",
-              "homePhone": "(826) 518-2532",
-              "mobilePhone": "(879) 457-2846",
-              "officePhone": "(932) 572-3475",
-              "addresses": [
-                {
-                  "line1": "350 Fifth Avenue",
-                  "city": "New York",
-                  "state": "NY",
-                  "postalCode": "10118"
-                },
-                {
-                  "line1": "350 Fifth Avenue",
-                  "city": "New York",
-                  "state": "NY",
-                  "postalCode": "10118"
-                }
-              ]
-            }
-          },
-          {
-            "accountRole": {
-              "accountRoleDescription": "Joint"
-            },
-            "customer": {
-              "id": 2,
-              "firstName": "Harry",
-              "lastName": "Houdini",
-              "taxId": 458247443,
-              "dateOfBirth": "Sat Oct 20 2012 13:34:02 GMT-0700 (Pacific Daylight Time)",
-              "mothersMaidenName": "brown",
-              "emailAddress": "harry.houdini@brown.com",
-              "homePhone": "(852) 507-3318",
-              "mobilePhone": "(986) 404-3850",
-              "officePhone": "(885) 581-2851",
-              "addresses": [
-                {
-                  "line1": "4059 Mt Lee Dr.",
-                  "city": "Hollywood",
-                  "state": "CA",
-                  "postalCode": "90068"
-                },
-                {
-                  "line1": "11 Wall Street",
-                  "city": "New York",
-                  "state": "NY",
-                  "postalCode": "10005"
-                },
-                {
-                  "line1": "11 Wall Street",
-                  "city": "New York",
-                  "state": "NY",
-                  "postalCode": "10005"
-                },
-                {
-                  "line1": "350 Fifth Avenue",
-                  "city": "New York",
-                  "state": "NY",
-                  "postalCode": "10118"
-                }
-              ]
-            }
-          },
-          {
-            "accountRole": {
-              "accountRoleDescription": "Joint"
-            },
-            "customer": {
-              "id": 3,
-              "firstName": "Oscar ",
-              "taxId": 133154276,
-              "dateOfBirth": "Tue Apr 21 1981 10:37:13 GMT-0700 (Pacific Daylight Time)",
-              "mothersMaidenName": "blue",
-              "emailAddress": "oscar .undefined@blue.com",
-              "homePhone": "(875) 434-2849",
-              "mobilePhone": "(921) 440-2037",
-              "officePhone": "(975) 477-3321",
-              "addresses": [
-                {
-                  "line1": "4059 Mt Lee Dr.",
-                  "city": "Hollywood",
-                  "state": "CA",
-                  "postalCode": "90068"
-                },
-                {
-                  "line1": "350 Fifth Avenue",
-                  "city": "New York",
-                  "state": "NY",
-                  "postalCode": "10118"
-                },
-                {
-                  "line1": "4059 Mt Lee Dr.",
-                  "city": "Hollywood",
-                  "state": "CA",
-                  "postalCode": "90068"
-                },
-                {
-                  "line1": "11 Wall Street",
-                  "city": "New York",
-                  "state": "NY",
-                  "postalCode": "10005"
-                },
-                {
-                  "line1": "350 Fifth Avenue",
-                  "city": "New York",
-                  "state": "NY",
-                  "postalCode": "10118"
-                }
-              ]
-            }
+            "line1": "4059 Mt Lee Dr.",
+            "city": "Hollywood",
+            "state": "CA",
+            "postalCode": 90068
           }
-        ]
+        ],
+        "relationships": []
       },
       {
-        "accountNumber": 8421199927,
-        "balance": 17054,
+        "accountNumber": 1793246645,
+        "balance": 62299,
+        "__key__": {
+          "fn": "Ingleburt",
+          "ln": "Humperdink"
+        },
         "product": {
-          "primaryProductCode": "Mortgage",
-          "secondaryProductCode": "Mortgage"
+          "primaryProductCode": "Savings",
+          "secondaryProductCode": "Advantage"
         },
         "addresses": [],
         "relationships": [
@@ -1309,277 +950,74 @@ littleUmbrella.circleverse.Repository = (function () {
             "accountRole": {
               "accountRoleDescription": "Signer"
             },
+            "__key__": {
+              "fn": "Ingleburt",
+              "ln": "Humperdink"
+            },
             "customer": {
               "id": 0,
               "firstName": "Arnold",
               "lastName": "schwarzenegger",
-              "taxId": 868247693,
-              "dateOfBirth": "Wed Dec 14 1983 17:18:07 GMT-0800 (Pacific Standard Time)",
-              "mothersMaidenName": "green",
-              "emailAddress": "arnold.schwarzenegger@green.com",
-              "homePhone": "(828) 494-2359",
-              "mobilePhone": "(985) 401-2702",
-              "officePhone": "(916) 537-2348",
+              "taxId": 144449717,
+              "dateOfBirth": "Tue Jun 07 2005 04:53:21 GMT+0000 (UTC)",
+              "mothersMaidenName": "brown",
+              "emailAddress": "arnold.schwarzenegger@brown.com",
+              "homePhone": "(873) 410-3650",
+              "mobilePhone": "(836) 543-2888",
+              "officePhone": "(804) 409-3014",
               "addresses": [
-                {
-                  "line1": "350 Fifth Avenue",
-                  "city": "New York",
-                  "state": "NY",
-                  "postalCode": "10118"
-                },
                 {
                   "line1": "1600 Pennsylvania Avenue",
                   "city": "Washington",
                   "state": "DC",
-                  "postalCode": "20500"
+                  "postalCode": 20500
+                },
+                {
+                  "line1": "11 Wall Street",
+                  "city": "New York",
+                  "state": "NY",
+                  "postalCode": 10005
                 },
                 {
                   "line1": "350 Fifth Avenue",
                   "city": "New York",
                   "state": "NY",
-                  "postalCode": "10118"
-                }
-              ]
-            }
-          },
-          {
-            "accountRole": {
-              "accountRoleDescription": "Joint"
-            },
-            "customer": {
-              "id": 1,
-              "firstName": "Oscar ",
-              "taxId": 688392687,
-              "dateOfBirth": "Thu Oct 31 1996 21:28:55 GMT-0700 (Pacific Daylight Time)",
-              "mothersMaidenName": "blue",
-              "emailAddress": "oscar .undefined@blue.com",
-              "homePhone": "(826) 595-3716",
-              "mobilePhone": "(974) 590-3376",
-              "officePhone": "(871) 410-3968",
-              "addresses": [
-                {
-                  "line1": "11 Wall Street",
-                  "city": "New York",
-                  "state": "NY",
-                  "postalCode": "10005"
-                }
-              ]
-            }
-          },
-          {
-            "accountRole": {
-              "accountRoleDescription": "Viewer"
-            },
-            "customer": {
-              "id": 2,
-              "firstName": "Oscar ",
-              "taxId": 653936476,
-              "dateOfBirth": "Fri Mar 18 1994 09:35:28 GMT-0700 (Pacific Daylight Time)",
-              "mothersMaidenName": "blue",
-              "emailAddress": "oscar .undefined@blue.com",
-              "homePhone": "(948) 553-2563",
-              "mobilePhone": "(996) 527-2674",
-              "officePhone": "(974) 471-3299",
-              "addresses": [
-                {
-                  "line1": "11 Wall Street",
-                  "city": "New York",
-                  "state": "NY",
-                  "postalCode": "10005"
+                  "postalCode": 10118
                 },
                 {
                   "line1": "4059 Mt Lee Dr.",
                   "city": "Hollywood",
                   "state": "CA",
-                  "postalCode": "90068"
-                },
-                {
-                  "line1": "11 Wall Street",
-                  "city": "New York",
-                  "state": "NY",
-                  "postalCode": "10005"
-                },
-                {
-                  "line1": "1600 Pennsylvania Avenue",
-                  "city": "Washington",
-                  "state": "DC",
-                  "postalCode": "20500"
-                },
-                {
-                  "line1": "1600 Pennsylvania Avenue",
-                  "city": "Washington",
-                  "state": "DC",
-                  "postalCode": "20500"
-                }
-              ]
-            }
-          }
-        ]
-      },
-      {
-        "accountNumber": 8434716255,
-        "balance": 52453,
-        "product": {
-          "primaryProductCode": "Savings",
-          "secondaryProductCode": "Mortgage"
-        },
-        "addresses": [
-          {
-            "line1": "71 Pilgrim Avenue",
-            "city": "Chevy Chase",
-            "state": "MD",
-            "postalCode": "20815"
-          }
-        ],
-        "relationships": [
-          {
-            "accountRole": {
-              "accountRoleDescription": "Viewer"
-            },
-            "customer": {
-              "id": 0,
-              "firstName": "Oscar ",
-              "taxId": 767311479,
-              "dateOfBirth": "Wed Dec 12 1973 13:21:29 GMT-0800 (Pacific Standard Time)",
-              "mothersMaidenName": "green",
-              "emailAddress": "oscar .undefined@green.com",
-              "homePhone": "(822) 507-3994",
-              "mobilePhone": "(967) 585-3086",
-              "officePhone": "(968) 471-2787",
-              "addresses": [
-                {
-                  "line1": "350 Fifth Avenue",
-                  "city": "New York",
-                  "state": "NY",
-                  "postalCode": "10118"
-                },
-                {
-                  "line1": "350 Fifth Avenue",
-                  "city": "New York",
-                  "state": "NY",
-                  "postalCode": "10118"
-                },
-                {
-                  "line1": "792 Tehama Street",
-                  "city": "Wright",
-                  "state": "WA",
-                  "postalCode": "19499"
-                },
-                {
-                  "line1": "1600 Pennsylvania Avenue",
-                  "city": "Washington",
-                  "state": "DC",
-                  "postalCode": "20500"
+                  "postalCode": 90068
                 }
               ]
             }
           },
           {
             "accountRole": {
-              "accountRoleDescription": "Joint"
+              "accountRoleDescription": "Viewer"
+            },
+            "__key__": {
+              "fn": "Ingleburt",
+              "ln": "Humperdink"
             },
             "customer": {
               "id": 1,
               "firstName": "Arnold",
               "lastName": "schwarzenegger",
-              "taxId": 851368987,
-              "dateOfBirth": "Thu Nov 26 2015 13:39:46 GMT-0800 (Pacific Standard Time)",
+              "taxId": 282492123,
+              "dateOfBirth": "Fri Dec 15 1995 09:19:16 GMT+0000 (UTC)",
               "mothersMaidenName": "green",
               "emailAddress": "arnold.schwarzenegger@green.com",
-              "homePhone": "(991) 520-2893",
-              "mobilePhone": "(868) 575-2631",
-              "officePhone": "(851) 566-3756",
+              "homePhone": "(932) 439-3024",
+              "mobilePhone": "(840) 454-3030",
+              "officePhone": "(806) 507-3245",
               "addresses": [
                 {
                   "line1": "1600 Pennsylvania Avenue",
                   "city": "Washington",
                   "state": "DC",
-                  "postalCode": "20500"
-                },
-                {
-                  "line1": "1600 Pennsylvania Avenue",
-                  "city": "Washington",
-                  "state": "DC",
-                  "postalCode": "20500"
-                },
-                {
-                  "line1": "11 Wall Street",
-                  "city": "New York",
-                  "state": "NY",
-                  "postalCode": "10005"
-                }
-              ]
-            }
-          },
-          {
-            "accountRole": {
-              "accountRoleDescription": "Viewer"
-            },
-            "customer": {
-              "id": 2,
-              "firstName": "Arnold",
-              "lastName": "schwarzenegger",
-              "taxId": 799388316,
-              "dateOfBirth": "Thu Nov 06 1986 17:39:02 GMT-0800 (Pacific Standard Time)",
-              "mothersMaidenName": "green",
-              "emailAddress": "arnold.schwarzenegger@green.com",
-              "homePhone": "(930) 520-3778",
-              "mobilePhone": "(856) 460-3940",
-              "officePhone": "(964) 548-2232",
-              "addresses": [
-                {
-                  "line1": "4059 Mt Lee Dr.",
-                  "city": "Hollywood",
-                  "state": "CA",
-                  "postalCode": "90068"
-                },
-                {
-                  "line1": "792 Tehama Street",
-                  "city": "Wright",
-                  "state": "WA",
-                  "postalCode": "19499"
-                },
-                {
-                  "line1": "350 Fifth Avenue",
-                  "city": "New York",
-                  "state": "NY",
-                  "postalCode": "10118"
-                }
-              ]
-            }
-          },
-          {
-            "accountRole": {
-              "accountRoleDescription": "Joint"
-            },
-            "customer": {
-              "id": 3,
-              "firstName": "Oscar ",
-              "taxId": 487571484,
-              "dateOfBirth": "Tue May 03 1988 20:20:31 GMT-0700 (Pacific Daylight Time)",
-              "mothersMaidenName": "green",
-              "emailAddress": "oscar .undefined@green.com",
-              "homePhone": "(853) 551-3828",
-              "mobilePhone": "(919) 519-2559",
-              "officePhone": "(955) 432-3095",
-              "addresses": [
-                {
-                  "line1": "792 Tehama Street",
-                  "city": "Wright",
-                  "state": "WA",
-                  "postalCode": "19499"
-                },
-                {
-                  "line1": "792 Tehama Street",
-                  "city": "Wright",
-                  "state": "WA",
-                  "postalCode": "19499"
-                },
-                {
-                  "line1": "11 Wall Street",
-                  "city": "New York",
-                  "state": "NY",
-                  "postalCode": "10005"
+                  "postalCode": 20500
                 }
               ]
             }
@@ -1589,10 +1027,10 @@ littleUmbrella.circleverse.Repository = (function () {
     ],
     "addresses": [
       {
-        "line1": "792 Tehama Street",
-        "city": "Wright",
-        "state": "WA",
-        "postalCode": "19499"
+        "line1": "1600 Pennsylvania Avenue",
+        "city": "Washington",
+        "state": "DC",
+        "postalCode": 20500
       }
     ]
   },
@@ -1601,18 +1039,61 @@ littleUmbrella.circleverse.Repository = (function () {
     "lastName": "Rumpelstiltskin",
     "firstName": "Frank",
     "taxId": 281123753,
-    "dateOfBirth": "Fri Nov 23 1984 00:57:06 GMT-0800 (Pacific Standard Time)",
-    "mothersMaidenName": "brown",
-    "emailAddress": "frank.rumpelstiltskin@brown.com",
-    "homePhone": "(905) 484-3326",
-    "mobilePhone": "(997) 461-3547",
-    "officePhone": "(932) 549-3068",
+    "dateOfBirth": "Wed Oct 31 2001 13:44:59 GMT+0000 (UTC)",
+    "mothersMaidenName": "blue",
+    "emailAddress": "frank.rumpelstiltskin@blue.com",
+    "__key__": {
+      "fn": "Frank",
+      "ln": "Rumpelstiltskin"
+    },
+    "homePhone": "(944) 414-2801",
+    "mobilePhone": "(927) 484-3223",
+    "officePhone": "(983) 416-2811",
     "accounts": [
       {
-        "accountNumber": 3962111645,
-        "balance": 59009,
+        "accountNumber": 2713278521,
+        "balance": 24067,
+        "__key__": {
+          "fn": "Frank",
+          "ln": "Rumpelstiltskin"
+        },
         "product": {
-          "primaryProductCode": "Mortgage",
+          "primaryProductCode": "Checking",
+          "secondaryProductCode": "Checking"
+        },
+        "addresses": [
+          {
+            "line1": "350 Fifth Avenue",
+            "city": "New York",
+            "state": "NY",
+            "postalCode": 10118
+          }
+        ],
+        "relationships": []
+      },
+      {
+        "accountNumber": 4735282717,
+        "balance": 11564,
+        "__key__": {
+          "fn": "Frank",
+          "ln": "Rumpelstiltskin"
+        },
+        "product": {
+          "primaryProductCode": "Savings",
+          "secondaryProductCode": "Advantage"
+        },
+        "addresses": [],
+        "relationships": []
+      },
+      {
+        "accountNumber": 2299676439,
+        "balance": 41970,
+        "__key__": {
+          "fn": "Frank",
+          "ln": "Rumpelstiltskin"
+        },
+        "product": {
+          "primaryProductCode": "Savings",
           "secondaryProductCode": "Mortgage"
         },
         "addresses": [],
@@ -1621,212 +1102,45 @@ littleUmbrella.circleverse.Repository = (function () {
             "accountRole": {
               "accountRoleDescription": "Joint"
             },
+            "__key__": {
+              "fn": "Frank",
+              "ln": "Rumpelstiltskin"
+            },
             "customer": {
               "id": 0,
               "firstName": "Oprah",
               "lastName": "Winfrey",
-              "taxId": 211485797,
-              "dateOfBirth": "Mon Nov 24 1975 20:15:03 GMT-0800 (Pacific Standard Time)",
-              "mothersMaidenName": "blue",
-              "emailAddress": "oprah.winfrey@blue.com",
-              "homePhone": "(831) 475-2080",
-              "mobilePhone": "(851) 469-2795",
-              "officePhone": "(912) 559-3556",
-              "addresses": [
-                {
-                  "line1": "792 Tehama Street",
-                  "city": "Wright",
-                  "state": "WA",
-                  "postalCode": "19499"
-                },
-                {
-                  "line1": "4059 Mt Lee Dr.",
-                  "city": "Hollywood",
-                  "state": "CA",
-                  "postalCode": "90068"
-                }
-              ]
-            }
-          },
-          {
-            "accountRole": {
-              "accountRoleDescription": "Joint"
-            },
-            "customer": {
-              "id": 1,
-              "firstName": "Arnold",
-              "lastName": "schwarzenegger",
-              "taxId": 558896677,
-              "dateOfBirth": "Fri Nov 09 1973 00:42:36 GMT-0800 (Pacific Standard Time)",
+              "taxId": 477779611,
+              "dateOfBirth": "Wed Dec 29 2004 08:05:11 GMT+0000 (UTC)",
               "mothersMaidenName": "green",
-              "emailAddress": "arnold.schwarzenegger@green.com",
-              "homePhone": "(870) 592-3402",
-              "mobilePhone": "(925) 525-3873",
-              "officePhone": "(947) 495-3854",
+              "emailAddress": "oprah.winfrey@green.com",
+              "homePhone": "(918) 413-2409",
+              "mobilePhone": "(999) 404-2647",
+              "officePhone": "(879) 430-2779",
               "addresses": [
                 {
-                  "line1": "4059 Mt Lee Dr.",
-                  "city": "Hollywood",
-                  "state": "CA",
-                  "postalCode": "90068"
-                },
-                {
-                  "line1": "792 Tehama Street",
-                  "city": "Wright",
-                  "state": "WA",
-                  "postalCode": "19499"
-                },
-                {
-                  "line1": "4059 Mt Lee Dr.",
-                  "city": "Hollywood",
-                  "state": "CA",
-                  "postalCode": "90068"
-                },
-                {
-                  "line1": "350 Fifth Avenue",
-                  "city": "New York",
-                  "state": "NY",
-                  "postalCode": "10118"
-                },
-                {
-                  "line1": "792 Tehama Street",
-                  "city": "Wright",
-                  "state": "WA",
-                  "postalCode": "19499"
-                }
-              ]
-            }
-          },
-          {
-            "accountRole": {
-              "accountRoleDescription": "Signer"
-            },
-            "customer": {
-              "id": 2,
-              "firstName": "Oscar ",
-              "taxId": 966732133,
-              "dateOfBirth": "Tue Mar 03 2015 06:26:20 GMT-0800 (Pacific Standard Time)",
-              "mothersMaidenName": "brown",
-              "emailAddress": "oscar .undefined@brown.com",
-              "homePhone": "(970) 494-2369",
-              "mobilePhone": "(972) 538-2678",
-              "officePhone": "(847) 403-2627",
-              "addresses": [
-                {
-                  "line1": "11 Wall Street",
-                  "city": "New York",
-                  "state": "NY",
-                  "postalCode": "10005"
+                  "line1": "1600 Pennsylvania Avenue",
+                  "city": "Washington",
+                  "state": "DC",
+                  "postalCode": 20500
                 },
                 {
                   "line1": "11 Wall Street",
                   "city": "New York",
                   "state": "NY",
-                  "postalCode": "10005"
+                  "postalCode": 10005
                 },
-                {
-                  "line1": "1600 Pennsylvania Avenue",
-                  "city": "Washington",
-                  "state": "DC",
-                  "postalCode": "20500"
-                }
-              ]
-            }
-          },
-          {
-            "accountRole": {
-              "accountRoleDescription": "Signer"
-            },
-            "customer": {
-              "id": 3,
-              "firstName": "Nicolas",
-              "lastName": "Cage",
-              "taxId": 334349829,
-              "dateOfBirth": "Wed Jun 23 1982 23:45:16 GMT-0700 (Pacific Daylight Time)",
-              "mothersMaidenName": "green",
-              "emailAddress": "nicolas.cage@green.com",
-              "homePhone": "(982) 400-3294",
-              "mobilePhone": "(941) 522-3804",
-              "officePhone": "(838) 479-3357",
-              "addresses": [
                 {
                   "line1": "350 Fifth Avenue",
                   "city": "New York",
                   "state": "NY",
-                  "postalCode": "10118"
-                },
-                {
-                  "line1": "1600 Pennsylvania Avenue",
-                  "city": "Washington",
-                  "state": "DC",
-                  "postalCode": "20500"
-                },
-                {
-                  "line1": "1600 Pennsylvania Avenue",
-                  "city": "Washington",
-                  "state": "DC",
-                  "postalCode": "20500"
-                }
-              ]
-            }
-          }
-        ]
-      },
-      {
-        "accountNumber": 4831531251,
-        "balance": 54140,
-        "product": {
-          "primaryProductCode": "Checking",
-          "secondaryProductCode": "Mortgage"
-        },
-        "addresses": [
-          {
-            "line1": "792 Tehama Street",
-            "city": "Wright",
-            "state": "WA",
-            "postalCode": "19499"
-          }
-        ],
-        "relationships": [
-          {
-            "accountRole": {
-              "accountRoleDescription": "Joint"
-            },
-            "customer": {
-              "id": 0,
-              "firstName": "Arnold",
-              "lastName": "schwarzenegger",
-              "taxId": 757725846,
-              "dateOfBirth": "Wed Jun 14 2017 05:37:44 GMT-0700 (Pacific Daylight Time)",
-              "mothersMaidenName": "blue",
-              "emailAddress": "arnold.schwarzenegger@blue.com",
-              "homePhone": "(961) 459-2065",
-              "mobilePhone": "(822) 600-2316",
-              "officePhone": "(876) 578-2907",
-              "addresses": [
-                {
-                  "line1": "350 Fifth Avenue",
-                  "city": "New York",
-                  "state": "NY",
-                  "postalCode": "10118"
-                },
-                {
-                  "line1": "792 Tehama Street",
-                  "city": "Wright",
-                  "state": "WA",
-                  "postalCode": "19499"
-                },
-                {
-                  "line1": "792 Tehama Street",
-                  "city": "Wright",
-                  "state": "WA",
-                  "postalCode": "19499"
+                  "postalCode": 10118
                 },
                 {
                   "line1": "4059 Mt Lee Dr.",
                   "city": "Hollywood",
                   "state": "CA",
-                  "postalCode": "90068"
+                  "postalCode": 90068
                 }
               ]
             }
@@ -1839,19 +1153,13 @@ littleUmbrella.circleverse.Repository = (function () {
         "line1": "11 Wall Street",
         "city": "New York",
         "state": "NY",
-        "postalCode": "10005"
+        "postalCode": 10005
       },
       {
-        "line1": "4059 Mt Lee Dr.",
-        "city": "Hollywood",
-        "state": "CA",
-        "postalCode": "90068"
-      },
-      {
-        "line1": "11 Wall Street",
+        "line1": "350 Fifth Avenue",
         "city": "New York",
         "state": "NY",
-        "postalCode": "10005"
+        "postalCode": 10118
       }
     ]
   },
@@ -1860,407 +1168,55 @@ littleUmbrella.circleverse.Repository = (function () {
     "lastName": "Noris",
     "firstName": "Chuck",
     "taxId": 164141344,
-    "dateOfBirth": "Thu Jul 03 2003 03:57:06 GMT-0700 (Pacific Daylight Time)",
-    "mothersMaidenName": "brown",
-    "emailAddress": "chuck.noris@brown.com",
-    "homePhone": "(892) 503-2920",
-    "mobilePhone": "(984) 423-3474",
-    "officePhone": "(941) 524-3950",
+    "dateOfBirth": "Thu Apr 29 2004 20:32:32 GMT+0000 (UTC)",
+    "mothersMaidenName": "blue",
+    "emailAddress": "chuck.noris@blue.com",
+    "__key__": {
+      "fn": "Chuck",
+      "ln": "Noris"
+    },
+    "homePhone": "(888) 588-3811",
+    "mobilePhone": "(897) 580-3458",
+    "officePhone": "(942) 582-2180",
     "accounts": [
       {
-        "accountNumber": 7877414849,
-        "balance": 76357,
+        "accountNumber": 6469167584,
+        "balance": 46860,
+        "__key__": {
+          "fn": "Chuck",
+          "ln": "Noris"
+        },
         "product": {
-          "primaryProductCode": "Mortgage",
+          "primaryProductCode": "Savings",
           "secondaryProductCode": "Advantage"
         },
         "addresses": [
           {
-            "line1": "1600 Pennsylvania Avenue",
-            "city": "Washington",
-            "state": "DC",
-            "postalCode": "20500"
+            "line1": "4059 Mt Lee Dr.",
+            "city": "Hollywood",
+            "state": "CA",
+            "postalCode": 90068
           }
         ],
-        "relationships": [
-          {
-            "accountRole": {
-              "accountRoleDescription": "Viewer"
-            },
-            "customer": {
-              "id": 0,
-              "firstName": "Oscar ",
-              "taxId": 657536828,
-              "dateOfBirth": "Wed Dec 06 1972 00:46:43 GMT-0800 (Pacific Standard Time)",
-              "mothersMaidenName": "blue",
-              "emailAddress": "oscar .undefined@blue.com",
-              "homePhone": "(847) 562-2876",
-              "mobilePhone": "(989) 510-3941",
-              "officePhone": "(937) 515-2558",
-              "addresses": [
-                {
-                  "line1": "792 Tehama Street",
-                  "city": "Wright",
-                  "state": "WA",
-                  "postalCode": "19499"
-                },
-                {
-                  "line1": "350 Fifth Avenue",
-                  "city": "New York",
-                  "state": "NY",
-                  "postalCode": "10118"
-                }
-              ]
-            }
-          },
-          {
-            "accountRole": {
-              "accountRoleDescription": "Viewer"
-            },
-            "customer": {
-              "id": 1,
-              "firstName": "Oscar ",
-              "taxId": 672652699,
-              "dateOfBirth": "Wed Nov 07 1979 20:03:29 GMT-0800 (Pacific Standard Time)",
-              "mothersMaidenName": "blue",
-              "emailAddress": "oscar .undefined@blue.com",
-              "homePhone": "(911) 582-3921",
-              "mobilePhone": "(894) 561-3620",
-              "officePhone": "(886) 469-2058",
-              "addresses": [
-                {
-                  "line1": "1600 Pennsylvania Avenue",
-                  "city": "Washington",
-                  "state": "DC",
-                  "postalCode": "20500"
-                },
-                {
-                  "line1": "792 Tehama Street",
-                  "city": "Wright",
-                  "state": "WA",
-                  "postalCode": "19499"
-                },
-                {
-                  "line1": "792 Tehama Street",
-                  "city": "Wright",
-                  "state": "WA",
-                  "postalCode": "19499"
-                },
-                {
-                  "line1": "350 Fifth Avenue",
-                  "city": "New York",
-                  "state": "NY",
-                  "postalCode": "10118"
-                }
-              ]
-            }
-          }
-        ]
+        "relationships": []
       },
       {
-        "accountNumber": 4613418963,
-        "balance": 17732,
-        "product": {
-          "primaryProductCode": "Checking",
-          "secondaryProductCode": "Checking"
+        "accountNumber": 9643379112,
+        "balance": 10100,
+        "__key__": {
+          "fn": "Chuck",
+          "ln": "Noris"
         },
-        "addresses": [],
-        "relationships": [
-          {
-            "accountRole": {
-              "accountRoleDescription": "Joint"
-            },
-            "customer": {
-              "id": 0,
-              "firstName": "Harry",
-              "lastName": "Houdini",
-              "taxId": 192796638,
-              "dateOfBirth": "Tue Dec 09 2014 14:18:54 GMT-0800 (Pacific Standard Time)",
-              "mothersMaidenName": "green",
-              "emailAddress": "harry.houdini@green.com",
-              "homePhone": "(879) 553-3594",
-              "mobilePhone": "(826) 527-3888",
-              "officePhone": "(899) 598-3660",
-              "addresses": [
-                {
-                  "line1": "350 Fifth Avenue",
-                  "city": "New York",
-                  "state": "NY",
-                  "postalCode": "10118"
-                },
-                {
-                  "line1": "1600 Pennsylvania Avenue",
-                  "city": "Washington",
-                  "state": "DC",
-                  "postalCode": "20500"
-                }
-              ]
-            }
-          },
-          {
-            "accountRole": {
-              "accountRoleDescription": "Viewer"
-            },
-            "customer": {
-              "id": 1,
-              "firstName": "Oscar ",
-              "taxId": 411679174,
-              "dateOfBirth": "Wed Jun 12 1991 21:53:49 GMT-0700 (Pacific Daylight Time)",
-              "mothersMaidenName": "brown",
-              "emailAddress": "oscar .undefined@brown.com",
-              "homePhone": "(879) 477-3889",
-              "mobilePhone": "(878) 587-2157",
-              "officePhone": "(884) 486-3705",
-              "addresses": [
-                {
-                  "line1": "1600 Pennsylvania Avenue",
-                  "city": "Washington",
-                  "state": "DC",
-                  "postalCode": "20500"
-                },
-                {
-                  "line1": "4059 Mt Lee Dr.",
-                  "city": "Hollywood",
-                  "state": "CA",
-                  "postalCode": "90068"
-                },
-                {
-                  "line1": "350 Fifth Avenue",
-                  "city": "New York",
-                  "state": "NY",
-                  "postalCode": "10118"
-                },
-                {
-                  "line1": "4059 Mt Lee Dr.",
-                  "city": "Hollywood",
-                  "state": "CA",
-                  "postalCode": "90068"
-                },
-                {
-                  "line1": "350 Fifth Avenue",
-                  "city": "New York",
-                  "state": "NY",
-                  "postalCode": "10118"
-                }
-              ]
-            }
-          },
-          {
-            "accountRole": {
-              "accountRoleDescription": "Joint"
-            },
-            "customer": {
-              "id": 2,
-              "firstName": "Harry",
-              "lastName": "Houdini",
-              "taxId": 851914883,
-              "dateOfBirth": "Mon Jul 16 2001 11:53:22 GMT-0700 (Pacific Daylight Time)",
-              "mothersMaidenName": "brown",
-              "emailAddress": "harry.houdini@brown.com",
-              "homePhone": "(855) 445-2807",
-              "mobilePhone": "(800) 429-2770",
-              "officePhone": "(844) 492-3914",
-              "addresses": [
-                {
-                  "line1": "792 Tehama Street",
-                  "city": "Wright",
-                  "state": "WA",
-                  "postalCode": "19499"
-                },
-                {
-                  "line1": "11 Wall Street",
-                  "city": "New York",
-                  "state": "NY",
-                  "postalCode": "10005"
-                }
-              ]
-            }
-          },
-          {
-            "accountRole": {
-              "accountRoleDescription": "Signer"
-            },
-            "customer": {
-              "id": 3,
-              "firstName": "Oprah",
-              "lastName": "Winfrey",
-              "taxId": 847846292,
-              "dateOfBirth": "Mon Aug 04 2014 18:27:24 GMT-0700 (Pacific Daylight Time)",
-              "mothersMaidenName": "blue",
-              "emailAddress": "oprah.winfrey@blue.com",
-              "homePhone": "(997) 527-3507",
-              "mobilePhone": "(954) 417-2484",
-              "officePhone": "(966) 562-3161",
-              "addresses": [
-                {
-                  "line1": "792 Tehama Street",
-                  "city": "Wright",
-                  "state": "WA",
-                  "postalCode": "19499"
-                },
-                {
-                  "line1": "1600 Pennsylvania Avenue",
-                  "city": "Washington",
-                  "state": "DC",
-                  "postalCode": "20500"
-                }
-              ]
-            }
-          }
-        ]
-      },
-      {
-        "accountNumber": 3898256439,
-        "balance": 12308,
-        "product": {
-          "primaryProductCode": "Mortgage",
-          "secondaryProductCode": "Checking"
-        },
-        "addresses": [],
-        "relationships": [
-          {
-            "accountRole": {
-              "accountRoleDescription": "Signer"
-            },
-            "customer": {
-              "id": 0,
-              "firstName": "Oscar ",
-              "taxId": 315237526,
-              "dateOfBirth": "Thu Mar 16 2006 18:09:43 GMT-0700 (Pacific Daylight Time)",
-              "mothersMaidenName": "blue",
-              "emailAddress": "oscar .undefined@blue.com",
-              "homePhone": "(816) 490-2925",
-              "mobilePhone": "(834) 517-2660",
-              "officePhone": "(972) 590-3004",
-              "addresses": [
-                {
-                  "line1": "350 Fifth Avenue",
-                  "city": "New York",
-                  "state": "NY",
-                  "postalCode": "10118"
-                }
-              ]
-            }
-          },
-          {
-            "accountRole": {
-              "accountRoleDescription": "Joint"
-            },
-            "customer": {
-              "id": 1,
-              "firstName": "Nicolas",
-              "lastName": "Cage",
-              "taxId": 417857587,
-              "dateOfBirth": "Thu Jan 21 1988 18:18:11 GMT-0800 (Pacific Standard Time)",
-              "mothersMaidenName": "brown",
-              "emailAddress": "nicolas.cage@brown.com",
-              "homePhone": "(944) 482-2545",
-              "mobilePhone": "(923) 435-3365",
-              "officePhone": "(982) 494-3606",
-              "addresses": [
-                {
-                  "line1": "350 Fifth Avenue",
-                  "city": "New York",
-                  "state": "NY",
-                  "postalCode": "10118"
-                }
-              ]
-            }
-          },
-          {
-            "accountRole": {
-              "accountRoleDescription": "Joint"
-            },
-            "customer": {
-              "id": 2,
-              "firstName": "Oprah",
-              "lastName": "Winfrey",
-              "taxId": 448549747,
-              "dateOfBirth": "Tue Jan 27 1970 15:36:40 GMT-0800 (Pacific Standard Time)",
-              "mothersMaidenName": "green",
-              "emailAddress": "oprah.winfrey@green.com",
-              "homePhone": "(939) 410-2961",
-              "mobilePhone": "(820) 425-2882",
-              "officePhone": "(966) 440-2372",
-              "addresses": [
-                {
-                  "line1": "1600 Pennsylvania Avenue",
-                  "city": "Washington",
-                  "state": "DC",
-                  "postalCode": "20500"
-                }
-              ]
-            }
-          }
-        ]
-      },
-      {
-        "accountNumber": 6287648613,
-        "balance": 27469,
-        "product": {
-          "primaryProductCode": "Mortgage",
-          "secondaryProductCode": "Advantage"
-        },
-        "addresses": [],
-        "relationships": [
-          {
-            "accountRole": {
-              "accountRoleDescription": "Viewer"
-            },
-            "customer": {
-              "id": 0,
-              "firstName": "Arnold",
-              "lastName": "schwarzenegger",
-              "taxId": 636443488,
-              "dateOfBirth": "Thu Jul 10 1986 10:29:59 GMT-0700 (Pacific Daylight Time)",
-              "mothersMaidenName": "blue",
-              "emailAddress": "arnold.schwarzenegger@blue.com",
-              "homePhone": "(813) 548-3591",
-              "mobilePhone": "(910) 559-2935",
-              "officePhone": "(872) 465-3003",
-              "addresses": [
-                {
-                  "line1": "792 Tehama Street",
-                  "city": "Wright",
-                  "state": "WA",
-                  "postalCode": "19499"
-                },
-                {
-                  "line1": "4059 Mt Lee Dr.",
-                  "city": "Hollywood",
-                  "state": "CA",
-                  "postalCode": "90068"
-                },
-                {
-                  "line1": "4059 Mt Lee Dr.",
-                  "city": "Hollywood",
-                  "state": "CA",
-                  "postalCode": "90068"
-                },
-                {
-                  "line1": "350 Fifth Avenue",
-                  "city": "New York",
-                  "state": "NY",
-                  "postalCode": "10118"
-                }
-              ]
-            }
-          }
-        ]
-      },
-      {
-        "accountNumber": 8494937346,
-        "balance": 8981,
         "product": {
           "primaryProductCode": "Mortgage",
           "secondaryProductCode": "Mortgage"
         },
         "addresses": [
           {
-            "line1": "4 Goldfield Rd.",
-            "city": "Honolulu",
-            "state": "HI",
-            "postalCode": "96815"
+            "line1": "4059 Mt Lee Dr.",
+            "city": "Hollywood",
+            "state": "CA",
+            "postalCode": 90068
           }
         ],
         "relationships": [
@@ -2268,101 +1224,39 @@ littleUmbrella.circleverse.Repository = (function () {
             "accountRole": {
               "accountRoleDescription": "Joint"
             },
+            "__key__": {
+              "fn": "Chuck",
+              "ln": "Noris"
+            },
             "customer": {
               "id": 0,
-              "firstName": "Oscar ",
-              "taxId": 124463672,
-              "dateOfBirth": "Tue Oct 01 1974 02:28:57 GMT-0700 (Pacific Daylight Time)",
+              "firstName": "Oprah",
+              "lastName": "Winfrey",
+              "taxId": 198256356,
+              "dateOfBirth": "Wed Jul 30 1975 21:17:27 GMT+0000 (UTC)",
               "mothersMaidenName": "blue",
-              "emailAddress": "oscar .undefined@blue.com",
-              "homePhone": "(801) 521-3492",
-              "mobilePhone": "(842) 552-3123",
-              "officePhone": "(867) 521-2752",
+              "emailAddress": "oprah.winfrey@blue.com",
+              "homePhone": "(982) 415-2193",
+              "mobilePhone": "(939) 428-3087",
+              "officePhone": "(945) 549-3656",
               "addresses": [
                 {
                   "line1": "1600 Pennsylvania Avenue",
                   "city": "Washington",
                   "state": "DC",
-                  "postalCode": "20500"
-                }
-              ]
-            }
-          },
-          {
-            "accountRole": {
-              "accountRoleDescription": "Viewer"
-            },
-            "customer": {
-              "id": 1,
-              "firstName": "Oscar ",
-              "taxId": 972334897,
-              "dateOfBirth": "Fri Feb 10 1989 23:12:31 GMT-0800 (Pacific Standard Time)",
-              "mothersMaidenName": "blue",
-              "emailAddress": "oscar .undefined@blue.com",
-              "homePhone": "(860) 511-3288",
-              "mobilePhone": "(957) 444-3927",
-              "officePhone": "(876) 474-2287",
-              "addresses": [
-                {
-                  "line1": "792 Tehama Street",
-                  "city": "Wright",
-                  "state": "WA",
-                  "postalCode": "19499"
-                },
-                {
-                  "line1": "792 Tehama Street",
-                  "city": "Wright",
-                  "state": "WA",
-                  "postalCode": "19499"
-                }
-              ]
-            }
-          },
-          {
-            "accountRole": {
-              "accountRoleDescription": "Signer"
-            },
-            "customer": {
-              "id": 2,
-              "firstName": "Nicolas",
-              "lastName": "Cage",
-              "taxId": 581866833,
-              "dateOfBirth": "Mon Nov 10 1997 00:17:02 GMT-0800 (Pacific Standard Time)",
-              "mothersMaidenName": "blue",
-              "emailAddress": "nicolas.cage@blue.com",
-              "homePhone": "(881) 578-3655",
-              "mobilePhone": "(885) 417-3986",
-              "officePhone": "(833) 403-3272",
-              "addresses": [
-                {
-                  "line1": "350 Fifth Avenue",
-                  "city": "New York",
-                  "state": "NY",
-                  "postalCode": "10118"
-                },
-                {
-                  "line1": "1600 Pennsylvania Avenue",
-                  "city": "Washington",
-                  "state": "DC",
-                  "postalCode": "20500"
-                },
-                {
-                  "line1": "1600 Pennsylvania Avenue",
-                  "city": "Washington",
-                  "state": "DC",
-                  "postalCode": "20500"
+                  "postalCode": 20500
                 },
                 {
                   "line1": "11 Wall Street",
                   "city": "New York",
                   "state": "NY",
-                  "postalCode": "10005"
+                  "postalCode": 10005
                 },
                 {
-                  "line1": "792 Tehama Street",
-                  "city": "Wright",
-                  "state": "WA",
-                  "postalCode": "19499"
+                  "line1": "350 Fifth Avenue",
+                  "city": "New York",
+                  "state": "NY",
+                  "postalCode": 10118
                 }
               ]
             }
@@ -2372,10 +1266,16 @@ littleUmbrella.circleverse.Repository = (function () {
     ],
     "addresses": [
       {
-        "line1": "350 Fifth Avenue",
+        "line1": "1600 Pennsylvania Avenue",
+        "city": "Washington",
+        "state": "DC",
+        "postalCode": 20500
+      },
+      {
+        "line1": "11 Wall Street",
         "city": "New York",
         "state": "NY",
-        "postalCode": "10118"
+        "postalCode": 10005
       }
     ]
   },
@@ -2384,68 +1284,123 @@ littleUmbrella.circleverse.Repository = (function () {
     "lastName": "Pendleton",
     "firstName": "Frank",
     "taxId": 674586791,
-    "dateOfBirth": "Mon Mar 18 2002 09:32:53 GMT-0700 (Pacific Daylight Time)",
-    "mothersMaidenName": "brown",
-    "emailAddress": "frank.pendleton@brown.com",
-    "homePhone": "(830) 514-2148",
-    "mobilePhone": "(820) 523-2260",
-    "officePhone": "(957) 404-3400",
+    "dateOfBirth": "Wed Jul 23 1980 16:54:30 GMT+0000 (UTC)",
+    "mothersMaidenName": "blue",
+    "emailAddress": "frank.pendleton@blue.com",
+    "__key__": {
+      "fn": "Frank",
+      "ln": "Pendleton"
+    },
+    "homePhone": "(921) 481-2099",
+    "mobilePhone": "(946) 525-2656",
+    "officePhone": "(888) 575-3617",
     "accounts": [
       {
-        "accountNumber": 9779485472,
-        "balance": 70734,
-        "product": {
-          "primaryProductCode": "Savings",
-          "secondaryProductCode": "Advantage"
+        "accountNumber": 8518775298,
+        "balance": 12860,
+        "__key__": {
+          "fn": "Frank",
+          "ln": "Pendleton"
         },
-        "addresses": [
-          {
-            "line1": "792 Tehama Street",
-            "city": "Wright",
-            "state": "WA",
-            "postalCode": "19499"
-          }
-        ],
+        "product": {
+          "primaryProductCode": "Mortgage",
+          "secondaryProductCode": "Checking"
+        },
+        "addresses": [],
         "relationships": [
           {
             "accountRole": {
-              "accountRoleDescription": "Signer"
+              "accountRoleDescription": "Viewer"
+            },
+            "__key__": {
+              "fn": "Frank",
+              "ln": "Pendleton"
             },
             "customer": {
               "id": 0,
-              "firstName": "Nicolas",
-              "lastName": "Cage",
-              "taxId": 873765435,
-              "dateOfBirth": "Wed Oct 26 1983 13:44:06 GMT-0700 (Pacific Daylight Time)",
-              "mothersMaidenName": "green",
-              "emailAddress": "nicolas.cage@green.com",
-              "homePhone": "(884) 590-2710",
-              "mobilePhone": "(915) 563-2475",
-              "officePhone": "(972) 496-3881",
+              "firstName": "Arnold",
+              "lastName": "schwarzenegger",
+              "taxId": 638155915,
+              "dateOfBirth": "Sun Dec 19 2010 19:31:27 GMT+0000 (UTC)",
+              "mothersMaidenName": "brown",
+              "emailAddress": "arnold.schwarzenegger@brown.com",
+              "homePhone": "(966) 407-2043",
+              "mobilePhone": "(834) 439-3902",
+              "officePhone": "(969) 472-3646",
               "addresses": [
                 {
-                  "line1": "350 Fifth Avenue",
-                  "city": "New York",
-                  "state": "NY",
-                  "postalCode": "10118"
+                  "line1": "1600 Pennsylvania Avenue",
+                  "city": "Washington",
+                  "state": "DC",
+                  "postalCode": 20500
                 },
                 {
                   "line1": "11 Wall Street",
                   "city": "New York",
                   "state": "NY",
-                  "postalCode": "10005"
+                  "postalCode": 10005
                 },
+                {
+                  "line1": "350 Fifth Avenue",
+                  "city": "New York",
+                  "state": "NY",
+                  "postalCode": 10118
+                }
+              ]
+            }
+          }
+        ]
+      },
+      {
+        "accountNumber": 1623932743,
+        "balance": 39868,
+        "__key__": {
+          "fn": "Frank",
+          "ln": "Pendleton"
+        },
+        "product": {
+          "primaryProductCode": "Checking",
+          "secondaryProductCode": "Mortgage"
+        },
+        "addresses": [],
+        "relationships": [
+          {
+            "accountRole": {
+              "accountRoleDescription": "Joint"
+            },
+            "__key__": {
+              "fn": "Frank",
+              "ln": "Pendleton"
+            },
+            "customer": {
+              "id": 0,
+              "firstName": "Oprah",
+              "lastName": "Winfrey",
+              "taxId": 662375513,
+              "dateOfBirth": "Sun Aug 15 1976 06:35:26 GMT+0000 (UTC)",
+              "mothersMaidenName": "brown",
+              "emailAddress": "oprah.winfrey@brown.com",
+              "homePhone": "(963) 432-2214",
+              "mobilePhone": "(910) 599-2561",
+              "officePhone": "(950) 521-3725",
+              "addresses": [
                 {
                   "line1": "1600 Pennsylvania Avenue",
                   "city": "Washington",
                   "state": "DC",
-                  "postalCode": "20500"
+                  "postalCode": 20500
                 },
                 {
-                  "line1": "1600 Pennsylvania Avenue",
-                  "city": "Washington",
-                  "state": "DC",
-                  "postalCode": "20500"
+                  "line1": "11 Wall Street",
+                  "city": "New York",
+                  "state": "NY",
+                  "postalCode": 10005
+                },
+                {
+                  "line1": "350 Fifth Avenue",
+                  "city": "New York",
+                  "state": "NY",
+                  "postalCode": 10118
                 }
               ]
             }
@@ -2454,35 +1409,27 @@ littleUmbrella.circleverse.Repository = (function () {
             "accountRole": {
               "accountRoleDescription": "Viewer"
             },
+            "__key__": {
+              "fn": "Frank",
+              "ln": "Pendleton"
+            },
             "customer": {
               "id": 1,
               "firstName": "Harry",
               "lastName": "Houdini",
-              "taxId": 753762925,
-              "dateOfBirth": "Sun Dec 04 1983 18:04:42 GMT-0800 (Pacific Standard Time)",
-              "mothersMaidenName": "brown",
-              "emailAddress": "harry.houdini@brown.com",
-              "homePhone": "(945) 461-3783",
-              "mobilePhone": "(925) 401-3542",
-              "officePhone": "(837) 570-3873",
+              "taxId": 831699967,
+              "dateOfBirth": "Sat Jun 12 1982 09:27:14 GMT+0000 (UTC)",
+              "mothersMaidenName": "green",
+              "emailAddress": "harry.houdini@green.com",
+              "homePhone": "(971) 430-3766",
+              "mobilePhone": "(836) 491-3228",
+              "officePhone": "(878) 562-3532",
               "addresses": [
                 {
                   "line1": "1600 Pennsylvania Avenue",
                   "city": "Washington",
                   "state": "DC",
-                  "postalCode": "20500"
-                },
-                {
-                  "line1": "11 Wall Street",
-                  "city": "New York",
-                  "state": "NY",
-                  "postalCode": "10005"
-                },
-                {
-                  "line1": "11 Wall Street",
-                  "city": "New York",
-                  "state": "NY",
-                  "postalCode": "10005"
+                  "postalCode": 20500
                 }
               ]
             }
@@ -2490,31 +1437,204 @@ littleUmbrella.circleverse.Repository = (function () {
         ]
       },
       {
-        "accountNumber": 1345525919,
-        "balance": 49995,
+        "accountNumber": 5859369393,
+        "balance": 53806,
+        "__key__": {
+          "fn": "Frank",
+          "ln": "Pendleton"
+        },
         "product": {
-          "primaryProductCode": "Mortgage",
+          "primaryProductCode": "Checking",
           "secondaryProductCode": "Checking"
         },
         "addresses": [],
-        "relationships": []
+        "relationships": [
+          {
+            "accountRole": {
+              "accountRoleDescription": "Viewer"
+            },
+            "__key__": {
+              "fn": "Frank",
+              "ln": "Pendleton"
+            },
+            "customer": {
+              "id": 0,
+              "firstName": "Oprah",
+              "lastName": "Winfrey",
+              "taxId": 424819294,
+              "dateOfBirth": "Tue Jul 02 1974 19:09:49 GMT+0000 (UTC)",
+              "mothersMaidenName": "blue",
+              "emailAddress": "oprah.winfrey@blue.com",
+              "homePhone": "(977) 526-3227",
+              "mobilePhone": "(890) 515-2488",
+              "officePhone": "(858) 404-2925",
+              "addresses": [
+                {
+                  "line1": "1600 Pennsylvania Avenue",
+                  "city": "Washington",
+                  "state": "DC",
+                  "postalCode": 20500
+                },
+                {
+                  "line1": "11 Wall Street",
+                  "city": "New York",
+                  "state": "NY",
+                  "postalCode": 10005
+                },
+                {
+                  "line1": "350 Fifth Avenue",
+                  "city": "New York",
+                  "state": "NY",
+                  "postalCode": 10118
+                },
+                {
+                  "line1": "4059 Mt Lee Dr.",
+                  "city": "Hollywood",
+                  "state": "CA",
+                  "postalCode": 90068
+                }
+              ]
+            }
+          },
+          {
+            "accountRole": {
+              "accountRoleDescription": "Joint"
+            },
+            "__key__": {
+              "fn": "Frank",
+              "ln": "Pendleton"
+            },
+            "customer": {
+              "id": 1,
+              "firstName": "Oprah",
+              "lastName": "Winfrey",
+              "taxId": 894897638,
+              "dateOfBirth": "Thu Jul 15 2010 05:18:06 GMT+0000 (UTC)",
+              "mothersMaidenName": "brown",
+              "emailAddress": "oprah.winfrey@brown.com",
+              "homePhone": "(817) 563-3492",
+              "mobilePhone": "(883) 468-2891",
+              "officePhone": "(950) 594-2415",
+              "addresses": [
+                {
+                  "line1": "1600 Pennsylvania Avenue",
+                  "city": "Washington",
+                  "state": "DC",
+                  "postalCode": 20500
+                },
+                {
+                  "line1": "11 Wall Street",
+                  "city": "New York",
+                  "state": "NY",
+                  "postalCode": 10005
+                },
+                {
+                  "line1": "350 Fifth Avenue",
+                  "city": "New York",
+                  "state": "NY",
+                  "postalCode": 10118
+                }
+              ]
+            }
+          }
+        ]
       },
       {
-        "accountNumber": 2499773644,
-        "balance": 53042,
+        "accountNumber": 7638555856,
+        "balance": 88419,
+        "__key__": {
+          "fn": "Frank",
+          "ln": "Pendleton"
+        },
         "product": {
-          "primaryProductCode": "Checking",
+          "primaryProductCode": "Mortgage",
           "secondaryProductCode": "Mortgage"
         },
-        "addresses": [
+        "addresses": [],
+        "relationships": [
           {
-            "line1": "4 Goldfield Rd.",
-            "city": "Honolulu",
-            "state": "HI",
-            "postalCode": "96815"
+            "accountRole": {
+              "accountRoleDescription": "Viewer"
+            },
+            "__key__": {
+              "fn": "Frank",
+              "ln": "Pendleton"
+            },
+            "customer": {
+              "id": 0,
+              "firstName": "Oscar",
+              "lastName": "Wilde",
+              "taxId": 436851885,
+              "dateOfBirth": "Sat Apr 01 1989 00:52:02 GMT+0000 (UTC)",
+              "mothersMaidenName": "green",
+              "emailAddress": "oscar.wilde@green.com",
+              "homePhone": "(965) 548-2324",
+              "mobilePhone": "(932) 446-3918",
+              "officePhone": "(867) 464-3649",
+              "addresses": [
+                {
+                  "line1": "1600 Pennsylvania Avenue",
+                  "city": "Washington",
+                  "state": "DC",
+                  "postalCode": 20500
+                },
+                {
+                  "line1": "11 Wall Street",
+                  "city": "New York",
+                  "state": "NY",
+                  "postalCode": 10005
+                },
+                {
+                  "line1": "350 Fifth Avenue",
+                  "city": "New York",
+                  "state": "NY",
+                  "postalCode": 10118
+                }
+              ]
+            }
+          },
+          {
+            "accountRole": {
+              "accountRoleDescription": "Joint"
+            },
+            "__key__": {
+              "fn": "Frank",
+              "ln": "Pendleton"
+            },
+            "customer": {
+              "id": 1,
+              "firstName": "Oprah",
+              "lastName": "Winfrey",
+              "taxId": 699147364,
+              "dateOfBirth": "Wed Jun 04 1975 06:43:55 GMT+0000 (UTC)",
+              "mothersMaidenName": "brown",
+              "emailAddress": "oprah.winfrey@brown.com",
+              "homePhone": "(800) 534-2991",
+              "mobilePhone": "(928) 414-2037",
+              "officePhone": "(863) 485-2285",
+              "addresses": [
+                {
+                  "line1": "1600 Pennsylvania Avenue",
+                  "city": "Washington",
+                  "state": "DC",
+                  "postalCode": 20500
+                },
+                {
+                  "line1": "11 Wall Street",
+                  "city": "New York",
+                  "state": "NY",
+                  "postalCode": 10005
+                },
+                {
+                  "line1": "350 Fifth Avenue",
+                  "city": "New York",
+                  "state": "NY",
+                  "postalCode": 10118
+                }
+              ]
+            }
           }
-        ],
-        "relationships": []
+        ]
       }
     ],
     "addresses": [
@@ -2522,13 +1642,19 @@ littleUmbrella.circleverse.Repository = (function () {
         "line1": "1600 Pennsylvania Avenue",
         "city": "Washington",
         "state": "DC",
-        "postalCode": "20500"
+        "postalCode": 20500
       },
       {
-        "line1": "1600 Pennsylvania Avenue",
-        "city": "Washington",
-        "state": "DC",
-        "postalCode": "20500"
+        "line1": "11 Wall Street",
+        "city": "New York",
+        "state": "NY",
+        "postalCode": 10005
+      },
+      {
+        "line1": "350 Fifth Avenue",
+        "city": "New York",
+        "state": "NY",
+        "postalCode": 10118
       }
     ]
   },
@@ -2537,43 +1663,34 @@ littleUmbrella.circleverse.Repository = (function () {
     "lastName": "Northup",
     "firstName": "Frank",
     "taxId": 444583887,
-    "dateOfBirth": "Thu Nov 28 1985 14:54:26 GMT-0800 (Pacific Standard Time)",
-    "mothersMaidenName": "blue",
-    "emailAddress": "frank.northup@blue.com",
-    "homePhone": "(945) 451-2767",
-    "mobilePhone": "(851) 557-3758",
-    "officePhone": "(875) 426-3240",
+    "dateOfBirth": "Sat Oct 07 1972 06:47:42 GMT+0000 (UTC)",
+    "mothersMaidenName": "brown",
+    "emailAddress": "frank.northup@brown.com",
+    "__key__": {
+      "fn": "Frank",
+      "ln": "Northup"
+    },
+    "homePhone": "(862) 551-3091",
+    "mobilePhone": "(865) 589-3401",
+    "officePhone": "(976) 473-3812",
     "accounts": [
       {
-        "accountNumber": 9981796281,
-        "balance": 23820,
+        "accountNumber": 3249483929,
+        "balance": 67901,
+        "__key__": {
+          "fn": "Frank",
+          "ln": "Northup"
+        },
         "product": {
-          "primaryProductCode": "Mortgage",
-          "secondaryProductCode": "Checking"
+          "primaryProductCode": "Savings",
+          "secondaryProductCode": "Mortgage"
         },
         "addresses": [
           {
-            "line1": "70 Bowman St. South",
-            "city": "Windsor",
-            "state": "CT",
-            "postalCode": "06074"
-          }
-        ],
-        "relationships": []
-      },
-      {
-        "accountNumber": 8777729638,
-        "balance": 14729,
-        "product": {
-          "primaryProductCode": "Checking",
-          "secondaryProductCode": "Advantage"
-        },
-        "addresses": [
-          {
-            "line1": "350 Fifth Avenue",
-            "city": "New York",
-            "state": "NY",
-            "postalCode": "10118"
+            "line1": "4059 Mt Lee Dr.",
+            "city": "Hollywood",
+            "state": "CA",
+            "postalCode": 90068
           }
         ],
         "relationships": [
@@ -2581,47 +1698,92 @@ littleUmbrella.circleverse.Repository = (function () {
             "accountRole": {
               "accountRoleDescription": "Viewer"
             },
+            "__key__": {
+              "fn": "Frank",
+              "ln": "Northup"
+            },
             "customer": {
               "id": 0,
               "firstName": "Nicolas",
               "lastName": "Cage",
-              "taxId": 623378596,
-              "dateOfBirth": "Sat Jan 22 1977 19:26:08 GMT-0800 (Pacific Standard Time)",
-              "mothersMaidenName": "green",
-              "emailAddress": "nicolas.cage@green.com",
-              "homePhone": "(925) 428-2523",
-              "mobilePhone": "(883) 504-2537",
-              "officePhone": "(870) 549-3932",
+              "taxId": 346152415,
+              "dateOfBirth": "Wed Jul 21 1993 14:25:26 GMT+0000 (UTC)",
+              "mothersMaidenName": "blue",
+              "emailAddress": "nicolas.cage@blue.com",
+              "homePhone": "(935) 519-3614",
+              "mobilePhone": "(831) 549-3403",
+              "officePhone": "(947) 508-2550",
               "addresses": [
-                {
-                  "line1": "11 Wall Street",
-                  "city": "New York",
-                  "state": "NY",
-                  "postalCode": "10005"
-                },
-                {
-                  "line1": "792 Tehama Street",
-                  "city": "Wright",
-                  "state": "WA",
-                  "postalCode": "19499"
-                },
-                {
-                  "line1": "792 Tehama Street",
-                  "city": "Wright",
-                  "state": "WA",
-                  "postalCode": "19499"
-                },
                 {
                   "line1": "1600 Pennsylvania Avenue",
                   "city": "Washington",
                   "state": "DC",
-                  "postalCode": "20500"
+                  "postalCode": 20500
                 },
                 {
-                  "line1": "792 Tehama Street",
-                  "city": "Wright",
-                  "state": "WA",
-                  "postalCode": "19499"
+                  "line1": "11 Wall Street",
+                  "city": "New York",
+                  "state": "NY",
+                  "postalCode": 10005
+                },
+                {
+                  "line1": "350 Fifth Avenue",
+                  "city": "New York",
+                  "state": "NY",
+                  "postalCode": 10118
+                },
+                {
+                  "line1": "4059 Mt Lee Dr.",
+                  "city": "Hollywood",
+                  "state": "CA",
+                  "postalCode": 90068
+                }
+              ]
+            }
+          },
+          {
+            "accountRole": {
+              "accountRoleDescription": "Joint"
+            },
+            "__key__": {
+              "fn": "Frank",
+              "ln": "Northup"
+            },
+            "customer": {
+              "id": 1,
+              "firstName": "Oprah",
+              "lastName": "Winfrey",
+              "taxId": 941186875,
+              "dateOfBirth": "Sun Oct 19 1997 04:57:38 GMT+0000 (UTC)",
+              "mothersMaidenName": "green",
+              "emailAddress": "oprah.winfrey@green.com",
+              "homePhone": "(888) 425-3092",
+              "mobilePhone": "(906) 451-3090",
+              "officePhone": "(899) 549-2734",
+              "addresses": [
+                {
+                  "line1": "1600 Pennsylvania Avenue",
+                  "city": "Washington",
+                  "state": "DC",
+                  "postalCode": 20500
+                },
+                {
+                  "line1": "11 Wall Street",
+                  "city": "New York",
+                  "state": "NY",
+                  "postalCode": 10005
+                },
+                {
+                  "line1": "350 Fifth Avenue",
+                  "city": "New York",
+                  "state": "NY",
+                  "postalCode": 10118
+                },
+                {
+                  "line1": "4059 Mt Lee Dr.",
+                  "city": "Hollywood",
+                  "state": "CA",
+                  "postalCode": 90068
                 }
               ]
             }
@@ -2629,84 +1791,160 @@ littleUmbrella.circleverse.Repository = (function () {
         ]
       },
       {
-        "accountNumber": 7633859618,
-        "balance": 87920,
-        "product": {
-          "primaryProductCode": "Mortgage",
-          "secondaryProductCode": "Checking"
+        "accountNumber": 7222469999,
+        "balance": 66806,
+        "__key__": {
+          "fn": "Frank",
+          "ln": "Northup"
         },
-        "addresses": [],
+        "product": {
+          "primaryProductCode": "Savings",
+          "secondaryProductCode": "Advantage"
+        },
+        "addresses": [
+          {
+            "line1": "4059 Mt Lee Dr.",
+            "city": "Hollywood",
+            "state": "CA",
+            "postalCode": 90068
+          }
+        ],
         "relationships": [
           {
             "accountRole": {
-              "accountRoleDescription": "Viewer"
+              "accountRoleDescription": "Signer"
+            },
+            "__key__": {
+              "fn": "Frank",
+              "ln": "Northup"
             },
             "customer": {
               "id": 0,
-              "firstName": "Nicolas",
-              "lastName": "Cage",
-              "taxId": 269746231,
-              "dateOfBirth": "Thu Jun 07 2001 05:24:27 GMT-0700 (Pacific Daylight Time)",
-              "mothersMaidenName": "blue",
-              "emailAddress": "nicolas.cage@blue.com",
-              "homePhone": "(881) 459-3655",
-              "mobilePhone": "(965) 442-3733",
-              "officePhone": "(824) 594-3571",
+              "firstName": "Oscar",
+              "lastName": "Wilde",
+              "taxId": 632675395,
+              "dateOfBirth": "Mon Nov 06 2006 13:44:30 GMT+0000 (UTC)",
+              "mothersMaidenName": "brown",
+              "emailAddress": "oscar.wilde@brown.com",
+              "homePhone": "(800) 563-2003",
+              "mobilePhone": "(844) 451-2409",
+              "officePhone": "(987) 449-3514",
               "addresses": [
                 {
-                  "line1": "4059 Mt Lee Dr.",
-                  "city": "Hollywood",
-                  "state": "CA",
-                  "postalCode": "90068"
+                  "line1": "1600 Pennsylvania Avenue",
+                  "city": "Washington",
+                  "state": "DC",
+                  "postalCode": 20500
                 },
                 {
-                  "line1": "792 Tehama Street",
-                  "city": "Wright",
-                  "state": "WA",
-                  "postalCode": "19499"
+                  "line1": "11 Wall Street",
+                  "city": "New York",
+                  "state": "NY",
+                  "postalCode": 10005
+                }
+              ]
+            }
+          }
+        ]
+      },
+      {
+        "accountNumber": 4864172877,
+        "balance": 71407,
+        "__key__": {
+          "fn": "Frank",
+          "ln": "Northup"
+        },
+        "product": {
+          "primaryProductCode": "Mortgage",
+          "secondaryProductCode": "Mortgage"
+        },
+        "addresses": [
+          {
+            "line1": "4059 Mt Lee Dr.",
+            "city": "Hollywood",
+            "state": "CA",
+            "postalCode": 90068
+          }
+        ],
+        "relationships": [
+          {
+            "accountRole": {
+              "accountRoleDescription": "Joint"
+            },
+            "__key__": {
+              "fn": "Frank",
+              "ln": "Northup"
+            },
+            "customer": {
+              "id": 0,
+              "firstName": "Harry",
+              "lastName": "Houdini",
+              "taxId": 254672459,
+              "dateOfBirth": "Mon Dec 23 1985 23:01:15 GMT+0000 (UTC)",
+              "mothersMaidenName": "blue",
+              "emailAddress": "harry.houdini@blue.com",
+              "homePhone": "(901) 593-3002",
+              "mobilePhone": "(903) 542-3288",
+              "officePhone": "(880) 459-3130",
+              "addresses": [
+                {
+                  "line1": "1600 Pennsylvania Avenue",
+                  "city": "Washington",
+                  "state": "DC",
+                  "postalCode": 20500
+                },
+                {
+                  "line1": "11 Wall Street",
+                  "city": "New York",
+                  "state": "NY",
+                  "postalCode": 10005
                 }
               ]
             }
           },
           {
             "accountRole": {
-              "accountRoleDescription": "Viewer"
+              "accountRoleDescription": "Signer"
+            },
+            "__key__": {
+              "fn": "Frank",
+              "ln": "Northup"
             },
             "customer": {
               "id": 1,
-              "firstName": "Oprah",
-              "lastName": "Winfrey",
-              "taxId": 843913257,
-              "dateOfBirth": "Tue Nov 04 1975 00:58:23 GMT-0800 (Pacific Standard Time)",
-              "mothersMaidenName": "blue",
-              "emailAddress": "oprah.winfrey@blue.com",
-              "homePhone": "(897) 551-2280",
-              "mobilePhone": "(810) 575-2310",
-              "officePhone": "(971) 503-2222",
+              "firstName": "Arnold",
+              "lastName": "schwarzenegger",
+              "taxId": 814525928,
+              "dateOfBirth": "Fri Feb 18 1994 18:20:14 GMT+0000 (UTC)",
+              "mothersMaidenName": "brown",
+              "emailAddress": "arnold.schwarzenegger@brown.com",
+              "homePhone": "(918) 402-3450",
+              "mobilePhone": "(863) 530-3643",
+              "officePhone": "(909) 549-3165",
               "addresses": [
                 {
                   "line1": "1600 Pennsylvania Avenue",
                   "city": "Washington",
                   "state": "DC",
-                  "postalCode": "20500"
-                },
-                {
-                  "line1": "1600 Pennsylvania Avenue",
-                  "city": "Washington",
-                  "state": "DC",
-                  "postalCode": "20500"
+                  "postalCode": 20500
                 },
                 {
                   "line1": "11 Wall Street",
                   "city": "New York",
                   "state": "NY",
-                  "postalCode": "10005"
+                  "postalCode": 10005
                 },
                 {
-                  "line1": "792 Tehama Street",
-                  "city": "Wright",
-                  "state": "WA",
-                  "postalCode": "19499"
+                  "line1": "350 Fifth Avenue",
+                  "city": "New York",
+                  "state": "NY",
+                  "postalCode": 10118
+                },
+                {
+                  "line1": "4059 Mt Lee Dr.",
+                  "city": "Hollywood",
+                  "state": "CA",
+                  "postalCode": 90068
                 }
               ]
             }
@@ -2719,25 +1957,19 @@ littleUmbrella.circleverse.Repository = (function () {
         "line1": "1600 Pennsylvania Avenue",
         "city": "Washington",
         "state": "DC",
-        "postalCode": "20500"
+        "postalCode": 20500
       },
       {
-        "line1": "792 Tehama Street",
-        "city": "Wright",
-        "state": "WA",
-        "postalCode": "19499"
+        "line1": "11 Wall Street",
+        "city": "New York",
+        "state": "NY",
+        "postalCode": 10005
       },
       {
         "line1": "350 Fifth Avenue",
         "city": "New York",
         "state": "NY",
-        "postalCode": "10118"
-      },
-      {
-        "line1": "350 Fifth Avenue",
-        "city": "New York",
-        "state": "NY",
-        "postalCode": "10118"
+        "postalCode": 10118
       }
     ]
   }

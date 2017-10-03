@@ -1694,6 +1694,75 @@
                     'parseAddress'
                     );
 
+        file('/js/internal/circleverse/viewModels/LinkViewModel.js?r=2')
+                    .provides('circleverse.viewModel.LinkViewModel')
+                    .requires('jQuery', 'JS.Module', 'JS.Class', 'JSextend', 'eaf.core', 'eaf.util'
+                    ,
+                    'circleverse.viewModel.Base'
+                    ,
+                    'circleverse.viewModel.ResizeableBase'
+                    ,
+                    'becu_org.ui.viewModel.baseModule'
+                    ,
+                    'Polygon'
+                    ,
+                    'eaf.core'
+                    ,
+                    'eaf.util'
+                    ,
+                    'littleUmbrella.circleverse.ui.pointsAndPolygon'
+                    ,
+                    'circleverse.viewModel.satellite' 
+                    ,
+                    'circleverse.viewModel.centerCircle'
+                    );
+
+        file('/js/internal/circleverse/viewModels/LinksViewModel.js?r=2')
+                    .provides('circleverse.viewModel.LinksViewModel')
+                    .requires('jQuery', 'JS.Module', 'JS.Class', 'JSextend', 'eaf.core', 'eaf.util'
+                    ,
+                    'circleverse.viewModel.Base'
+                    ,
+                    'circleverse.viewModel.ResizeableBase'
+                    ,
+                    'becu_org.ui.viewModel.baseModule'
+                    ,
+                    'Polygon'
+                    ,
+                    'eaf.core'
+                    ,
+                    'eaf.util'
+                    ,
+                    'littleUmbrella.circleverse.ui.pointsAndPolygon'
+                    ,
+                    'circleverse.viewModel.satellite' 
+                    ,
+                    'circleverse.viewModel.centerCircle'
+                    );
+
+        file('/js/internal/circleverse/viewModels/TravelViewModel.js?r=2')
+                    .provides('circleverse.viewModel.TravelViewModel')
+                    .requires('jQuery', 'JS.Module', 'JS.Class', 'JSextend', 'eaf.core', 'eaf.util'
+                    ,
+                    'circleverse.viewModel.Base'
+                    ,
+                    'circleverse.viewModel.ResizeableBase'
+                    ,
+                    'becu_org.ui.viewModel.baseModule'
+                    ,
+                    'Polygon'
+                    ,
+                    'eaf.core'
+                    ,
+                    'eaf.util'
+                    ,
+                    'littleUmbrella.circleverse.ui.pointsAndPolygon'
+                    ,
+                    'circleverse.viewModel.satellite' 
+                    ,
+                    'circleverse.viewModel.centerCircle'
+                    );
+
         file('/js/internal/circleverse/viewModels/CustomerAddressViewModel.js?r=2')
                     .provides('circleverse.viewModel.CustomerAddressViewModel')
                     .requires('jQuery', 'JS.Module', 'JS.Class', 'JSextend', 'eaf.core', 'eaf.util'
@@ -2133,7 +2202,10 @@
                     'circleverse.viewModel.MoneyTransferViewModel', 
                     'circleverse.viewModel.NewViewModel', 
                     'circleverse.viewModel.EditViewModel', 
-                    'circleverse.viewModel.SaveViewModel')
+                    'circleverse.viewModel.SaveViewModel',
+                    'circleverse.viewModel.TravelViewModel',
+                    'circleverse.viewModel.LinkViewModel',
+                    'circleverse.viewModel.LinksViewModel')
                     ;
 
         file('/js/external/when.js?r=2')

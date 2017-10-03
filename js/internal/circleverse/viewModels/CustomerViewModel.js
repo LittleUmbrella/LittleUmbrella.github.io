@@ -37,7 +37,7 @@ littleUmbrella.circleverse.viewModel.CustomerViewModel = (function () {
 
 
             var coords = this.__getCoords();
-            this.location({ left: coords.left, top: coords.top });
+            //this.location({ left: coords.left, top: coords.top });
             this.dimensions({ height: this.scale() * 75, width: this.scale() * 75 });
             //log('customer position: ' + this.position().left);
         }
@@ -53,17 +53,9 @@ littleUmbrella.circleverse.viewModel.CustomerViewModel = (function () {
             self.hideMainForm = ko.observable(true);
             self.showMainForm = ko.observable(false);
 
-            self.location = ko.observable({ left: 300, top: 300 });
-
 
             self.hasIntroOcurred = ko.observable(false);
             self.kickoffIntro = ko.observable(false);
-
-
-            self.accountViewModels = ko.observableArray([]);
-
-            self.initLocation = ko.observable();
-            self.initLocation({ left: 0, top: 0 });
 
 
             // globalSettings.eventAggregator.subscribe('circleverse.viewModel.satellite.popped.out', function (topic, vm) {
@@ -71,17 +63,15 @@ littleUmbrella.circleverse.viewModel.CustomerViewModel = (function () {
             //         self.toggleChildrenVisibility();
             // });
 
-            self.callSuper(object, parent, globalSettings, {
-                mapping: {
-                    map: globalSettings.mappings['becu_org_domain_model_Customer']
-                }
-            });
 
+            self.callSuper(object, parent, globalSettings);
 
+// , {
+//                 mapping: {
+//                     map: globalSettings.mappings['becu_org_domain_model_Customer']
+//                 }
+//             }
 
-            self.__size = 150;
-            //self.position = initialPosition || { top: 0, left: 0 };
-            self.size(self.__size);
 
 //            var vm;
 //            for (var i = 0; i < self.model().accounts().length; i++) {
@@ -103,8 +93,6 @@ littleUmbrella.circleverse.viewModel.CustomerViewModel = (function () {
 
 
             var coords = self.__getCoords();
-            //self.location({ left: coords.left, top: coords.top });
-            self.dimensions({ height: self.scale() * initSize, width: self.scale() * initSize });
             //log('scale: ' + self.scale());
 
 
@@ -188,7 +176,8 @@ littleUmbrella.circleverse.viewModel.CustomerViewModel = (function () {
                 this.showMainForm(true);
             }
         }
-
+        
+        
 
     });
 

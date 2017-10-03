@@ -56,7 +56,7 @@ circleverse.viewModel.NewViewModel = (function () {
                 self.showMe(args.canCreate());
                 if (subscription) subscription.dispose();
 
-                subscription = args.canClose.subscribe(function(){
+                subscription = args.canCreate.subscribe(function(){
                     self.showMe(args.canCreate());
                 });
             });
