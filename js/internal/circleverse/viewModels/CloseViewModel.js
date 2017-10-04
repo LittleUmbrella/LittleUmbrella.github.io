@@ -82,7 +82,7 @@ circleverse.viewModel.CloseViewModel = (function () {
                 this.location({ left: coords.left + 40, top: 0 });
             }
             else{
-            self.label("Close");
+                self.label("Close");
             }
 
             var subscription = null;

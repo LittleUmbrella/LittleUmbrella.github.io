@@ -262,7 +262,7 @@ becu_org.app = (function () {
             // }
             // }).removeData("nodedepth"); // cleanup
 
-
+            self.messageVms = ko.observableArray();
 
             //thanks: http://stackoverflow.com/questions/2355208/how-can-i-stop-elements-overlapping-using-javascript-and-the-raphael-javascript-l
             function isOverlapping(event, circleLocation1, circleLocation2) {
@@ -380,6 +380,8 @@ becu_org.app = (function () {
             self.spotlightContext = ko.observable();
 
             globalSettings.globalDimensions = self.opts;
+
+            globalSettings.app = self;
 
             var filterViewModel = new circleverse.viewModel.FilterViewModel(null, self, globalSettings);
             var settingsViewModel = new circleverse.viewModel.settingsViewModel(store, self, globalSettings);

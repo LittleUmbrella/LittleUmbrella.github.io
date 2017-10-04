@@ -4,7 +4,7 @@ body
 {
    margin:0px 0px 0px 0px;
 font: normal 8pt Tahoma, Verdana, Segoe, sans-serif;
-    overflow-x: hidden;
+    overflow: hidden;
 }
 
 

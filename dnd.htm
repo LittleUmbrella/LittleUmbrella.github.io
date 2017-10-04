@@ -314,15 +314,15 @@
 
         
         <script type="text/html" id="findMemebersTemplate">
-            <form class="customer-info flex-container vertical" style="left: inherit; top: inherit;" >
+            <form class="customer-info flex-container vertical" action="/" method="post" data-bind="submit: findIndividuals">
 
                           <!--<div data-bind="style: {
                               'background-image': 'url(' + memberIcon() + ')'
                           }" class="circle person member-form center-container-fixed">
                           </div>-->
-                <div class="title">
+                <!--<div class="title">
                     <i class="icon-search icon-size-3x"/>
-                          </div>
+                          </div>-->
 
                 <div>
                     <div class="row">
@@ -377,6 +377,7 @@
                         
                     </div>
                 </div>
+                <input type="submit" formnovalidate style="width: 0;height:0"/>
             </form>
         </script>
 
@@ -1109,6 +1110,9 @@
 
     <script type="text/html" id="Script2">
     </script>
+    <!-- ko foreach: messageVms --> 
+        <!-- ko template: { name: messageTemplate } --><!-- /ko -->        
+    <!-- /ko -->
 </body>
 
     <script type="text/javascript">    var JSCLASS_PATH = '/js/external/JS/Class'</script>
