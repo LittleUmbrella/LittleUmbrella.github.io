@@ -26,11 +26,6 @@ circleverse.viewModel.CustomerCashViewModel = (function () {
 
             self.callSuper();
 
-            self.size(initSize);
-            self.__size = initSize;
-
-            self.childSize = self.methodDiameter();
-
             //var vm;
             //for (var i = 0; i < self.model().accounts().length; i++) {
             //    vm = new circleverse.viewModel.accountViewModel(self.model().accounts()[i], self);

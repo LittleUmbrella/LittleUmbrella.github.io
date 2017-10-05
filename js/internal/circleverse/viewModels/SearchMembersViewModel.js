@@ -138,7 +138,7 @@ circleverse.viewModel.SearchMembersViewModel = (function () {
 
         showMainForm: function(){
             var self = this;
-
+//return;
             var deferred = jQuery.Deferred();
             
             
@@ -228,7 +228,7 @@ circleverse.viewModel.SearchMembersViewModel = (function () {
             else{
                 self.contentTemplate('standardContentTemplate');
                 self.dimensions({width: self.searchDimensionSettingsRegular.width, height: self.searchDimensionSettingsRegular.height});
-                //self.location({top: self.searchDimensionSettingsRegular.top, left: self.searchDimensionSettingsRegular.left});
+                self.location({top: self.searchDimensionSettingsRegular.top, left: self.searchDimensionSettingsRegular.left});
                 self.size(self.searchDimensionSettingsRegular.width);
                 self.__overridden = false;
                 self.location(self.getCalculatedLocation());

@@ -834,6 +834,12 @@
             <!-- /ko -->
             <!-- ko template: { name: 'pinTemplate', data: pinViewModel } --><!-- /ko -->    
             <!-- ko template: { name: contentTemplate } --><!-- /ko -->
+            
+            <!-- ko if: isA(circleverse.viewModel.satellite) -->   
+            <svg>
+                <line class="link" x1="location().left" y1="location().top" x2="parent.location().left" y2="parent.location().top" style="stroke-width: 1.73205;"></line>
+            </svg>
+            <!-- /ko -->
         </div>
     </script>
     <script type="text/html" id="standardParentChildTemplate">        
@@ -865,7 +871,12 @@
             <!-- ko if: hasChildrenToggled -->
                 <!-- ko foreach: childViewModels-->                    
                     <!-- ko template: { name: 'genericChildTemplate' } --><!-- /ko -->
+                    
+                    <div class="line" data-bind="circleConnection: $data, visible: showMe"></div>
                 <!-- /ko -->
+            <!-- /ko -->
+            
+            <!-- ko if: isA(circleverse.viewModel.satellite) --> 
             <!-- /ko -->
         </div>
     <script type="text/html" id="navigableParentChildTemplate">        
@@ -1048,10 +1059,10 @@
                     
                     <div class="flex-row aligner">
                         <div class="col">
-                            <i class="icon-clock icon-size-2x"></i>            
+                            <i class="icon-birthday-cake icon-size-2x"></i>            
                         </div>
                         <div class="col">
-                             <span data-bind="truncatedText: {text: age, length: 18}"></span>            
+                             <span data-bind="truncatedText: {text: age, length: 16}"></span>            
                         </div>
                     </div>
                 </div>

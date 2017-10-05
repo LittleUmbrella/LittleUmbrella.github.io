@@ -41,6 +41,8 @@ circleverse.viewModel.satellite = (function () {
             if (!self.childViewModels)
                 self.childViewModels = ko.observableArray();
 
+            if (!self.dimensions)
+                self.dimensions = ko.observable({width: 0, top:0});
             
             if (!self.opacity)
                 self.opacity = ko.observable(1);
@@ -86,6 +88,16 @@ circleverse.viewModel.satellite = (function () {
                     self.__overridden = true;
                     self.__loc(val);
                 }
+            });
+
+            
+
+            self.center = ko.pureComputed({
+                read: function () {
+                    return {top: self.location().top + (self.dimentions().height/2), left: self.location().left + (self.dimentions().width/2)};
+                },
+                deferEvaluation: true
+                
             });
 
             self.popDuration = null;

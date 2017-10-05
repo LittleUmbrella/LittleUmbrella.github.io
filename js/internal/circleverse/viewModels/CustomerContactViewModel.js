@@ -39,9 +39,8 @@ circleverse.viewModel.CustomerContactViewModel = (function () {
                 }
             });
 
-
-            self.size(initSize);
-
+            
+            self.dimensions({ height: self.scale() * initSize, width: self.scale() * initSize });
 
             self.icon.location = { center: true, offset: { y: -35 } }; //ko.observable(false);//
 
@@ -50,8 +49,6 @@ circleverse.viewModel.CustomerContactViewModel = (function () {
 
             self.icon.name('icon-user icon-size-2x');
             self.icon.location = { center: true, offset: { y: -2, x: -4 } }; //ko.observable(false);//
-            
-            self.dimensions({ height: self.scale() * initSize, width: self.scale() * initSize });
 
         }
 

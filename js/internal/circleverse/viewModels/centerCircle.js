@@ -23,6 +23,8 @@
                 if (!self.children)
                     self.children = ko.observableArray();
 
+                if (!self.dimensions)
+                    self.dimensions = ko.observable({width: self.size(), top: self.size()});
 
 
                 if (!self.innerArr)

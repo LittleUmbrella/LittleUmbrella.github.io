@@ -121,8 +121,8 @@ littleUmbrella.circleverse.ui.shapes.satellite = {
         //b is length necessary to fit all satellites, might be too short to be outside of base circle
         var b = a * sind(B) / sind(A);
 
-        var offset = (settings.itemDiameter / 2) + (settings.itemPadding || 0); // 1; //
-        var onBaseCircleLegLength = ((settings.minCenterDiameter / 2) + settings.centerPadding) + offset;
+        var offset = ((settings.itemDiameter) / 2) + (settings.itemPadding || 0) ; // 1; //
+        var onBaseCircleLegLength = ((settings.minCenterDiameter / 2) + settings.centerPadding) + offset + 10;
 
         var offBase = false;
 

@@ -39,7 +39,6 @@ circleverse.viewModel.CustomerAccountsViewModel = (function () {
             self.model(ko.unwrap(self.model().temp));
             self.rawModel(self.rawModel().temp);
 
-            self.__size = initSize;
 
 
             var vm;

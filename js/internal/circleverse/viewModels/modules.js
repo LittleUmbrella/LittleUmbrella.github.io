@@ -201,9 +201,10 @@
 
             //this[fnName](model, args);
         }
+
         ,
 
-        __dragEnded: function (args, droppedFirst, location) {//droppedFirst, 
+        __dragging: function (args, droppedFirst, location) {//droppedFirst, 
             if (!args) throw new Error("args is undefined");
             //if (!fnName) throw new Error("fnName is undefined");
 
@@ -234,8 +235,58 @@
                             top: location.top,
                             left: location.left
                         });
+                    //dragViewModel.dragEnded(dragModel, dragViewModel, args);
+                }
+            }
+
+            //this[fnName](model, args);
+        }
+
+        ,
+
+        __dragEnded: function (args, droppedFirst, location) {//droppedFirst, 
+            if (!args) throw new Error("args is undefined");
+            //if (!fnName) throw new Error("fnName is undefined");
+
+            droppedFirst = droppedFirst || true;
+
+            //            var dragItem = $(args[2].drag).tmplItem();
+            //            var dragModel = dragItem.data;
+            //            var dragViewModel = dragItem.viewModel;
+
+            //            var dropItem = $(args[0].target).tmplItem();
+            //            var dropModel = dropItem.data;
+            //            var dropViewModel = dropItem.viewModel;
+
+            var dd = args[2], dragItem = $(dd.drag);
+            var dragData = dragItem.data("dragdata");
+            if ('undefined' == typeof dragData) //happens when dragged item is removed
+                return; 
+            var dragViewModel = dragData.viewModel;
+            if ('undefined' == typeof dragViewModel)
+                return;
+
+            var prom = dd.prom;
+            var dragModel = dragViewModel.model();
+
+            if (undefined != dragViewModel && dragViewModel.dragEnded) {
+                if (dragViewModel) {
+                    if (dragViewModel.location)
+                        dragViewModel.location({
+                            top: location.top,
+                            left: location.left
+                        });
+                    prom.resolve();
                     dragViewModel.dragEnded(dragModel, dragViewModel, args);
                 }
+                else{
+                    
+                    prom.resolve();
+                }
+            }
+            else{
+                
+                prom.resolve();
             }
 
             //this[fnName](model, args);
@@ -372,8 +423,12 @@
             var _this = e.target;
             var $this = $(_this);
             //$this.css({ 'zIndex': 900 });
-
-            $this.data("dragdata").viewModel = this;
+            var dragdata = $this.data("dragdata");
+            dragdata.viewModel = this;
+            dd.prom = jQuery.Deferred();
+            if (!dragdata.prom){
+                dragdata.prom = jQuery.Deferred();
+            }
         }
                 ,
 
@@ -395,6 +450,10 @@
             if (self.onTop)
                 self.onTop((self.onTop() || 0) + 1);
 
+            var dragdata = $this.data("dragdata");
+            if (!dragdata.prom){
+                dragdata.prom = jQuery.Deferred();
+            }
             //if (this.onTop) {
             //    var self = this;
             //    //this.onTop.valueHasMutated(); //
@@ -417,19 +476,20 @@
 
         dragx: function (e, ddev, dd) {
             //log('drag:' + this.id);
-            var $this = $(e.target);
+            var self = this, $this = $(e.target), args = arguments;
 
             if (dd.moveWithDrag) {
-                $this.css({
-                    top: dd.offsetY,
-                    left: dd.offsetX
-                });
+                // $this.css({
+                //     top: dd.offsetY,
+                //     left: dd.offsetX
+                // });
                 if (this.dndposition) {
                     this.dndposition = {
                         top: dd.offsetY,
                         left: dd.offsetX
                     };
                 }
+                self.__dragging(args, true, { top: dd.offsetY, left: dd.offsetX });
             }
 
         }
@@ -514,8 +574,13 @@
 
 
             var data = $this.data("dropdata");
-            if (!data.viewModel || !data.viewModel != this)
+            if (!data.viewModel || !data.viewModel != this){
                 data.viewModel = this;
+                
+            }
+            if (!data.prom){
+                data.prom = jQuery.Deferred();
+            }
         }
             ,
         dropxstart: function (e, ddev, dd) {//only fires when first element enters drop element, so can't be used
@@ -609,8 +674,13 @@
             var $this = $(_this);
 
             var data = $this.data("dropdata");
-            if (!data.viewModel || !data.viewModel != this)
-                data.viewModel = this;
+            if (!data.viewModel || !data.viewModel != this){
+                data.viewModel = this;          
+            }
+            
+            if (!data.prom){
+                data.prom = jQuery.Deferred();
+            }
             ////                    var origColor = $this.css('backgroundColor') || "";
             ////                    var aniColor = "#d00";
             ////                    //log(origColor);
@@ -651,13 +721,16 @@
             if (data.viewModel.onTop)
                 data.viewModel.onTop((data.viewModel.onTop() || 0) + 1);
 
-            var deferred = jQuery.Deferred();
+
+            //var dragData = $this.data("dragdata");
+
+            //var deferred = jQuery.Deferred();
             TweenMax.to(_this, 0.13, { 'scaleX': 1, 'scaleY': 1,
                 repeat: 2,
                 yoyo: true, ease: Sine.easeIn//.config(8.5, 5)
-                ,onComplete: function(){deferred.resolve();}
+                ,onComplete: function(){/*deferred.resolve();*/}
             });
-            this.__droppedOn(arguments, true, deferred);
+            this.__droppedOn(arguments, true, dd.prom);
         }
             ,
 
@@ -709,9 +782,14 @@
 
 
             var data = $this.data("dropdata");
-            if (!data.viewModel || !data.viewModel != this)
+            if (!data.viewModel || !data.viewModel != this){
                 data.viewModel = this;
+                
+            }
 
+            if (!data.prom){
+                data.prom = jQuery.Deferred();
+            }
 
 
             var deferred = jQuery.Deferred();

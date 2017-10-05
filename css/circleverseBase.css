@@ -19,6 +19,7 @@ vertical-align: middle;
 -ms-border-radius: 50%;
 -moz-border-radius: 50%;
 
+    opacity: 99%;
 }
 
 .becu-main {
@@ -1041,3 +1042,13 @@ ul.auto-fill li.row a{
     left: -245px;
 }
 
+.circle .line{
+    position: absolute;
+    min-width: 10px;
+    min-height: 1px;
+    left: 50%;
+    top: 50%;
+    z-index:-1;
+    opacity: 99%;
+    transform-origin: 0% 100%;
+}

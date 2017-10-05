@@ -476,3 +476,8 @@ form textarea.question + label > span {
     color: rgb(90, 107, 124); 
 
 }
+
+
+.circle .line{
+    background-color: #999;
+}

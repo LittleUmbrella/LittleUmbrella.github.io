@@ -42,13 +42,26 @@ circleverse.viewModel.AllMembersViewModel = (function () {
         initialize: function (object, parent, globalSettings) {// (tracker, uri, templateUri, templateId, resultTemplateUri, callSpec, name, id, businessClass, opts) {
 
             var self = this;
+            var initSize = 70;
+
+            //properties
+            self.globalSettings = globalSettings;
+            self.eventAggregator = globalSettings.eventAggregator;
+            
+ self.size = ko.observable(initSize);
+            var coords = self.__getCoords();
+            if (!self.opacity)
+                self.opacity = ko.observable(1);
+            self.location = ko.observable();
+            self.location({ left: coords.left, top: coords.top });
+
+            self.dimensions = ko.observable({ height: initSize, width: initSize });
 
             this.callSuper();
 
-            var initSize = 70;
- self.size = ko.observable(initSize);
-            //properties
-            self.eventAggregator = globalSettings.eventAggregator;
+            
+            self.dimensions({ height: initSize, width: initSize });
+
 
 // var settings = {
 //                 itemDiameter: initSize + 5,
@@ -68,15 +81,6 @@ circleverse.viewModel.AllMembersViewModel = (function () {
             globalSettings.eventAggregator.subscribe('customer.login.attempt', function (topic, data) {
                 self.getCustomer(data);
             });
-            var coords = self.__getCoords();
-            
-            if (!self.opacity)
-                self.opacity = ko.observable(1);
-            self.location = ko.observable();
-            self.location({ left: coords.left, top: coords.top });
-
-
-            this.dimensions({ height: this.scale() * initSize, width: this.scale() * initSize });
 
             this.icon.location = { center: true, offset: { y: -35} }; //ko.observable(false);//
 

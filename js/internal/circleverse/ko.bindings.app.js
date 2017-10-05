@@ -160,6 +160,114 @@
         }
     };
 
+    ko.bindingHandlers.circleConnection = {
+        'update': function (element, valueAccessor, allBindingAccessors) {
+
+            var value = ko.unwrap(valueAccessor()),
+                $element = $(element),
+                childCircle = ko.unwrap(value),
+                parentDircle = childCircle.parent;
+                    // base = ko.unwrap(value.base),
+                    // satellite = ko.unwrap(value.satellite),
+                    // $element = $(element),
+                    // childPropName = value.childPropName || 'childViewModels',
+                    // popOut = 'undefined' == typeof ko.unwrap(satellite.popToggle) ? ('undefined' == typeof ko.unwrap(value.popToggle)? true: ko.unwrap(value.popToggle)): ko.unwrap(satellite.popToggle),
+                    // index = ko.unwrap(value.index) || 0,
+                    // callback = (satellite.popAnimationEnded? satellite.popAnimationEnded: value.callback || function () { }),
+                    // animationLength = 'undefined' == typeof ko.unwrap(value.animationLength) ? .7 : ko.unwrap(value.animationLength),
+                    // opacity = 0, //'undefined' == typeof ko.unwrap(value.opacity) ? 0 : ko.unwrap(value.opacity),
+                    // delay = ko.unwrap(value.delay),
+                    // relativeToBase = 'undefined' == typeof ko.unwrap(value.relativeToBase) ? true : ko.unwrap(value.relativeToBase),
+                    // disabled = 'undefined' == typeof ko.unwrap(value.disabled) ? false : ko.unwrap(value.disabled);
+
+            //don't do anything on initial bind
+            // if (ko.computedContext.isInitial()) {
+            //     return;
+            // }
+            var childDims = childCircle.dimensions(), childLoc = childCircle.location(), parentDims = parentDircle.dimensions();//, parentLoc = parentDircle.location();  
+            var childCircleCenter = {top: childLoc.top + (childDims.height/2), left: childLoc.left + (childDims.width/2)}
+            var parentCircleCenter = {top: 0+ (parentDims.height/2), left: 0+ (parentDims.width/2)}
+
+            //var rotation = getRotationInDegrees({top: childLoc.top, left: childLoc.left}, {top: 0, left: 0});
+            var rotation = getRotationInDegrees(parentCircleCenter, childCircleCenter);
+
+            //hypotenuse with child top and left as the two sides
+            var width = Math.hypot(childCircleCenter.left - parentCircleCenter.left, childCircleCenter.top - parentCircleCenter.top);
+
+//}
+        //angle-angle-side
+        //a-A-B
+            
+            // var b = parentDims.height;
+            // var A = rotation;
+            // /*
+            // the three angles of any triangle add up to 180.  We know one angle (degreeOfSeparation)
+            // and we know the other two are equivalent to each other, so...
+            // */
+            // var B = 90;
+
+            // var C = (180 -B) -A;
+            
+            // var a = (b * sind(A)) / sind(C);
+
+            // var c = (b * sind(C)) / sind(B);
+
+            //http://www.mathportal.org/calculators/plane-geometry-calculators/right-triangle-calculator.php
+
+            var a = sind(rotation) * (parentDims.height/2);
+            var c = cosd(rotation) * (parentDims.height/2);
+
+            element.style.top = (a + (parentDims.height/2)) + 'px';
+            element.style.left = (c + (parentDims.width/2))  + 'px';
+
+            element.style.transform = 'rotateZ('+ rotation +'deg)';
+            element.style.width = (width-(parentDims.width/2)) + 'px';
+        }
+    };
+
+    function sind(x) {
+        return Math.sin(x * Math.PI / 180);
+    }
+
+    function cosd(x) {
+        return Math.cos(x * Math.PI / 180);
+    }
+
+    var getRotationInDegrees = function(p1,p2){
+        // // Get rotation in degrees
+        // p1 = p1.left;
+        // p2 = p2.left;
+        // var rotation = Math.atan(p1/p2) * 180 / Math.PI;
+
+        // // Adjust for 2nd & 3rd quadrants, i.e. diff y is -ve.
+        // if (p2 < 0) {
+        //     rotation += 180;
+
+        // // Adjust for 4th quadrant
+        // // i.e. diff x is -ve, diff y is +ve
+        // } else if (p1 < 0) {
+        //     rotation += 360;
+        // }
+        
+        // return rotation;
+        return Math.atan2(p2.top-p1.top,p2.left-p1.left)/Math.PI*180;
+    }
+
+    Math.hypot = Math.hypot || function (x, y) {
+        // https://bugzilla.mozilla.org/show_bug.cgi?id=896264#c28
+        var max = 0;
+        var s = 0;
+        for (var i = 0; i < arguments.length; i += 1) {
+            var arg = Math.abs(Number(arguments[i]));
+            if (arg > max) {
+            s *= (max / arg) * (max / arg);
+            max = arg;
+            }
+            s += arg === 0 && max === 0 ? 0 : (arg / max) * (arg / max);
+        }
+        return max === 1 / 0 ? 1 / 0 : max * Math.sqrt(s);
+    };
+
     var hidePop = false;
 
     ko.bindingHandlers.animatedMove = {
