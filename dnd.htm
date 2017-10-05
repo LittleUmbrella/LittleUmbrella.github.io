@@ -227,7 +227,7 @@
         </form>
         <!-- /ko -->
         <!-- ko with: settingsViewModel -->
-        <form action="/" method="post" onsubmit="return false" id="settingsForm" data-bind="center: $data, drag: $data, visible: showForm, onTop: showForm" class="drag drop form-container center" style="display:none;">
+        <form action="/" method="post" id="settingsForm" data-bind="center: $data, drag: $data, visible: showForm, onTop: showForm, submit: close" class="drag drop form-container center" style="display:none;">
             <div
                 class="" style="background-position: 50% 5%;">
                                     <a href="javascript:;" data-bind="click: toggleMainForm" class="close-button icon-close"></a>
@@ -247,7 +247,7 @@
             <a href="#" data-bind="click: close" class="button button-blue">
                 <span>OK</span>
             </a>
-
+            <input type="submit" style="width:0;height:0"/>
 
         </form>
         <!-- /ko -->
@@ -1024,6 +1024,9 @@
             <!-- ko foreach: changeAdditional-->                    
                 <span data-bind="text: $data"></span><!-- ko template: { name: 'ListDelimiterTemplate', data: {list: $parent.changeAdditional, index: $index()} } --><!-- /ko -->
             <!-- /ko -->
+            </div>
+            <div>
+            See this address's connections for more details or to disconnect using the Trash action.
             </div>
         </div>
     </script>

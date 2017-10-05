@@ -85,16 +85,6 @@ circleverse.viewModel.CustomerInfoViewModel = (function () {
             self.showForm = ko.observable(false);
 
         }
-        ,
-
-        toggleChildrenVisibility: function () {
-            var self = this, isFormVisible = self.showForm();
-
-            self.callSuper();
-
-            //if (self.__isKidsLoaded)
-            //self.__globalSettings.eventAggregator.publish('member.view', self);
-        }
 
             ,
         toggleMainForm: function () {

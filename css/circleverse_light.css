@@ -97,6 +97,9 @@ background-color: green;
     border-color: rgba(90, 107, 124, 0.23);
 
 }
+.circle.faded + script + .line{    
+    background-color: rgba(86, 174, 224, 0.23);
+}
 
 .draggableSelector {
 
@@ -374,7 +377,7 @@ div.drag.faded > div.flex-grid.data, div.drag.faded > div.flex-container.data {
 }
 
 
-.circle .line{
+.circle + script + .line{
     background-color: #999;
 }
 

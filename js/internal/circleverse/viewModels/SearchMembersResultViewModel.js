@@ -157,7 +157,9 @@ circleverse.viewModel.SearchMembersResultViewModel = (function () {
                 
 
                 prom.then(function(){
-                    self.getIndividual();
+                    if (self.childViewModels().length == 0){
+                        self.getIndividual();
+                    }
                 });
             }
         }
@@ -175,8 +177,9 @@ circleverse.viewModel.SearchMembersResultViewModel = (function () {
 
                 prom.then(function(){
                     
-                    self.getIndividual();
-                    //self.toggleMainForm();
+                    if (self.childViewModels().length == 0){
+                        self.getIndividual();
+                    }
                 });
 
 

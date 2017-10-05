@@ -75,10 +75,11 @@ circleverse.viewModel.OpenViewModel = (function () {
 
             if (self.globalSettings['tindr'].value() == true) {
                 self.contentTemplate('OpenViewModelContentTemplate');
-                
+                var calcLeft = ((($(window).width() - this.dimensions().width)) - 20);
+
                 self.dimensions({ height: $(window).height(), width: 500 });
                 
-                this.location({ left: -460, top: 0 });
+                this.location({ left: calcLeft + 40, top: 0 });
             }
             else{
                 self.label("Open");

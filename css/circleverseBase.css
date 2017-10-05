@@ -1034,12 +1034,12 @@ ul.auto-fill li.row a{
 }
 
 .tindr.open {
-    left: 240px;
+    left: -245px;
 }
 
 
 .tindr.close {
-    left: -245px;
+    left: 240px;
 }
 
 .circle .line{

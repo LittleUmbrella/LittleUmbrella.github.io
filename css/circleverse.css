@@ -28,6 +28,12 @@
     fill: 	rgba(86, 174, 224, 0.23);
     border-color: rgba(90, 107, 124, 0.23);
 }
+
+
+.circle.faded + script + .line{    
+    background-color: rgba(86, 174, 224, 0.23);
+}
+
 .drag {
 
 border-color: #56aee0/*8fc9eb*/;
@@ -478,6 +484,6 @@ form textarea.question + label > span {
 }
 
 
-.circle .line{
+.circle + script + .line{
     background-color: #999;
 }

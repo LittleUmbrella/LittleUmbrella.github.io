@@ -13,7 +13,7 @@ circleverse.viewModel.CustomerAccountsViewModel = (function () {
             circleverse.viewModel.centerCircle,
             becu_org.ui.viewModel.draggableModule,
             becu_org.ui.viewModel.droppableModule,
-            circleverse.viewModel.NavigableCircles,
+            //circleverse.viewModel.NavigableCircles,
             becu_org.ui.viewModel.labelModule
         ],
 
@@ -44,14 +44,16 @@ circleverse.viewModel.CustomerAccountsViewModel = (function () {
             var vm;
             for (var i = 0; i < self.rawModel().length; i++) {
                 vm = new circleverse.viewModel.accountViewModel(self.rawModel()[i], self, globalSettings);
-                self.innerArr.push(vm);
+                //self.innerArr.push(vm);
+                self.childViewModels.push(vm);
             }
             
 
             self.model.subscribe(function (item) {
                 var vm = new circleverse.viewModel.accountViewModel(ko.mapping.toJS(item), self, globalSettings);
 
-                self.innerArr.push(vm);
+                //self.innerArr.push(vm);
+                self.childViewModels.push(vm);
             });
 
             self.dimensions({ height: self.scale() * initSize, width: self.scale() * initSize });

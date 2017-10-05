@@ -403,7 +403,9 @@ becu_org.app = (function () {
                 new circleverse.viewModel.CloseViewModel(null, self, globalSettings),                
                 new circleverse.viewModel.EditViewModel(null, self, globalSettings),                
                 new circleverse.viewModel.SaveViewModel(null, self, globalSettings),                
-                new circleverse.viewModel.SearchViewModel(null, self, globalSettings)
+                new circleverse.viewModel.SearchViewModel(null, self, globalSettings),                
+                new circleverse.viewModel.TravelViewModel(null, self, globalSettings),                
+                new circleverse.viewModel.MoveViewModel(null, self, globalSettings)
                 
             ];
 

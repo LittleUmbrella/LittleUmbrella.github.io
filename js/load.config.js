@@ -1763,6 +1763,29 @@
                     'circleverse.viewModel.centerCircle'
                     );
 
+        file('/js/internal/circleverse/viewModels/MoveViewModel.js?r=2')
+                    .provides('circleverse.viewModel.MoveViewModel')
+                    .requires('jQuery', 'JS.Module', 'JS.Class', 'JSextend', 'eaf.core', 'eaf.util'
+                    ,
+                    'circleverse.viewModel.Base'
+                    ,
+                    'circleverse.viewModel.ResizeableBase'
+                    ,
+                    'becu_org.ui.viewModel.baseModule'
+                    ,
+                    'Polygon'
+                    ,
+                    'eaf.core'
+                    ,
+                    'eaf.util'
+                    ,
+                    'littleUmbrella.circleverse.ui.pointsAndPolygon'
+                    ,
+                    'circleverse.viewModel.satellite' 
+                    ,
+                    'circleverse.viewModel.centerCircle'
+                    );
+
         file('/js/internal/circleverse/viewModels/CustomerAddressViewModel.js?r=2')
                     .provides('circleverse.viewModel.CustomerAddressViewModel')
                     .requires('jQuery', 'JS.Module', 'JS.Class', 'JSextend', 'eaf.core', 'eaf.util'
@@ -2204,6 +2227,7 @@
                     'circleverse.viewModel.EditViewModel', 
                     'circleverse.viewModel.SaveViewModel',
                     'circleverse.viewModel.TravelViewModel',
+                    'circleverse.viewModel.MoveViewModel',
                     'circleverse.viewModel.LinkViewModel',
                     'circleverse.viewModel.LinksViewModel')
                     ;

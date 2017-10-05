@@ -79,7 +79,7 @@ circleverse.viewModel.CloseViewModel = (function () {
                 
                 self.dimensions({ height: $(window).height(), width: 500 });
                 
-                this.location({ left: coords.left + 40, top: 0 });
+                this.location({ left: -460, top: 0 });
             }
             else{
                 self.label("Close");

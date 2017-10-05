@@ -97,7 +97,7 @@ circleverse.viewModel.CustomerAddressesViewModel = (function () {
                 self.__loadedChildren = true;
             }
 
-            self.callSuper();
+            return self.callSuper();
             //if (self.__isKidsLoaded)
             //self.__globalSettings.eventAggregator.publish('member.view', self);
         }
