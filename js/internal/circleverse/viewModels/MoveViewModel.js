@@ -107,7 +107,7 @@ circleverse.viewModel.MoveViewModel = (function () {
                                     return prom;
                                 }
                                 else{
-                                    item.toggleChildrenVisibility().then(function(){
+                                    item.showChildVieModels().then(function(){
                                         prom.resolve(item);                                        
                                     });
                                     return prom;
@@ -130,7 +130,7 @@ circleverse.viewModel.MoveViewModel = (function () {
 
                 if (!dropViewModel.childrenVisible()){
                     prom.then(function(){
-                        dropViewModel.toggleChildrenVisibility().then(function(child){
+                        dropViewModel.showChildVieModels().then(function(child){
                             findChileAndToggleIfNecessary(dropViewModel.childViewModels(), circleverse.viewModel.CustomerInfoViewModel).then(function(child){
                                 if (child){
                                     findChileAndToggleIfNecessary(child.childViewModels(), circleverse.viewModel.CustomerAddressesViewModel).then(function(child){
@@ -197,7 +197,7 @@ circleverse.viewModel.MoveViewModel = (function () {
                                     return prom;
                                 }
                                 else{
-                                    item.toggleChildrenVisibility().then(function(){
+                                    item.showChildVieModels().then(function(){
                                         prom.resolve(item);                                        
                                     });
                                     return prom;
@@ -220,7 +220,7 @@ circleverse.viewModel.MoveViewModel = (function () {
 
                 if (!dragVm.childrenVisible()){
                     prom.then(function(){
-                        dragVm.toggleChildrenVisibility().then(function(child){
+                        dragVm.showChildVieModels().then(function(child){
                             findChileAndToggleIfNecessary(dragVm.childViewModels(), circleverse.viewModel.CustomerInfoViewModel).then(function(child){
                                 if (child){
                                     findChileAndToggleIfNecessary(child.childViewModels(), circleverse.viewModel.CustomerAddressesViewModel).then(function(child){

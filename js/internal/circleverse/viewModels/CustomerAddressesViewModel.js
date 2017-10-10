@@ -81,7 +81,7 @@ circleverse.viewModel.CustomerAddressesViewModel = (function () {
         }
         ,
 
-        toggleChildrenVisibility: function () {
+        showChildVieModels: function () {
             var self = this, isFormVisible = self.showForm();
 
 

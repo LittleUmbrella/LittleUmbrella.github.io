@@ -952,6 +952,7 @@ form div.col:first-child{
     /*float:left;padding:10px;text-align: left;*/
 }
 
+/*https://jsfiddle.net/cq0ecd5u/*/
 .flex-container {
         display: flex;
         align-items:center;
@@ -1051,4 +1052,9 @@ ul.auto-fill li.row a{
     z-index:-1;
     opacity: 99%;
     transform-origin: 0% 100%;
+}
+
+.hidden-submit{
+    width: 0;
+    height:0;
 }

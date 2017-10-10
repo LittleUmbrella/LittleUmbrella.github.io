@@ -377,7 +377,7 @@
                         
                     </div>
                 </div>
-                <input type="submit" formnovalidate style="width: 0;height:0"/>
+                <input type="submit" class="hidden-submit" formnovalidate />
             </form>
         </script>
 
@@ -877,6 +877,7 @@
             <!-- /ko -->
             
             <!-- ko if: isA(circleverse.viewModel.satellite) --> 
+                
             <!-- /ko -->
         </div>
     <script type="text/html" id="navigableParentChildTemplate">        
@@ -1003,7 +1004,7 @@
     
     
     <script type="text/html" id="CustomerAddressEditViewModelContentTemplate"> 
-        <form class="customer-address-info" >
+        <form class="customer-address-info" data-bind="submit: saveAddress" >
             <div class="row">
                 <div class="col">
                     <i class="icon-address icon-size-2x"></i>
@@ -1017,6 +1018,8 @@
                     <i class="bar"></i>                 
                 </div>
             </div>
+            
+            <input type="submit" class="hidden-submit" formnovalidate />
         </form>
         <div data-bind="visible: changeAdditional().length > 0">
             <div class="flex-container horizontal">
@@ -1193,6 +1196,33 @@
             ko.validation.init();
             $(function () {
                 $.unblockUI();
+
+
+                //https://stackoverflow.com/questions/29008194/disabling-androids-chrome-pull-down-to-refresh-feature
+                var lastTouchY = 0;
+                var preventPullToRefresh = false;
+
+                $('body').on('touchstart', function (e) {
+                    if (e.originalEvent.touches.length != 1) { return; }
+                    lastTouchY = e.originalEvent.touches[0].clientY;
+                    preventPullToRefresh = window.pageYOffset == 0;
+                });
+
+                $('body').on('touchmove', function (e) {
+                    var touchY = e.originalEvent.touches[0].clientY;
+                    var touchYDelta = touchY - lastTouchY;
+                    lastTouchY = touchY;
+                    if (preventPullToRefresh) {
+                        // To suppress pull-to-refresh it is sufficient to preventDefault the first overscrolling touchmove.
+                        preventPullToRefresh = false;
+                        if (touchYDelta > 0) {
+                            e.preventDefault();
+                            return;
+                        }
+                    }
+                });
+
+
                 //todo: research and decide whether to uncomment
                 //$(window).unload(function () { }); // clear ff and safari cache
 

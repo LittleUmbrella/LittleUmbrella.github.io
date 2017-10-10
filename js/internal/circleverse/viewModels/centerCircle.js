@@ -144,56 +144,42 @@
             var self = this;
 
             //this.model().callSpec().add(dragModel);
-            if (dropViewModel.isA(circleverse.viewModel.OpenViewModel) || dropViewModel.isA(circleverse.viewModel.CloseViewModel)) {
-                // var methodVm = this.model().services[0].methods()[0];
-                // var need = methodVm.model().callSpec().need()[0]
-                // //$parent.getObjects.call($parent, e, model)
-                // methodVm.getObjects.call(methodVm, null, need);
-                
-
+            if (dropViewModel.isA(circleverse.viewModel.OpenViewModel)) {
                 prom.then(function(){
-                    self.toggleChildrenVisibility();
+                    return self.showChildVieModels();
+                });
+            }
+            else if (dropViewModel.isA(circleverse.viewModel.CloseViewModel)){
+                prom.then(function(){
+                    return self.parent.hideChildVieModels();
                 });
             }
             else if (dropViewModel.isA(circleverse.viewModel.garbageViewModel)) {
-                // var methodVm = this.model().services[0].methods()[0];
-                // var need = methodVm.model().callSpec().need()[0]
-                // //$parent.getObjects.call($parent, e, model)
-                // methodVm.getObjects.call(methodVm, null, need);
-                
                 if (self.parent.isA(circleverse.viewModel.LinksViewModel)){
                     prom.then(function(){
                         self.parent.breakLink(self);
                     });
                 }
             }
+
+            return prom;
         }
             ,
         droppedOn: function (dragModel, dragVm, args, prom) {
             var self = this;
 
-            //this.model().callSpec().add(dragModel);
-            if (dragVm.isA(circleverse.viewModel.OpenViewModel) || dragVm.isA(circleverse.viewModel.CloseViewModel)) {
-                // var methodVm = this.model().services[0].methods()[0];
-                // var need = methodVm.model().callSpec().need()[0]
-                // //$parent.getObjects.call($parent, e, model)
-                // methodVm.getObjects.call(methodVm, null, need);
-                
+            if (dragVm.isA(circleverse.viewModel.OpenViewModel)) {
 
-                prom.then(function(){                    
-                    self.toggleChildrenVisibility();
+                prom.then(function(){
+                    return self.showChildVieModels();
                 });
-
-
+            }
+            else if (dragVm.isA(circleverse.viewModel.CloseViewModel)){
+                prom.then(function(){
+                    return self.parent.hideChildVieModels();
+                });
             }
             else if (dragVm.isA(circleverse.viewModel.garbageViewModel)) {
-                // var methodVm = this.model().services[0].methods()[0];
-                // var need = methodVm.model().callSpec().need()[0]
-                // //$parent.getObjects.call($parent, e, model)
-                // methodVm.getObjects.call(methodVm, null, need);
-                
-
-                
                 if (self.parent.isA(circleverse.viewModel.LinksViewModel)){
                     prom.then(function(){
                         self.parent.breakLink(self);
@@ -201,6 +187,8 @@
                 }
 
             }
+
+            return prom;
         }
             ,
 
@@ -224,29 +212,20 @@
 
 
                 self.shadowActive(false);
-            }
+            },
 
-        ,
-            
-            toggleChildrenVisibility: function () {
+            showChildVieModels: function(){
                 var self = this, arr = self.childViewModels(), len = arr.length, item, anyChildPopped = false, anyChildUnPopped = false, mixPop = false;
 
-                //var currentLimeList = self.limeLight();
-                // if (currentLimeList){
-                //     self.limeLight(!self.limeLight());
-                    
-                //     //if (anyChildPopped)
-                //     self.downToLeavesAndUnpopParents(arr, self);
-                // }
-
-
-                var deferred = jQuery.Deferred();
                 if (!self.hasChildrenToggled()){
                     self.hasChildrenToggled(true);
                 }
 
+                var deferred = jQuery.Deferred();
                 var popDeferreds = [];
-                
+
+
+                //special case the faded guys.  user is either trying to open or close a middle bubble in the chain
                 if (self.faded()){
                     self.faded(false);
 
@@ -269,6 +248,86 @@
                     
                 }
                 else{
+                    
+                    for (var i = 0; i < len; i++) {
+                        item = ko.unwrap(arr[i]);
+
+                        if (!item.popped){ 
+                            popDeferreds.push(item.pop());
+                        }
+
+                        //anyChildPopped = true;
+                    }
+
+                    if (popDeferreds.length == 0)
+                        deferred.resolve();
+                    else
+                        $.when.apply(null, popDeferreds).then(function(){
+                            deferred.resolve();
+                        });
+                    
+                    self.globalSettings.eventAggregator.publish('circleverse.spotlightContext', self);
+
+                    var loc;
+                    if (!self.childrenVisible()){
+                        if (self.parent && self.parent.moveRoot){
+                            loc = self.location();
+                            
+                            self.parent.faded(true);
+                            self.parent.moveRoot({movement: {top: -(loc.top), left: -(loc.left)}});
+
+                            self.parent.unpopAllBut(self);
+                        }                    
+                    }
+                    
+                    self.childrenVisible(true);
+
+
+                    if (self.globalSettings['autoPin'].value()) {
+                        if (self.pinViewModel)
+                            self.pinViewModel.togglePin([self.pinViewModel]);
+                    }
+                }
+
+
+
+
+                return deferred;
+            },
+
+            hideChildVieModels: function(){
+                var self = this, arr = self.childViewModels(), len = arr.length, item, anyChildPopped = false, anyChildUnPopped = false, mixPop = false;
+
+                if (!self.hasChildrenToggled()){
+                    self.hasChildrenToggled(true);
+                }
+
+                var deferred = jQuery.Deferred();
+                var popDeferreds = [];
+
+                //special case the faded guys.  user is either trying to open or close a middle bubble in the chain
+                // if (self.faded()){
+                //     self.faded(false);
+
+                //     var movement = self.downToLeavesAndUnpopParents(arr, self);
+
+                //     if (movement.top != 0 && movement.left != 0)
+                //         self.moveRoot({movement: movement});
+                    
+                //     for (var i = 0; i < len; i++) {
+                //         item = ko.unwrap(arr[i]);
+                //         if (item.popped){
+                //             popDeferreds.push(item.pop());
+                //         }
+
+                //         if (item.faded())
+                //             self.faded(false);
+
+                //     }
+                //     self.childrenVisible(false);
+                    
+                // }
+                // else{
 
                     for (var i = 0; i < len; i++) {
                         item = ko.unwrap(arr[i]);
@@ -287,23 +346,38 @@
                         //anyChildPopped = true;
                     }
 
-                    if (!mixPop)
-                        self.childrenVisible(!self.childrenVisible());
+                    var movement = {top: 0, left: 0};
+                    self.faded(false);
+                    if (self.parent && self.parent.moveRoot){
+                        loc = self.location();
+                        self.parent.faded(false);
+                        //self.parent.moveRoot({movement: {top: -(loc.top), left: -(loc.left)}});
+                        movement = {top: loc.top, left: loc.left};
+                    }
+                    var chainMove = self.downToLeavesAndUnpopParents(arr, self);
+                    movement.left += chainMove.left;
+                    movement.top += chainMove.top;
 
-                    var childrenVisible = self.childrenVisible();
+                    if (movement.top != 0 && movement.left != 0)
+                        self.parent.moveRoot({movement: movement});
+                    // if (!mixPop)
+                    //     self.childrenVisible(!self.childrenVisible());
+
+                    // var childrenVisible = self.childrenVisible();
+                    self.childrenVisible(false);
                     for (var i = 0; i < len; i++) {
                         item = ko.unwrap(arr[i]);
 
-                        if (childrenVisible){
-                            if (!item.popped){ 
-                                popDeferreds.push(item.pop());
-                            }
-                        }
-                        else{
+                        // if (childrenVisible){
+                        //     if (!item.popped){ 
+                        //         popDeferreds.push(item.pop());
+                        //     }
+                        // }
+                        // else{
                             if (item.popped){
                                 popDeferreds.push(item.pop());
                             }
-                        }
+                        //}
 
                         //anyChildPopped = true;
                     }
@@ -317,32 +391,23 @@
                     
                     self.globalSettings.eventAggregator.publish('circleverse.spotlightContext', self);
 
-                    if (mixPop){
-                        return deferred;
-                    }
+                    // if (mixPop){
+                    //     return deferred;
+                    // }
 
                     var loc;
-                    if (self.childrenVisible()){
-                        if (self.parent && self.parent.moveRoot){
-                            loc = self.location();
+                    // if (self.childrenVisible()){
+                    //     if (self.parent && self.parent.moveRoot){
+                    //         loc = self.location();
                             
-                            self.parent.faded(true);
-                            self.parent.moveRoot({movement: {top: -(loc.top), left: -(loc.left)}});
+                    //         self.parent.faded(true);
+                    //         self.parent.moveRoot({movement: {top: -(loc.top), left: -(loc.left)}});
 
-                            self.parent.unpopAllBut(self);
-                        }
-                    }
-                    else{
-                        if (self.parent && self.parent.moveRoot){
-                            loc = self.location();
-                            self.parent.faded(false);
-                            self.parent.moveRoot({movement: {top: loc.top, left: loc.left}});
-                        }
-                        var movement = self.downToLeavesAndUnpopParents(arr, self);
-
-                        if (movement.top != 0 && movement.left != 0)
-                            self.parent.moveRoot({movement: movement});
-                    }
+                    //         self.parent.unpopAllBut(self);
+                    //     }
+                    // }
+                    // else{
+                    //}
 
 
 
@@ -350,15 +415,35 @@
                         if (self.pinViewModel)
                             self.pinViewModel.togglePin([self.pinViewModel]);
                     }
+                //}
+
+
+
+
+                return deferred;
+                
+                
+            }
+            ,
+            
+            toggleChildrenVisibility: function () {
+                var self = this;
+
+                //var currentLimeList = self.limeLight();
+                // if (currentLimeList){
+                //     self.limeLight(!self.limeLight());
+                    
+                //     //if (anyChildPopped)
+                //     self.downToLeavesAndUnpopParents(arr, self);
+                // }
+                
+                if (self.childrenVisible()){
+                    return self.showChildVieModels();
+                }
+                else{
+                    return self.hideChildVieModels();                    
                 }
 
-                // if (!currentLimeList)
-                // {
-                //     self.limeLight(!self.limeLight());
-                // }
-
-                
-                return deferred;
             },
 
             unpopAllBut: function(exclusion){
@@ -414,14 +499,14 @@
                 return movement;
             },
 
-            unpopParents: function(node, originalNode){
-                var self = this;
-                if (originalNode != node.parent && node.parent.popped){
-                    node.parent.pop();
-                    self.unpopParents(node.parent, originalNode);
-                }
-            }
-            ,
+            // unpopParents: function(node, originalNode){
+            //     var self = this;
+            //     if (originalNode != node.parent && node.parent.popped){
+            //         node.parent.pop();
+            //         self.unpopParents(node.parent, originalNode);
+            //     }
+            // }
+            // ,
 
             pin: function (except) {
                 var self = this, arr = self.childViewModels(), len = arr.length;

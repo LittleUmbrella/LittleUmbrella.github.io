@@ -90,35 +90,7 @@ circleverse.viewModel.SearchViewModel = (function () {
             this.borderColor('#999999');
             //log('garbage position: ' + this.position().top);
         }
-            ,
-
-        toggleChildrenVisibility: function(){
-            var self = this;
-            self.callSuper();
-
-            
-            if (!self.parent.mainFormOpen){
-                self.parent.searchRequested(self);
-            }
-        }
-        ,
-
-        toggleMainForm: function(){
-            var self = this;
-
-            self.parent.toggleMainForm(self);
-        }
-        ,
-
-        toggleFormAnimationEnded: function(){
-            var self = this;
-
-            self.parent.toggleFormAnimationEnded(self);
-            if (!self.parent.mainFormOpen){
-                self.toggleChildrenVisibility();
-            }
-        }
-        ,
+                   ,
 
 
 
@@ -131,15 +103,6 @@ circleverse.viewModel.SearchViewModel = (function () {
             this.dimensions({ height: this.scale() * initSize, width: this.scale() * initSize });
 
             //log('garbage position: ' + this.position().top);
-        }
-            ,
-        droppedOn: function (dragModel, dragVm) {
-//            if (JS.Interface.implements(dragVm, becu_org.ui.IDeletable)) {
-//                if (dragVm.canDeleteNow()) {
-//                    dragVm.deleteNow(true);
-//                }
-
-//            }
         }
 
 

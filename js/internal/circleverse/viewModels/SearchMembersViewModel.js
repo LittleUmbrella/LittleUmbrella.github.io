@@ -120,20 +120,6 @@ circleverse.viewModel.SearchMembersViewModel = (function () {
             this.borderColor('#999999');
             //log('garbage position: ' + this.position().top);
         }
-        //     ,
-
-        // toggleChildrenVisibility: function(){
-        //     var self = this;
-
-        //     var s = self.callSuper;
-            
-        //     if (!self.parent.mainFormOpen){
-        //         var prom = self.parent.searchRequested(self);
-        //         prom.then(function(){                    
-        //             s.call(self);
-        //         });
-        //     }
-        // }
         ,
 
         showMainForm: function(){
@@ -145,7 +131,7 @@ circleverse.viewModel.SearchMembersViewModel = (function () {
 
             self.searchDimensionSettingsBig.onComplete = function(){
                 if (self.childrenVisible()){
-                    self.toggleChildrenVisibility();
+                    self.hideChildVieModels();
                 }
                 self.toggleFormAnimationEnded();
                 
@@ -175,7 +161,7 @@ circleverse.viewModel.SearchMembersViewModel = (function () {
                 self.searchDimensionSettingsRegular.onComplete = function(){
                     self.toggleFormAnimationEnded();
                     if (!self.childrenVisible()){
-                        self.toggleChildrenVisibility();
+                        self.showChildVieModels();
                     }
                     
                     
@@ -283,71 +269,78 @@ circleverse.viewModel.SearchMembersViewModel = (function () {
         dropped: function (dropModel, dropViewModel, args, prom) {
             var self = this;
 
-            //this.model().callSpec().add(dragModel);
-            if (dropViewModel.isA(circleverse.viewModel.CloseViewModel) || dropViewModel.isA(circleverse.viewModel.OpenViewModel)) {
-                // var methodVm = this.model().services[0].methods()[0];
-                // var need = methodVm.model().callSpec().need()[0]
-                // //$parent.getObjects.call($parent, e, model)
-                // methodVm.getObjects.call(methodVm, null, need);
-                
-
+            if (dropViewModel.isA(circleverse.viewModel.CloseViewModel)) {
                 prom.then(function(){
-                    //self.toggleChildrenVisibility();
-                    if (self.faded())
-                        self.toggleChildrenVisibility();
-                    else
-                        self.toggleMainForm();
+                    if (self.mainFormOpen){                        
+                        self.hideMainForm().then(function(){
+                            //if (self.callSuper) self.callSuper();
+                        });
+                    }
+                    else{
+                        self.showMainForm().then(function(){
+                            //if (self.callSuper) self.callSuper();
+                        });
+                    }
+                });
+            }
+            else if (dropViewModel.isA(circleverse.viewModel.OpenViewModel)){
+                prom.then(function(){
+                    self.showMainForm().then(function(){
+                        //if (self.callSuper) self.callSuper();
+                    });
                 });
             }
             else if (dropViewModel.isA(circleverse.viewModel.SaveViewModel) || dropViewModel.isA(circleverse.viewModel.SaveViewModel)) {
-                // var methodVm = this.model().services[0].methods()[0];
-                // var need = methodVm.model().callSpec().need()[0]
-                // //$parent.getObjects.call($parent, e, model)
-                // methodVm.getObjects.call(methodVm, null, need);
-                
-
                 prom.then(function(){
-                    //self.toggleChildrenVisibility();
                     self.findIndividuals();
                 });
 
-
+                
+                if (self.callSuper) self.callSuper();
             }
+            else{
+                
+                if (self.callSuper) self.callSuper();
+            }
+
+            
         }
             ,
         droppedOn: function (dragModel, dragVm, args, prom) {
             var self = this;
 
-            //this.model().callSpec().add(dragModel);
-            if (dragVm.isA(circleverse.viewModel.CloseViewModel) || dragVm.isA(circleverse.viewModel.OpenViewModel)) {
-                // var methodVm = this.model().services[0].methods()[0];
-                // var need = methodVm.model().callSpec().need()[0]
-                // //$parent.getObjects.call($parent, e, model)
-                // methodVm.getObjects.call(methodVm, null, need);
-                
-
+            if (dragVm.isA(circleverse.viewModel.CloseViewModel)) {
                 prom.then(function(){
-                    if (self.faded())
-                        self.toggleChildrenVisibility();
-                    else
-                        self.toggleMainForm();
+                    if (self.mainFormOpen){                        
+                        self.hideMainForm().then(function(){
+                            //if (self.callSuper) self.callSuper();
+                        });
+                    }
+                    else{
+                        self.showMainForm().then(function(){
+                            //if (self.callSuper) self.callSuper();
+                        });
+                    }
                 });
-
-
             }
-            else if (dragVm.isA(circleverse.viewModel.SaveViewModel) || dragVm.isA(circleverse.viewModel.SaveViewModel)) {
-                // var methodVm = this.model().services[0].methods()[0];
-                // var need = methodVm.model().callSpec().need()[0]
-                // //$parent.getObjects.call($parent, e, model)
-                // methodVm.getObjects.call(methodVm, null, need);
-                
+            else if (dragVm.isA(circleverse.viewModel.OpenViewModel)){
+                prom.then(function(){
+                    self.showMainForm().then(function(){
+                        //if (self.callSuper) self.callSuper();
+                    });
+                });
+            }
+            else if (dragVm.isA(circleverse.viewModel.SaveViewModel) || dragVm.isA(circleverse.viewModel.SaveViewModel)) {               
 
                 prom.then(function(){
-                    //self.toggleChildrenVisibility();
                     self.findIndividuals();
                 });
 
-
+                if (self.callSuper) self.callSuper();
+            }
+            else{
+                
+                if (self.callSuper) self.callSuper();
             }
         }
 

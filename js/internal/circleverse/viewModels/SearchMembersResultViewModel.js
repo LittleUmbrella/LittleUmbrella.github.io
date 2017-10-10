@@ -102,34 +102,8 @@ circleverse.viewModel.SearchMembersResultViewModel = (function () {
 
             self.searchResults(results);
         }
-        //     ,
-
-        // toggleChildrenVisibility: function(){
-        //     var self = this;
-
-        //     var s = self.callSuper;
-            
-        //     if (!self.parent.mainFormOpen){
-        //         var prom = self.parent.searchRequested(self);
-        //         prom.then(function(){                    
-        //             s.call(self);
-        //         });
-        //     }
-        // }
-        
         ,
 
-        // onresize: function (e, data) {
-        //     this.callSuper();
-
-
-        //     var coords = this.__getCoords();
-        //     this.location({ left: coords.left, top: coords.top });
-        //     this.dimensions({ height: this.scale() * initSize, width: this.scale() * initSize });
-
-        //     //log('garbage position: ' + this.position().top);
-        // }
-        // ,
 
         getIndividual: function(){
 
@@ -140,7 +114,7 @@ circleverse.viewModel.SearchMembersResultViewModel = (function () {
                 self.isBusy(false);
                 self.childViewModels.push(new littleUmbrella.circleverse.viewModel.CustomerViewModel(result, self, self.globalSettings));
         
-                self.toggleChildrenVisibility();
+                self.showChildVieModels();
             });
         }
         ,
@@ -148,25 +122,29 @@ circleverse.viewModel.SearchMembersResultViewModel = (function () {
         dropped: function (dropModel, dropViewModel, args, prom) {
             var self = this;
 
+            var selfCallSuper = self.callSuper;
+
             //this.model().callSpec().add(dragModel);
             if (dropViewModel.isA(circleverse.viewModel.OpenViewModel)) {
-                // var methodVm = this.model().services[0].methods()[0];
-                // var need = methodVm.model().callSpec().need()[0]
-                // //$parent.getObjects.call($parent, e, model)
-                // methodVm.getObjects.call(methodVm, null, need);
-                
-
                 prom.then(function(){
                     if (self.childViewModels().length == 0){
                         self.getIndividual();
                     }
+                    else{
+                        
+                        if (selfCallSuper) selfCallSuper();
+                    }
                 });
+            }
+            else {
+                if (selfCallSuper) selfCallSuper();
             }
         }
             ,
         droppedOn: function (dragModel, dragVm, args, prom) {
             var self = this;
 
+            var selfCallSuper = self.callSuper;
             //this.model().callSpec().add(dragModel);
             if (dragVm.isA(circleverse.viewModel.OpenViewModel)) {
                 // var methodVm = this.model().services[0].methods()[0];
@@ -180,12 +158,15 @@ circleverse.viewModel.SearchMembersResultViewModel = (function () {
                     if (self.childViewModels().length == 0){
                         self.getIndividual();
                     }
+                    else{
+                        
+                        if (selfCallSuper) selfCallSuper();
+                    }
                 });
-
-
             }
-            else if (dragVm.isA(circleverse.viewModel.CloseViewModel))
-            {}
+            else {
+                if (selfCallSuper) selfCallSuper();
+            }
         }
 
 

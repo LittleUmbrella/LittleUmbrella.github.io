@@ -522,14 +522,51 @@
                         //dd.offsetY = dd.dndposition.top;
 
                         TweenLite.killTweensOf(_this);
-                        TweenLite.to(_this, .5, {
+                        var tl = new TimelineLite();
+
+                        tl.add(TweenLite.to(_this, .5, {
                             'left': dd.dndposition.left, 'top': dd.dndposition.top, ease: Elastic.easeOut.config(.5, 2), onComplete: function () {
 
                                 self.eventAggregator.publish('circleverse.ui.viewModel.draggableModule.dragEnd', data);
 
                                 self.__dragEnded(args, true, dd.dndposition);
                             }
-                        });
+                        }), 0);
+
+                        var $lineEl = $this.siblings(".line");
+                        if ($lineEl.length > 0){
+                            var lineEl = $lineEl[0];
+                            var dragItem = $(dd.drag);
+                            var dragData = dragItem.data("dragdata");
+                            var dragViewModel = dragData.viewModel;
+                            if ('undefined' != typeof dragViewModel){
+
+                                var 
+                                    childCircle = dragViewModel,
+                                    parentDircle = childCircle.parent;
+
+                                var childDims = childCircle.dimensions(), childLoc = {'left': dd.dndposition.left, 'top': dd.dndposition.top}, parentDims = parentDircle.dimensions();//, parentLoc = parentDircle.location();  
+                                var childCircleCenter = {top: childLoc.top + (childDims.height/2), left: childLoc.left + (childDims.width/2)}
+                                var parentCircleCenter = {top: 0+ (parentDims.height/2), left: 0+ (parentDims.width/2)}
+
+                                //var rotation = getRotationInDegrees({top: childLoc.top, left: childLoc.left}, {top: 0, left: 0});
+                                var rotation = getRotationInDegrees(parentCircleCenter, childCircleCenter);
+
+                                //hypotenuse with child top and left as the two sides
+                                var width = Math.hypot(childCircleCenter.left - parentCircleCenter.left, childCircleCenter.top - parentCircleCenter.top);
+
+                                //http://www.mathportal.org/calculators/plane-geometry-calculators/right-triangle-calculator.php
+
+                                var a = sind(rotation) * (parentDims.height/2);
+                                var c = cosd(rotation) * (parentDims.height/2);
+
+                                TweenLite.killTweensOf(lineEl);
+                                tl.add(TweenLite.to(lineEl, .3, { rotationZ: rotation, left: (c + (parentDims.width/2)) , top: (a + (parentDims.height/2)), width: (width-(parentDims.width/2)), ease: Elastic.easeOut.config(.5, 2)}), 0);
+                                
+                                //lineEl.style.transform = 'rotateZ('+ rotation +'deg)';
+                                
+                            }
+                        }
                     }
                 }
                 else {
@@ -559,7 +596,34 @@
 
     });
 
+    
+    function sind(x) {
+        return Math.sin(x * Math.PI / 180);
+    }
 
+    function cosd(x) {
+        return Math.cos(x * Math.PI / 180);
+    }
+
+    var getRotationInDegrees = function(p1,p2){
+        // // Get rotation in degrees
+        // p1 = p1.left;
+        // p2 = p2.left;
+        // var rotation = Math.atan(p1/p2) * 180 / Math.PI;
+
+        // // Adjust for 2nd & 3rd quadrants, i.e. diff y is -ve.
+        // if (p2 < 0) {
+        //     rotation += 180;
+
+        // // Adjust for 4th quadrant
+        // // i.e. diff x is -ve, diff y is +ve
+        // } else if (p1 < 0) {
+        //     rotation += 360;
+        // }
+        
+        // return rotation;
+        return Math.atan2(p2.top-p1.top,p2.left-p1.left)/Math.PI*180;
+    }
 
 
     becu_org.ui.viewModel.droppableModule = new JS.Module('becu_org.ui.viewModel.droppableModule', {

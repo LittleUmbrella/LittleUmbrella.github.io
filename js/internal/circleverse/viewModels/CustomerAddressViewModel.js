@@ -236,14 +236,12 @@ circleverse.viewModel.CustomerAddressViewModel = (function () {
                 self.searchDimensionSettingsRegular.onComplete = function(){
                     self.toggleFormAnimationEnded();
                     if (self.childrenVisible()){
-                        self.toggleChildrenVisibility();
+                        self.hideChildVieModels();
                     }
                     deferred.resolve();
                 };
                 self.animationSettings(self.searchDimensionSettingsRegular);
-                //self.size(self.searchDimensionSettingsRegular.width);
-
-            //self.showLabel(true);
+            
 
             self.canOpen(true);
             self.canSave(false);
@@ -325,19 +323,16 @@ circleverse.viewModel.CustomerAddressViewModel = (function () {
             var self = this;
 
             //this.model().callSpec().add(dragModel);
-            if (dropViewModel.isA(circleverse.viewModel.CloseViewModel) || dropViewModel.isA(circleverse.viewModel.OpenViewModel)) {
-                // var methodVm = this.model().services[0].methods()[0];
-                // var need = methodVm.model().callSpec().need()[0]
-                // //$parent.getObjects.call($parent, e, model)
-                // methodVm.getObjects.call(methodVm, null, need);
-                
-
+            if (dropViewModel.isA(circleverse.viewModel.CloseViewModel)) {
                 prom.then(function(){
-                    //self.toggleChildrenVisibility();
                     if (self.mainFormOpen)
-                        self.toggleMainForm();
-                    else
-                        self.toggleChildrenVisibility();
+                        self.hideMainForm();
+                });
+            }
+            else if (dropViewModel.isA(circleverse.viewModel.OpenViewModel)){
+                prom.then(function(){
+                    if (self.mainFormOpen)
+                        self.hideMainForm();
                 });
             }
             else if (dropViewModel.isA(circleverse.viewModel.SaveViewModel) || dropViewModel.isA(circleverse.viewModel.SaveViewModel)) {
@@ -348,7 +343,6 @@ circleverse.viewModel.CustomerAddressViewModel = (function () {
                 
 
                 prom.then(function(){
-                    //self.toggleChildrenVisibility();
                     self.saveAddress();
                 });
 
@@ -361,29 +355,25 @@ circleverse.viewModel.CustomerAddressViewModel = (function () {
                         self.showMainForm();
                 });
             }
+            if (self.callSuper) self.callSuper();
         }
             ,
         droppedOn: function (dragModel, dragVm, args, prom) {
             var self = this;
 
-            //this.model().callSpec().add(dragModel);
-            if (dragVm.isA(circleverse.viewModel.CloseViewModel) || dragVm.isA(circleverse.viewModel.OpenViewModel)) {
-                // var methodVm = this.model().services[0].methods()[0];
-                // var need = methodVm.model().callSpec().need()[0]
-                // //$parent.getObjects.call($parent, e, model)
-                // methodVm.getObjects.call(methodVm, null, need);
-                
-
+            if (dragVm.isA(circleverse.viewModel.CloseViewModel)) {
                 prom.then(function(){
-                    //self.toggleChildrenVisibility();
                     if (self.mainFormOpen)
-                        self.toggleMainForm();
-                    else
-                        self.toggleChildrenVisibility();
+                        self.hideMainForm();
                 });
-
             }
-            else if (dragVm.isA(circleverse.viewModel.SaveViewModel) || dragVm.isA(circleverse.viewModel.SaveViewModel)) {
+            else if (dragVm.isA(circleverse.viewModel.OpenViewModel)){
+                prom.then(function(){
+                    if (self.mainFormOpen)
+                        self.hideMainForm();
+                });
+            }
+            else if (dragVm.isA(circleverse.viewModel.SaveViewModel)) {
                 // var methodVm = this.model().services[0].methods()[0];
                 // var need = methodVm.model().callSpec().need()[0]
                 // //$parent.getObjects.call($parent, e, model)
@@ -403,6 +393,7 @@ circleverse.viewModel.CustomerAddressViewModel = (function () {
                         self.showMainForm();
                 });
             }
+            if (self.callSuper) self.callSuper();
         }
 
     });

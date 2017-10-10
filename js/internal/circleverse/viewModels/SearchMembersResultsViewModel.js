@@ -124,20 +124,6 @@ circleverse.viewModel.SearchMembersResultsViewModel = (function () {
 
             self.searchResults(results);
         }
-        //     ,
-
-        // toggleChildrenVisibility: function(){
-        //     var self = this;
-
-        //     var s = self.callSuper;
-            
-        //     if (!self.parent.mainFormOpen){
-        //         var prom = self.parent.searchRequested(self);
-        //         prom.then(function(){                    
-        //             s.call(self);
-        //         });
-        //     }
-        // }
         ,
 
         showMainForm: function(){
@@ -246,67 +232,46 @@ circleverse.viewModel.SearchMembersResultsViewModel = (function () {
         dropped: function (dropModel, dropViewModel, args, prom) {
             var self = this;
 
-            //this.model().callSpec().add(dragModel);
-            if (dropViewModel.isA(circleverse.viewModel.CloseViewModel) || dropViewModel.isA(circleverse.viewModel.OpenViewModel)) {
-                // var methodVm = this.model().services[0].methods()[0];
-                // var need = methodVm.model().callSpec().need()[0]
-                // //$parent.getObjects.call($parent, e, model)
-                // methodVm.getObjects.call(methodVm, null, need);
-                
-
+            if (dropViewModel.isA(circleverse.viewModel.CloseViewModel)) {
                 prom.then(function(){
-                    //self.toggleChildrenVisibility();
-                    self.toggleMainForm();
+                    self.closeMainForm();
+                });
+            }
+            else if (dropViewModel.isA(circleverse.viewModel.OpenViewModel)){
+                prom.then(function(){
+                    self.openMainForm();
                 });
             }
             else if (dragVm.isA(circleverse.viewModel.SaveViewModel) || dragVm.isA(circleverse.viewModel.SaveViewModel)) {
-                // var methodVm = this.model().services[0].methods()[0];
-                // var need = methodVm.model().callSpec().need()[0]
-                // //$parent.getObjects.call($parent, e, model)
-                // methodVm.getObjects.call(methodVm, null, need);
-                
-
                 prom.then(function(){
-                    //self.toggleChildrenVisibility();
                     self.findIndividuals();
                 });
-
-
             }
+            if (self.callSuper) self.callSuper();
         }
             ,
         droppedOn: function (dragModel, dragVm, args, prom) {
             var self = this;
 
-            //this.model().callSpec().add(dragModel);
-            if (dragVm.isA(circleverse.viewModel.CloseViewModel) || dragVm.isA(circleverse.viewModel.OpenViewModel)) {
-                // var methodVm = this.model().services[0].methods()[0];
-                // var need = methodVm.model().callSpec().need()[0]
-                // //$parent.getObjects.call($parent, e, model)
-                // methodVm.getObjects.call(methodVm, null, need);
-                
-
+            
+            if (dragVm.isA(circleverse.viewModel.CloseViewModel)) {
                 prom.then(function(){
-                    //self.toggleChildrenVisibility();
-                    self.toggleMainForm();
+                    self.closeMainForm();
                 });
-
-
+            }
+            else if (dragVm.isA(circleverse.viewModel.OpenViewModel)){
+                prom.then(function(){
+                    self.openMainForm();
+                });
             }
             else if (dragVm.isA(circleverse.viewModel.SaveViewModel) || dragVm.isA(circleverse.viewModel.SaveViewModel)) {
-                // var methodVm = this.model().services[0].methods()[0];
-                // var need = methodVm.model().callSpec().need()[0]
-                // //$parent.getObjects.call($parent, e, model)
-                // methodVm.getObjects.call(methodVm, null, need);
-                
-
                 prom.then(function(){
-                    //self.toggleChildrenVisibility();
                     self.findIndividuals();
                 });
 
 
             }
+            if (self.callSuper) self.callSuper();
         }
 
 

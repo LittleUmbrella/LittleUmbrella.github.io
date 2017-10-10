@@ -185,16 +185,12 @@ circleverse.viewModel.AllMembersViewModel = (function () {
 
             //this.model().callSpec().add(dragModel);
             if (dropViewModel.isA(circleverse.viewModel.SearchViewModel)) {
-                // var methodVm = this.model().services[0].methods()[0];
-                // var need = methodVm.model().callSpec().need()[0]
-                // //$parent.getObjects.call($parent, e, model)
-                // methodVm.getObjects.call(methodVm, null, need);
-                
 
                 
                 self.searchInitiated(prom);
 
             }
+            if (self.callSuper) self.callSuper();
         }
             ,
 
@@ -203,13 +199,10 @@ circleverse.viewModel.AllMembersViewModel = (function () {
             
             //this.model().callSpec().add(dragModel);
             if (dragViewModel.isA(circleverse.viewModel.SearchViewModel)) {
-                // var methodVm = this.model().services[0].methods()[0];
-                // var need = methodVm.model().callSpec().need()[0]
-                // //$parent.getObjects.call($parent, e, model)
-                // methodVm.getObjects.call(methodVm, null, need);
                 
                 self.searchInitiated(prom);
             }
+            if (self.callSuper) self.callSuper();
         }
         ,
 
@@ -217,7 +210,7 @@ circleverse.viewModel.AllMembersViewModel = (function () {
             var self = this;
 
             prom.then(function(){
-                var popProm = self.toggleChildrenVisibility();
+                var popProm = self.showChildVieModels();
                 popProm.then(function(){
                     //self.searchRequested(self.searchViewModel);
                     self.searchViewModel.showMainForm();
