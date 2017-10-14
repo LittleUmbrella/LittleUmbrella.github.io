@@ -448,7 +448,7 @@
             //$this.appendTo(_this.parentNode);
 
             if (self.onTop)
-                self.onTop((self.onTop() || 0) + 1);
+                self.onTop(!self.onTop());
 
             var dragdata = $this.data("dragdata");
             if (!dragdata.prom){
@@ -533,7 +533,7 @@
                             }
                         }), 0);
 
-                        var $lineEl = $this.siblings(".line");
+                        var $lineEl = $this.nextAll(".line");
                         if ($lineEl.length > 0){
                             var lineEl = $lineEl[0];
                             var dragItem = $(dd.drag);
@@ -783,7 +783,7 @@
 
             
             if (data.viewModel.onTop)
-                data.viewModel.onTop((data.viewModel.onTop() || 0) + 1);
+                data.viewModel.onTop(!data.viewModel.onTop());
 
 
             //var dragData = $this.data("dragdata");

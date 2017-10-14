@@ -1058,3 +1058,8 @@ ul.auto-fill li.row a{
     width: 0;
     height:0;
 }
+
+.map{
+    position:absolute;
+    z-index: -1;
+}

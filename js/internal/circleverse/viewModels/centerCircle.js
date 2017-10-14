@@ -36,6 +36,7 @@
                 if (!self.childViewModels)
                     self.childViewModels = ko.observableArray();//.extend({ rateLimit: 200 });
 
+                self.autoPopSingleChild = ko.observable(true);    
                 self.globalSettings = globalSettings;
 
                 self.modelItem = ko.computed(function () {
@@ -237,7 +238,11 @@
                     for (var i = 0; i < len; i++) {
                         item = ko.unwrap(arr[i]);
                         if (!item.popped){
-                            popDeferreds.push(item.pop());
+                            var popDeferred = item.pop();
+                            
+                            //we are re-popping any children of a lower parent, so don't auto-pop back up and send parent down again 
+
+                            popDeferreds.push(popDeferred);
                         }
 
                         if (item.faded())
@@ -253,7 +258,14 @@
                         item = ko.unwrap(arr[i]);
 
                         if (!item.popped){ 
-                            popDeferreds.push(item.pop());
+                            var popDeferred = item.pop();
+                            //if only one child, open it                            
+                            if (len == 1 && item.autoPopSingleChild()){
+                                popDeferred.then(function(){
+                                    item.showChildVieModels();
+                                });
+                            }
+                            popDeferreds.push(popDeferred);
                         }
 
                         //anyChildPopped = true;

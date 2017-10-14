@@ -19,6 +19,8 @@ var self = this; self.callSuper();
 						+ (eaf.util.isNullOrWhitespace(self.line3())? "": self.line3() + "\n ")
 						+ self.city() + ', ' + self.state()  + ' ' + self.postalCode()
 				});
+				self.latitude = ko.observable();
+				self.longitude = ko.observable();
 			}
 		});
 	})();
@@ -37,6 +39,8 @@ var self = this; self.callSuper();
 				self.city;
 				self.state;
 				self.country;
+				self.latitude;
+				self.longitude;
 
 			}
 		});

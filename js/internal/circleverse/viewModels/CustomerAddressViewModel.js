@@ -15,7 +15,8 @@ circleverse.viewModel.CustomerAddressViewModel = (function () {
             circleverse.viewModel.satellite, 
             circleverse.viewModel.centerCircle, 
             becu_org.ui.viewModel.draggableModule, 
-            becu_org.ui.viewModel.droppableModule
+            becu_org.ui.viewModel.droppableModule,
+            circleverse.viewModel.SpecialViewViewModel
         ],
 
         initialize: function (object, parent, globalSettings) {// (tracker, uri, templateUri, templateId, resultTemplateUri, callSpec, name, id, businessClass, opts) {
@@ -32,18 +33,26 @@ circleverse.viewModel.CustomerAddressViewModel = (function () {
 
             this.callSuper();
 
+            self.location({left:0, top:0});
+
             this.dimensions({ height: this.scale() * initSize, width: this.scale() * initSize });
 
+            self.showMe(true);
 
+            self.autoPopSingleChild(false);
 
             this.icon.name('icon-address icon-size-2x');
 
 
-            self.animationSettings({width: self.parent.dimensions().width, height: self.parent.dimensions().height, callback: self.toggleFormAnimationEnded});
+            //self.animationSettings({width: self.parent.dimensions().width, height: self.parent.dimensions().height, callback: self.toggleFormAnimationEnded});
 
             //var coords = this.__getCoords();
             //this.location({ left: coords.left, top: coords.top });
 
+
+            self.center = [self.model().latitude(), self.model().longitude()];
+            self.color = ko.observable();
+            self.opened= ko.observable(false);
             self.memberIcon = ko.observable('icon-search icon-size-3x');
 
 

@@ -44,6 +44,7 @@ circleverse.viewModel.LinksViewModel = (function () {
             this.callSuper(object, parent, globalSettings);
             this.dimensions({ height: this.scale() * initSize, width: this.scale() * initSize });
 
+            self.autoPopSingleChild(false);
 
             //self.settings = $.extend(self.settings || {}, { dropFilter: '.filterable' }, opts);
 

@@ -90,15 +90,15 @@ circleverse.viewModel.CustomerInfoViewModel = (function () {
         toggleMainForm: function () {
             this.showForm(!this.showForm());
         }
-
-        ,
-
-        getSettings: function () {
-            var settings = this.callSuper();
-            //settings.drop = false;
-            //settings.not = '.koGrid, .koGrid div, .kgRow, .kgCell div, .kgHeaderCell div, .kgTopPanel, .kgColMenu, .kgFooterPanel, .kgColListItem, .kgRow.odd, .kgRow.even, .kgRow.selected, .kgGroupIcon';
-            return settings;
-        }
+        
+                ,
+        
+                getSettings: function () {
+                    var settings = this.callSuper();
+                    //settings.drop = false;
+                    settings.not = '.map';
+                    return settings;
+                }
             ,
 
 

@@ -9,6 +9,8 @@
 
     <link href="css/circleverseBase.css" rel="stylesheet" type="text/css" />
     <link href="css/circleverse.css" rel="stylesheet" type="text/css" />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.0.3/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet@1.0.3/dist/leaflet.js"></script>
     <style type="text/css">
         body {
             background-color: #1E2730;
@@ -876,10 +878,7 @@
                 <!-- /ko -->
             <!-- /ko -->
             
-            <!-- ko if: isA(circleverse.viewModel.satellite) --> 
-                
-            <!-- /ko -->
-        </div>
+        </div>  
     <script type="text/html" id="navigableParentChildTemplate">        
         <div data-bind="busy: isBusy,
             dragdrop: $rawData
@@ -986,8 +985,68 @@
     </script>
 
 
+    <script type="text/html" id="CustomerAddressesViewModelTemplate">       
+        <div data-bind="busy: isBusy
+            , style: {
+                'left': location().left + 'px'
+            , 'top': location().top + 'px'
+            , 'width': dimensions().width + 'px'
+            , 'height': dimensions().height + 'px'
+            , 'opacity': opacity
+            },
+            css: mainCss
+            , visible: showMe
+            , busy: isBusy
+            , onTop: onTop
+            , satellitePopInOut: { base: $data.parent, satellite: $data, callback: popAnimationEnded, index: $index() }
+            , animatedMove: {satellite: $data, callback: moveEnded, top: move().top, left: move().left}
+            , grow: {vm: $data, animationSettings: animationSettings}
+"
+                        class="drag drop circle"
+                        style="display: none;">
+                          
+            <!-- ko template: { name: contentTemplate } --><!-- /ko -->
+            
+            <!-- ko if: isA(becu_org.ui.viewModel.labelModule) && labelData().isReady -->               
+                <!-- ko template: { name: 'circleTextTemplate', data: labelData } --><!-- /ko -->
+            <!-- /ko -->
+            
+
+            
+
+
+        </div>
     
-    
+        
+            
+        
+    </script>
+<!--ko with: customerAddressesMapViewModel -->
+                    
+        
+        
+
+        
+        <div data-bind="busy: isBusy
+        , style: {
+            'left': location().left + 'px'
+        , 'top': location().top + 'px'
+        , 'width': dimensions().width + 'px'
+        , 'height': dimensions().height + 'px'
+        , 'opacity': opacity
+        },
+        css: mainCss
+        , visible: showMe
+        , onTop: onTop, leafletMap: $data, zoom: zoom, markers: childViewModels" class="map">
+            <!-- ko foreach: childViewModels-->                    
+                <!-- ko template: { name: 'genericChildTemplate' } --><!-- /ko -->
+                
+                <div class="line" data-bind="circleConnection: $data, visible: showMe"></div>
+            <!-- /ko -->
+        </div>
+
+
+    <!-- /ko -->
     
     <script type="text/html" id="CustomerAddressViewModelContentTemplate"> 
         
@@ -1001,6 +1060,46 @@
         <!-- /ko -->
     </script>
 
+
+    <script type="text/html" id="CustomerAddressViewModelTemplate"> 
+
+        
+        <div data-bind="busy: isBusy,
+        dragdrop: $data
+        , style: {
+            'left': location().left + 'px'
+        , 'top': location().top + 'px'
+        , 'width': dimensions().width + 'px'
+        , 'height': dimensions().height + 'px'
+        , 'opacity': opacity
+        },
+        css: mainCss
+        , visible: showMe
+        , busy: isBusy
+        , onTop: onTop
+        , satellitePopInOut: { base: $data.parent, satellite: $data, callback: popAnimationEnded, index: $index() }
+        , animatedMove: {satellite: $data, callback: moveEnded, top: move().top, left: move().left}
+        , grow: {vm: $data, animationSettings: animationSettings}
+        , leafletPosition: $data
+"
+                    class="drag drop circle"
+                    style="display: none;">
+                      
+        <!-- ko template: { name: contentTemplate } --><!-- /ko -->
+        
+        <!-- ko if: isA(becu_org.ui.viewModel.labelModule) && labelData().isReady -->               
+            <!-- ko template: { name: 'circleTextTemplate', data: labelData } --><!-- /ko -->
+        <!-- /ko -->
+        <!-- ko if: hasChildrenToggled -->
+            <!-- ko foreach: childViewModels-->                    
+                <!-- ko template: { name: 'genericChildTemplate' } --><!-- /ko -->
+                
+                <div class="line" data-bind="circleConnection: $data, visible: showMe"></div>
+            <!-- /ko -->
+        <!-- /ko -->
+        
+    </div>  
+            </script>
     
     
     <script type="text/html" id="CustomerAddressEditViewModelContentTemplate"> 
@@ -1123,7 +1222,8 @@
         <div class="tindr open">&laquo;&nbsp;Open</div>
     </script>
 
-    
+    <script type="text/html" id="addressMapTemplate">
+    </script>
 
     <script type="text/html" id="Script2">
     </script>

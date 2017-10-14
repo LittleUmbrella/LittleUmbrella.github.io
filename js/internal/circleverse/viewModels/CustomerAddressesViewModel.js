@@ -16,7 +16,8 @@ circleverse.viewModel.CustomerAddressesViewModel = (function () {
             circleverse.viewModel.centerCircle, 
             becu_org.ui.viewModel.draggableModule, 
             becu_org.ui.viewModel.droppableModule,
-            becu_org.ui.viewModel.labelModule
+            becu_org.ui.viewModel.labelModule,
+            circleverse.viewModel.SpecialViewViewModel
         ],
 
         initialize: function (object, parent, globalSettings) {// (tracker, uri, templateUri, templateId, resultTemplateUri, callSpec, name, id, businessClass, opts) {
@@ -66,6 +67,23 @@ circleverse.viewModel.CustomerAddressesViewModel = (function () {
 
             // }, null, "change");
 
+            
+            self.zoom= ko.observable(9);
+            self.center = [ko.observable(47.36), ko.observable(-122.20)];
+            //self.markers= ko.observableArray();
+
+            // self.appointmentService.searchLocations({ search: '98059', topicId: 64, distance: 2000 }).always(function () {
+            //    self.isBusy(false);
+            // }).done(function (locations) {
+               
+            //});
+
+            self.locatinSelected = function (vm) {
+               alert("The next Trump protest will start at " + vm.model.name);
+               vm.opened(false);
+               vm.color("Red");
+            }
+
             this.childrenOnTop = ko.observable(true);
 
 
@@ -88,16 +106,39 @@ circleverse.viewModel.CustomerAddressesViewModel = (function () {
             if ((!self.childrenVisible()) && (!self.__loadedChildren)){
                 var len = self.rawModel().addresses().length;
                 for (var i = 0; i < len; i++) {
-                    self.childViewModels.push(new circleverse.viewModel.CustomerAddressViewModel(self.rawModel().addresses()[i], self, self.globalSettings));
+                    //self.childViewModels.push(new circleverse.viewModel.CustomerAddressViewModel(self.rawModel().addresses()[i], self, self.globalSettings));
+
+                    self.globalSettings.app.customerAddressesMapViewModel.childViewModels.push(new circleverse.viewModel.CustomerAddressViewModel(self.rawModel().addresses()[i], self, self.globalSettings));
                 }
 
+                
+                //var len = locations.length;
+                
+                
+                // for (var i = 0; i < len; i++) {
+                //     var item = locations[i];
+
+                //     self.markers.push(
+                //     {
+                //         center: [ko.observable(item.latitude), ko.observable(item.longitude)],
+                //         //text: ko.observable(item.name),
+                //         //draggable: true,
+                //         //opacity: 0.4,
+                //         color: ko.observable(),
+                //         model: item,
+                //         opened: ko.observable(false)
+                //     });
+                // }
 
                 self.__addLinks();
                 
                 self.__loadedChildren = true;
             }
 
-            return self.callSuper();
+            var deferred = jQuery.Deferred();
+            deferred.resolve();
+            return deferred;
+            //return self.callSuper();
             //if (self.__isKidsLoaded)
             //self.__globalSettings.eventAggregator.publish('member.view', self);
         }
@@ -204,7 +245,7 @@ circleverse.viewModel.CustomerAddressesViewModel = (function () {
         getSettings: function () {
             var settings = this.callSuper();
             //settings.drop = false;
-            //settings.not = '.koGrid, .koGrid div, .kgRow, .kgCell div, .kgHeaderCell div, .kgTopPanel, .kgColMenu, .kgFooterPanel, .kgColListItem, .kgRow.odd, .kgRow.even, .kgRow.selected, .kgGroupIcon';
+            settings.not = '.map';
             return settings;
         }
             ,

@@ -409,6 +409,8 @@ becu_org.app = (function () {
                 
             ];
 
+            self.customerAddressesMapViewModel = new circleverse.viewModel.CustomerAddressesMapViewModel(null, self, globalSettings);
+
             self.moneyTransferViewModel = ko.observable(new circleverse.viewModel.MoneyTransferViewModel(null, self, globalSettings));
             // self.exitViewModel = ko.observable(new circleverse.viewModel.ExitViewModel(null, self, globalSettings));
             // self.loginViewModel = ko.observable(new circleverse.viewModel.loginViewModel(null, self, globalSettings));

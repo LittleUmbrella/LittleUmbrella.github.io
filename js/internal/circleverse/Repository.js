@@ -744,7 +744,9 @@ littleUmbrella.circleverse.Repository = (function () {
         "line1": "11 Wall Street",
         "city": "New York",
         "state": "NY",
-        "postalCode": "10005"
+        "postalCode": "10005",
+        "latitude": 47.36,
+        "longitude": -122.20
       }
     ]
   },

@@ -1024,10 +1024,17 @@ ko.bindingHandlers['unparent'] = {
             //get the value just to create a dependency
             var value = ko.unwrap(valueAccessor());
             var $element = $(element);
+            var z = 0;
+            
+            if (isNumber(value)){
+                z = value;
+            }
+            else{
+                z = ++zIndex;
+            }
             //if (value === true) {
             //$('body').append(element);
-            $element.css('z-index', zIndex++);
-            //}
+            $element.css('z-index', z );
         }
     };
 

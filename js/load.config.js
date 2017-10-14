@@ -1669,6 +1669,16 @@
                     'circleverse.viewModel.CustomerAddressesViewModel'
                     );
 
+                    
+
+        file('/js/internal/circleverse/viewModels/CustomerAddressesMapViewModel.js?r=2')
+                    .provides('circleverse.viewModel.CustomerAddressesMapViewModel')
+                    .requires('jQuery', 'JS.Module', 'JS.Class', 'JSextend', 'eaf.core', 'eaf.util'
+                    ,
+                    'circleverse.viewModel.Base'
+                    ,
+                    'becu_org.ui.viewModel.baseModule'
+                );
         file('/js/internal/circleverse/viewModels/CustomerAddressesViewModel.js?r=2')
                     .provides('circleverse.viewModel.CustomerAddressesViewModel')
                     .requires('jQuery', 'JS.Module', 'JS.Class', 'JSextend', 'eaf.core', 'eaf.util'
@@ -1692,6 +1702,8 @@
                     'circleverse.viewModel.centerCircle'
                     ,
                     'parseAddress'
+                    ,
+                    'circleverse.viewModel.SpecialViewViewModel'
                     );
 
         file('/js/internal/circleverse/viewModels/LinkViewModel.js?r=2')
@@ -2229,7 +2241,8 @@
                     'circleverse.viewModel.TravelViewModel',
                     'circleverse.viewModel.MoveViewModel',
                     'circleverse.viewModel.LinkViewModel',
-                    'circleverse.viewModel.LinksViewModel')
+                    'circleverse.viewModel.LinksViewModel',
+                    'circleverse.viewModel.CustomerAddressesMapViewModel')
                     ;
 
         file('/js/external/when.js?r=2')

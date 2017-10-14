@@ -180,13 +180,15 @@
                     // relativeToBase = 'undefined' == typeof ko.unwrap(value.relativeToBase) ? true : ko.unwrap(value.relativeToBase),
                     // disabled = 'undefined' == typeof ko.unwrap(value.disabled) ? false : ko.unwrap(value.disabled);
 
-            //don't do anything on initial bind
-            // if (ko.computedContext.isInitial()) {
-            //     return;
-            // }
+                    
             var childDims = childCircle.dimensions(), childLoc = childCircle.location(), parentDims = parentDircle.dimensions();//, parentLoc = parentDircle.location();  
             var childCircleCenter = {top: childLoc.top + (childDims.height/2), left: childLoc.left + (childDims.width/2)}
             var parentCircleCenter = {top: 0+ (parentDims.height/2), left: 0+ (parentDims.width/2)}
+
+            //don't do anything on initial bind
+            if (ko.computedContext.isInitial()) {
+                return;
+            }
 
             //var rotation = getRotationInDegrees({top: childLoc.top, left: childLoc.left}, {top: 0, left: 0});
             var rotation = getRotationInDegrees(parentCircleCenter, childCircleCenter);
@@ -220,8 +222,14 @@
             element.style.top = (a + (parentDims.height/2)) + 'px';
             element.style.left = (c + (parentDims.width/2))  + 'px';
 
-            element.style.transform = 'rotateZ('+ rotation +'deg)';
-            element.style.width = (width-(parentDims.width/2)) + 'px';
+            if (childCircle.showMe()){
+                element.style.transform = 'rotateZ('+ rotation +'deg)';
+                element.style.width = (width-(parentDims.width/2)) + 'px';
+            }
+            else{
+                
+                element.style.width = '0';
+            }
         }
     };
 
@@ -751,9 +759,67 @@
                 //$centerDiv.css({ left: startingPos.x, top: startingPos.y, width: 4 + 'px', height: 4 + 'px', 'background-color': '#000', position: 'absolute' });
                 //$element.parent().append($centerDiv);
                 TweenLite.from(element, animationLength, tl);
+
+
+                
+                var $lineEl = $element.nextAll(".line");
+                if ($lineEl.length > 0){
+                    var lineEl = $lineEl[0];
+                    
+                    var 
+                        childCircle = satellite,
+                        parentDircle = childCircle.parent;
+
+                    // var childDims = childCircle.dimensions(), childLoc = childCircle.location(), parentDims = parentDircle.dimensions();//, parentLoc = parentDircle.location();  
+                    // var childCircleCenter = {top: childLoc.top + (childDims.height/2), left: childLoc.left + (childDims.width/2)}
+                    
+                    var childDims = childCircle.dimensions(), childLoc = {left: endPos.x, top: endPos.y}, parentDims = parentDircle.dimensions();//, parentLoc = parentDircle.location();  
+                    var childCircleCenter = {top: childLoc.top + (childDims.height/2), left: childLoc.left + (childDims.width/2)}
+                    var parentCircleCenter = {top: 0+ (parentDims.height/2), left: 0+ (parentDims.width/2)}
+
+                    //var rotation = getRotationInDegrees({top: childLoc.top, left: childLoc.left}, {top: 0, left: 0});
+                    var rotation = getRotationInDegrees(parentCircleCenter, childCircleCenter);
+
+                    //hypotenuse with child top and left as the two sides
+                    var width = Math.hypot(childCircleCenter.left - parentCircleCenter.left, childCircleCenter.top - parentCircleCenter.top);
+
+                    //http://www.mathportal.org/calculators/plane-geometry-calculators/right-triangle-calculator.php
+
+                    var a = sind(rotation) * (parentDims.height/2);
+                    var c = cosd(rotation) * (parentDims.height/2);
+
+                    //TweenLite.set(lineEl, {rotateZ: rotation});
+                    lineEl.style.transform = 'rotateZ('+ rotation +'deg)';
+                    TweenLite.killTweensOf(lineEl);
+                    var lineTl = {};
+                    //lineTl.rotationZ = rotation;
+                    lineTl.left = (c + (parentDims.width/2));
+                    lineTl.top = (a + (parentDims.height/2));
+                    lineTl.width = (width-(parentDims.width/2));
+                    lineTl.ease = tl.ease;
+
+                    TweenLite.to(lineEl, .2, lineTl);
+                    
+                    
+                    
+                }
+
+
+
+
             }
             else {
                 tl.zIndex = 0;
+
+                
+                var $lineEl = $element.nextAll(".line");
+                if ($lineEl.length > 0){
+                    var lineEl = $lineEl[0];
+                    
+                    TweenLite.killTweensOf(lineEl);
+                    var lineTl = {width: 0, ease: tl.ease};
+                    TweenLite.to(lineEl, .2, lineTl);
+                }
                 TweenLite.to(element, animationLength, tl);
             }
 
@@ -857,9 +923,18 @@
             //get the value just to create a dependency
             var value = ko.unwrap(valueAccessor());
             var $element = $(element);
+
+            var z = 0;
+
+            if (isNumber(value)){
+                z = value;
+            }
+            else{
+                z = ++zIndex;
+            }
             //if (value === true) {
             //$('body').append(element);
-            $element.css('z-index', zIndex++);
+            $element.css('z-index', z );
 
             if (viewModel && viewModel.klass)
                 ko.bindingHandlers.eventAggregator.publish('onTop.' + viewModel.klass.displayName, viewModel);
@@ -870,4 +945,346 @@
 
 
 
-})(ko)
+})(ko);
+
+
+
+//credit to https://github.com/giabos/ko-leaflet
+//modified by: Toby Farris
+/* global ko, L, console */
+
+(function (ko, L) {
+    //"use strict";
+
+    /**
+    *       cfr https://github.com/pointhi/leaflet-color-markers
+    *   Possible colors: blue, red, green, orange, yellow, violet, grey, black
+    */
+    function coloredMarkerIcon(color) {
+        return new L.Icon({
+            iconUrl: 'https://cdn.rawgit.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-' + color + '.png',
+            shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.3/images/marker-shadow.png',
+            iconSize: [25, 41],
+            iconAnchor: [12, 41],
+            popupAnchor: [1, -34],
+            shadowSize: [41, 41]
+        });
+    }
+
+
+
+    var each = ko.utils.arrayForEach;
+
+    // 'm' contains following observables: center (array containing [lat, lng]), draggable, title, text, opened (popup), color (see above)
+    var Marker = function (m, map, mapEl, bindingContext, markerTemplate) {
+        var self = this;
+
+        self.eventHandlers = []; // array of objects: target, eventName, handler
+
+        self.centerM = ko.computed({
+            read: function () {
+                return [ko.unwrap(m.center[0]), ko.unwrap(m.center[1])];
+            },
+            write: function (center) {
+                m.center[0](center.lat);
+                m.center[1](center.lng);
+            }
+        });
+
+        var title = ko.isObservable(m.title) ? m.title : ko.observable(m.title);
+        var text = ko.isObservable(m.text) ? m.text : ko.observable(m.text);
+        var color = ko.isObservable(m.color) ? m.color  : ko.observable(m.color);
+
+        //just use the first one
+        //TODO: make sure this gets cleaned up properly
+        if (markerTemplate) {
+            markerTemplate = markerTemplate[0].cloneNode(true);
+            markerTemplate.style.display = "block";
+        }
+
+        var markerOptions = {
+            title: ko.unwrap(title || '----'),
+            draggable: ko.unwrap(m.draggable || false),
+            opacity: ko.unwrap(m.opacity || 1.0)
+        };
+
+        if (ko.unwrap(color)) {
+            markerOptions.setIcon(coloredMarkerIcon(ko.unwrap(color)));
+        }
+
+        // Create marker in leaflet.
+        self.marker = L.marker(ko.unwrap(self.centerM), markerOptions);
+        self.marker.addTo(map);
+        if (markerTemplate) {
+            self.marker.bindPopup(markerTemplate);
+            ko.applyBindings(bindingContext.extend(m), markerTemplate);
+        }
+        else {
+            self.marker.bindPopup(ko.unwrap(text));
+        }
+        var popup = self.marker.getPopup()
+
+        if (ko.unwrap(m.draggable || false)) {
+            self.marker.on('dragend', function (evt) {
+                self.eventHandlers.push({ target: evt.target, eventName: evt.type, handler: arguments.callee });
+                self.centerM(self.marker.getLatLng());
+            });
+        }
+
+        self.subscriptions = [
+            self.centerM.subscribe(function () {
+                self.marker.setLatLng(ko.unwrap(self.centerM));
+            }),
+            title.subscribe(function () {
+                self.marker.title = ko.unwrap(title);
+            }),
+            text.subscribe(function () {
+                popup.setContent(ko.unwrap(text));
+            }),
+            color.subscribe(function () {
+                self.marker.icon = coloredMarkerIcon(ko.unwrap(m.color));
+            })
+        ];
+
+
+        self.subscriptions.push(self.centerM);
+
+        if (m.opened && ko.isObservable(m.opened)) {
+            self.subscriptions.push(m.opened.subscribe(function (o) {
+                if (o) {
+                    self.marker.openPopup();
+                } else {
+                    self.marker.closePopup();
+                }
+            }));
+            self.marker.on('popupopen', function (evt) { m.opened(true); });
+            self.marker.on('popupclose', function (evt) { m.opened(false); });
+        }
+
+        if (m.opacity && ko.isObservable(m.opacity)) {
+            self.subscriptions.push(m.opacity.subscribe(function (o) {
+                self.marker.setOpacity(o);
+            }));
+        }
+
+        //marker.setIcon(L.divIcon({className: 'icon'}));
+
+
+        this.map = map;
+    };
+
+    Marker.prototype.dispose = function () {
+        // remove all events & subscriptions.
+        each(this.eventHandlers, function (eh) { eh.target.removeEventListener(eh.eventName, eh.handler); });
+        each(this.subscriptions, function (subscription) { subscription.dispose(); });
+        this.map.removeLayer(this.marker);
+    };
+
+    ko.bindingHandlers.leafletMap = {
+        
+        init: function (element, valueAccessor, allBindings, viewModel, bindingContext) {
+            var value = valueAccessor(),
+            center = allBindings.get('center') || [39.8333333, -98.585522],
+            zoom = allBindings.get('zoom') || 10
+;
+
+            var map, showMeSub, childrenSub;
+            
+            var createMap = function(){
+                map = L.map(element);
+                
+                //add map to dom element for reference elsewhere
+                element.__becu_map__ = map;
+
+                if (center){
+                    map.setView(ko.unwrap(center), ko.unwrap(zoom));
+                }
+                L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
+                    attribution: 'osm.org'
+                }).addTo(map);
+            }
+
+            if (value.showMe){
+                showMeSub = value.showMe.subscribe(function(val){
+                    if (val){
+                        $(element).show();
+                        if (map){
+                        }
+                        else{
+                            createMap();
+                        }
+                    }
+                    else{                        
+                        $(element).hide();
+                    }
+                });
+                if (value.showMe()){
+                    createMap();
+                }
+            }
+            else{
+                createMap();
+            }
+
+            var shiftMap = function(){
+                setTimeout(function(){
+                    if (map){
+                        var len = value.childViewModels().length, latlng = [];
+                        if (len > 0){
+                            for (var i = 0; i < len; i++) {                        
+                                var item = value.childViewModels()[i];
+
+                                latlng.push([ko.unwrap(item.model().latitude), ko.unwrap(item.model().longitude)]);
+                            }
+                            
+                            map.fitBounds(latlng);
+                        }
+                    }
+                }, 1);
+            }
+            if (value.childViewModels){
+                showMeSub = value.childViewModels.subscribe(function(val){
+                    shiftMap();
+                });
+                shiftMap();
+            }
+
+            ko.utils.domNodeDisposal.addDisposeCallback(element, function () {
+                //kill subscriptions
+                if (showMeSub) showMeSub.dispose();
+                if (childrenSub) childrenSub.dispose();
+                if (element.__becu_map__) element.__becu_map__.remove();
+            });
+        }
+    };
+
+
+    ko.bindingHandlers.leafletPosition = {
+        
+        init: function (element, valueAccessor, allBindings, viewModel, bindingContext) {
+            var value = valueAccessor()
+;
+
+            var $element = $(element);
+
+            var mapEls = $element.parents('.map');
+
+            if (mapEls.length == 0) throw Error("map '.map' element not found in ancestor tree");
+
+            var mapEl = mapEls[0];
+
+            var map = mapEl.__becu_map__;
+
+            var reposition = function(){
+                var latLng = new L.latLng(ko.unwrap(value.model().latitude), ko.unwrap(value.model().longitude));
+                var point = map.project(latLng);//.divideBy(256).floor();
+                var origin = map.getPixelOrigin();
+                
+                value.location({left: point.x - origin.x, top: point.y - origin.y});
+            }            
+
+            reposition();
+
+            map.on('resize move zoom', function(){
+                reposition();
+            });
+        }
+    };
+
+    ko.bindingHandlers.leafletMapOld = {
+        init: function (element, valueAccessor, allBindings, viewModel, bindingContext) {
+            var center = valueAccessor(),
+                zoom = allBindings.get('zoom') || 10,
+                markers = allBindings.get('markers'),
+                invalidateSize = allBindings.get('invalidateSize'),
+                eventHandlers = []; // array of objects: target, eventName, handler
+
+                
+
+            var mapCenter = ko.computed({
+                read: function () {
+                    return [ko.unwrap(center[0]), ko.unwrap(center[1])];
+                },
+                write: function (newCenter) {                    
+                    center[0](newCenter.lat);
+                    center[1](newCenter.lng);
+                    map.invalidateSize();
+                }
+            }, null, { disposeWhenNodeIsRemoved: element });
+
+
+            var markerTemplate = element.getElementsByTagName("markerTemplate");
+            
+
+
+            var map = L.map(element).setView(ko.unwrap(mapCenter), ko.unwrap(zoom));
+            L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
+                attribution: 'osm.org'
+            }).addTo(map);
+
+            var subscriptions = [
+                mapCenter.subscribe(function () {
+                    map.setView(ko.unwrap(mapCenter));
+                })
+            ];
+            map.on('dragend', function (evt) {
+                eventHandlers.push({ target: evt.target, eventName: evt.type, handler: arguments.callee });
+                mapCenter(map.getCenter());
+            });
+
+            // triggers an 'invalidateSize' when detecting a change in an observable (cfr http://stackoverflow.com/questions/20400713/leaflet-map-not-showing-properly-in-bootstrap-3-0-modal)
+            if (invalidateSize && ko.isObservable(invalidateSize)) {
+                subscriptions.push(invalidateSize.subscribe(function () {
+                    map.invalidateSize();
+                }));
+            }
+
+            if (ko.isObservable(zoom)) {
+                var subsc = zoom.subscribe(function () {
+                    map.setZoom(ko.unwrap(zoom));
+                });
+                subscriptions.push(subsc);
+                map.on('zoomend', function (evt) {
+                    eventHandlers.push({ target: evt.target, eventName: evt.type, handler: arguments.callee });
+                    zoom(map.getZoom());
+                });
+            }
+
+            var markersList = [];
+            each(ko.unwrap(markers), function (m, idx) { markersList.push(new Marker(m, map)); });
+
+            // http://stackoverflow.com/questions/14149551/subscribe-to-observable-array-for-new-or-removed-entry-only
+            var subscr = markers.subscribe(function (changes) {
+                each(changes, function (c) {
+                    if (c.status === "added") {
+                        markersList[c.index] = new Marker(c.value, map, element, bindingContext, markerTemplate);
+                    }
+                    if (c.status === "deleted") {
+                        // sometimes we receive a delete status although the markersList is empty.
+                        if (c.index < markersList.length) {
+                            markersList[c.index].dispose();
+                        }
+                    }
+                });
+                // delete after that all have been disposed otherwise cannot be accessed anymore via 'index'.
+                each(changes.reverse(), function (c) {
+                    if (c.status === "deleted") {
+                        markersList.splice(c.index, 1);
+                    }
+                });
+
+            }, this, "arrayChange");
+            subscriptions.push(subscr);
+
+            ko.utils.domNodeDisposal.addDisposeCallback(element, function () {
+                // dispose all subscriptions & events.
+                each(eventHandlers, function (eh) { eh.target.removeEventListener(eh.eventName, eh.handler); });
+                each(markersList, function (m) { m.dispose(); });
+                each(subscriptions, function (subscription) { subscription.dispose(); });
+            });
+
+            return { controlsDescendantBindings: true };
+        }
+    };
+
+})(ko, L);
