@@ -66,9 +66,9 @@ circleverse.viewModel.CustomerAddressesMapViewModel = (function () {
 
             self.showMe(false);
             //self.opacity(0);
-            self.onTop(-1);
+            self.onTop(!self.onTop());
             self.zoom= ko.observable(9);
-            self.center = [ko.observable(47.36), ko.observable(-122.20)]; //default to becu hq
+            self.center = [ko.observable(47.4899981), ko.observable(-122.2721837)]; //default to becu hq
 // var settings = {
 //                 itemDiameter: initSize + 5,
 //                 startSatellitesOnEdge: false,

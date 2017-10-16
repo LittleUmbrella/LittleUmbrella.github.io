@@ -62,13 +62,13 @@ circleverse.viewModel.FilterFormViewModel = (function () {
 
          self.__globalSettings.eventAggregator.subscribe('onTop.' + circleverse.viewModel.accountViewModel.displayName, function (msg, val) {
              if (self.showMe())
-                self.onTop((self.onTop() || 0) + 1);
+                self.onTop(!self.onTop());
          });
 
          self.__globalSettings.eventAggregator.subscribe('onTop.' + circleverse.viewModel.SatelliteNavigatorViewModel.displayName, function (msg, val) {
              if (self.showMe())
                  if (val && val.parent && val.parent.isA(circleverse.viewModel.CustomerAccountsViewModel))
-                    self.onTop((self.onTop() || 0) + 1);
+                    self.onTop(!self.onTop());
          });
 
          self.filterableIcon = ko.observable();

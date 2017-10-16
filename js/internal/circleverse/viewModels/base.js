@@ -75,7 +75,7 @@ circleverse.viewModel.Base = (function () {
             self.showMe = ko.observable(true);
             self.showMe.subscribe(function (val) {
                 if (val) {
-                    self.onTop((self.onTop() || 0) + 1);
+                    self.onTop(!self.onTop());
                 }
             });
         }
@@ -91,7 +91,7 @@ circleverse.viewModel.Base = (function () {
         __tickleTop: function(){
             var self = this;
 
-            self.onTop((self.onTop() || 0) + 1);
+            self.onTop(!self.onTop());
         }
         ,
 
@@ -115,6 +115,15 @@ circleverse.viewModel.Base = (function () {
 
         dblclick: function () { }
 
+
+        ,
+
+        getSettings: function () {
+            var settings = this.callSuper();
+            //settings.drop = false;
+            settings.not = '.map';
+            return settings;
+        }
 
     });
 })();

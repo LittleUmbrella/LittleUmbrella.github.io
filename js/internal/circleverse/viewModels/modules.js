@@ -382,7 +382,16 @@
 
     becu_org.ui.viewModel.draggableModule = new JS.Module('becu_org.ui.viewModel.draggableModule', {
         getSettings: function () {
-            return { relative: true, click: false, distance: 3 };
+            var self = this;
+            var settings = {};
+            // if (self.callSuper) {
+            //     settings = self.callSuper();
+            // }
+            settings.relative = true;
+            settings.click = false;
+            settings.distance = 3;
+            settings.not = ":input, .map path, .map svg, .map .leaflet-control-container, .map, :has(.map)";
+            return settings;
         }
         ,
 

@@ -126,7 +126,7 @@
                 self.childrenVisible.subscribe(function (val) {
                     if (val) {
                         self.toggledRecently = true;
-                        self.onTop((self.onTop() || 0) + 1);
+                        self.onTop(!self.onTop());
 
                         //settimeout
                         setTimeout(function () {

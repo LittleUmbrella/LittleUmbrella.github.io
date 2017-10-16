@@ -50,9 +50,9 @@ circleverse.viewModel.CustomerAddressViewModel = (function () {
             //this.location({ left: coords.left, top: coords.top });
 
 
-            self.center = [self.model().latitude(), self.model().longitude()];
-            self.color = ko.observable();
-            self.opened= ko.observable(false);
+            // self.center = [self.model().latitude(), self.model().longitude()];
+            // self.color = ko.observable();
+            // self.opened= ko.observable(false);
             self.memberIcon = ko.observable('icon-search icon-size-3x');
 
 

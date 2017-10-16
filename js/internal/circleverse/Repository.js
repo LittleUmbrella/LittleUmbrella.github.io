@@ -745,8 +745,8 @@ littleUmbrella.circleverse.Repository = (function () {
         "city": "New York",
         "state": "NY",
         "postalCode": "10005",
-        "latitude": 47.36,
-        "longitude": -122.20
+        "latitude": 40.706866,
+        "longitude": -74.011319
       }
     ]
   },

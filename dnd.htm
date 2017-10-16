@@ -827,6 +827,8 @@
             , visible: showMe, satellitePopInOut: { base: $data.parent, satellite: $data, callback: popAnimationEnded }
             , animatedMove: {satellite: $data, callback: moveEnded, top: move().top, left: move().left}
             , grow: {vm: $data, animationSettings: animationSettings}
+            
+        , supressDrapPropagation: true
             "
             class="drag drop circle"
             style="display: none;" >
@@ -861,6 +863,7 @@
             , satellitePopInOut: { base: $data.parent, satellite: $data, callback: popAnimationEnded, index: $index() }
             , animatedMove: {satellite: $data, callback: moveEnded, top: move().top, left: move().left}
             , grow: {vm: $data, animationSettings: animationSettings}
+        , supressDrapPropagation: true
 "
                         class="drag drop circle"
                         style="display: none;">
@@ -898,6 +901,7 @@
             , satellitePopInOut: { disabled: isBeingFiltered, base: $data.parent, satellite: $rawData, callback: popAnimationEnded, index: $index() }
             , animatedMove: {satellite: $data, callback: moveEnded, top: move().top, left: move().left}
             , grow: {vm: $data, animationSettings: animationSettings}
+        , supressDrapPropagation: true
 "
                         class="drag drop account service circle {size: 100} filterable"
                         style="display: none;">
@@ -953,6 +957,7 @@
             , event: { 'click': function (data, e) { e.cancelBubble = true; if (e.stopPropagation) e.stopPropagation() } }
             , 'tap': function (data, e) { e.cancelBubble = true; if (e.stopPropagation) e.stopPropagation() } ,
             satellitePopInOut: {base: $data.parent, satellite: $rawData, callback: popAnimationEnded }
+        , supressDrapPropagation: true
 "
             class="drag drop account service circle {size: 100} navigator"
             style="background-position: top; display: none;">
@@ -986,7 +991,8 @@
 
 
     <script type="text/html" id="CustomerAddressesViewModelTemplate">       
-        <div data-bind="busy: isBusy
+        <div data-bind="busy: isBusy,
+            dragdrop: $data
             , style: {
                 'left': location().left + 'px'
             , 'top': location().top + 'px'
@@ -1001,6 +1007,7 @@
             , satellitePopInOut: { base: $data.parent, satellite: $data, callback: popAnimationEnded, index: $index() }
             , animatedMove: {satellite: $data, callback: moveEnded, top: move().top, left: move().left}
             , grow: {vm: $data, animationSettings: animationSettings}
+        , supressDrapPropagation: true
 "
                         class="drag drop circle"
                         style="display: none;">
@@ -1010,23 +1017,21 @@
             <!-- ko if: isA(becu_org.ui.viewModel.labelModule) && labelData().isReady -->               
                 <!-- ko template: { name: 'circleTextTemplate', data: labelData } --><!-- /ko -->
             <!-- /ko -->
+            <!-- ko if: hasChildrenToggled -->
+                <!-- ko foreach: childViewModels-->                    
+                    <!-- ko template: { name: 'genericChildTemplate' } --><!-- /ko -->
+                    
+                    <div class="line" data-bind="circleConnection: $data, visible: showMe"></div>
+                <!-- /ko -->
+            <!-- /ko -->
             
-
-            
-
-
-        </div>
+        </div>  
     
         
             
         
     </script>
 <!--ko with: customerAddressesMapViewModel -->
-                    
-        
-        
-
-        
         <div data-bind="busy: isBusy
         , style: {
             'left': location().left + 'px'
@@ -1047,6 +1052,15 @@
 
 
     <!-- /ko -->
+
+    <script type="text/html" id="mapTemplate">
+        <div data-bind="leafletMap: $data, zoom: zoom" class="map">
+        </div>
+
+    </script>
+
+
+    
     
     <script type="text/html" id="CustomerAddressViewModelContentTemplate"> 
         
@@ -1081,6 +1095,7 @@
         , animatedMove: {satellite: $data, callback: moveEnded, top: move().top, left: move().left}
         , grow: {vm: $data, animationSettings: animationSettings}
         , leafletPosition: $data
+        , supressDrapPropagation: true
 "
                     class="drag drop circle"
                     style="display: none;">
@@ -1189,6 +1204,7 @@
             , 'tap': function (data, e) { e.cancelBubble = true; if (e.stopPropagation) e.stopPropagation() }
             , animatedMove: {satellite: $data, callback: moveEnded, top: move().top, left: move().left}
             , grow: {vm: $data, animationSettings: animationSettings}
+        , supressDrapPropagation: true
             " class="drag drop form-container center account-ransactions" style="display: none;">
             <a href="javascript:;" class="close-button icon-close"></a>
                 
@@ -1331,7 +1347,7 @@
 
                 $log = $("#log");
 
-                var globalDimensions = {width: $(document).width(), height: $(document).height()};
+                var globalDimensions = {width: $(window).width(), height: $(window).height()};
                 var app = new becu_org.app(globalDimensions);
 
                 var promise = app.preSetup();

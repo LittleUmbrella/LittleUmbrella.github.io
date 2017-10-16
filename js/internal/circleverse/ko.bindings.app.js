@@ -224,7 +224,7 @@
 
             if (childCircle.showMe()){
                 element.style.transform = 'rotateZ('+ rotation +'deg)';
-                element.style.width = (width-(parentDims.width/2)) + 'px';
+                element.style.width = (width-(parentDims.width/2)) + 'px'; //minus radius to ensure line ends at the edge of the connected circle
             }
             else{
                 
@@ -913,6 +913,21 @@
         }
     }
 
+    ko.bindingHandlers['supressDrapPropagation'] =
+    {
+        'init': function (element, valueAccessor, allBindingsAccessor, viewModel) {
+            $(element).on("mousedown touchdown click", function(e){
+                e.stopPropagation();
+                if (e.originalEvent){
+                    e.originalEvent.stopPropagation();
+                    if (L) L.DomEvent.stopPropagation(e.originalEvent);
+                }
+            });
+
+            if (L) L.DomEvent.disableClickPropagation(element);
+        }
+    }
+
 
 
     var zIndex = 2000;
@@ -1137,7 +1152,7 @@
                                 latlng.push([ko.unwrap(item.model().latitude), ko.unwrap(item.model().longitude)]);
                             }
                             
-                            map.fitBounds(latlng);
+                            map.fitBounds(latlng, {paddingTopLeft: [item.dimensions().height, item.dimensions().width]});
                         }
                     }
                 }, 1);
@@ -1167,9 +1182,12 @@
 
             var $element = $(element);
 
-            var mapEls = $element.parents('.map');
+            var mapEls = $element.siblings('.map');
 
-            if (mapEls.length == 0) throw Error("map '.map' element not found in ancestor tree");
+            if (mapEls.length == 0) 
+                mapEls = $element.parents('.map');
+
+            if (mapEls.length == 0) throw Error("map '.map' element not found in ancestor tree or siblings");
 
             var mapEl = mapEls[0];
 
@@ -1177,10 +1195,19 @@
 
             var reposition = function(){
                 var latLng = new L.latLng(ko.unwrap(value.model().latitude), ko.unwrap(value.model().longitude));
-                var point = map.project(latLng);//.divideBy(256).floor();
-                var origin = map.getPixelOrigin();
+                //var point = map.project(latLng).divideBy(256).floor();
+                var point = map.latLngToContainerPoint(latLng);
                 
-                value.location({left: point.x - origin.x, top: point.y - origin.y});
+                var origin = map.getPixelOrigin();
+
+                var offsetX = value.dimensions().width / 2, offsetY = value.dimensions().width + (3 * map.getZoom()); 
+                // console.log("origin: " + origin.x + ", y:" + origin.y );
+                // console.log("project: " + map.project(latLng).x + ", y:" + map.project(latLng).y );
+                // console.log("latLngToLayerPoint: " + map.latLngToLayerPoint(latLng).x + ", y:" + map.latLngToLayerPoint(latLng).y );
+                // console.log("latLngToContainerPoint: " + map.latLngToContainerPoint(latLng).x + ", y:" + map.latLngToContainerPoint(latLng).y );
+                //console.log("containerPoint: " + map.project(latLng).x + ", y:" + map.project(latLng).y );
+                
+                value.location({left: point.x - offsetX, top: point.y - offsetY});
             }            
 
             reposition();

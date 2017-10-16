@@ -16,8 +16,9 @@ circleverse.viewModel.CustomerAddressesViewModel = (function () {
             circleverse.viewModel.centerCircle, 
             becu_org.ui.viewModel.draggableModule, 
             becu_org.ui.viewModel.droppableModule,
-            becu_org.ui.viewModel.labelModule,
             circleverse.viewModel.SpecialViewViewModel
+            //,
+            //becu_org.ui.viewModel.labelModule
         ],
 
         initialize: function (object, parent, globalSettings) {// (tracker, uri, templateUri, templateId, resultTemplateUri, callSpec, name, id, businessClass, opts) {
@@ -40,7 +41,7 @@ circleverse.viewModel.CustomerAddressesViewModel = (function () {
 
             this.dimensions({ height: this.scale() * initSize, width: this.scale() * initSize });
 
-            this.label("Addresses");
+            //this.label("Addresses");
 
             this.icon.location = { center: true, offset: { y: -35} }; //ko.observable(false);//
 
@@ -78,11 +79,15 @@ circleverse.viewModel.CustomerAddressesViewModel = (function () {
                
             //});
 
-            self.locatinSelected = function (vm) {
-               alert("The next Trump protest will start at " + vm.model.name);
-               vm.opened(false);
-               vm.color("Red");
-            }
+            var searchLocation = self.location(),
+                width = $(window).width() -160,
+                height = $(window).height() - 160,
+                top = ((searchLocation.top) - ($(window).height() / 2)) + 80 + (self.dimensions().height/2) - 10 /* buffer for line */,
+                left = ((searchLocation.left) - ($(window).width() / 2)) + 80 + (self.dimensions().width/2) - 10 /* buffer for line */;
+
+            self.searchDimensionSettingsBig = {width: width, height: height, top: top, left: left, borderRadius: 0, onComplete: eaf.core.createDelegate(self, self.toggleFormAnimationEnded), ease: Elastic.easeIn.config(4.5, 3)};
+            self.searchDimensionSettingsRegular = {width: self.dimensions().width, top: searchLocation.top, left: searchLocation.left, height: self.dimensions().height, borderRadius: '50%', onComplete: eaf.core.createDelegate(self, self.toggleFormAnimationEnded), ease: Elastic.easeIn.config(4.5, 3)};
+
 
             this.childrenOnTop = ko.observable(true);
 
@@ -99,16 +104,105 @@ circleverse.viewModel.CustomerAddressesViewModel = (function () {
         }
         ,
 
+        showMainForm: function(){
+            var self = this;
+//return;
+            var deferred = jQuery.Deferred();
+            
+
+            self.searchDimensionSettingsBig.onComplete = function(){
+                if (self.childrenVisible()){
+                    self.hideChildVieModels();
+                }
+                self.toggleFormAnimationEnded();
+                
+                self.canOpen(false);
+                self.canClose(true);          
+                self.canSave(true);
+                self.globalSettings.eventAggregator.publish('circleverse.spotlightContext', self);
+            
+                
+                deferred.resolve();
+            };
+            self.animationSettings(self.searchDimensionSettingsBig);
+            //self.size(self.searchDimensionSettingsBig.width);
+            
+            self.mainFormOpen = true ;
+
+            return deferred;
+        }
+        ,
+
+        hideMainForm: function(){
+            var self = this;
+            
+            var deferred = jQuery.Deferred();
+
+            
+            self.contentTemplate('emptyContentTemplate');
+                self.searchDimensionSettingsRegular.onComplete = function(){
+                    self.toggleFormAnimationEnded();
+                    if (!self.childrenVisible()){
+                        self.showChildVieModels();
+                    }
+                    
+                    
+                    self.canOpen(true);
+                    self.canClose(true);            
+                    self.canSave(false);
+                    self.globalSettings.eventAggregator.publish('circleverse.spotlightContext', self);
+                    deferred.resolve();
+                };
+                self.animationSettings(self.searchDimensionSettingsRegular);
+                //self.size(self.searchDimensionSettingsRegular.width);
+
+
+
+            self.mainFormOpen = false ;
+
+            return deferred;
+        }
+        ,
+
+        toggleFormAnimationEnded: function(){
+            var self = this;
+
+            if (self.mainFormOpen){
+                self.contentTemplate('mapTemplate');
+                self.dimensions({width: self.searchDimensionSettingsBig.width, height: self.searchDimensionSettingsBig.height});
+                self.location({top: self.searchDimensionSettingsBig.top, left: self.searchDimensionSettingsBig.left});
+                //self.size(self.searchDimensionSettingsBig.width);
+                //self.location(self.getCalculatedLocation());
+                
+                self.mainCss('map');
+                self.showChildVieModels();
+            }
+            else{
+                self.contentTemplate('standardContentTemplate');
+                self.dimensions({width: self.searchDimensionSettingsRegular.width, height: self.searchDimensionSettingsRegular.height});
+                self.location({top: self.searchDimensionSettingsRegular.top, left: self.searchDimensionSettingsRegular.left});
+                self.size(self.searchDimensionSettingsRegular.width);
+                self.__overridden = false;
+                self.location(self.getCalculatedLocation());
+                self.mainCss('');
+
+            }
+        }
+        ,
+
         showChildVieModels: function () {
             var self = this, isFormVisible = self.showForm();
 
+            if (!self.mainFormOpen){
+                return self.showMainForm();
+            }
 
             if ((!self.childrenVisible()) && (!self.__loadedChildren)){
                 var len = self.rawModel().addresses().length;
                 for (var i = 0; i < len; i++) {
-                    //self.childViewModels.push(new circleverse.viewModel.CustomerAddressViewModel(self.rawModel().addresses()[i], self, self.globalSettings));
+                    self.childViewModels.push(new circleverse.viewModel.CustomerAddressViewModel(self.rawModel().addresses()[i], self, self.globalSettings));
 
-                    self.globalSettings.app.customerAddressesMapViewModel.childViewModels.push(new circleverse.viewModel.CustomerAddressViewModel(self.rawModel().addresses()[i], self, self.globalSettings));
+                    //self.globalSettings.app.customerAddressesMapViewModel.childViewModels.push(new circleverse.viewModel.CustomerAddressViewModel(self.rawModel().addresses()[i], self, self.globalSettings));
                 }
 
                 
@@ -135,9 +229,39 @@ circleverse.viewModel.CustomerAddressesViewModel = (function () {
                 self.__loadedChildren = true;
             }
 
+            // var deferred = jQuery.Deferred();
+            // deferred.resolve();
+            // return deferred;
+            
+            self.hasChildrenToggled(true);
             var deferred = jQuery.Deferred();
-            deferred.resolve();
-            return deferred;
+            var popDeferreds = [];
+            var arr = self.childViewModels(), len = arr.length, item;
+            for (var i = 0; i < len; i++) {
+                item = ko.unwrap(arr[i]);
+
+                if (!item.popped){ 
+                    var popDeferred = item.pop();
+                    //if only one child, open it                            
+                    if (len == 1 && item.autoPopSingleChild()){
+                        popDeferred.then(function(){
+                            item.showChildVieModels();
+                        });
+                    }
+                    popDeferreds.push(popDeferred);
+                }
+
+                //anyChildPopped = true;
+            }
+    
+            self.childrenVisible(true);
+
+            if (popDeferreds.length == 0)
+                deferred.resolve();
+            else
+                $.when.apply(null, popDeferreds).then(function(){
+                    deferred.resolve();
+                });
             //return self.callSuper();
             //if (self.__isKidsLoaded)
             //self.__globalSettings.eventAggregator.publish('member.view', self);
@@ -236,6 +360,86 @@ circleverse.viewModel.CustomerAddressesViewModel = (function () {
         }
 
             ,
+
+        dropped: function (dropModel, dropViewModel, args, prom) {
+            var self = this;
+
+            if (dropViewModel.isA(circleverse.viewModel.CloseViewModel)) {
+                prom.then(function(){
+                    if (self.mainFormOpen){                        
+                        self.hideMainForm().then(function(){
+                            //if (self.callSuper) self.callSuper();
+                        });
+                    }
+                    else{
+                        self.showMainForm().then(function(){
+                            //if (self.callSuper) self.callSuper();
+                        });
+                    }
+                });
+            }
+            else if (dropViewModel.isA(circleverse.viewModel.OpenViewModel)){
+                prom.then(function(){
+                    self.showMainForm().then(function(){
+                        //if (self.callSuper) self.callSuper();
+                    });
+                });
+            }
+            else if (dropViewModel.isA(circleverse.viewModel.SaveViewModel) || dropViewModel.isA(circleverse.viewModel.SaveViewModel)) {
+                prom.then(function(){
+                    self.findIndividuals();
+                });
+
+                
+                if (self.callSuper) self.callSuper();
+            }
+            else{
+                
+                if (self.callSuper) self.callSuper();
+            }
+
+            
+        }
+            ,
+        droppedOn: function (dragModel, dragVm, args, prom) {
+            var self = this;
+
+            if (dragVm.isA(circleverse.viewModel.CloseViewModel)) {
+                prom.then(function(){
+                    if (self.mainFormOpen){                        
+                        self.hideMainForm().then(function(){
+                            //if (self.callSuper) self.callSuper();
+                        });
+                    }
+                    else{
+                        self.showMainForm().then(function(){
+                            //if (self.callSuper) self.callSuper();
+                        });
+                    }
+                });
+            }
+            else if (dragVm.isA(circleverse.viewModel.OpenViewModel)){
+                prom.then(function(){
+                    self.showMainForm().then(function(){
+                        //if (self.callSuper) self.callSuper();
+                    });
+                });
+            }
+            else if (dragVm.isA(circleverse.viewModel.SaveViewModel) || dragVm.isA(circleverse.viewModel.SaveViewModel)) {               
+
+                prom.then(function(){
+                    self.findIndividuals();
+                });
+
+                if (self.callSuper) self.callSuper();
+            }
+            else{
+                
+                if (self.callSuper) self.callSuper();
+            }
+        }
+        ,
+
         toggleMainForm: function () {
             this.showForm(!this.showForm());
         }
@@ -245,10 +449,10 @@ circleverse.viewModel.CustomerAddressesViewModel = (function () {
         getSettings: function () {
             var settings = this.callSuper();
             //settings.drop = false;
-            settings.not = '.map';
             return settings;
         }
             ,
+
 
 
         close: function () {

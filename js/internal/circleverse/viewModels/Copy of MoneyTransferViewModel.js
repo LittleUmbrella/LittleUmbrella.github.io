@@ -98,7 +98,7 @@ circleverse.viewModel.BusinessCenterViewModel = (function () {
             dragxend: function(){
                 this.callSuper();
 
-                this.onTop(this.onTop() + '1'); //just change so that it's re-evaluated
+                this.onTop(!self.onTop()); //just change so that it's re-evaluated
             }
             ,
 
@@ -158,7 +158,9 @@ circleverse.viewModel.BusinessCenterViewModel = (function () {
         },
 
         changeVisibility: function (cmd) {
-            this.onTop(this.onTop() + '1'); //just change so that it's re-evaluated
+            var self = this;
+            
+            this.onTop(!self.onTop()); //just change so that it's re-evaluated
             if ((typeof cmd).toLowerCase() == 'boolean') {
                 this.hideTransferForm(cmd);
             }

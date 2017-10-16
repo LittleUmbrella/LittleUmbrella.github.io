@@ -105,9 +105,10 @@ circleverse.viewModel.AllLocationsViewModel = (function () {
 
         dropped: function (dropModel, dropViewModel, args) {
             //this.model.callSpec().add(dragModel);
+            var self = this;
             if (dropViewModel.isA(circleverse.viewModel.garbageViewModel)) {
-                this.onTop(this.onTop() + '1'); //just change so that it's re-evaluated
-                this.closeAccountVm.hideCloseForm(false);
+                self.onTop(!self.onTop()); //just change so that it's re-evaluated
+                self.closeAccountVm.hideCloseForm(false);
             }
         }
 

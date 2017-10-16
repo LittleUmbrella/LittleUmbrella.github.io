@@ -9,6 +9,7 @@ circleverse.viewModel.AllMembersViewModel = (function () {
     //of the JS Class, not just one instance
 
     //var that;
+            var initSize = 70;
     return new JS.Class('circleverse.viewModel.AllMembersViewModel', circleverse.viewModel.ResizeableBase, {
         include: [
             becu_org.ui.viewModel.baseModule, 
@@ -32,8 +33,8 @@ circleverse.viewModel.AllMembersViewModel = (function () {
 
             // var calcLeft = (($(window).width() - this.dimensions().width)) * .7;
             // var left = (calcLeft < minLeft) ? minLeft : calcLeft;
-            var top = (self.globalSettings.globalDimensions.height /2 ) - self.size() /2;
-            var left = (self.globalSettings.globalDimensions.width /2 ) - self.size() /2;
+            var top = (self.globalSettings.globalDimensions.height /2 ) - initSize /2;
+            var left = (self.globalSettings.globalDimensions.width /2 ) - initSize /2;
             //            log('garbage left: ' + left);
             //            log('garbage top: ' + top);
             return { left: left, top: top };
@@ -42,7 +43,6 @@ circleverse.viewModel.AllMembersViewModel = (function () {
         initialize: function (object, parent, globalSettings) {// (tracker, uri, templateUri, templateId, resultTemplateUri, callSpec, name, id, businessClass, opts) {
 
             var self = this;
-            var initSize = 70;
 
             //properties
             self.globalSettings = globalSettings;
