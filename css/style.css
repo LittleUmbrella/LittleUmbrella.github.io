@@ -1,10 +1,10 @@
 @font-face {
   font-family: 'icomoon';
-  src:  url('fonts/icomoon.eot?p7pk9m');
-  src:  url('fonts/icomoon.eot?p7pk9m#iefix') format('embedded-opentype'),
-    url('fonts/icomoon.ttf?p7pk9m') format('truetype'),
-    url('fonts/icomoon.woff?p7pk9m') format('woff'),
-    url('fonts/icomoon.svg?p7pk9m#icomoon') format('svg');
+  src:  url('fonts/icomoon.eot?13e8nl');
+  src:  url('fonts/icomoon.eot?13e8nl#iefix') format('embedded-opentype'),
+    url('fonts/icomoon.ttf?13e8nl') format('truetype'),
+    url('fonts/icomoon.woff?13e8nl') format('woff'),
+    url('fonts/icomoon.svg?13e8nl#icomoon') format('svg');
   font-weight: normal;
   font-style: normal;
 }
@@ -24,6 +24,9 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
+.icon-primitive-dot:before {
+  content: "\e91c";
+}
 .icon-link2:before {
   content: "\e916";
 }
@@ -270,6 +273,9 @@
 .icon-redo:before {
   content: "\e01d";
 }
+.icon-dot-single:before {
+  content: "\e91d";
+}
 .icon-globe:before {
   content: "\e909";
 }
@@ -440,6 +446,9 @@
 }
 .icon-long-arrow-right:before {
   content: "\f178";
+}
+.icon-dot-circle-o:before {
+  content: "\e91e";
 }
 .icon-child:before {
   content: "\e91b";
