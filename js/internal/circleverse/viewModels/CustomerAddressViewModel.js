@@ -110,13 +110,12 @@ circleverse.viewModel.CustomerAddressViewModel = (function () {
             var setToggleFormSettings = function(loc){
                 
                 var searchLocation = self.location(),
-                width = 550,
-                height = 45,
-                top = searchLocation.top - ((height)/2),
-                left = searchLocation.left - ((width)/2);
+                width = 600,
+                height = 155;
 
-                self.searchDimensionSettingsBig = {width: width + self.dimensions().width, height: height + self.dimensions().height, top: top, left: left, borderRadius: 20, onComplete: eaf.core.createDelegate(self, self.toggleFormAnimationEnded), ease: Elastic.easeIn.config(4.5, 3)};
-                self.searchDimensionSettingsRegular = {width: initSize, top: searchLocation.top, left: searchLocation.left, height: initSize, borderRadius: '50%', onComplete: eaf.core.createDelegate(self, self.toggleFormAnimationEnded), ease: Elastic.easeIn.config(4.5, 3)};
+                self.searchDimensionSettingsBig = {width: width, height: height, top: searchLocation.top - ((height)/2) + ((initSize)/2), left: searchLocation.left - ((width)/2) + ((initSize)/2), borderRadius: 20, onComplete: eaf.core.createDelegate(self, self.toggleFormAnimationEnded), ease: Elastic.easeIn.config(4.5, 3)};
+
+                self.searchDimensionSettingsRegular = {width: initSize, top: searchLocation.top + ((height)/2) - ((initSize)/2), left: searchLocation.left + ((width)/2) - ((initSize)/2), height: initSize, borderRadius: '50%', onComplete: eaf.core.createDelegate(self, self.toggleFormAnimationEnded), ease: Elastic.easeIn.config(4.5, 3)};
     
             };
 
@@ -314,7 +313,7 @@ circleverse.viewModel.CustomerAddressViewModel = (function () {
             else{
                 self.contentTemplate('CustomerAddressViewModelContentTemplate');
                 self.dimensions({width: self.searchDimensionSettingsRegular.width, height: self.searchDimensionSettingsRegular.height});
-                //self.location({top: self.searchDimensionSettingsRegular.top, left: self.searchDimensionSettingsRegular.left});
+                self.location({top: self.searchDimensionSettingsRegular.top, left: self.searchDimensionSettingsRegular.left});
                 //self.size(self.searchDimensionSettingsRegular.width);
                 //self.__overridden = false;
                 //self.location(self.getCalculatedLocation());

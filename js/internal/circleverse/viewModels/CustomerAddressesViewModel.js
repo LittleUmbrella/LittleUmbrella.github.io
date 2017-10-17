@@ -120,8 +120,9 @@ circleverse.viewModel.CustomerAddressesViewModel = (function () {
                 self.canClose(true);          
                 self.canSave(true);
                 self.globalSettings.eventAggregator.publish('circleverse.spotlightContext', self);
-            
-                
+                            
+                self.isRoot(true);
+
                 deferred.resolve();
             };
             self.animationSettings(self.searchDimensionSettingsBig);
@@ -141,24 +142,33 @@ circleverse.viewModel.CustomerAddressesViewModel = (function () {
             
             self.contentTemplate('emptyContentTemplate');
                 self.searchDimensionSettingsRegular.onComplete = function(){
-                    self.toggleFormAnimationEnded();
-                    // if (!self.childrenVisible()){
-                    //     self.showChildVieModels();
-                    // }
-                    
-                    
+                    self.toggleFormAnimationEnded();  
+                    var prom = jQuery.Deferred();  
+                    if (self.childrenVisible()){
+                        var prom = self.hideChildVieModels();
+                    }   
+                    else{
+                        prom.resolve();
+                    }
+
                     self.canOpen(true);
                     self.canClose(true);            
                     self.canSave(false);
                     self.globalSettings.eventAggregator.publish('circleverse.spotlightContext', self);
-                    deferred.resolve();
+
+                    prom.then(function(){
+
+                        self.isRoot(false);
+                        deferred.resolve();
+                        
+                    });
                 };
                 self.animationSettings(self.searchDimensionSettingsRegular);
                 //self.size(self.searchDimensionSettingsRegular.width);
 
 
+                self.mainFormOpen = false;
 
-            self.mainFormOpen = false ;
 
             return deferred;
         }
@@ -186,6 +196,7 @@ circleverse.viewModel.CustomerAddressesViewModel = (function () {
                 self.location(self.getCalculatedLocation());
                 self.mainCss('');
 
+                    
             }
         }
         ,
@@ -215,10 +226,10 @@ circleverse.viewModel.CustomerAddressesViewModel = (function () {
             var self = this, callSuper = self.callSuper, deferred = jQuery.Deferred();
             
             if (self.mainFormOpen){
-                var prom = self.hideMainForm();
+                var prom = callSuper() ;
                 
                 prom.then(function(){
-                    callSuper().then(function(){
+                    self.hideMainForm().then(function(){
                         deferred.resolve();
                     });
                 });

@@ -284,7 +284,15 @@
 
                     var loc;
                     if (!self.childrenVisible()){
-                        if (self.parent && self.parent.moveRoot){
+                        // if (self.isRoot && self.isRoot() && self.moveRoot){
+                        //     loc = self.location();
+                            
+                        //     //self.parent.faded(true);
+                        //     self.moveRoot({movement: {top: -(loc.top), left: -(loc.left)}});
+
+                        //     //self.parent.unpopAllBut(self);
+                        // }
+                        if (self.parent && self.parent.moveRoot && (!self.parent.isRoot || !self.parent.isRoot())){
                             loc = self.location();
                             
                             self.parent.faded(true);
@@ -372,8 +380,13 @@
                     movement.left += chainMove.left;
                     movement.top += chainMove.top;
 
-                    if (movement.top != 0 && movement.left != 0)
-                        self.parent.moveRoot({movement: movement});
+                    if (movement.top != 0 && movement.left != 0){
+                        if (self.parent && self.parent.moveRoot && (!self.parent.isRoot || !self.parent.isRoot()) && (!self.isRoot || !self.isRoot())){
+                            self.parent.moveRoot({movement: movement});
+                        }
+
+
+                    }
                     // if (!mixPop)
                     //     self.childrenVisible(!self.childrenVisible());
 
