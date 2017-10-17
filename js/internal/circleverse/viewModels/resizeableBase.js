@@ -113,7 +113,10 @@ circleverse.viewModel.ResizeableBase = //(function () {
                 var self = this;
                 
 
-                if (self.parent && self.parent.moveRoot){
+                if (self.parent && self.parent.isRoot && self.parent.isRoot()){
+                    self.parent.move(config.movement);
+                }
+                else if (self.parent && self.parent.moveRoot){
                     self.parent.moveRoot(config);
                 }
                 else{

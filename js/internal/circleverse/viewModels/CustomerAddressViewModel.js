@@ -9,6 +9,7 @@ circleverse.viewModel.CustomerAddressViewModel = (function () {
     //of the JS Class, not just one instance
 
     //var that;
+            var initSize = 120;
     return new JS.Class('circleverse.viewModel.CustomerAddressViewModel', circleverse.viewModel.ResizeableBase, {
         include: [
             becu_org.ui.viewModel.baseModule, 
@@ -24,7 +25,6 @@ circleverse.viewModel.CustomerAddressViewModel = (function () {
             var self = this;
             //properties
 
-            var initSize = 120;
             self.size = ko.observable(initSize);
             //properties
 
@@ -103,16 +103,29 @@ circleverse.viewModel.CustomerAddressViewModel = (function () {
 
             });
 
+            self.searchDimensionSettingsBig;
+            self.searchDimensionSettingsRegular;
 
-            var searchLocation = self.location(),
+
+            var setToggleFormSettings = function(loc){
+                
+                var searchLocation = self.location(),
                 width = 550,
                 height = 45,
                 top = searchLocation.top - ((height)/2),
                 left = searchLocation.left - ((width)/2);
 
-            self.searchDimensionSettingsBig = {width: width + self.dimensions().width, height: height + self.dimensions().height, top: top, left: left, borderRadius: 20, onComplete: eaf.core.createDelegate(self, self.toggleFormAnimationEnded), ease: Elastic.easeIn.config(4.5, 3)};
-            self.searchDimensionSettingsRegular = {width: self.dimensions().width, top: searchLocation.top, left: searchLocation.left, height: self.dimensions().height, borderRadius: '50%', onComplete: eaf.core.createDelegate(self, self.toggleFormAnimationEnded), ease: Elastic.easeIn.config(4.5, 3)};
+                self.searchDimensionSettingsBig = {width: width + self.dimensions().width, height: height + self.dimensions().height, top: top, left: left, borderRadius: 20, onComplete: eaf.core.createDelegate(self, self.toggleFormAnimationEnded), ease: Elastic.easeIn.config(4.5, 3)};
+                self.searchDimensionSettingsRegular = {width: initSize, top: searchLocation.top, left: searchLocation.left, height: initSize, borderRadius: '50%', onComplete: eaf.core.createDelegate(self, self.toggleFormAnimationEnded), ease: Elastic.easeIn.config(4.5, 3)};
+    
+            };
 
+
+            self.location.subscribe(function(val){
+                setToggleFormSettings();
+            });
+
+            
             self.results = ko.observableArray();
 
             self.lostFocus = function(){                
@@ -192,6 +205,7 @@ circleverse.viewModel.CustomerAddressViewModel = (function () {
 
             this.childrenOnTop = ko.observable(true);
 
+            self.isRoot(true);
 
             this.info = "Account Transactions (includes Pending)";
 
@@ -212,11 +226,15 @@ circleverse.viewModel.CustomerAddressViewModel = (function () {
             self.searchDimensionSettingsBig.onComplete = function(){
                 self.toggleFormAnimationEnded();
                 
-                // if (self.childrenVisible()){
-                //     self.toggleChildrenVisibility();
-                // }
+                if (self.childrenVisible()){
+                    self.hideChildVieModels().then(function(){
+                        deferred.resolve();
+                    });
+                }
+                else{                    
+                    deferred.resolve();
+                }
                 self.focus(true);
-                deferred.resolve();
             };
             self.animationSettings(self.searchDimensionSettingsBig);
             //self.size(self.searchDimensionSettingsBig.width);
@@ -244,10 +262,14 @@ circleverse.viewModel.CustomerAddressViewModel = (function () {
             self.contentTemplate('emptyContentTemplate');
                 self.searchDimensionSettingsRegular.onComplete = function(){
                     self.toggleFormAnimationEnded();
-                    if (self.childrenVisible()){
-                        self.hideChildVieModels();
+                    if (!self.childrenVisible()){
+                        self.showChildVieModels().then(function(){
+                            deferred.resolve();
+                        });
                     }
-                    deferred.resolve();
+                    else{                        
+                        deferred.resolve();
+                    }
                 };
                 self.animationSettings(self.searchDimensionSettingsRegular);
             
@@ -293,10 +315,10 @@ circleverse.viewModel.CustomerAddressViewModel = (function () {
                 self.contentTemplate('CustomerAddressViewModelContentTemplate');
                 self.dimensions({width: self.searchDimensionSettingsRegular.width, height: self.searchDimensionSettingsRegular.height});
                 //self.location({top: self.searchDimensionSettingsRegular.top, left: self.searchDimensionSettingsRegular.left});
-                self.size(self.searchDimensionSettingsRegular.width);
-                self.__overridden = false;
-                self.location(self.getCalculatedLocation());
-                self.__overridden = false;
+                //self.size(self.searchDimensionSettingsRegular.width);
+                //self.__overridden = false;
+                //self.location(self.getCalculatedLocation());
+                //self.__overridden = false;
 
             }
         }
@@ -364,7 +386,8 @@ circleverse.viewModel.CustomerAddressViewModel = (function () {
                         self.showMainForm();
                 });
             }
-            if (self.callSuper) self.callSuper();
+            //if closing address that isn't in edit mode
+            if (!self.mainFormOpen) if (self.callSuper) self.callSuper();
         }
             ,
         droppedOn: function (dragModel, dragVm, args, prom) {
@@ -402,7 +425,7 @@ circleverse.viewModel.CustomerAddressViewModel = (function () {
                         self.showMainForm();
                 });
             }
-            if (self.callSuper) self.callSuper();
+            if (!self.mainFormOpen) if (self.callSuper) self.callSuper();
         }
 
     });

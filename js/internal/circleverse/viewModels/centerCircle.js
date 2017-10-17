@@ -136,8 +136,10 @@
                 });
 
                 self.hasChildrenToggled = ko.observable(false);
+                self.isRoot = ko.observable(false);
 
             }
+
             
         ,
 

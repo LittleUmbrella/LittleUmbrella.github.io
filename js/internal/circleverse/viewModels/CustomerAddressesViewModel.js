@@ -111,9 +111,9 @@ circleverse.viewModel.CustomerAddressesViewModel = (function () {
             
 
             self.searchDimensionSettingsBig.onComplete = function(){
-                if (self.childrenVisible()){
-                    self.hideChildVieModels();
-                }
+                // if (self.childrenVisible()){
+                //     self.hideChildVieModels();
+                // }
                 self.toggleFormAnimationEnded();
                 
                 self.canOpen(false);
@@ -142,9 +142,9 @@ circleverse.viewModel.CustomerAddressesViewModel = (function () {
             self.contentTemplate('emptyContentTemplate');
                 self.searchDimensionSettingsRegular.onComplete = function(){
                     self.toggleFormAnimationEnded();
-                    if (!self.childrenVisible()){
-                        self.showChildVieModels();
-                    }
+                    // if (!self.childrenVisible()){
+                    //     self.showChildVieModels();
+                    // }
                     
                     
                     self.canOpen(true);
@@ -186,6 +186,47 @@ circleverse.viewModel.CustomerAddressesViewModel = (function () {
                 self.location(self.getCalculatedLocation());
                 self.mainCss('');
 
+            }
+        }
+        ,
+
+        // pop: function () {
+        //     var self = this, callSuper = self.callSuper, deferred = jQuery.Deferred();
+
+        //     if (self.popped){
+        //         var prom = self.hideMainForm();
+
+        //         prom.then(function(){
+        //             callSuper().then(function(){
+        //                 deferred.resolve();
+        //             });
+        //         });
+
+                
+        //         return deferred;
+        //     }
+        //     else{
+        //         return callSuper();
+        //     }
+
+        // }, 
+
+        hideChildVieModels: function () {
+            var self = this, callSuper = self.callSuper, deferred = jQuery.Deferred();
+            
+            if (self.mainFormOpen){
+                var prom = self.hideMainForm();
+                
+                prom.then(function(){
+                    callSuper().then(function(){
+                        deferred.resolve();
+                    });
+                });
+                
+                return deferred;
+            }
+            else{
+                return callSuper();
             }
         }
         ,

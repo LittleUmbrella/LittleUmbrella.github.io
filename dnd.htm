@@ -143,7 +143,7 @@
                 , 'height': (dimensions().height) + 'px'
                 , 'top': (location().top) + 'px'
                 , 'left': (location().left) + 'px'
-                }"
+                }, onTop: onTop"
                 class="drag drop circle tool backgroundCenter refresh ">
 
                 <!-- ko if: isA(becu_org.ui.viewModel.labelModule) && labelData().isReady -->               
@@ -161,7 +161,7 @@
                 , 'height': (dimensions().height) + 'px'
                 , 'top': (location().top) + 'px'
                 , 'left': (location().left) + 'px'
-                }
+                }, onTop: onTop
                 , event: { 'click': function (data, e) { toggleMainForm(); e.cancelBubble = true; if (e.stopPropagation) e.stopPropagation(); return false }, dblclickBubble: false }
                 , 'tap': function (data, e) { toggleMainForm(); e.cancelBubble = true; if (e.stopPropagation) e.stopPropagation(); return false }, dblclickBubble: false "
                 class="drag drop circle tool form-entry backgroundCenter settings">

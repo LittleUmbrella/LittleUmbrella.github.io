@@ -92,6 +92,7 @@ circleverse.viewModel.AllMembersViewModel = (function () {
 
             self.childViewModels.push(self.searchViewModel);
 
+            self.isRoot(true);
 
             
             self.canEdit(false);
