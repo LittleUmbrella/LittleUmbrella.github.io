@@ -192,7 +192,8 @@ circleverse.viewModel.satellite = (function () {
             var deferred = jQuery.Deferred();
 
             self.popAnimationEnded = function(){
-                self.__popAnimationEndedTemplate();
+                if (self.showMe() != self.popToggle()) //if no change, don't bother, but do release promise
+                    self.__popAnimationEndedTemplate();
                 deferred.resolve();
             }
 

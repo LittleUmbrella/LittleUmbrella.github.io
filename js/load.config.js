@@ -1679,8 +1679,40 @@
                     ,
                     'becu_org.ui.viewModel.baseModule'
                 );
+
+                
         file('/js/internal/circleverse/viewModels/CustomerAddressesViewModel.js?r=2')
                     .provides('circleverse.viewModel.CustomerAddressesViewModel')
+                    .requires('jQuery', 'JS.Module', 'JS.Class', 'JSextend', 'eaf.core', 'eaf.util'
+                    ,
+                    'circleverse.viewModel.Base'
+                    ,
+                    'circleverse.viewModel.ResizeableBase'
+                    ,
+                    'becu_org.ui.viewModel.baseModule'
+                    ,
+                    'Polygon'
+                    ,
+                    'eaf.core'
+                    ,
+                    'eaf.util'
+                    ,
+                    'littleUmbrella.circleverse.ui.pointsAndPolygon'
+                    ,
+                    'circleverse.viewModel.satellite' 
+                    ,
+                    'circleverse.viewModel.centerCircle'
+                    ,
+                    'parseAddress'
+                    ,
+                    'circleverse.viewModel.SpecialViewViewModel'
+                    ,
+                    'circleverse.viewModel.MailViewModel'
+                    );
+
+                
+        file('/js/internal/circleverse/viewModels/MailViewModel.js?r=2')
+                    .provides('circleverse.viewModel.MailViewModel')
                     .requires('jQuery', 'JS.Module', 'JS.Class', 'JSextend', 'eaf.core', 'eaf.util'
                     ,
                     'circleverse.viewModel.Base'

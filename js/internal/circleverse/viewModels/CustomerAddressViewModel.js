@@ -205,6 +205,7 @@ circleverse.viewModel.CustomerAddressViewModel = (function () {
             this.childrenOnTop = ko.observable(true);
 
             self.isRoot(true);
+            self.canMoveRoot(false);
 
             this.info = "Account Transactions (includes Pending)";
 

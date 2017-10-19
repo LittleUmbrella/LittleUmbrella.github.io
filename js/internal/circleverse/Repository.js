@@ -549,12 +549,21 @@ littleUmbrella.circleverse.Repository = (function () {
               "homePhone": "(993) 450-2004",
               "mobilePhone": "(955) 563-2414",
               "officePhone": "(917) 590-3731",
-              "addresses": null
+              "addresses": [{                
+                      "use": "Prim",
+                      "canEdit": false,
+											line1: '350 Fifth Avenue',
+											city: 'New York',
+											state: 'NY',
+											postalCode: '10118',
+        "latitude": 40.748541,
+        "longitude": -73.985763
+										}]
             }
           },
           {
             "accountRole": {
-              "accountRoleDescription": "Joint"
+              "accountRoleDescription": "Owner"
             },
             "__key__": {
               "fn": "Wink",
@@ -571,29 +580,16 @@ littleUmbrella.circleverse.Repository = (function () {
               "homePhone": "(895) 484-3785",
               "mobilePhone": "(910) 515-2152",
               "officePhone": "(819) 520-2778",
-              "addresses": null
-            }
-          },
-          {
-            "accountRole": {
-              "accountRoleDescription": "Joint"
-            },
-            "__key__": {
-              "fn": "Wink",
-              "ln": "Martindale"
-            },
-            "customer": {
-              "id": 2,
-              "firstName": "Arnold",
-              "lastName": "schwarzenegger",
-              "taxId": 962634165,
-              "dateOfBirth": "Thu Feb 26 1987 07:43:59 GMT+0000 (UTC)",
-              "mothersMaidenName": "brown",
-              "emailAddress": "arnold.schwarzenegger@brown.com",
-              "homePhone": "(907) 556-3637",
-              "mobilePhone": "(810) 531-3190",
-              "officePhone": "(826) 557-2284",
-              "addresses": null
+              "addresses": [{                
+                      "use": "Prim",
+                      "canEdit": false,
+											line1: '4059 Mt Lee Dr.',
+											city: 'Hollywood',
+											state: 'CA',
+											postalCode: '90068',
+        "latitude": 34.134730,
+        "longitude": -118.320910
+										}]
             }
           }
         ]
@@ -609,7 +605,16 @@ littleUmbrella.circleverse.Repository = (function () {
           "primaryProductCode": "Savings",
           "secondaryProductCode": "Mortgage"
         },
-        "addresses": null,
+        "addresses": [{                
+                      "use": "Prim",
+                      "canEdit": true,											
+											line1: '792 Tehama Street',
+											city: 'Wright',
+											state: 'WA',
+											postalCode: '19499',
+        "latitude": 45.477211,
+        "longitude": -122.876583
+										}],
         "relationships": [
           {
             "accountRole": {
@@ -630,7 +635,16 @@ littleUmbrella.circleverse.Repository = (function () {
               "homePhone": "(899) 487-2788",
               "mobilePhone": "(805) 522-2330",
               "officePhone": "(841) 499-2791",
-              "addresses": null
+              "addresses": [{                
+                      "use": "Prim",
+                      "canEdit": false,
+											line1: '350 Fifth Avenue',
+											city: 'New York',
+											state: 'NY',
+											postalCode: '10118',
+        "latitude": 40.748541,
+        "longitude": -73.985763
+										}]
             }
           },
           {
@@ -652,12 +666,21 @@ littleUmbrella.circleverse.Repository = (function () {
               "homePhone": "(890) 591-2799",
               "mobilePhone": "(965) 585-3509",
               "officePhone": "(973) 491-2427",
-              "addresses": null
+              "addresses": [{                
+                      "use": "Prim",
+                      "canEdit": false,
+											line1: '4059 Mt Lee Dr.',
+											city: 'Hollywood',
+											state: 'CA',
+											postalCode: '90068',
+        "latitude": 34.134730,
+        "longitude": -118.320910
+										}]
             }
           },
           {
             "accountRole": {
-              "accountRoleDescription": "Viewer"
+              "accountRoleDescription": "Joint"
             },
             "__key__": {
               "fn": "Wink",
@@ -665,75 +688,28 @@ littleUmbrella.circleverse.Repository = (function () {
             },
             "customer": {
               "id": 2,
-              "firstName": "Oprah",
-              "lastName": "Winfrey",
-              "taxId": 471149738,
-              "dateOfBirth": "Wed Aug 10 2011 18:14:55 GMT+0000 (UTC)",
-              "mothersMaidenName": "brown",
-              "emailAddress": "oprah.winfrey@brown.com",
+              
+            "lastName": "Martindale",
+            "firstName": "Wink",
+            "taxId": 462241293,
+            "dateOfBirth": "Fri Aug 26 1977 07:41:10 GMT+0000 (UTC)",
+            "mothersMaidenName": "brown",
+            "emailAddress": "wink.martindale@brown.com",
               "homePhone": "(888) 564-3431",
               "mobilePhone": "(842) 432-3172",
               "officePhone": "(976) 469-2301",
-              "addresses": null
-            }
-          }
-        ]
-      },
+              "addresses": [
       {
-        "accountNumber": 6334216343,
-        "balance": 37205,
-        "__key__": {
-          "fn": "Wink",
-          "ln": "Martindale"
-        },
-        "product": {
-          "primaryProductCode": "Mortgage",
-          "secondaryProductCode": "Mortgage"
-        },
-        "addresses": null,
-        "relationships": [
-          {
-            "accountRole": {
-              "accountRoleDescription": "Viewer"
-            },
-            "__key__": {
-              "fn": "Wink",
-              "ln": "Martindale"
-            },
-            "customer": {
-              "id": 0,
-              "firstName": "Oscar",
-              "lastName": "Wilde",
-              "taxId": 513353957,
-              "dateOfBirth": "Fri Dec 19 2003 14:47:23 GMT+0000 (UTC)",
-              "mothersMaidenName": "brown",
-              "emailAddress": "oscar.wilde@brown.com",
-              "homePhone": "(896) 595-3088",
-              "mobilePhone": "(845) 456-2662",
-              "officePhone": "(813) 424-3492",
-              "addresses": null
-            }
-          },
-          {
-            "accountRole": {
-              "accountRoleDescription": "Viewer"
-            },
-            "__key__": {
-              "fn": "Wink",
-              "ln": "Martindale"
-            },
-            "customer": {
-              "id": 1,
-              "firstName": "Oprah",
-              "lastName": "Winfrey",
-              "taxId": 961478595,
-              "dateOfBirth": "Fri Dec 24 2010 12:16:01 GMT+0000 (UTC)",
-              "mothersMaidenName": "brown",
-              "emailAddress": "oprah.winfrey@brown.com",
-              "homePhone": "(939) 442-3940",
-              "mobilePhone": "(932) 575-3302",
-              "officePhone": "(852) 515-2634",
-              "addresses": null
+        "use": "Prim",
+        "canEdit": true,
+        "line1": "11 Wall Street",
+        "city": "New York",
+        "state": "NY",
+        "postalCode": "10005",
+        "latitude": 40.706866,
+        "longitude": -74.011319
+      }
+    ]
             }
           }
         ]
@@ -741,6 +717,8 @@ littleUmbrella.circleverse.Repository = (function () {
     ],
     "addresses": [
       {
+        "use": "Prim",
+        "canEdit": true,
         "line1": "11 Wall Street",
         "city": "New York",
         "state": "NY",

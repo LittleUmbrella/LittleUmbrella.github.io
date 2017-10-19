@@ -122,6 +122,7 @@ circleverse.viewModel.CustomerAddressesViewModel = (function () {
                 self.globalSettings.eventAggregator.publish('circleverse.spotlightContext', self);
                             
                 self.isRoot(true);
+                self.canMoveRoot(false);
 
                 deferred.resolve();
             };
@@ -159,6 +160,7 @@ circleverse.viewModel.CustomerAddressesViewModel = (function () {
                     prom.then(function(){
 
                         self.isRoot(false);
+                        self.canMoveRoot(true);
                         deferred.resolve();
                         
                     });
@@ -294,12 +296,12 @@ circleverse.viewModel.CustomerAddressesViewModel = (function () {
 
                 if (!item.popped){ 
                     var popDeferred = item.pop();
-                    //if only one child, open it                            
-                    if (len == 1 && item.autoPopSingleChild()){
-                        popDeferred.then(function(){
+                    //open address children                          
+                    //if (len == 1 && item.autoPopSingleChild()){
+                        //popDeferred.then(function(){
                             item.showChildVieModels();
-                        });
-                    }
+                        //});
+                    //}
                     popDeferreds.push(popDeferred);
                 }
 
@@ -325,34 +327,73 @@ circleverse.viewModel.CustomerAddressesViewModel = (function () {
             var cust = self.parent.rawModel();
             var clen = self.childViewModels().length;
 
-            var addLink = function(vm, model){
+            var addLink = function(address, model){
                 //add links container if not already there
-                var linksVm = null, childChildrenLen = vm.childViewModels().length;
+                var linksVm = null, childChildrenLen = self.childViewModels().length, found = false;
                 for (var v = 0; v < childChildrenLen; v++) {
-                    var child = vm.childViewModels()[v];
-                    if (child.isA(circleverse.viewModel.LinksViewModel)){
-                        linksVm = child;
-                        break;
+                    var child = self.childViewModels()[v], a = child.model();
+                    // if (child.isA(circleverse.viewModel.LinksViewModel)){
+                    //     linksVm = child;
+                    //     break;
+                    // }
+
+                    if (a.line1() == address.line1() && a.city() == address.city() && a.state() == address.state() && a.postalCode() == address.postalCode()){
+                        found = true;
+                        
+                        if (model.isA(becu_org.domain.model.AccountObservable)){
+                            child.childViewModels.push(new circleverse.viewModel.MailViewModel(model, child, self.globalSettings));
+                            
+                        }
+                        else if (model.isA(becu_org.domain.model.CustomerObservable)){
+                            child.childViewModels.push(new circleverse.viewModel.MailViewModel(model, child, self.globalSettings));                    
+                        } 
                     }
                 }
 
-                if (!linksVm){
-                    linksVm = new circleverse.viewModel.LinksViewModel(self.rawModel().addresses()[i], vm, self.globalSettings);
-                    cvm.childViewModels.push(linksVm);
+                if (!found){
+                    child = new circleverse.viewModel.CustomerAddressViewModel(address, self, self.globalSettings);
+                    self.childViewModels.push(child);
+                    
+                    if (model.isA(becu_org.domain.model.AccountObservable)){
+                        child.childViewModels.push(new circleverse.viewModel.MailViewModel(model, child, self.globalSettings));
+                        
+                    }
+                    else if (model.isA(becu_org.domain.model.CustomerObservable)){
+                        child.childViewModels.push(new circleverse.viewModel.MailViewModel(model, child, self.globalSettings));                    
+                    } 
                 }
 
-                if (model.isA(becu_org.domain.model.AccountObservable)){
-                    linksVm.childViewModels.push(new circleverse.viewModel.accountViewModel(model, linksVm, self.globalSettings));
-                    
-                }
-                else if (model.isA(becu_org.domain.model.CustomerObservable)){
-                    linksVm.childViewModels.push(new littleUmbrella.circleverse.viewModel.CustomerViewModel(model, linksVm, self.globalSettings));                    
-                } 
+                // if (!linksVm){
+                //     linksVm = new circleverse.viewModel.LinksViewModel(self.rawModel().addresses()[i], vm, self.globalSettings);
+                //     cvm.childViewModels.push(linksVm);
+                // }
+
             };
 
-            if (clen > 0){  
-                for (var h = 0; h < clen; h++) {          
-                    var cvm = self.childViewModels()[h], ca = cvm.rawModel();
+            var getMailAddress = function(addies){
+                if (addies){
+                    var alen = addies.length, retval;
+                    for (var g = 0; g < alen; g++) {
+                        var a = addies[g];
+
+                        if (a){
+                            if (a.isA(becu_org.domain.model.SeasonalAddressAbsoluteObservable) || a.isA(becu_org.domain.model.SeasonalAddressRecurringObservable)){
+                                return a;
+                            }
+                            else if (a.use() && a.use().toLowerCase() == "mail"){
+                                retval = a;
+                            }
+                            else if (a.use() && a.use().toLowerCase() == "prim" && retval == null){
+                                retval = a;
+                            }
+                        }
+                    }   
+                }
+
+                return retval;
+            }
+
+            var custMailAddress = getMailAddress(self.model());
 
                     //inspect addresses of accounts
                     if (cust.accounts() && cust.accounts().length > 0){
@@ -360,18 +401,22 @@ circleverse.viewModel.CustomerAddressesViewModel = (function () {
                         for (var i = 0; i < len; i++) {
                             var acct = cust.accounts()[i];
                             if (acct){
+                                var createdLink = false;
                                 var addies = acct.addresses()
                                 if (addies){
+                                    
+                                    var custMailAddress = getMailAddress(addies);
                                     var alen = addies.length;
                                     for (var j = 0; j < alen; j++) {
                                         var a = addies[j];
 
                                         if (a){
-                                            if (a.line1() == ca.line1() && a.city() == ca.city() && a.state() == ca.state() && a.postalCode() == ca.postalCode()){
-                                                addLink(cvm, acct);
-                                            }
+                                            
+                                                addLink(a, acct);
+                                                createdLink = true;
                                         }
-                                    }      
+                                    }   
+                                    //add to customer mail address account   
                                 } 
 
                                 //inspect addresses of account relationships
@@ -389,19 +434,22 @@ circleverse.viewModel.CustomerAddressesViewModel = (function () {
                                                         var contactAddress = caddies[l];
 
                                                         if (contactAddress){
-                                                            if (contactAddress.line1() == ca.line1() && contactAddress.city() == ca.city() && contactAddress.state() == ca.state() && contactAddress.postalCode() == ca.postalCode()){
-                                                                addLink(cvm, contact);
-                                                            }
+                                                            addLink(contactAddress, contact);
+                                                            createdLink = true;
                                                         }
                                                     }    
                                                 }
                                             }                     
                                         }
                                     } 
-                                }                  
+                                }
+
+                                if (!createdLink){
+                                    addLink(custMailAddress, acct);
+                                }
+                                                  
                             }
-                        } 
-                    }
+                        
 
                     
                     

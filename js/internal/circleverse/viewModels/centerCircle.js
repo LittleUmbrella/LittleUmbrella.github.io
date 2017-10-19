@@ -292,7 +292,7 @@
 
                         //     //self.parent.unpopAllBut(self);
                         // }
-                        if (self.parent && self.parent.moveRoot && (!self.parent.isRoot || !self.parent.isRoot())){
+                        if (self.parent && self.parent.moveRoot && (!self.parent.isRoot || !self.parent.isRoot()) && (!self.canMoveRoot || self.canMoveRoot())){
                             loc = self.location();
                             
                             self.parent.faded(true);
@@ -381,7 +381,7 @@
                     movement.top += chainMove.top;
 
                     if (movement.top != 0 && movement.left != 0){
-                        if (self.parent && self.parent.moveRoot && (!self.parent.isRoot || !self.parent.isRoot()) && (!self.isRoot || !self.isRoot())){
+                        if (self.parent && self.parent.moveRoot && (!self.parent.isRoot || !self.parent.isRoot()) && (!self.isRoot || !self.isRoot()) && (!self.canMoveRoot || self.canMoveRoot())){
                             self.parent.moveRoot({movement: movement});
                         }
 

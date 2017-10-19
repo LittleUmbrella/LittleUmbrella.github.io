@@ -107,6 +107,7 @@ circleverse.viewModel.ResizeableBase = //(function () {
 
                 self.hideChildren = ko.observable(false);
 
+                self.canMoveRoot = ko.observable(true);
             },        
 
             moveRoot: function(config){
@@ -114,13 +115,16 @@ circleverse.viewModel.ResizeableBase = //(function () {
                 
 
                 if (self.parent && self.parent.isRoot && self.parent.isRoot()){
-                    self.parent.move(config.movement);
+                    if (self.parent.canMoveRoot())
+                        self.parent.move(config.movement);
                 }
                 else if (self.parent && self.parent.moveRoot){
-                    self.parent.moveRoot(config);
+                    if (self.parent.canMoveRoot())
+                        self.parent.moveRoot(config);
                 }
                 else{
-                    self.move(config.movement);
+                    if (self.canMoveRoot())
+                        self.move(config.movement);
                 }
             },
 

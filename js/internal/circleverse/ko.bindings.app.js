@@ -181,7 +181,7 @@
                     // disabled = 'undefined' == typeof ko.unwrap(value.disabled) ? false : ko.unwrap(value.disabled);
 
                     
-            var childDims = childCircle.dimensions(), childLoc = childCircle.location(), parentDims = parentDircle.dimensions();//, parentLoc = parentDircle.location();  
+            var childDims = childCircle.dimensions(), childLoc = childCircle.location(), parentDims = parentDircle.dimensions(), parentLoc = parentDircle.location();  
             var childCircleCenter = {top: childLoc.top + (childDims.height/2), left: childLoc.left + (childDims.width/2)}
             var parentCircleCenter = {top: 0+ (parentDims.height/2), left: 0+ (parentDims.width/2)}
 
@@ -743,14 +743,17 @@
                 disabled = 'undefined' == typeof ko.unwrap(value.disabled) ? false : ko.unwrap(value.disabled);
 
             //don't do anything on initial bind
-            if (ko.computedContext.isInitial() || disabled) {
+            if (ko.computedContext.isInitial() || disabled) {       
+                //fix later callback.call(satellite);
                 return;
             }
 
             //do work?
             var popped = satellite.showMe();//$element.css('display') != 'none';
-            if (popped == popOut)
+            if (popped == popOut){                
+                //fix later callback.call(satellite);
                 return;
+            }
 
             //if (disabled) return;
 

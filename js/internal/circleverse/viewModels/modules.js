@@ -390,7 +390,7 @@
             settings.relative = true;
             settings.click = false;
             settings.distance = 3;
-            settings.not = ":input, .map path, .map svg, .map .leaflet-control-container, .map, :has(.map)";
+            settings.not = ":input, .map, :has(.map)";
             return settings;
         }
         ,
