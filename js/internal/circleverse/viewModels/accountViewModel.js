@@ -15,7 +15,8 @@ circleverse.viewModel.accountViewModel = (function () {
             circleverse.viewModel.satellite,
             circleverse.viewModel.centerCircle,
             becu_org.ui.viewModel.draggableModule,
-            becu_org.ui.viewModel.droppableModule
+            becu_org.ui.viewModel.droppableModule,
+            circleverse.viewModel.SpecialContentViewViewModel
             // ,
             // circleverse.viewModel.NavigableSatellite
         ],
@@ -45,7 +46,6 @@ circleverse.viewModel.accountViewModel = (function () {
 //                      map: globalSettings.mappings['becu_org_domain_model_Customer']
 //                  }
 //              }
-            self.contentTemplate('accountContentTemplate');
 
 
 

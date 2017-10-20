@@ -6,7 +6,7 @@
 .circle
 {
     border-color: #5A6B7C; 
-    color: #56aee0;
+    color: #5A668E /*#56aee0*/;
 }
 
 .circle-shadow
@@ -36,7 +36,7 @@
 
 .drag {
 
-border-color: #56aee0/*8fc9eb*/;
+border-color: #5A668E /*#56aee0*//*8fc9eb*/;
 
 
 }
@@ -262,7 +262,7 @@ a.nolink{color:lightgreen;}
 
 .tool {
 
-border-color: #56aee0;
+border-color: #5A668E /*#56aee0*/;
 border:none;
 color: #666;
 fill: #666;
@@ -426,6 +426,11 @@ svg.circleText path {
         stroke: white;
       }
 
+.mail svg.circleText text{
+    
+    stroke: #1E2730;
+}
+
 .earth{
     border: none !important;
     /*top: 42% !important;
@@ -485,5 +490,19 @@ form textarea.question + label > span {
 
 
 .circle + script + .line{
-    background-color: #999;
+    background-color: #5A668E /*#56aee0*/;
+}
+
+
+.mail{
+    background-color: transparent;
+    border-color: transparent;
+}
+
+.leaflet-control-zoom-out, .leaflet-control-zoom-in {
+    background-color: #666;
+}
+
+.circle.see-through{
+    text-shadow: -3px -3px 10px #1E2730, 3px 3px 10px #1E2730, 3px 3px 10px #1E2730, -3px -3px 10px #1E2730, -3px -3px 10px #1E2730, 3px 3px 10px #1E2730, 3px 3px 10px #1E2730, -3px -3px 10px #1E2730;
 }

@@ -654,7 +654,7 @@
                     ,
                     'circleverse.viewModel.accountViewModel'
                     ,
-                    'circleverse.viewModel.centerCircle'
+                    'circleverse.viewModel.centerCircle', 'circleverse.viewModel.SpecialContentViewViewModel'
                     ,
                     'circleverse.viewModel.BecuPurseViewModel'
                     ,
@@ -845,6 +845,11 @@
                     .requires('jQuery', 'JS.Module', 'JS.Class', 'JSextend', 'eaf.core', 'eaf.util'
                     );
 
+        file('/js/internal/circleverse/viewModels/SpecialContentViewViewModel.js')
+                    .provides('circleverse.viewModel.SpecialContentViewViewModel')
+                    .requires('jQuery', 'JS.Module', 'JS.Class', 'JSextend', 'eaf.core', 'eaf.util'
+                    );
+
         file('/js/internal/circleverse/viewModels/SearchViewModel.js')
                     .provides('circleverse.viewModel.SearchViewModel')
                     .requires('jQuery', 'JS.Module', 'JS.Class', 'JSextend', 'eaf.core', 'eaf.util'
@@ -857,7 +862,7 @@
                     ,
                     'becu_org.ui.IDroppableViewModel'
                     ,
-                    'circleverse.viewModel.centerCircle'
+                    'circleverse.viewModel.centerCircle', 'circleverse.viewModel.SpecialContentViewViewModel'
                     ,
                     'circleverse.viewModel.satellite'
                     ,
@@ -1260,7 +1265,7 @@
                     ,
                     'circleverse.viewModel.satellite'
                     ,
-                    'circleverse.viewModel.centerCircle'
+                    'circleverse.viewModel.centerCircle', 'circleverse.viewModel.SpecialContentViewViewModel'
                     ,
                     'circleverse.viewModel.PaymentScheduleViewModel'
                     );
@@ -1285,7 +1290,7 @@
                     ,
                     'circleverse.viewModel.satellite'
                     ,
-                    'circleverse.viewModel.centerCircle'
+                    'circleverse.viewModel.centerCircle', 'circleverse.viewModel.SpecialContentViewViewModel'
                     ,
                     'circleverse.viewModel.AlertViewModel'
                     );
@@ -1310,7 +1315,7 @@
                     ,
                     'circleverse.viewModel.satellite'
                     ,
-                    'circleverse.viewModel.centerCircle'
+                    'circleverse.viewModel.centerCircle', 'circleverse.viewModel.SpecialContentViewViewModel'
                     ,
                     'circleverse.viewModel.AccountRoleViewModel'
                     );
@@ -1662,7 +1667,7 @@
                     ,
                     'circleverse.viewModel.satellite' 
                     ,
-                    'circleverse.viewModel.centerCircle'
+                    'circleverse.viewModel.centerCircle', 'circleverse.viewModel.SpecialContentViewViewModel'
                     ,
                     'circleverse.viewModel.CustomerAddressViewModel'
                     ,
@@ -1701,7 +1706,7 @@
                     ,
                     'circleverse.viewModel.satellite' 
                     ,
-                    'circleverse.viewModel.centerCircle'
+                    'circleverse.viewModel.centerCircle', 'circleverse.viewModel.SpecialContentViewViewModel'
                     ,
                     'parseAddress'
                     ,
@@ -1731,11 +1736,13 @@
                     ,
                     'circleverse.viewModel.satellite' 
                     ,
-                    'circleverse.viewModel.centerCircle'
+                    'circleverse.viewModel.centerCircle', 'circleverse.viewModel.SpecialContentViewViewModel'
                     ,
                     'parseAddress'
                     ,
                     'circleverse.viewModel.SpecialViewViewModel'
+                    
+                    
                     );
 
         file('/js/internal/circleverse/viewModels/LinkViewModel.js?r=2')
@@ -1758,7 +1765,7 @@
                     ,
                     'circleverse.viewModel.satellite' 
                     ,
-                    'circleverse.viewModel.centerCircle'
+                    'circleverse.viewModel.centerCircle', 'circleverse.viewModel.SpecialContentViewViewModel'
                     );
 
         file('/js/internal/circleverse/viewModels/LinksViewModel.js?r=2')
@@ -1781,7 +1788,7 @@
                     ,
                     'circleverse.viewModel.satellite' 
                     ,
-                    'circleverse.viewModel.centerCircle'
+                    'circleverse.viewModel.centerCircle', 'circleverse.viewModel.SpecialContentViewViewModel'
                     );
 
         file('/js/internal/circleverse/viewModels/TravelViewModel.js?r=2')
@@ -1804,7 +1811,7 @@
                     ,
                     'circleverse.viewModel.satellite' 
                     ,
-                    'circleverse.viewModel.centerCircle'
+                    'circleverse.viewModel.centerCircle', 'circleverse.viewModel.SpecialContentViewViewModel'
                     );
 
         file('/js/internal/circleverse/viewModels/MoveViewModel.js?r=2')
@@ -1827,7 +1834,7 @@
                     ,
                     'circleverse.viewModel.satellite' 
                     ,
-                    'circleverse.viewModel.centerCircle'
+                    'circleverse.viewModel.centerCircle', 'circleverse.viewModel.SpecialContentViewViewModel'
                     );
 
         file('/js/internal/circleverse/viewModels/CustomerAddressViewModel.js?r=2')
@@ -1850,7 +1857,7 @@
                     ,
                     'circleverse.viewModel.satellite' 
                     ,
-                    'circleverse.viewModel.centerCircle' 
+                    'circleverse.viewModel.centerCircle', 'circleverse.viewModel.SpecialContentViewViewModel' 
                     ,
                     'becu_org.domain.model.AddressObservable'
                     );
@@ -1877,7 +1884,7 @@
                     ,
                     'littleUmbrella.circleverse.ui.pointsAndPolygon'
                     ,
-                    'circleverse.viewModel.centerCircle'
+                    'circleverse.viewModel.centerCircle', 'circleverse.viewModel.SpecialContentViewViewModel'
                     ,
                     'circleverse.viewModel.CustomerFilesViewModel'
                     );
@@ -1902,7 +1909,7 @@
                     ,
                     'littleUmbrella.circleverse.ui.pointsAndPolygon'
                     ,
-                    'circleverse.viewModel.centerCircle' //remove after testing
+                    'circleverse.viewModel.centerCircle', 'circleverse.viewModel.SpecialContentViewViewModel' //remove after testing
                     ,
                     'circleverse.viewModel.AllBusinessCentersViewModel'
                     ,
@@ -1931,7 +1938,7 @@
                     ,
                     'littleUmbrella.circleverse.viewModel.CustomerViewModel'
                     ,
-                    'circleverse.viewModel.centerCircle'
+                    'circleverse.viewModel.centerCircle', 'circleverse.viewModel.SpecialContentViewViewModel'
                     ,
                     'circleverse.viewModel.SearchMembersResultViewModel'
 
@@ -1959,7 +1966,7 @@
                     ,
                     'littleUmbrella.circleverse.viewModel.CustomerViewModel'
                     ,
-                    'circleverse.viewModel.centerCircle' //remove after testing
+                    'circleverse.viewModel.centerCircle', 'circleverse.viewModel.SpecialContentViewViewModel' //remove after testing
                     );
 
         file('/js/internal/circleverse/viewModels/AllMembersViewModel.js?r=2')
@@ -1984,7 +1991,7 @@
                     ,
                     'littleUmbrella.circleverse.viewModel.CustomerViewModel'
                     ,
-                    'circleverse.viewModel.centerCircle' //remove after testing
+                    'circleverse.viewModel.centerCircle', 'circleverse.viewModel.SpecialContentViewViewModel' //remove after testing
                     ,
                     'circleverse.viewModel.SearchMembersViewModel'
                     );
@@ -2011,7 +2018,7 @@
                     ,
                     'littleUmbrella.circleverse.viewModel.CustomerViewModel'
                     ,
-                    'circleverse.viewModel.centerCircle' //remove after testing
+                    'circleverse.viewModel.centerCircle', 'circleverse.viewModel.SpecialContentViewViewModel' //remove after testing
                     );
 
                     
@@ -2038,7 +2045,7 @@
                     ,
                     'littleUmbrella.circleverse.viewModel.CustomerViewModel'
                     ,
-                    'circleverse.viewModel.centerCircle' //remove after testing
+                    'circleverse.viewModel.centerCircle', 'circleverse.viewModel.SpecialContentViewViewModel' //remove after testing
                     );
 
         file('/js/internal/circleverse/viewModels/AllOrganizationsViewModel.js?r=2')
@@ -2063,7 +2070,7 @@
                     ,
                     'littleUmbrella.circleverse.viewModel.CustomerViewModel'
                     ,
-                    'circleverse.viewModel.centerCircle' //remove after testing
+                    'circleverse.viewModel.centerCircle', 'circleverse.viewModel.SpecialContentViewViewModel' //remove after testing
                     );
 
         file('/js/internal/circleverse/viewModels/AllLocationsViewModel.js?r=2')
@@ -2110,7 +2117,7 @@
                     ,
                     'littleUmbrella.circleverse.ui.pointsAndPolygon'
                     ,
-                    'circleverse.viewModel.centerCircle' //remove after testing
+                    'circleverse.viewModel.centerCircle', 'circleverse.viewModel.SpecialContentViewViewModel' //remove after testing
                     );
 
         file('/js/internal/circleverse/viewModels/accountViewModel.js?r=2')
@@ -2133,7 +2140,7 @@
                     ,
                     'littleUmbrella.circleverse.ui.pointsAndPolygon'
                     ,
-                    'circleverse.viewModel.centerCircle' //remove after testing
+                    'circleverse.viewModel.centerCircle', 'circleverse.viewModel.SpecialContentViewViewModel' //remove after testing
                     ,
                     'circleverse.viewModel.MoneyTransferViewModel'
                     ,
@@ -2172,7 +2179,7 @@
                     ,
                     'littleUmbrella.circleverse.ui.pointsAndPolygon'
                     ,
-                    'circleverse.viewModel.centerCircle' //remove after testing
+                    'circleverse.viewModel.centerCircle', 'circleverse.viewModel.SpecialContentViewViewModel' //remove after testing
                     ,
                     'circleverse.viewModel.NavigableSatellite'
                     );
@@ -2195,7 +2202,7 @@
                     ,
                     'littleUmbrella.circleverse.ui.pointsAndPolygon'
                     ,
-                    'circleverse.viewModel.centerCircle' //remove after testing
+                    'circleverse.viewModel.centerCircle', 'circleverse.viewModel.SpecialContentViewViewModel' //remove after testing
                     ,
                     'circleverse.viewModel.AccountRolesViewModel'
                     ,

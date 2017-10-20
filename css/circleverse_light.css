@@ -305,8 +305,13 @@ background-color: #F9F6F2;
 
 
 svg.circleText path {
-        stroke: white;
+        stroke: #eaeaea;
       }
+
+.mail svg.circleText text{
+    
+    stroke: #eaeaea;
+}
 
 .earth{
     border: none !important;
@@ -378,6 +383,20 @@ div.drag.faded > div.flex-grid.data, div.drag.faded > div.flex-container.data {
 
 
 .circle + script + .line{
-    background-color: #999;
+    background-color: #56aee0;
 }
 
+
+.mail{
+    background-color: transparent;
+    border-color: transparent;
+}
+
+.leaflet-control-zoom-out, .leaflet-control-zoom-in {
+    background-color: #ccc;
+}
+
+
+.circle.see-through{
+    text-shadow: -3px -3px 10px #eaeaea, 3px 3px 10px #eaeaea, 3px 3px 10px #eaeaea, -3px -3px 10px #eaeaea, -3px -3px 10px #eaeaea, 3px 3px 10px #eaeaea, 3px 3px 10px #eaeaea, -3px -3px 10px #eaeaea;
+}

@@ -23,7 +23,11 @@ circleverse.viewModel.ResizeableBase = //(function () {
 
                 self.isAvailable = ko.observable(false);
                 self.globalSettings = globalSettings;
-                self.contentTemplate = ko.observable('standardContentTemplate');
+                if (self.contentTemplate){                    
+                }
+                else
+                    self.contentTemplate = ko.observable('standardContentTemplate');
+                    
                 self.mainCss = ko.observable();
                 //self.eventAggregator.subscribe('circleverse.ui.viewModel.draggableModule.dragEnd', function (dd) {
                 //    //                    if (dd && dd.available && self.id) {
@@ -90,6 +94,20 @@ circleverse.viewModel.ResizeableBase = //(function () {
                         self.removeClass(self.mainCss, 'faded');
                     }
                 });
+
+                self.connectionWidthStaticAdjustment = ko.observable(); //useful for transparent backgrounds, where the connection should go further than the edge of the container circle
+
+                self.connectionWidthAdjustment = ko.pureComputed(function(){
+                    var static = self.connectionWidthStaticAdjustment(),
+                    relative = ((self.dimensions().width/2) || 0) * -1;
+
+                    if (!static){
+                        return relative;
+                    }
+                    return static;
+                }); 
+
+                
 
                 self.animationSettings = ko.observable();
 

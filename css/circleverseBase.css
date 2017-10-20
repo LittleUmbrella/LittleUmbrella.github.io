@@ -4,7 +4,8 @@ body
 {
    margin:0px 0px 0px 0px;
 font: normal 8pt Tahoma, Verdana, Segoe, sans-serif;
-    /*overflow: hidden;*/
+    overflow: hidden;
+    box-sizing:border-box;
 }
 
 
@@ -773,6 +774,18 @@ svg.circleText text{
         font-weight: bold;
         text-anchor: middle;
         text-transform: uppercase;
+
+}
+
+.mail svg.circleText text{
+    
+
+        paint-order: stroke;
+    stroke-width: 6;
+    stroke-opacity: 1;
+    stroke-linecap: butt;
+    stroke-linejoin: miter;
+    letter-spacing: 3px;
 }
 
 
@@ -1045,7 +1058,7 @@ ul.auto-fill li.row a{
 
 .circle .line{
     position: absolute;
-    min-width: 10px;
+    min-width: 5px;
     min-height: 1px;
     left: 50%;
     top: 50%;
@@ -1056,12 +1069,12 @@ ul.auto-fill li.row a{
 
 .map .circle .line{
     position: absolute;
-    min-width: 10px;
+    min-width: 5px;
     min-height: 1px;
     left: 50%;
     top: 50%;
     border-bottom-style: solid;
-    border-bottom-width: 2px;
+    border-bottom-width: 1px;
     opacity: 99%;
     transform-origin: 0% 100%;
 }

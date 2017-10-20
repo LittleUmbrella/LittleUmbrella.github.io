@@ -164,8 +164,9 @@
         'update': function (element, valueAccessor, allBindingAccessors) {
 
             var value = ko.unwrap(valueAccessor()),
+                widthAdjust = ko.unwrap(value.widthAdjust),
                 $element = $(element),
-                childCircle = ko.unwrap(value),
+                childCircle = value.vm,
                 parentDircle = childCircle.parent;
                     // base = ko.unwrap(value.base),
                     // satellite = ko.unwrap(value.satellite),
@@ -223,8 +224,8 @@
             element.style.left = (c + (parentDims.width/2))  + 'px';
 
             if (childCircle.showMe()){
-                element.style.transform = 'rotateZ('+ rotation +'deg)';
-                element.style.width = (width-(parentDims.width/2)) + 'px'; //minus radius to ensure line ends at the edge of the connected circle
+                element.style.transform = 'rotateZ('+ rotation +'deg) rotateX(180deg)';
+                element.style.width = (width-(parentDims.width/2) + widthAdjust) + 'px'; //minus radius to ensure line ends at the edge of the connected circle (-(childDims.width/2)) to stop at edge of child
             }
             else{
                 
@@ -1333,9 +1334,20 @@
                 if (center){
                     map.setView(ko.unwrap(center), ko.unwrap(zoom));
                 }
-                L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
-                    attribution: 'osm.org'
-                }).addTo(map);
+
+                if ('underfined' == typeof mapboxAccessToken){
+                    L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=' + mapboxAccessToken, {
+                        id: 'mapbox.dark',
+                        attribution: 'osm.org'
+                    }).addTo(map);
+                }
+                else{                    
+                    L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
+                        attribution: 'osm.org'
+                    }).addTo(map);
+                }
+
+                
             }
 
             if (value.showMe){

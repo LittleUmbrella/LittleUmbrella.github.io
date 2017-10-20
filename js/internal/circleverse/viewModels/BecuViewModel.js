@@ -15,7 +15,8 @@ littleUmbrella.circleverse.viewModel.BecuViewModel = (function () {
             circleverse.viewModel.centerCircle, 
             becu_org.ui.viewModel.draggableModule, 
             becu_org.ui.viewModel.droppableModule, 
-            becu_org.ui.viewModel.circleModule
+            becu_org.ui.viewModel.circleModule,
+            circleverse.viewModel.SpecialContentViewViewModel
         ],
         __getCoords: function () {
             var minTop = 0;
@@ -122,8 +123,6 @@ littleUmbrella.circleverse.viewModel.BecuViewModel = (function () {
 
             //this.position = initialPosition || { top: 0, left: 0 };
             //this.size(this.__size);
-
-            self.contentTemplate('fiContentTemplate');
             
             this.icon.location = { center: true, offset: { y: -35} }; //ko.observable(false);//
 

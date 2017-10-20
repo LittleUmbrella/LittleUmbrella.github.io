@@ -15,7 +15,8 @@ circleverse.viewModel.CloseViewModel = (function () {
             becu_org.ui.viewModel.droppableModule, 
             becu_org.ui.viewModel.circleModule,
             circleverse.viewModel.SpecialViewViewModel,
-            becu_org.ui.viewModel.labelModule
+            becu_org.ui.viewModel.labelModule,
+            circleverse.viewModel.SpecialContentViewViewModel
             ],
 
 
@@ -75,13 +76,13 @@ circleverse.viewModel.CloseViewModel = (function () {
 
 
             if (self.globalSettings['tindr'].value() == true) {
-                self.contentTemplate('CloseViewModelContentTemplate');
                 
                 self.dimensions({ height: $(window).height(), width: 500 });
                 
                 this.location({ left: -460, top: 0 });
             }
             else{
+                self.contentTemplate('standardContentTemplate');
                 self.label("Close");
             }
 

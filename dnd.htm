@@ -367,7 +367,7 @@
                     </div>
                     <div class="row">
                         <div class="col">
-                        <i class="icon-hash icon-size-2x"></i>
+                        <i class="icon-hashtag icon-size-2x"></i>
                         </div>
                         <div class="col">
                             <input type="text" id="id" data-bind="textInput: id" class="question" required/>
@@ -877,7 +877,7 @@
                 <!-- ko foreach: childViewModels-->                    
                     <!-- ko template: { name: 'genericChildTemplate' } --><!-- /ko -->
                     
-                    <div class="line" data-bind="circleConnection: $data, visible: showMe"></div>
+                    <div class="line" data-bind="circleConnection: {vm: $data, 'widthAdjust': connectionWidthAdjustment}, visible: showMe"></div>
                 <!-- /ko -->
             <!-- /ko -->
             
@@ -924,11 +924,11 @@
     </script>
     <script type="text/html" id="emptyContentTemplate">        
     </script>
-    <script type="text/html" id="fiContentTemplate">
+    <script type="text/html" id="BecuViewModelContentTemplate">
               
         FI      
     </script>
-    <script type="text/html" id="accountContentTemplate">  
+    <script type="text/html" id="accountViewModelContentTemplate">  
         <div class="flex-container vertical customer-address data">         
             
                     <i data-bind="css: icon.name"></i>
@@ -1021,7 +1021,7 @@
                 <!-- ko foreach: childViewModels-->                    
                     <!-- ko template: { name: 'genericChildTemplate' } --><!-- /ko -->
                     
-                    <div class="line" data-bind="circleConnection: $data, visible: showMe"></div>
+                    <div class="line" data-bind="circleConnection: {vm: $data, 'widthAdjust': connectionWidthAdjustment}, visible: showMe"></div>
                 <!-- /ko -->
             <!-- /ko -->
             
@@ -1046,7 +1046,7 @@
             <!-- ko foreach: childViewModels-->                    
                 <!-- ko template: { name: 'genericChildTemplate' } --><!-- /ko -->
                 
-                <div class="line" data-bind="circleConnection: $data, visible: showMe"></div>
+                <div class="line" data-bind="circleConnection: {vm: $data, 'widthAdjust': connectionWidthAdjustment}, visible: showMe"></div>
             <!-- /ko -->
         </div>
 
@@ -1072,6 +1072,23 @@
                 <span data-bind="text: full"></span>
             </div>
         <!-- /ko -->
+    </script>
+
+
+    
+    
+    
+    <script type="text/html" id="MailViewModelContentTemplate">         
+        <div class="flex-container vertical data">         
+            <div class="flex-container horizontal">
+                
+                <i data-bind="css: icon.secondary.name"></i>&nbsp;
+                
+                <i data-bind="css: icon.secondary.type.name"></i>
+            </div>
+            <i data-bind="css: icon.name"></i>
+            <span data-bind="text: full"></span>
+        </div>
     </script>
 
 
@@ -1111,7 +1128,7 @@
             <!-- ko foreach: childViewModels-->                    
                 <!-- ko template: { name: 'genericChildTemplate' } --><!-- /ko -->
                 
-                <div class="line" data-bind="circleConnection: $data, visible: showMe"></div>
+                <div class="line" data-bind="circleConnection: {vm: $data, 'widthAdjust': connectionWidthAdjustment}, visible: showMe"></div>
             <!-- /ko -->
         <!-- /ko -->
         
@@ -1408,6 +1425,9 @@
 
     //-->
     </script>
+    <script src="js/internal/mapbox.secure2.js" type="text/javascript">
+    </script>
+
     <!--<link href="css/circleverse.css" rel="stylesheet" type="text/css" />-->
     <!--<link href="css/circleverse_light.css" rel="stylesheet" type="text/css" />-->
     <link href="css/style.css" rel="stylesheet" />

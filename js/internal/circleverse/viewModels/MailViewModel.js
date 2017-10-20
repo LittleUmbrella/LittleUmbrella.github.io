@@ -4,7 +4,7 @@
 
 circleverse.viewModel.MailViewModel = (function () {
 
-    var initSize = 60;
+    var initSize = 110;
 
     return new JS.Class('circleverse.viewModel.MailViewModel', circleverse.viewModel.ResizeableBase, {
         include: [
@@ -13,7 +13,8 @@ circleverse.viewModel.MailViewModel = (function () {
             circleverse.viewModel.centerCircle, 
             becu_org.ui.viewModel.draggableModule, 
             becu_org.ui.viewModel.droppableModule,
-            becu_org.ui.viewModel.labelModule
+            //becu_org.ui.viewModel.labelModule,
+            circleverse.viewModel.SpecialContentViewViewModel
         ],
 
 
@@ -49,7 +50,7 @@ circleverse.viewModel.MailViewModel = (function () {
             //self.settings = $.extend(self.settings || {}, { dropFilter: '.filterable' }, opts);
 
             
-            self.label("Mail");
+            //self.label("Mail");
             
             var subscription = null;
             // globalSettings.eventAggregator.subscribe('circleverse.spotlightContext', function(eventName, args){
@@ -60,8 +61,59 @@ circleverse.viewModel.MailViewModel = (function () {
             //         self.showMe(args.canEdit());
             //     });
             // });
+
+            self.mainCss('mail see-through');
+            self.connectionWidthStaticAdjustment(-10);
+
+            self.icon.secondary = {name: ko.pureComputed(function(){
+                    if (self.model().isA(becu_org.domain.model.AccountObservable)){
+                        //todo: real impl
+                        var acctNumber = parseFloat(self.rawModel().accountNumber);
+
+                        if ((acctNumber % 6) == 0)
+                            return 'icon-car icon-size-1x';
+                        else if ((acctNumber % 5) == 0)
+                            return 'icon-anchor icon-size-1x';
+                        else if ((acctNumber % 4) == 0)
+                            return 'icon-pig icon-size-1x';
+                        else if ((acctNumber % 3) == 0)
+                            return 'icon-home icon-size-1x';
+                        else 
+                            return 'icon-pig icon-size-1x';
+                        
+                    }   
+                    else if (self.model().isA(becu_org.domain.model.PersonObservable)){
+                        return 'icon-user icon-size-1x';
+                    }    
+                }),
+                type: {name: ko.pureComputed(function(){
+                            if (self.model().isA(becu_org.domain.model.AccountObservable)){
+                                //todo: real impl
+                                
+                                    return 'icon-calendar2 icon-size-1x';
+                                
+                            }   
+                            else if (self.model().isA(becu_org.domain.model.PersonObservable)){
+                                return 'icon-primitive-dot icon-size-1x';
+                            }    
+                        })
+                    }
+            };
             
-            this.icon.name('icon-mail icon-size-5x');
+            self.full = ko.pureComputed(function(){
+                if (self.model().isA(becu_org.domain.model.AccountObservable)){
+                        
+                    return self.model().accountNumber();
+                    
+                }   
+                else if (self.model().isA(becu_org.domain.model.PersonObservable)){
+                    return self.model().fullName();
+                }   
+            });
+
+            
+            
+            this.icon.name('icon-mail icon-size-3x');
             this.icon.color('#999999');
             this.borderColor('#999999');
             //log('garbage position: ' + this.position().top);
