@@ -132,38 +132,38 @@ circleverse.viewModel.MoveViewModel = (function () {
                     prom.then(function(){
                         dropViewModel.showChildVieModels().then(function(child){
                             findChileAndToggleIfNecessary(dropViewModel.childViewModels(), circleverse.viewModel.CustomerInfoViewModel).then(function(child){
-                                if (child){
-                                    findChileAndToggleIfNecessary(child.childViewModels(), circleverse.viewModel.CustomerAddressesViewModel).then(function(child){
-                                        if (child){
-                                            findChileAndToggleIfNecessary(child.childViewModels(), circleverse.viewModel.CustomerAddressViewModel).then(function(child){
-                                                if (child){
-                                                    if (!child.showForm()){
-                                                        child.showMainForm();
-                                                    }
-                                                }
-                                            });
-                                        }
-                                    });
-                                }
+                                // if (child){
+                                //     findChileAndToggleIfNecessary(child.childViewModels(), circleverse.viewModel.CustomerAddressesViewModel).then(function(child){
+                                //         // if (child){
+                                //         //     findChileAndToggleIfNecessary(child.childViewModels(), circleverse.viewModel.CustomerAddressViewModel).then(function(child){
+                                //         //         if (child){
+                                //         //             if (!child.showForm()){
+                                //         //                 child.showMainForm();
+                                //         //             }
+                                //         //         }
+                                //         //     });
+                                //         // }
+                                //     });
+                                // }
                             });
                         });
                     });
                 }
                 else {
                     findChileAndToggleIfNecessary(dropViewModel.childViewModels(), circleverse.viewModel.CustomerInfoViewModel).then(function(child){
-                        if (child){
-                            findChileAndToggleIfNecessary(child.childViewModels(), circleverse.viewModel.CustomerAddressesViewModel).then(function(child){
-                                if (child){
-                                    findChileAndToggleIfNecessary(child.childViewModels(), circleverse.viewModel.CustomerAddressViewModel).then(function(child){
-                                        if (child){
-                                            if (!child.showForm()){
-                                                child.showMainForm();
-                                            }
-                                        }
-                                    });
-                                }
-                            });
-                        }
+                        // if (child){
+                        //     findChileAndToggleIfNecessary(child.childViewModels(), circleverse.viewModel.CustomerAddressesViewModel).then(function(child){
+                        //         // if (child){
+                        //         //     findChileAndToggleIfNecessary(child.childViewModels(), circleverse.viewModel.CustomerAddressViewModel).then(function(child){
+                        //         //         if (child){
+                        //         //             if (!child.showForm()){
+                        //         //                 child.showMainForm();
+                        //         //             }
+                        //         //         }
+                        //         //     });
+                        //         // }
+                        //     });
+                        // }
                     });
                 }
             }
@@ -222,48 +222,48 @@ circleverse.viewModel.MoveViewModel = (function () {
                     prom.then(function(){
                         dragVm.showChildVieModels().then(function(child){
                             findChileAndToggleIfNecessary(dragVm.childViewModels(), circleverse.viewModel.CustomerInfoViewModel).then(function(child){
-                                if (child){
-                                    findChileAndToggleIfNecessary(child.childViewModels(), circleverse.viewModel.CustomerAddressesViewModel).then(function(child){
-                                        if (child){
-                                            var children = child.childViewModels(), len = children.length;
+                                // if (child){
+                                //     findChileAndToggleIfNecessary(child.childViewModels(), circleverse.viewModel.CustomerAddressesViewModel).then(function(child){
+                                //         // if (child){
+                                //         //     var children = child.childViewModels(), len = children.length;
 
-                                            for (var i = 0; i < len; i++) {
+                                //         //     for (var i = 0; i < len; i++) {
                                                 
-                                                var item = ko.unwrap(children[i]);
+                                //         //         var item = ko.unwrap(children[i]);
 
-                                                if (item.isA(circleverse.viewModel.CustomerAddressViewModel)) {
-                                                    if (!item.showForm()){
-                                                        item.showMainForm();
-                                                    }
-                                                }
-                                            }
-                                        }
-                                    });
-                                }
+                                //         //         if (item.isA(circleverse.viewModel.CustomerAddressViewModel)) {
+                                //         //             if (!item.showForm()){
+                                //         //                 item.showMainForm();
+                                //         //             }
+                                //         //         }
+                                //         //     }
+                                //         // }
+                                //     });
+                                // }
                             });
                         });
                     });
                 }
                 else {
                     findChileAndToggleIfNecessary(dragVm.childViewModels(), circleverse.viewModel.CustomerInfoViewModel).then(function(child){
-                        if (child){
-                            findChileAndToggleIfNecessary(child.childViewModels(), circleverse.viewModel.CustomerAddressesViewModel).then(function(child){
-                                if (child){
-                                    var children = child.childViewModels(), len = children.length;
+                        // if (child){
+                        //     findChileAndToggleIfNecessary(child.childViewModels(), circleverse.viewModel.CustomerAddressesViewModel).then(function(child){
+                        //         // if (child){
+                        //         //     var children = child.childViewModels(), len = children.length;
 
-                                    for (var i = 0; i < len; i++) {
+                        //         //     for (var i = 0; i < len; i++) {
                                         
-                                        var item = ko.unwrap(children[i]);
+                        //         //         var item = ko.unwrap(children[i]);
 
-                                        if (item.isA(circleverse.viewModel.CustomerAddressViewModel)) {
-                                            if (!item.showForm()){
-                                                item.showMainForm();
-                                            }
-                                        }
-                                    }
-                                }
-                            });
-                        }
+                        //         //         if (item.isA(circleverse.viewModel.CustomerAddressViewModel)) {
+                        //         //             if (!item.showForm()){
+                        //         //                 item.showMainForm();
+                        //         //             }
+                        //         //         }
+                        //         //     }
+                        //         // }
+                        //     });
+                        // }
                     });
                 }
 

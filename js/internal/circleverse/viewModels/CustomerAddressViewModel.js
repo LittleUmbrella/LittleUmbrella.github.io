@@ -20,7 +20,7 @@ circleverse.viewModel.CustomerAddressViewModel = (function () {
             circleverse.viewModel.SpecialViewViewModel
         ],
 
-        initialize: function (object, parent, globalSettings) {// (tracker, uri, templateUri, templateId, resultTemplateUri, callSpec, name, id, businessClass, opts) {
+        initialize: function (object, addressOwner, parent, globalSettings) {// (tracker, uri, templateUri, templateId, resultTemplateUri, callSpec, name, id, businessClass, opts) {
 
             var self = this;
             //properties
@@ -31,7 +31,7 @@ circleverse.viewModel.CustomerAddressViewModel = (function () {
             self.hasIntroOcurred = ko.observable(false);
             self.kickoffIntro = ko.observable(false);
 
-            this.callSuper();
+            this.callSuper(object, parent, globalSettings);
 
             self.location({left:0, top:0});
 
@@ -41,7 +41,30 @@ circleverse.viewModel.CustomerAddressViewModel = (function () {
 
             self.autoPopSingleChild(false);
 
+            self.addressOwner = ko.observable(addressOwner);
+
             this.icon.name('icon-address icon-size-2x');
+
+            
+            this.icon.secondary = {name: ko.pureComputed(function(){
+                switch(self.model().use().toLowerCase()){
+                    case 'prim':
+                        return 'icon-dot-circle-o icon-size-2x prim';
+                    case 'sea':
+                        return 'icon-calendar2 icon-size-2x';
+                    case 'tax':
+                        return 'icon-file-text-o icon-size-2x';
+                    case 'alt01':
+                        return 'icon-dot-circle-o icon-size-2x';
+                    case 'alt02':
+                        return 'icon-dot-circle-o icon-size-2x';
+                    case 'alt03':
+                        return 'icon-dot-circle-o icon-size-2x';
+                    case 'alt04':
+                        return 'icon-dot-circle-o icon-size-2x';
+                }
+            })
+            };
 
 
             //self.animationSettings({width: self.parent.dimensions().width, height: self.parent.dimensions().height, callback: self.toggleFormAnimationEnded});

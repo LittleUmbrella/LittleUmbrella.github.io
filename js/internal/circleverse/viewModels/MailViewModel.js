@@ -71,30 +71,30 @@ circleverse.viewModel.MailViewModel = (function () {
                         var acctNumber = parseFloat(self.rawModel().accountNumber);
 
                         if ((acctNumber % 6) == 0)
-                            return 'icon-car icon-size-1x';
+                            return 'icon-car icon-size-2x';
                         else if ((acctNumber % 5) == 0)
-                            return 'icon-anchor icon-size-1x';
+                            return 'icon-anchor icon-size-2x';
                         else if ((acctNumber % 4) == 0)
-                            return 'icon-pig icon-size-1x';
+                            return 'icon-pig icon-size-2x';
                         else if ((acctNumber % 3) == 0)
-                            return 'icon-home icon-size-1x';
+                            return 'icon-home icon-size-2x';
                         else 
-                            return 'icon-pig icon-size-1x';
+                            return 'icon-pig icon-size-2x';
                         
                     }   
                     else if (self.model().isA(becu_org.domain.model.PersonObservable)){
-                        return 'icon-user icon-size-1x';
+                        return 'icon-user icon-size-2x';
                     }    
                 }),
                 type: {name: ko.pureComputed(function(){
                             if (self.model().isA(becu_org.domain.model.AccountObservable)){
                                 //todo: real impl
                                 
-                                    return 'icon-calendar2 icon-size-1x';
+                                    return 'icon-calendar2 icon-size-2x';
                                 
                             }   
                             else if (self.model().isA(becu_org.domain.model.PersonObservable)){
-                                return 'icon-primitive-dot icon-size-1x';
+                                return 'icon-primitive-dot icon-size-2x';
                             }    
                         })
                     }
@@ -107,7 +107,10 @@ circleverse.viewModel.MailViewModel = (function () {
                     
                 }   
                 else if (self.model().isA(becu_org.domain.model.PersonObservable)){
-                    return self.model().fullName();
+                    var taxAppend = '';
+                    if (self.parent.model().use().toLowerCase() == 'tax')
+                        taxAppend = " (taxes)"
+                    return self.model().fullName() + taxAppend;
                 }   
             });
 

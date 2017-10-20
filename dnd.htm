@@ -1064,14 +1064,17 @@
     
     <script type="text/html" id="CustomerAddressViewModelContentTemplate"> 
         
-        <!-- ko with: model --> 
+        
             <div class="flex-container vertical customer-address data">         
                 <div class="flex-container horizontal">
-                    <i class="icon-address icon-size-2x"> </i> <div data-bind="visible: $parent.linksCount() > 0"><i class="icon-link icon-size-1x"> </i>:<span data-bind="text: $parent.linksCount"></span></div>
+                    <i class="icon-address icon-size-2x"> </i> &nbsp; <i data-bind="css: icon.secondary.name"> </i><!--<div data-bind="visible: $parent.linksCount() > 0"><i class="icon-link icon-size-1x"> </i>:<span data-bind="text: $parent.linksCount"></span></div>-->
                 </div>
+                <span class="address-owner" data-bind="text: addressOwner().fullName()"></span>
+                <!-- ko with: model --> 
                 <span data-bind="text: full"></span>
+                
+                <!-- /ko -->
             </div>
-        <!-- /ko -->
     </script>
 
 
@@ -1082,9 +1085,7 @@
         <div class="flex-container vertical data">         
             <div class="flex-container horizontal">
                 
-                <i data-bind="css: icon.secondary.name"></i>&nbsp;
-                
-                <i data-bind="css: icon.secondary.type.name"></i>
+                <i data-bind="css: icon.secondary.name"></i>
             </div>
             <i data-bind="css: icon.name"></i>
             <span data-bind="text: full"></span>
@@ -1425,7 +1426,7 @@
 
     //-->
     </script>
-    <script src="js/internal/mapbox.secure2.js" type="text/javascript">
+    <script src="js/internal/mapbox.secure.js" type="text/javascript">
     </script>
 
     <!--<link href="css/circleverse.css" rel="stylesheet" type="text/css" />-->

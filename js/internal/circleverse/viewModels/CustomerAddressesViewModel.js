@@ -254,7 +254,7 @@ circleverse.viewModel.CustomerAddressesViewModel = (function () {
             if ((!self.childrenVisible()) && (!self.__loadedChildren)){
                 var len = self.rawModel().addresses().length;
                 for (var i = 0; i < len; i++) {
-                    self.childViewModels.push(new circleverse.viewModel.CustomerAddressViewModel(self.rawModel().addresses()[i], self, self.globalSettings));
+                    self.childViewModels.push(new circleverse.viewModel.CustomerAddressViewModel(self.rawModel().addresses()[i], self.rawModel(), self, self.globalSettings));
 
                     //self.globalSettings.app.customerAddressesMapViewModel.childViewModels.push(new circleverse.viewModel.CustomerAddressViewModel(self.rawModel().addresses()[i], self, self.globalSettings));
                 }
@@ -324,10 +324,22 @@ circleverse.viewModel.CustomerAddressesViewModel = (function () {
         __addLinks: function(){
             var self = this;
 
+            /*
+            We are going to show a full address profile, meaning that whatever assets (accounts, person themselves) for which mail is generated shall be depicted.  In addition, any address under the person shall be depicted, whether we generate mail for them or not.
+
+
+
+            We already added the addresses of the person being served in showChildVieModels.  Now, we need to determine where mail goes
+
+            start with the person.  Where does mail related to them go?
+
+            then look at their accounts.  where does mail for each account go?  if it goes to another person's address, show it but securely  
+             */
+
             var cust = self.parent.rawModel();
             var clen = self.childViewModels().length;
 
-            var addLink = function(address, model){
+            var addLink = function(address, model, addressOwner){
                 //add links container if not already there
                 var linksVm = null, childChildrenLen = self.childViewModels().length, found = false;
                 for (var v = 0; v < childChildrenLen; v++) {
@@ -351,7 +363,8 @@ circleverse.viewModel.CustomerAddressesViewModel = (function () {
                 }
 
                 if (!found){
-                    child = new circleverse.viewModel.CustomerAddressViewModel(address, self, self.globalSettings);
+                    child = new circleverse.viewModel.CustomerAddressViewModel(address, addressOwner, self, self.globalSettings);
+                    
                     self.childViewModels.push(child);
                     
                     if (model.isA(becu_org.domain.model.AccountObservable)){
@@ -370,85 +383,178 @@ circleverse.viewModel.CustomerAddressesViewModel = (function () {
 
             };
 
-            var getMailAddress = function(addies){
+            //start with the person.  Where does mail related to them go?
+            var assignMailAddresses = function(addies){
                 if (addies){
-                    var alen = addies.length, retval;
+                    var alen = addies.length, generalAddress;
                     for (var g = 0; g < alen; g++) {
                         var a = addies[g];
 
                         if (a){
-                            if (a.isA(becu_org.domain.model.SeasonalAddressAbsoluteObservable) || a.isA(becu_org.domain.model.SeasonalAddressRecurringObservable)){
-                                return a;
+                            //if (a.isA(becu_org.domain.model.SeasonalAddressAbsoluteObservable) || a.isA(becu_org.domain.model.SeasonalAddressRecurringObservable)){
+                            if (a.use() && a.use().toLowerCase() == "sea"){
+                                generalAddress = a;
                             }
-                            else if (a.use() && a.use().toLowerCase() == "mail"){
-                                retval = a;
+                            else if (a.use() && a.use().toLowerCase() == "mail" && generalAddress == null){
+                                generalAddress = a;
                             }
-                            else if (a.use() && a.use().toLowerCase() == "prim" && retval == null){
-                                retval = a;
+                            else if (a.use() && a.use().toLowerCase() == "prim" && generalAddress == null){
+                                generalAddress = a;
+                            }
+                            else if (a.use() && a.use().toLowerCase() == "tax"){                                
+                                addLink(a, cust, cust);
                             }
                         }
-                    }   
+                    }             
+
+                    addLink(generalAddress, cust, cust);
                 }
 
-                return retval;
             }
 
-            var custMailAddress = getMailAddress(self.model());
+            assignMailAddresses(cust.addresses());
 
-                    //inspect addresses of accounts
-                    if (cust.accounts() && cust.accounts().length > 0){
-                        var accts = cust.accounts(), len = accts.length;
-                        for (var i = 0; i < len; i++) {
-                            var acct = cust.accounts()[i];
-                            if (acct){
-                                var createdLink = false;
-                                var addies = acct.addresses()
-                                if (addies){
-                                    
-                                    var custMailAddress = getMailAddress(addies);
-                                    var alen = addies.length;
-                                    for (var j = 0; j < alen; j++) {
-                                        var a = addies[j];
 
-                                        if (a){
-                                            
-                                                addLink(a, acct);
-                                                createdLink = true;
-                                        }
-                                    }   
-                                    //add to customer mail address account   
-                                } 
+            //then look at their accounts.  where does mail for each account go?  if it goes to another person's address, show it but securely
 
-                                //inspect addresses of account relationships
-                                if (acct.relationships().length > 0){
-                                    var relationships = acct.relationships(), rlen = relationships.length;
-                                    for (var k = 0; k < rlen; k++) {
-                                        var relationship = acct.relationships()[k];
-                                        if (relationship){
-                                            var contact = relationship.customer();
-                                            if (contact){
-                                                var caddies = contact.addresses()
-                                                if (caddies){ 
-                                                    var calen = caddies.length;
-                                                    for (var l = 0; l < calen; l++) {
-                                                        var contactAddress = caddies[l];
 
-                                                        if (contactAddress){
-                                                            addLink(contactAddress, contact);
-                                                            createdLink = true;
-                                                        }
-                                                    }    
-                                                }
-                                            }                     
-                                        }
-                                    } 
-                                }
-
-                                if (!createdLink){
-                                    addLink(custMailAddress, acct);
-                                }
-                                                  
+            var isAddressPresentable = function(acct){
+                if (acct){
+                    var relationships = acct.relationships();
+                    if (relationships){
+                        var relationshipsLen = relationships.length;
+                        for (var k = 0; k < relationshipsLen; k++) {
+                            var relationship = acct.relationships()[k];
+                            if (relationship){
+                                var contact = relationship.customer(), role = relationship.accountRole();
+                                if (contact.id() == cust.id()){
+                                    switch (role.accountRoleCode().toLowerCase()){
+                                        case 'sign':
+                                            return true;
+                                        case 'own':
+                                            return true;
+                                    }
+                                }                     
                             }
+                        } 
+
+                    }
+                }
+
+                return false;
+            }
+
+            var getAccountOwner = function(acct){
+                if (acct){
+                    var relationships = acct.relationships();
+                    if (relationships){
+                        var relationshipsLen = relationships.length;
+                        for (var k = 0; k < relationshipsLen; k++) {
+                            var relationship = acct.relationships()[k];
+                            if (relationship){
+                                var contact = relationship.customer(), role = relationship.accountRole();
+                                switch (role.accountRoleCode().toLowerCase()){
+                                    case 'own':
+                                        return contact;
+                                }                 
+                            }
+                        } 
+
+                    }
+                }
+
+                return null;
+            }
+
+            // var getMailAddresses = function(addies){
+            //     if (addies){
+            //         var alen = addies.length, generalAddress;
+            //         for (var g = 0; g < alen; g++) {
+            //             var a = addies[g];
+
+            //             if (a){
+            //                 if (a.isA(becu_org.domain.model.SeasonalAddressAbsoluteObservable) || a.isA(becu_org.domain.model.SeasonalAddressRecurringObservable)){
+            //                     generalAddress = a;
+            //                 }
+            //                 else if (a.use() && a.use().toLowerCase() == "mail" && generalAddress == null){
+            //                     generalAddress = a;
+            //                 }
+            //                 else if (a.use() && a.use().toLowerCase() == "prim" && generalAddress == null){
+            //                     generalAddress = a;
+            //                 }
+            //                 else if (a.use() && a.use().toLowerCase() == "tax"){                                
+            //                     addLink(a, cust, cust);
+            //                 }
+            //             }
+            //         }             
+
+            //         addLink(generalAddress, cust, cust);
+            //     }
+
+            //     return retval;
+            // }
+
+            //inspect addresses of accounts
+            if (cust.accounts() && cust.accounts().length > 0){
+                var accts = cust.accounts(), len = accts.length;
+                for (var i = 0; i < len; i++) {
+                    var acct = cust.accounts()[i];
+                    if (acct){
+                        if (isAddressPresentable(acct)){
+                            var owner = getAccountOwner(acct);
+
+                            if (!owner) throw Error("account " + acct.accountNumber() + " has no owner");
+
+                            addLink(acct.addresses()[0], acct, owner);
+                        }
+                        // var createdLink = false;
+                        // var addies = acct.addresses()
+                        // if (addies){
+                            
+                        //     var custMailAddress = getMailAddress(addies);
+                        //     var alen = addies.length;
+                        //     for (var j = 0; j < alen; j++) {
+                        //         var a = addies[j];
+
+                        //         if (a){
+                                    
+                        //                 addLink(a, acct);
+                        //                 createdLink = true;
+                        //         }
+                        //     }   
+                        //     //add to customer mail address account   
+                        // } 
+
+                        // //inspect addresses of account relationships
+                        // if (acct.relationships().length > 0){
+                        //     var relationships = acct.relationships(), rlen = relationships.length;
+                        //     for (var k = 0; k < rlen; k++) {
+                        //         var relationship = acct.relationships()[k];
+                        //         if (relationship){
+                        //             var contact = relationship.customer();
+                        //             if (contact){
+                        //                 var caddies = contact.addresses()
+                        //                 if (caddies){ 
+                        //                     var calen = caddies.length;
+                        //                     for (var l = 0; l < calen; l++) {
+                        //                         var contactAddress = caddies[l];
+
+                        //                         if (contactAddress){
+                        //                             addLink(contactAddress, contact);
+                        //                             createdLink = true;
+                        //                         }
+                        //                     }    
+                        //                 }
+                        //             }                     
+                        //         }
+                        //     } 
+                        // }
+
+                        // if (!createdLink){
+                        //     addLink(custMailAddress, acct);
+                        // }
+                                            
+                    }
                         
 
                     

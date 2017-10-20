@@ -517,6 +517,9 @@ littleUmbrella.circleverse.Repository = (function () {
     "mobilePhone": "(956) 556-2578",
     "officePhone": "(943) 437-3359",
     "accounts": [
+
+
+
       {
         "accountNumber": 3567152215,
         "balance": 42679,
@@ -528,10 +531,20 @@ littleUmbrella.circleverse.Repository = (function () {
           "primaryProductCode": "Savings",
           "secondaryProductCode": "Advantage"
         },
-        "addresses": null,
+        "addresses": [{                
+                      "use": "Prim",
+                      "canEdit": false,
+											line1: '4059 Mt Lee Dr.',
+											city: 'Hollywood',
+											state: 'CA',
+											postalCode: '90068',
+        "latitude": 34.134730,
+        "longitude": -118.320910
+										}],
         "relationships": [
           {
             "accountRole": {
+              accountRoleCode: "SIGN",
               "accountRoleDescription": "Joint"
             },
             "__key__": {
@@ -556,13 +569,15 @@ littleUmbrella.circleverse.Repository = (function () {
 											city: 'New York',
 											state: 'NY',
 											postalCode: '10118',
-        "latitude": 40.748541,
-        "longitude": -73.985763
+                    "latitude": 40.748541,
+                    "longitude": -73.985763
 										}]
             }
           },
+
           {
             "accountRole": {
+              accountRoleCode: "OWN",
               "accountRoleDescription": "Owner"
             },
             "__key__": {
@@ -591,9 +606,49 @@ littleUmbrella.circleverse.Repository = (function () {
         "longitude": -118.320910
 										}]
             }
+          },
+
+          {
+            "accountRole": {
+              accountRoleCode: "SIGN",
+              "accountRoleDescription": "Joint"
+            },
+            "__key__": {
+              "fn": "Wink",
+              "ln": "Martindale"
+            },
+            "customer": {
+              "id": 2,
+              
+            "lastName": "Martindale",
+            "firstName": "Wink",
+            "taxId": 462241293,
+            "dateOfBirth": "Fri Aug 26 1977 07:41:10 GMT+0000 (UTC)",
+            "mothersMaidenName": "brown",
+            "emailAddress": "wink.martindale@brown.com",
+              "homePhone": "(888) 564-3431",
+              "mobilePhone": "(842) 432-3172",
+              "officePhone": "(976) 469-2301",
+              "addresses": [
+                {
+                  "use": "Prim",
+                  "canEdit": true,
+                  "line1": "11 Wall Street",
+                  "city": "New York",
+                  "state": "NY",
+                  "postalCode": "10005",
+                  "latitude": 40.706866,
+                  "longitude": -74.011319
+                }
+              ]
+            }
           }
         ]
       },
+
+
+
+
       {
         "accountNumber": 9356198248,
         "balance": 20303,
@@ -608,16 +663,17 @@ littleUmbrella.circleverse.Repository = (function () {
         "addresses": [{                
                       "use": "Prim",
                       "canEdit": true,											
-											line1: '792 Tehama Street',
-											city: 'Wright',
+											line1: '8973 Trenton Street',
+											city: 'Snohomish',
 											state: 'WA',
-											postalCode: '19499',
-        "latitude": 45.477211,
-        "longitude": -122.876583
+											postalCode: '98290',
+        "latitude": 47.916830,
+        "longitude": -122.227383
 										}],
         "relationships": [
           {
             "accountRole": {
+              accountRoleCode: "SIGN",
               "accountRoleDescription": "Joint"
             },
             "__key__": {
@@ -647,8 +703,10 @@ littleUmbrella.circleverse.Repository = (function () {
 										}]
             }
           },
+
           {
             "accountRole": {
+              accountRoleCode: "SIGN",
               "accountRoleDescription": "Signer"
             },
             "__key__": {
@@ -678,9 +736,11 @@ littleUmbrella.circleverse.Repository = (function () {
 										}]
             }
           },
+
           {
             "accountRole": {
-              "accountRoleDescription": "Joint"
+              accountRoleCode: "OWN",
+              "accountRoleDescription": "Owner"
             },
             "__key__": {
               "fn": "Wink",
@@ -699,17 +759,17 @@ littleUmbrella.circleverse.Repository = (function () {
               "mobilePhone": "(842) 432-3172",
               "officePhone": "(976) 469-2301",
               "addresses": [
-      {
-        "use": "Prim",
-        "canEdit": true,
-        "line1": "11 Wall Street",
-        "city": "New York",
-        "state": "NY",
-        "postalCode": "10005",
-        "latitude": 40.706866,
-        "longitude": -74.011319
-      }
-    ]
+                {
+                  "use": "Prim",
+                  "canEdit": true,
+                  "line1": "11 Wall Street",
+                  "city": "New York",
+                  "state": "NY",
+                  "postalCode": "10005",
+                  "latitude": 40.706866,
+                  "longitude": -74.011319
+                }
+              ]
             }
           }
         ]
@@ -725,9 +785,57 @@ littleUmbrella.circleverse.Repository = (function () {
         "postalCode": "10005",
         "latitude": 40.706866,
         "longitude": -74.011319
-      }
+      },
+      
+      {
+        "use": "Alt01",
+        "canEdit": true,
+        "line1": "3100 Hough Rd",
+        "city": "Florence",
+        "state": "AL",
+        "postalCode": "35630",
+        "latitude": 34.834204,
+        "longitude": -87.625266
+      },
+      
+      {
+        "use": "SEA",
+        "canEdit": true,
+        "line1": "71 Pilgrim Avenue",
+        "city": "Chevy Chase",
+        "state": "MD",
+        "postalCode": "20815",
+        "latitude": 34.834204,
+        "longitude": -87.625266
+      },
+      
+      {
+        "use": "TAX",
+        "canEdit": true,
+        "line1": "9908 Lakeshore Drive",
+        "city": "New Rochelle",
+        "state": "NY",
+        "postalCode": "10801",
+        "latitude": 40.964054,
+        "longitude": -73.796904
+      },
+
+      {                
+                      "use": "Alt02",
+                      "canEdit": true,											
+											line1: '8973 Trenton Street',
+											city: 'Snohomish',
+											state: 'WA',
+											postalCode: '98290',
+        "latitude": 47.916830,
+        "longitude": -122.227383
+										}
     ]
   },
+
+
+
+  
   {
     "id": 1,
     "lastName": "Woolery",

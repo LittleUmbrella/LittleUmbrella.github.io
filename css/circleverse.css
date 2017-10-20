@@ -499,10 +499,14 @@ form textarea.question + label > span {
     border-color: transparent;
 }
 
-.leaflet-control-zoom-out, .leaflet-control-zoom-in {
+.leaflet-touch .leaflet-control-zoom-out, .leaflet-touch .leaflet-control-zoom-in {
     background-color: #666;
 }
 
 .circle.see-through{
     text-shadow: -3px -3px 10px #1E2730, 3px 3px 10px #1E2730, 3px 3px 10px #1E2730, -3px -3px 10px #1E2730, -3px -3px 10px #1E2730, 3px 3px 10px #1E2730, 3px 3px 10px #1E2730, -3px -3px 10px #1E2730;
+}
+
+.drag .flex-grid.data .flex-container i.prim, .drag .data i.prim{
+    color: #56aee0;
 }

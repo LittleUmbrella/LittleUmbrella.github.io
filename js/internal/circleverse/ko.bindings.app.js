@@ -1335,7 +1335,7 @@
                     map.setView(ko.unwrap(center), ko.unwrap(zoom));
                 }
 
-                if ('underfined' == typeof mapboxAccessToken){
+                if ('underfined' != typeof mapboxAccessToken){
                     L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=' + mapboxAccessToken, {
                         id: 'mapbox.dark',
                         attribution: 'osm.org'
