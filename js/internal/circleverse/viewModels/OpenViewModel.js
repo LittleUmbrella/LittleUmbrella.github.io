@@ -8,6 +8,7 @@ circleverse.viewModel.OpenViewModel = (function () {
 
     return new JS.Class('circleverse.viewModel.OpenViewModel', circleverse.viewModel.ResizeableBase, {
         include: [
+            circleverse.viewModel.ToolViewModel,
             becu_org.ui.viewModel.baseModule, 
             //circleverse.viewModel.satellite, 
             //circleverse.viewModel.centerCircle, 
@@ -102,7 +103,6 @@ circleverse.viewModel.OpenViewModel = (function () {
             this.borderColor('#999999');
             //log('garbage position: ' + this.position().top);
         }
-            
 
 
     });

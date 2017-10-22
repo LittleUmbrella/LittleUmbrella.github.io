@@ -66,10 +66,15 @@ background-color:#C87986;
 
 .available {
 
-background-color: #EEB;
 
-border-color: #BB8;
 
+    border-color: #070 !important;
+
+}
+
+.tool.available{
+    
+    color: #070 !important;
 }
 
 
@@ -389,7 +394,7 @@ div.drag.faded > div.flex-grid.data, div.drag.faded > div.flex-container.data {
 
 .mail{
     background-color: transparent;
-    border-color: transparent;
+    border-width: 0;
 }
 
 .leaflet-touch .leaflet-control-zoom-out, .leaflet-touch .leaflet-control-zoom-in {

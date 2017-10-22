@@ -7,7 +7,8 @@ circleverse.viewModel.EditViewModel = (function () {
     var initSize = 60;
 
     return new JS.Class('circleverse.viewModel.EditViewModel', circleverse.viewModel.ResizeableBase, {
-        include: [becu_org.ui.viewModel.baseModule, becu_org.ui.viewModel.draggableModule, becu_org.ui.viewModel.droppableModule, becu_org.ui.viewModel.circleModule,
+        include: [circleverse.viewModel.ToolViewModel,
+            becu_org.ui.viewModel.baseModule, becu_org.ui.viewModel.draggableModule, becu_org.ui.viewModel.droppableModule, becu_org.ui.viewModel.circleModule,
             becu_org.ui.viewModel.labelModule],
 
 
@@ -40,7 +41,7 @@ circleverse.viewModel.EditViewModel = (function () {
             this.dimensions({ height: this.scale() * initSize, width: this.scale() * initSize });
 
 
-            self.settings = $.extend(self.settings || {}, { dropFilter: '.filterable' }, opts);
+            //self.settings = $.extend(self.settings || {}, { dropFilter: '.filterable' }, opts);
 
             var coords = this.__getCoords();
             this.location({ left: coords.left, top: coords.top });

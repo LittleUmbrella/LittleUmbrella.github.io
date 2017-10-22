@@ -8,7 +8,8 @@ circleverse.viewModel.favoriteViewModel = (function () {
     var initSize = 94;
 
     return new JS.Class(circleverse.viewModel.ResizeableBase, {
-        include: [becu_org.ui.viewModel.baseModule, becu_org.ui.viewModel.draggableModule, becu_org.ui.viewModel.droppableModule, becu_org.ui.viewModel.circleModule, circleverse.viewModel.noActionModule],
+        include: [circleverse.viewModel.ToolViewModel,
+            becu_org.ui.viewModel.baseModule, becu_org.ui.viewModel.draggableModule, becu_org.ui.viewModel.droppableModule, becu_org.ui.viewModel.circleModule, circleverse.viewModel.noActionModule],
 
         __getCoords: function () {
             var minTop = 0;

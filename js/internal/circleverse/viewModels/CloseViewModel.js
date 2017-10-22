@@ -8,6 +8,7 @@ circleverse.viewModel.CloseViewModel = (function () {
 
     return new JS.Class('circleverse.viewModel.CloseViewModel', circleverse.viewModel.ResizeableBase, {
         include: [
+            circleverse.viewModel.ToolViewModel,
             becu_org.ui.viewModel.baseModule, 
             //circleverse.viewModel.satellite, 
             //circleverse.viewModel.centerCircle, 

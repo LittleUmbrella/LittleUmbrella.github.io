@@ -7,7 +7,8 @@ circleverse.viewModel.TravelViewModel = (function () {
     var initSize = 60;
 
     return new JS.Class('circleverse.viewModel.TravelViewModel', circleverse.viewModel.ResizeableBase, {
-        include: [becu_org.ui.viewModel.baseModule, becu_org.ui.viewModel.draggableModule, becu_org.ui.viewModel.droppableModule, becu_org.ui.viewModel.circleModule,
+        include: [circleverse.viewModel.ToolViewModel,
+            becu_org.ui.viewModel.baseModule, becu_org.ui.viewModel.draggableModule, becu_org.ui.viewModel.droppableModule, becu_org.ui.viewModel.circleModule,
             becu_org.ui.viewModel.labelModule],
 
 

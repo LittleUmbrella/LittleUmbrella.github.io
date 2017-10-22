@@ -8,7 +8,8 @@ circleverse.viewModel.FilterViewModel = (function () {
 
  return new JS.Class('circleverse.viewModel.FilterFormViewModel', circleverse.viewModel.ResizeableBase, {
      include: [
-         becu_org.ui.viewModel.baseModule, 
+         circleverse.viewModel.ToolViewModel,
+            becu_org.ui.viewModel.baseModule, 
          becu_org.ui.viewModel.draggableModule, 
          becu_org.ui.viewModel.droppableModule, 
          becu_org.ui.viewModel.circleModule, 

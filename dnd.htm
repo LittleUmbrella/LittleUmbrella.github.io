@@ -143,7 +143,8 @@
                 , 'height': (dimensions().height) + 'px'
                 , 'top': (location().top) + 'px'
                 , 'left': (location().left) + 'px'
-                }, onTop: onTop"
+                }, 
+            dropAvailable: {data: isAvailable, css: 'available'}, onTop: onTop"
                 class="drag drop circle tool backgroundCenter refresh ">
 
                 <!-- ko if: isA(becu_org.ui.viewModel.labelModule) && labelData().isReady -->               
@@ -161,7 +162,9 @@
                 , 'height': (dimensions().height) + 'px'
                 , 'top': (location().top) + 'px'
                 , 'left': (location().left) + 'px'
-                }, onTop: onTop
+                }, 
+            dropAvailable: {data: isAvailable, css: 'available'}, 
+            onTop: onTop
                 , event: { 'click': function (data, e) { toggleMainForm(); e.cancelBubble = true; if (e.stopPropagation) e.stopPropagation(); return false }, dblclickBubble: false }
                 , 'tap': function (data, e) { toggleMainForm(); e.cancelBubble = true; if (e.stopPropagation) e.stopPropagation(); return false }, dblclickBubble: false "
                 class="drag drop circle tool form-entry backgroundCenter settings">
@@ -823,6 +826,7 @@
             , 'height': dimensions().height + 'px'
 
             },
+            dropAvailable: {data: isAvailable, css: 'available'},
             css: mainCss
             , visible: showMe, satellitePopInOut: { base: $data.parent, satellite: $data, callback: popAnimationEnded }
             , animatedMove: {satellite: $data, callback: moveEnded, top: move().top, left: move().left}
@@ -856,6 +860,7 @@
             , 'height': dimensions().height + 'px'
             , 'opacity': opacity
             },
+            dropAvailable: {data: isAvailable, css: 'available'},
             css: mainCss
             , visible: showMe
             , busy: isBusy
@@ -893,6 +898,7 @@
             , 'opacity': opacity
                 
             },
+            dropAvailable: {data: isAvailable, css: 'available'},
             css: mainCss
             , visible: showMe
             , busy: isBusy
@@ -1000,6 +1006,7 @@
             , 'height': dimensions().height + 'px'
             , 'opacity': opacity
             },
+            dropAvailable: {data: isAvailable, css: 'available'},
             css: mainCss
             , visible: showMe
             , busy: isBusy
@@ -1067,7 +1074,8 @@
         
             <div class="flex-container vertical customer-address data">         
                 <div class="flex-container horizontal">
-                    <i class="icon-address icon-size-2x"> </i> &nbsp; <i data-bind="css: icon.secondary.name"> </i><!--<div data-bind="visible: $parent.linksCount() > 0"><i class="icon-link icon-size-1x"> </i>:<span data-bind="text: $parent.linksCount"></span></div>-->
+                    <!--<i class="icon-address icon-size-2x"> </i> &nbsp; -->
+                    <i data-bind="css: icon.secondary.name"> </i><!--<div data-bind="visible: $parent.linksCount() > 0"><i class="icon-link icon-size-1x"> </i>:<span data-bind="text: $parent.linksCount"></span></div>-->
                 </div>
                 <span class="address-owner" data-bind="text: addressOwner().fullName()"></span>
                 <!-- ko with: model --> 
@@ -1083,12 +1091,13 @@
     
     <script type="text/html" id="MailViewModelContentTemplate">         
         <div class="flex-container vertical data">         
+            
+            <i data-bind="css: icon.name"></i>
             <div class="flex-container horizontal">
                 
-                <i data-bind="css: icon.secondary.name"></i>
-            </div>
-            <i data-bind="css: icon.name"></i>
+                <i data-bind="css: icon.secondary.name"></i>&nbsp;
             <span data-bind="text: full"></span>
+            </div>
         </div>
     </script>
 
@@ -1105,6 +1114,7 @@
         , 'height': dimensions().height + 'px'
         , 'opacity': opacity
         },
+            dropAvailable: {data: isAvailable, css: 'available'},
         css: mainCss
         , visible: showMe
         , busy: isBusy
@@ -1218,6 +1228,7 @@
             , 'height': dimensions().height + 'px'
 
             },
+            dropAvailable: {data: isAvailable, css: 'available'},
             css: mainCss
             , visible: showMe, satellitePopInOut: { base: $data.parent, satellite: $data, callback: popAnimationEnded }
             , event: { 'click': function (data, e) { e.cancelBubble = true; if (e.stopPropagation) e.stopPropagation() } }

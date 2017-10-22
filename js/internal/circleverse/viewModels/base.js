@@ -115,7 +115,6 @@ circleverse.viewModel.Base = (function () {
 
         dblclick: function () { }
 
-
         ,
 
         getSettings: function () {

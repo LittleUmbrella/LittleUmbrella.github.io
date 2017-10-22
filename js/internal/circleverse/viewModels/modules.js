@@ -143,6 +143,61 @@
             //this[fnName](model, args);
         }
         ,
+        
+        __dropInit: function (args, droppedFirst) {//droppedFirst, 
+            if (!args) throw new Error("args is undefined");
+            //if (!fnName) throw new Error("fnName is undefined");
+
+            droppedFirst = droppedFirst || true;
+
+            //            var dragItem = $(args[2].drag).tmplItem();
+            //            var dragModel = dragItem.data;
+            //            var dragViewModel = dragItem.viewModel;
+
+            //            var dropItem = $(args[0].target).tmplItem();
+            //            var dropModel = dropItem.data;
+            //            var dropViewModel = dropItem.viewModel;
+
+            var dragItem = $(args[2].drag);
+            var dragData = dragItem.data("dragdata");
+            var dragViewModel = dragData.viewModel;
+            if ('undefined' == typeof dragViewModel)
+                return;
+
+            var dragModel = dragViewModel.model();
+
+            var dropItem = $(args[0].target);
+            var dropData = dropItem.data("dropdata");
+            var dropViewModel = dropData.viewModel;
+            if ('undefined' == typeof dropViewModel)
+                return;
+
+            var dropModel = dropViewModel.model();
+
+
+
+            //if (droppedFirst) {
+                // if (undefined != dragViewModel && dragViewModel.draggingOverStarted) {
+                //     dragViewModel.draggingOverStarted(dropModel, dropViewModel, args);
+                // }
+
+                if (undefined != dropViewModel && dropViewModel.dropInit) {
+                    dropViewModel.dropInit(dragModel, dragViewModel, args);
+                }
+            //}
+            // else {
+            //     if (undefined != dropViewModel && dropViewModel.draggedOverStarted) {
+            //         dropViewModel.dropInit(dragModel, dragViewModel, args);
+            //     }
+
+                // if (undefined != dragViewModel && dragViewModel.draggingOverStarted) {
+                //     dragViewModel.draggingOverStarted(dropModel, dropViewModel, args);
+                // }
+            //}
+
+            //this[fnName](model, args);
+        }
+        ,
 
         __dropEnded: function (args, droppedFirst) {//droppedFirst, 
             if (!args) throw new Error("args is undefined");
@@ -290,6 +345,25 @@
             }
 
             //this[fnName](model, args);
+
+            var available = dd.available;
+            var len = available.length;
+
+            for (var i = 0; i < len; i++) { 
+                var availableItem = available[i], $availableItem = $(availableItem);
+
+                var dropData = $availableItem.data("dropdata");
+                var dropViewModel = dropData.viewModel;
+                // if ('undefined' == typeof dropViewModel)
+                //     return;
+
+
+                var dropModel = dropViewModel.model();
+                
+                if (undefined != dropViewModel && dropViewModel.othersDragEnded) {                    
+                    dropViewModel.othersDragEnded(dragModel, dragViewModel, args);
+                }
+            }
         }
         ,
 
@@ -479,6 +553,7 @@
             });
 
             this.eventAggregator.publish('circleverse.ui.viewModel.draggableModule.dragStart', dd);
+            
 
         }
 ,
@@ -654,6 +729,9 @@
             if (!data.prom){
                 data.prom = jQuery.Deferred();
             }
+
+            
+            this.__dropInit(arguments, true);
         }
             ,
         dropxstart: function (e, ddev, dd) {//only fires when first element enters drop element, so can't be used

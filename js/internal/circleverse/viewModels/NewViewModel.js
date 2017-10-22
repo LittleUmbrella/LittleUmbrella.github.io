@@ -8,6 +8,7 @@ circleverse.viewModel.NewViewModel = (function () {
 
     return new JS.Class('circleverse.viewModel.NewViewModel', circleverse.viewModel.ResizeableBase, {
         include: [
+            circleverse.viewModel.ToolViewModel,
             becu_org.ui.viewModel.baseModule, 
             becu_org.ui.viewModel.draggableModule, 
             becu_org.ui.viewModel.droppableModule, 

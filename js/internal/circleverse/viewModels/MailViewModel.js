@@ -71,30 +71,30 @@ circleverse.viewModel.MailViewModel = (function () {
                         var acctNumber = parseFloat(self.rawModel().accountNumber);
 
                         if ((acctNumber % 6) == 0)
-                            return 'icon-car icon-size-2x';
+                            return 'icon-car icon-size-1x';
                         else if ((acctNumber % 5) == 0)
-                            return 'icon-anchor icon-size-2x';
+                            return 'icon-anchor icon-size-1x';
                         else if ((acctNumber % 4) == 0)
-                            return 'icon-pig icon-size-2x';
+                            return 'icon-pig icon-size-1x';
                         else if ((acctNumber % 3) == 0)
-                            return 'icon-home icon-size-2x';
+                            return 'icon-home icon-size-1x';
                         else 
-                            return 'icon-pig icon-size-2x';
+                            return 'icon-pig icon-size-1x';
                         
                     }   
                     else if (self.model().isA(becu_org.domain.model.PersonObservable)){
-                        return 'icon-user icon-size-2x';
+                        return 'icon-user icon-size-1x';
                     }    
                 }),
                 type: {name: ko.pureComputed(function(){
                             if (self.model().isA(becu_org.domain.model.AccountObservable)){
                                 //todo: real impl
                                 
-                                    return 'icon-calendar2 icon-size-2x';
+                                    return 'icon-calendar2 icon-size-1x';
                                 
                             }   
                             else if (self.model().isA(becu_org.domain.model.PersonObservable)){
-                                return 'icon-primitive-dot icon-size-2x';
+                                return 'icon-primitive-dot icon-size-1x';
                             }    
                         })
                     }
@@ -114,7 +114,12 @@ circleverse.viewModel.MailViewModel = (function () {
                 }   
             });
 
-            
+            self.canEdit(false);
+            self.canCreate(false);
+            self.canDelete(false);
+            self.canSave(false);
+            self.canClose(false);
+            self.canOpen(false);
             
             this.icon.name('icon-mail icon-size-3x');
             this.icon.color('#999999');

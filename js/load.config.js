@@ -770,6 +770,8 @@
                     'eaf.html.ui.theme'
                     ,
                     'window.littleUmbrella.store'
+                    ,
+                    'circleverse.viewModel.ToolViewModel'
                     );
 
         file('/js/internal/circleverse/viewModels/CloseAccountViewModel.js')
@@ -804,6 +806,8 @@
                     'littleUmbrella.circleverse.ui.pointsAndPolygon'
                     ,
                     'circleverse.viewModel.noActionModule'
+                    ,
+                    'circleverse.viewModel.ToolViewModel'
                     );
 
         file('/js/internal/circleverse/viewModels/CloseViewModel.js')
@@ -821,6 +825,8 @@
                     'littleUmbrella.circleverse.ui.pointsAndPolygon'
                     ,
                     'circleverse.viewModel.noActionModule'
+                    ,
+                    'circleverse.viewModel.ToolViewModel'
                     );
 
         file('/js/internal/circleverse/viewModels/OpenViewModel.js')
@@ -838,6 +844,8 @@
                     'littleUmbrella.circleverse.ui.pointsAndPolygon'
                     ,
                     'circleverse.viewModel.noActionModule'
+                    ,
+                    'circleverse.viewModel.ToolViewModel'
                     );
 
         file('/js/internal/circleverse/viewModels/SpecialViewViewModel.js')
@@ -871,6 +879,8 @@
                     'circleverse.viewModel.noActionModule'
                     ,
                     'circleverse.viewModel.SpecialViewViewModel'
+                    ,
+                    'circleverse.viewModel.ToolViewModel'
                     );
 
         file('/js/internal/circleverse/viewModels/NewViewModel.js')
@@ -888,6 +898,8 @@
                     'littleUmbrella.circleverse.ui.pointsAndPolygon'
                     ,
                     'circleverse.viewModel.noActionModule'
+                    ,
+                    'circleverse.viewModel.ToolViewModel'
                     );
 
         file('/js/internal/circleverse/viewModels/EditViewModel.js')
@@ -905,6 +917,8 @@
                     'littleUmbrella.circleverse.ui.pointsAndPolygon'
                     ,
                     'circleverse.viewModel.noActionModule'
+                    ,
+                    'circleverse.viewModel.ToolViewModel'
                     );
 
         file('/js/internal/circleverse/viewModels/SaveViewModel.js')
@@ -922,6 +936,8 @@
                     'littleUmbrella.circleverse.ui.pointsAndPolygon'
                     ,
                     'circleverse.viewModel.noActionModule'
+                    ,
+                    'circleverse.viewModel.ToolViewModel'
                     );
 
         file('/js/internal/circleverse/viewModels/RefreshViewModel.js')
@@ -1674,6 +1690,13 @@
                     'circleverse.viewModel.CustomerAddressesViewModel'
                     );
 
+                
+                file('/js/internal/circleverse/viewModels/ToolViewModel.js?r=2')
+                    .provides('circleverse.viewModel.ToolViewModel')
+                    .requires('JS.Module', 'JS.Class', 'JSextend', 'eaf.core', 'eaf.util'
+                    
+                );
+        
                     
 
         file('/js/internal/circleverse/viewModels/CustomerAddressesMapViewModel.js?r=2')
@@ -1812,6 +1835,8 @@
                     'circleverse.viewModel.satellite' 
                     ,
                     'circleverse.viewModel.centerCircle', 'circleverse.viewModel.SpecialContentViewViewModel'
+                    ,
+                    'circleverse.viewModel.ToolViewModel'
                     );
 
         file('/js/internal/circleverse/viewModels/MoveViewModel.js?r=2')
@@ -1835,6 +1860,8 @@
                     'circleverse.viewModel.satellite' 
                     ,
                     'circleverse.viewModel.centerCircle', 'circleverse.viewModel.SpecialContentViewViewModel'
+                    ,
+                    'circleverse.viewModel.ToolViewModel'
                     );
 
         file('/js/internal/circleverse/viewModels/CustomerAddressViewModel.js?r=2')

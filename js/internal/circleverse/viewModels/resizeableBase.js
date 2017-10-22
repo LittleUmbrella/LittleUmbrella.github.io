@@ -203,9 +203,167 @@ circleverse.viewModel.ResizeableBase = //(function () {
 
                 self.isAvailable(false);
             }
+            
+        ,
 
+        othersDragEnded: function (dragModel, dragViewModel, args, prom) {
+            var self = this;
+            
+            if (!self.showMe())
+                return;
 
+            if (dragViewModel.isA(circleverse.viewModel.ToolViewModel) && self.isA(circleverse.viewModel.ToolViewModel)){
+                return;
+            }
 
+            
+            if (self.isA(circleverse.viewModel.OpenViewModel) && dragViewModel.canOpen()){
+                self.isAvailable(false);
+            }
+            else if (self.isA(circleverse.viewModel.NewViewModel) && dragViewModel.canCreate()){
+                self.isAvailable(false);
+            }
+            else if (self.isA(circleverse.viewModel.SaveViewModel) && dragViewModel.canSave()){
+                self.isAvailable(false);
+            }
+            else if (self.isA(circleverse.viewModel.EditViewModel) && dragViewModel.canEdit()){
+                self.isAvailable(false);
+            }
+            else if (self.isA(circleverse.viewModel.TravelViewModel) && dragViewModel.canTravel && dragViewModel.canTravel()){
+                self.isAvailable(false);
+            }
+            else if (self.isA(circleverse.viewModel.garbageViewModel) && dragViewModel.canDelete()){
+                self.isAvailable(false);
+            }
+            else if (self.isA(circleverse.viewModel.CloseViewModel) && dragViewModel.canClose()){
+                self.isAvailable(false);
+            }
+            else if (self.isA(circleverse.viewModel.SearchViewModel) && dragViewModel.canSearch()){
+                self.isAvailable(false);
+            }
+            else if (dragViewModel.isA(circleverse.viewModel.OpenViewModel) && self.canOpen()){
+                self.isAvailable(false);
+            }
+            else if (dragViewModel.isA(circleverse.viewModel.NewViewModel) && self.canCreate()){
+                self.isAvailable(false);
+            }
+            else if (dragViewModel.isA(circleverse.viewModel.SaveViewModel) && self.canSave()){
+                self.isAvailable(false);
+            }
+            else if (dragViewModel.isA(circleverse.viewModel.EditViewModel) && self.canEdit()){
+                self.isAvailable(false);
+            }
+            else if (dragViewModel.isA(circleverse.viewModel.TravelViewModel) && self.canTravel && self.canTravel()){
+                self.isAvailable(false);
+            }
+            else if (dragViewModel.isA(circleverse.viewModel.garbageViewModel) && self.canDelete()){
+                self.isAvailable(false);
+            }
+            else if (dragViewModel.isA(circleverse.viewModel.CloseViewModel) && self.canClose()){
+                self.isAvailable(false);
+            }
+            else if (dragViewModel.isA(circleverse.viewModel.SearchViewModel) && self.canSearch()){
+                self.isAvailable(false);
+            }
+        }
+        ,
+
+        dropInit: function (dragModel, dragViewModel, args, prom) {
+            var self = this;
+            
+            if (!self.showMe())
+                return;
+
+            if (dragViewModel.isA(circleverse.viewModel.ToolViewModel) && self.isA(circleverse.viewModel.ToolViewModel)){
+                return;
+            }
+
+            if (self.isA(circleverse.viewModel.OpenViewModel) && dragViewModel.canOpen()){
+                self.isAvailable(true);
+            }
+            else if (self.isA(circleverse.viewModel.NewViewModel) && dragViewModel.canCreate()){
+                self.isAvailable(true);
+            }
+            else if (self.isA(circleverse.viewModel.SaveViewModel) && dragViewModel.canSave()){
+                self.isAvailable(true);
+            }
+            else if (self.isA(circleverse.viewModel.EditViewModel) && dragViewModel.canEdit()){
+                self.isAvailable(true);
+            }
+            else if (self.isA(circleverse.viewModel.TravelViewModel) && dragViewModel.canTravel && dragViewModel.canTravel()){
+                self.isAvailable(true);
+            }
+            else if (self.isA(circleverse.viewModel.garbageViewModel) && dragViewModel.canDelete()){
+                self.isAvailable(true);
+            }
+            else if (self.isA(circleverse.viewModel.CloseViewModel) && dragViewModel.canClose()){
+                self.isAvailable(true);
+            }
+            else if (self.isA(circleverse.viewModel.SearchViewModel) && dragViewModel.canSearch()){
+                self.isAvailable(true);
+            }
+            else if (dragViewModel.isA(circleverse.viewModel.OpenViewModel) && self.canOpen()){
+                self.isAvailable(true);
+            }
+            else if (dragViewModel.isA(circleverse.viewModel.NewViewModel) && self.canCreate()){
+                self.isAvailable(true);
+            }
+            else if (dragViewModel.isA(circleverse.viewModel.SaveViewModel) && self.canSave()){
+                self.isAvailable(true);
+            }
+            else if (dragViewModel.isA(circleverse.viewModel.EditViewModel) && self.canEdit()){
+                self.isAvailable(true);
+            }
+            else if (dragViewModel.isA(circleverse.viewModel.TravelViewModel) && self.canTravel && self.canTravel()){
+                self.isAvailable(true);
+            }
+            else if (dragViewModel.isA(circleverse.viewModel.garbageViewModel) && self.canDelete()){
+                self.isAvailable(true);
+            }
+            else if (dragViewModel.isA(circleverse.viewModel.CloseViewModel) && self.canClose()){
+                self.isAvailable(true);
+            }
+            else if (dragViewModel.isA(circleverse.viewModel.SearchViewModel) && self.canSearch()){
+                self.isAvailable(true);
+            }
+            
+            // if (!self.__upTree(self, dragViewModel) && !self.__downTree(self, dragViewModel) && self.showMe())
+            //     self.isAvailable(true);
+        }
+        ,
+
+        __upTree: function(me, dragViewModel){
+            var self = this;
+
+            if (dragViewModel == me){
+                return true;
+            }
+
+            if (me.parent)
+                return self.__upTree(me.parent, dragViewModel);
+
+            return false; 
+        }
+        ,
+
+        __downTree: function(me, dragViewModel){
+            var self = this;
+
+            if (dragViewModel == me){
+                return true;
+            }
+
+            if (me.childViewModels){
+                var children = me.childViewModels(), len = children.length;
+
+                for (var i = 0; i < len; i++) {
+                    if (self.__downTree(children[i], dragViewModel))
+                        return true;
+                }
+            }
+
+            return false; 
+        }
         });
     //})();
 

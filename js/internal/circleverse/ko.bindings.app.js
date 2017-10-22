@@ -541,6 +541,33 @@
         }
     };
 
+    ko.bindingHandlers.dropAvailable = {
+        //init: function (element, valueAccessor, allBindingAccessors) {
+        //    var $element = $(element),
+        //        value = ko.unwrap(valueAccessor()),
+        //        satellite = ko.unwrap(value.satellite),
+        //        visibilityPropName = ko.unwrap(value.visibilityPropName) || 'hideChildren';
+
+        //    if (satellite[visibilityPropName]()) {
+        //        $element.hide();
+        //    }
+        //}
+        //,
+        'update': function (element, valueAccessor, allBindingAccessors) {
+            var value = ko.unwrap(valueAccessor()),
+                $element = $(element),
+                data = ko.unwrap(value.data),
+                css = ko.unwrap(value.css);
+
+            if (data){
+                $element.addClass(css);
+            }
+            else{
+                $element.removeClass(css);
+            }
+        }
+    };
+
     ko.bindingHandlers.limeLight = {
         //init: function (element, valueAccessor, allBindingAccessors) {
         //    var $element = $(element),

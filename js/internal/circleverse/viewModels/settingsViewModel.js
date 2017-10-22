@@ -8,7 +8,8 @@ circleverse.viewModel.settingsViewModel = (function () {
     var initSize = 60;
 
  return new JS.Class(circleverse.viewModel.ResizeableBase, {
-     include: [becu_org.ui.viewModel.baseModule, becu_org.ui.viewModel.draggableModule, becu_org.ui.viewModel.droppableModule, becu_org.ui.viewModel.circleModule, circleverse.viewModel.noActionModule,
+     include: [circleverse.viewModel.ToolViewModel,
+            becu_org.ui.viewModel.baseModule, becu_org.ui.viewModel.draggableModule, becu_org.ui.viewModel.droppableModule, becu_org.ui.viewModel.circleModule, circleverse.viewModel.noActionModule,
             becu_org.ui.viewModel.labelModule],
 
 
@@ -162,6 +163,14 @@ circleverse.viewModel.settingsViewModel = (function () {
             var unmapped = ko.mapping.toJS(self.appSettingsArray());
             self.model().set('bankPreferences', unmapped);
             this.showForm(false);
+        }
+        ,
+
+        othersDragEnded: function (dragModel, dragViewModel, args, prom) {
+        }
+        ,
+
+        dropInit: function (dragModel, dragViewModel, args, prom) {
         }
 
     });

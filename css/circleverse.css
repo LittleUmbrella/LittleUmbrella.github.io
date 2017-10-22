@@ -125,10 +125,14 @@ table-layout: fixed;
 
 .available {
 
-    background-color: #EEB;
 
-    border-color: #BB8;
+    border-color: #070 !important;
 
+}
+
+.tool.available{
+    
+    color: #070 !important;
 }
 
 .dnd-active
@@ -496,7 +500,7 @@ form textarea.question + label > span {
 
 .mail{
     background-color: transparent;
-    border-color: transparent;
+    border-width: 0;
 }
 
 .leaflet-touch .leaflet-control-zoom-out, .leaflet-touch .leaflet-control-zoom-in {
@@ -505,6 +509,7 @@ form textarea.question + label > span {
 
 .circle.see-through{
     text-shadow: -3px -3px 10px #1E2730, 3px 3px 10px #1E2730, 3px 3px 10px #1E2730, -3px -3px 10px #1E2730, -3px -3px 10px #1E2730, 3px 3px 10px #1E2730, 3px 3px 10px #1E2730, -3px -3px 10px #1E2730;
+
 }
 
 .drag .flex-grid.data .flex-container i.prim, .drag .data i.prim{

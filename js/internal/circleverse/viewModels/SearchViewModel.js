@@ -52,7 +52,7 @@ circleverse.viewModel.SearchViewModel = (function () {
             this.dimensions({ height: this.scale() * initSize, width: this.scale() * initSize });
 
 
-            self.settings = $.extend(self.settings || {}, { dropFilter: '.searchable' }, opts);
+            //self.settings = $.extend(self.settings || {}, { dropFilter: '.searchable' }, opts);
 
             var coords = this.__getCoords();
             this.location({ left: coords.left, top: coords.top });
