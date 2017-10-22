@@ -1466,6 +1466,57 @@
                 //console.log("containerPoint: " + map.project(latLng).x + ", y:" + map.project(latLng).y );
                 
                 value.location({left: point.x - offsetX, top: point.y - offsetY});
+
+                var radius = value.dimensions().width/2;
+
+                //collision detection and adjustment
+                for (var i =0; i < 15; i++){
+                    var V = SAT.Vector;
+                    var C = SAT.Circle;
+
+                    var parent = value.parent;
+                    if (parent){
+                        var siblings = parent.childViewModels()
+                        if (siblings){
+                            var siblingsLen = siblings.length, collidedAny = false;
+                    
+                            for (var j =0; j < siblingsLen; j++){
+
+                                
+                                var location = value.location();
+
+                                var sibling = siblings[j]
+                                if (sibling == value) continue;
+                                
+                                var siblingLocation = sibling.location(), siblingRadius = sibling.dimensions().width/2;
+
+                                
+
+                                var circle1 = new C(new V(location.left, location.top), radius);
+
+                                var circle2 = new C(new V(siblingLocation.left, siblingLocation.top), siblingRadius);
+                                
+                                var response = new SAT.Response();
+                                collided = SAT.testCircleCircle(circle1, circle2, response);
+
+                                // collided => true
+                                // response.overlap => 10
+                                // response.overlapV => (10, 0)
+
+                                //move up, down, left, right
+                                var moveX = ((location.left < siblingLocation.left)? -1: ((location.left == siblingLocation.left)? 0 - (j%2): 1)), moveY = ((location.top < siblingLocation.top)? -1: ((location.top == siblingLocation.top)? 0 - (j%2): 1));
+
+                                if (collided){
+                                    collidedAny = true;
+                                    //var vDiff = response.overlapV.sub(new V(location.left, location.top));
+                                    value.location({top: location.top + (moveY * (response.overlap/2)), left: location.left + (moveX * (response.overlap/2))});
+                                }
+                            }
+
+                            if (!collidedAny) break;
+                        }
+                    }
+                }
             }            
 
             reposition();

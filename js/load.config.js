@@ -32,6 +32,11 @@
                     .provides('hammer')
         ;
 
+        
+        file('/js/external/SAT.min.js')
+                    .provides('SAT')
+        ;
+
         file('/js/external/knockouch.min.js')
                     .setup(function () { window.knockouch = {}; })
                     .provides('knockouch')
@@ -2274,7 +2279,7 @@
         file('/js/internal/circleverse/ko.bindings.app.js?r=2')
                     .provides('littleUmbrella.circleverse.ui.app.bindings')
                     .setup(function () { eaf.util.namespace('littleUmbrella.circleverse.ui.app.bindings'); })
-                    .requires('eaf.util', 'littleUmbrella.circleverse.ui.Animation')
+                    .requires('eaf.util', 'littleUmbrella.circleverse.ui.Animation', 'SAT')
         ;
 
 

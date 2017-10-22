@@ -456,16 +456,16 @@ circleverse.viewModel.CustomerAddressViewModel = (function () {
             var self = this;
 
             self.callSuper();
-            if (self.showMe() && !self.__upTree(self, dragViewModel) && dragViewModel.isA(circleverse.viewModel.MailViewModel))
+            if (self.showMe() && !self.__downTree(self, dragViewModel) && dragViewModel.isA(circleverse.viewModel.MailViewModel))
                 self.isAvailable(false);
         }
         ,
 
         dropInit: function (dragModel, dragViewModel, args, prom) {
             var self = this;
-            
+
             self.callSuper();
-            if (self.showMe() && !self.__upTree(self, dragViewModel) && dragViewModel.isA(circleverse.viewModel.MailViewModel))
+            if (self.showMe() && !self.__downTree(self, dragViewModel) && dragViewModel.isA(circleverse.viewModel.MailViewModel))
                 self.isAvailable(true);
         }
 
