@@ -76,7 +76,8 @@ circleverse.viewModel.CloseViewModel = (function () {
             self.memberIcon = ko.observable('icon-search icon-size-2x');
 
 
-            if (self.globalSettings['tindr'].value() == true) {
+            //if (self.globalSettings['tindr'].value() == true) {
+            if (opts && opts['tindr'] == true) {
                 
                 self.dimensions({ height: $(window).height(), width: 500 });
                 

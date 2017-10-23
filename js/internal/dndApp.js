@@ -388,6 +388,8 @@ becu_org.app = (function () {
            
                 //new circleverse.viewModel.FilterFormViewModel(null, self, globalSettings), 
                 //new circleverse.viewModel.MoneyTransferViewModel(null, self, globalSettings),
+            var openVm = new circleverse.viewModel.OpenViewModel(null, self, globalSettings, {tindr: true});
+            var closeVm = new circleverse.viewModel.CloseViewModel(null, self, globalSettings, {tindr: true});
             self.tools = [
                 // new circleverse.viewModel.ExitViewModel(null, self, globalSettings),
                 // new circleverse.viewModel.loginViewModel(null, self, globalSettings),                
@@ -405,7 +407,9 @@ becu_org.app = (function () {
                 new circleverse.viewModel.SaveViewModel(null, self, globalSettings),                
                 new circleverse.viewModel.SearchViewModel(null, self, globalSettings),                
                 new circleverse.viewModel.TravelViewModel(null, self, globalSettings),                
-                new circleverse.viewModel.MoveViewModel(null, self, globalSettings)
+                new circleverse.viewModel.MoveViewModel(null, self, globalSettings),
+                openVm,
+                closeVm
                 
             ];
 

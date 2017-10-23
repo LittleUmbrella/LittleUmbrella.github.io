@@ -75,7 +75,8 @@ circleverse.viewModel.OpenViewModel = (function () {
 
             self.memberIcon = ko.observable('icon-enter icon-size-2x');
 
-            if (self.globalSettings['tindr'].value() == true) {
+            //if (self.globalSettings['tindr'].value() == true) {
+            if (opts && opts['tindr'] && opts['tindr'] == true) {
                 var calcLeft = ((($(window).width() - this.dimensions().width)) - 20);
 
                 self.dimensions({ height: $(window).height(), width: 500 });

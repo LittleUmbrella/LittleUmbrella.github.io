@@ -1510,6 +1510,7 @@
                                     collidedAny = true;
                                     //var vDiff = response.overlapV.sub(new V(location.left, location.top));
                                     value.location({top: location.top + (moveY * (response.overlap/2)), left: location.left + (moveX * (response.overlap/2))});
+                                    //sibling.location({top: siblingLocation.top + (moveY * (response.overlap/2)), left: location.left + (moveX * (response.overlap/2))});
                                 }
                             }
 
