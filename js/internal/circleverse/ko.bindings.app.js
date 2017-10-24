@@ -1205,7 +1205,185 @@
     };
 
 
+    ko.bindingHandlers.mailAnimation = {
+        
+        init: function (element, valueAccessor, allBindings, viewModel, bindingContext) {
+            var value = ko.unwrap(valueAccessor()), location;
+;
+            
+            setTimeout(function(){
+                var $element = $(element);
 
+                var docEls, doc, contentClones = [], elClone, content, docHider, docDear, dear = "Dear ", textHeight =20;
+
+                docEls = $element.siblings('.animated-mail');
+                var bcolor = $element.parent().css('background-color');
+                var color = $element.parent().css('color');
+                //if (docEls.length == 0) {
+                    doc = $('<div style="position:absolute; opacity: 1"></div>');
+                    docHider = $('<div style="position:absolute;top:35%;left:10%;width:80%;height:55%;background:linear-gradient(to bottom, transparent, ' + bcolor + ', ' + bcolor + ', ' + bcolor + ', ' + bcolor + ', ' + bcolor + ', ' + bcolor + ')"></div>');
+                    doc.append('<i class="icon-file-text-o icon-size-5x"></i>');
+                    doc.append(docHider);
+                    docDear = $('<div style="position:absolute; white-space: nowrap;top:5px; left: 5px; width: 20px; height: 2px;border-bottom:1px solid '+color+'; background-color:'+bcolor+'; opacity: 1;"></div>');
+                    doc.append(docDear);
+                    $element.parent().prepend(doc);
+                // }
+                // else{
+                //     doc = docEls[0];
+                // }
+
+                //for static   
+                location = value.location();
+                doc.css({left: location.left + ((value.dimensions().width/2) - (doc.width()/2)), top:location.top - (value.dimensions().height + 10)});
+
+                //TweenLite.set(docDear, {top: -25, height: textHeight});
+
+                content = $element.find('span');
+                var contentPos = content.position();
+                var contentText = content.text(), split = contentText.split(" ");
+
+                for (var i = 0; i < split.length; i++){
+                    contentClones.push($('<div style="position:absolute;">'+split[i]+'</div>'));
+                    $element.parent().prepend(contentClones[i]);
+
+                    
+                    //for static                    
+                    //contentClones[i].css({position: 'absolute', top:location.top-(value.dimensions().height+5) , left: contentPos.left + location.left + 5});
+                    contentClones[i].css({position: 'absolute', top:location.top-(value.dimensions().height+5) -25, left: location.left + ((value.dimensions().width/2) - (doc.width()/2)) + docDear.width() });
+
+                }
+
+                //TweenMax.to(docHider, 1, {height:0, top:'90%', repeat:-1});
+
+                elClone = $element.clone();
+                
+                $element.parent().prepend(elClone);
+
+
+var writeIntro = [];
+for (var j=0; j < dear.length; j++){
+    var dearTween = new TweenMax.to(docDear, .2, {onComplete: function(idx){ 
+        docDear.text(dear.substring(0, idx)); 
+    }, onCompleteParams: [j]});
+    writeIntro.push(dearTween);
+}
+
+                    //var tween = new TimelineMax({paused:true, repeat:0, repeatDelay:0.5}); //
+
+
+
+//tween.play();
+
+//TweenLite.
+                
+                var createAndStart = function (){
+
+                    location = value.location();
+
+                    var docWrites = [];
+                    
+                    var docWriteDowns = [];
+
+                    for (var i = 0; i < split.length; i++){
+                        contentClones[i].css({position: 'absolute', top: contentPos.top + location.top, left: contentPos.left + location.left});
+                        //docWrites.push(new TweenMax.to(contentClones[i], .7, {top:location.top - (value.dimensions().height + contentPos.top + doc.height() - (5)), scale: 1, opacity: 1}));
+
+                        docWrites.push(new TweenMax.to(contentClones[i], .7, {top:location.top-(value.dimensions().height+5) -30 , left: location.left + ((value.dimensions().width/2) - (doc.width()/2)) + docDear.width() + docDear.width(), scale: 1, opacity: 1, onComplete: function(){
+                            docDear.text(docDear.text() + ' ' + this.text()); this.css({opacity: 0});
+                        }, onCompleteScope: contentClones[i]}));
+
+                        //.push();
+
+                        docWriteDowns.push(new TweenMax.to(contentClones[i], .3, {top:location.top, scale: .3, delay:.4}));
+                    }
+
+                    var docWritesShrink = new TweenMax.to(docDear, .3, {top:location.top-(value.dimensions().height+5), scale: .2}, 'shrink');
+
+                    elClone.css({left: location.left, top: location.top});
+                    
+                    doc.css({left: location.left + ((value.dimensions().width/2) - (doc.width()/2)), top: location.top});
+
+
+                    var tween = new TimelineMax({paused:true, repeat:-1, repeatDelay:0.5}); //
+                    
+                    var docUp = new TweenMax.to(doc, .3, {top:location.top - (value.dimensions().height + 10), opacity: 1});
+                    
+                    //doc, .1, {className: 'icon-file-text-o icon-size-5x'}, "write");
+                    
+                    var docWritStuff = new TweenMax.to(docHider, 1, {height:0, top:'90%'}, 'write stuff');
+
+                    var docdown = new TweenMax.to(doc, .3, {top:location.top, scale: .3, delay:.4}, "docdown");
+
+
+                    var sendMail = new TweenMax.to(elClone, .3, {top:40, left:80, scale: .8, delay: .4});
+
+                    var hideMail = new TweenMax.to(elClone, .3, {opacity:0});
+
+                    
+                    var hideDoc = new TweenMax.to(doc, .1, {opacity:0, onComplete: function(){
+                        docDear.text('');}
+                    });
+
+                    var cursorBox = new TweenMax.to(docDear, .3, {top: -25, height: 'initial', width: 'initial'});
+
+                    tween
+                        .add(docUp)
+                        .add(cursorBox);
+
+                    for (var j=0; j < dear.length; j++){    
+                        tween.add(writeIntro[j]);
+                    }
+
+                    for (var i = 0; i < split.length; i++){
+                        tween.add(docWrites[i]);
+                        
+                    }
+                    tween   
+                        .add(docWritStuff)
+
+                    for (var i = 0; i < split.length; i++){
+                        
+                        tween.add(docWriteDowns[i], 'shrink');
+                        tween.add(new TweenMax.to(contentClones[i], .1, {opacity:0}));
+                    }
+
+                    tween   
+                        .add(docWritesShrink, 'write stuff')
+                        .add(docdown, 'shrink')
+                        .add(hideDoc)
+                        //.add(hideWrite)
+                        .add(sendMail)
+                        .add(hideMail)
+                        ;
+
+                    tween.play();
+                }
+
+                
+                $element.on('mousedown', function(){
+                    TweenLite.killTweensOf(doc);
+                    
+                    for (var i = 0; i < contentClones.length; i++){
+                        TweenLite.killTweensOf(contentClones[i]);
+                        TweenLite.set(contentClones[i], {display: 'none'});
+                    }
+                    docDear.text(null);
+                    TweenLite.killTweensOf(elClone);
+                    TweenLite.set(doc, {display: 'none'});
+                    TweenLite.set(elClone, {display: 'none'});
+                }).on('mouseup', function(){
+                    TweenLite.set(doc, {display: 'block', opacity: 1, scale:1/*, className:"icon-file-empty icon-size-5x"*/});
+                    for (var i = 0; i < contentClones.length; i++){
+                        TweenLite.set(contentClones[i], {display: 'block', opacity: 1, scale:1});
+                    }
+                    TweenLite.set(elClone, {display: 'block', opacity: 1, scale:1});
+                    createAndStart();
+                });
+
+                createAndStart();
+            }, 1);
+        }
+    }
 
 })(ko);
 

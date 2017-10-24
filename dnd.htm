@@ -869,6 +869,7 @@
             , animatedMove: {satellite: $data, callback: moveEnded, top: move().top, left: move().left}
             , grow: {vm: $data, animationSettings: animationSettings}
         , supressDrapPropagation: true
+        , mailAnimation: $data
 "
                         class="drag drop circle"
                         style="display: none;">
@@ -1097,6 +1098,19 @@
                 
                 <i data-bind="css: icon.secondary.name"></i>&nbsp;
             <span data-bind="text: full"></span>
+            </div>
+        </div>
+    </script>
+
+
+    
+    <script type="text/html" id="AllMembersViewModelContentTemplate">         
+        <div class="flex-container vertical data">         
+            
+            <i data-bind="css: icon.name"></i>
+            <div class="flex-container horizontal">
+                
+            <span>hi dudes</span>
             </div>
         </div>
     </script>

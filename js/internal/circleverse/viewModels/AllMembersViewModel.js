@@ -18,7 +18,8 @@ circleverse.viewModel.AllMembersViewModel = (function () {
             becu_org.ui.viewModel.draggableModule, 
             becu_org.ui.viewModel.droppableModule,
             becu_org.ui.viewModel.circleModule,
-            //becu_org.ui.viewModel.labelModule
+            //becu_org.ui.viewModel.labelModule,
+            circleverse.viewModel.SpecialContentViewViewModel
             ],
 
 
