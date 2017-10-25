@@ -1208,7 +1208,7 @@
     ko.bindingHandlers.mailAnimation = {
         
         init: function (element, valueAccessor, allBindings, viewModel, bindingContext) {
-            var value = ko.unwrap(valueAccessor()), location;
+            var value = ko.unwrap(valueAccessor()), location, dimensions = value.dimensions();
 ;
             
             setTimeout(function(){
@@ -1220,21 +1220,23 @@
                 var bcolor = $element.parent().css('background-color');
                 var color = $element.parent().css('color');
                 //if (docEls.length == 0) {
-                    doc = $('<div style="position:absolute; opacity: 1"></div>');
-                    docHider = $('<div style="position:absolute;top:35%;left:10%;width:80%;height:55%;background:linear-gradient(to bottom, transparent, ' + bcolor + ', ' + bcolor + ', ' + bcolor + ', ' + bcolor + ', ' + bcolor + ', ' + bcolor + ')"></div>');
+                    doc = $('<div style="position:absolute; opacity: 0"></div>');
+                    docHider = $('<div style="position:absolute;top:35%;left:10%;width:80%;height:55%;background:linear-gradient(to bottom, transparent, ' + bcolor + ', ' + bcolor + ', ' + bcolor + ', ' + bcolor + ', ' + bcolor + ', ' + bcolor + ');opacity: 1"></div>');
                     doc.append('<i class="icon-file-text-o icon-size-5x"></i>');
                     doc.append(docHider);
-                    docDear = $('<div style="position:absolute; white-space: nowrap;top:5px; left: 5px; width: 20px; height: 2px;border-bottom:1px solid '+color+'; background-color:'+bcolor+'; opacity: 1;"></div>');
+                    docDear = $('<div style="position:absolute; white-space: nowrap;top:5px; left: 5px; width: 20px; height: 2px;border-bottom:1px solid '+color+'; background-color:'+bcolor+'; opacity: 0;"></div>');
                     doc.append(docDear);
                     $element.parent().prepend(doc);
+
+                var offsetTop = 20; //value.dimensions().height;
                 // }
                 // else{
                 //     doc = docEls[0];
                 // }
 
                 //for static   
-                location = value.location();
-                doc.css({left: location.left + ((value.dimensions().width/2) - (doc.width()/2)), top:location.top - (value.dimensions().height + 10)});
+                // location = value.location();
+                // doc.css({left: location.left + ((value.dimensions().width/2) - (doc.width()/2)), top:location.top - (offsetTop + 10)});
 
                 //TweenLite.set(docDear, {top: -25, height: textHeight});
 
@@ -1248,8 +1250,8 @@
 
                     
                     //for static                    
-                    //contentClones[i].css({position: 'absolute', top:location.top-(value.dimensions().height+5) , left: contentPos.left + location.left + 5});
-                    contentClones[i].css({position: 'absolute', top:location.top-(value.dimensions().height+5) -25, left: location.left + ((value.dimensions().width/2) - (doc.width()/2)) + docDear.width() });
+                    //contentClones[i].css({position: 'absolute', top:location.top-(offsetTop+5) , left: contentPos.left + location.left + 5});
+                    //contentClones[i].css({position: 'absolute', top:location.top-(offsetTop+5) -25, left: location.left + ((value.dimensions().width/2) - (doc.width()/2)) + docDear.width() });
 
                 }
 
@@ -1275,20 +1277,31 @@ for (var j=0; j < dear.length; j++){
 //tween.play();
 
 //TweenLite.
+
                 
                 var createAndStart = function (){
-
                     location = value.location();
+
+                    var parentLocation = value.parent.location(), parentDims = value.parent.dimensions(), parentCenter = {x: (parentDims.width/2), y: (parentDims.height/2)};
+                    
+                    docHider.css({height:'55%', top:'35%', scale:1});
+                    docDear.css({top:5, left: 5, scale:1, width: 20, height: 2}); 
+                    
+                    elClone.css({left: location.left, top: location.top, scale:1});
+                    
+                    doc.css({left: location.left + ((value.dimensions().width/2) - (doc.width()/2)), top: location.top});                    
+
+
 
                     var docWrites = [];
                     
                     var docWriteDowns = [];
 
                     for (var i = 0; i < split.length; i++){
-                        contentClones[i].css({position: 'absolute', top: contentPos.top + location.top, left: contentPos.left + location.left});
-                        //docWrites.push(new TweenMax.to(contentClones[i], .7, {top:location.top - (value.dimensions().height + contentPos.top + doc.height() - (5)), scale: 1, opacity: 1}));
+                        contentClones[i].css({position: 'absolute', top: contentPos.top + location.top, left: contentPos.left + location.left, scale:1});
+                        //docWrites.push(new TweenMax.to(contentClones[i], .7, {top:location.top - (offsetTop + contentPos.top + doc.height() - (5)), scale: 1, opacity: 1}));
 
-                        docWrites.push(new TweenMax.to(contentClones[i], .7, {top:location.top-(value.dimensions().height+5) -30 , left: location.left + ((value.dimensions().width/2) - (doc.width()/2)) + docDear.width() + docDear.width(), scale: 1, opacity: 1, onComplete: function(){
+                        docWrites.push(new TweenMax.to(contentClones[i], .7, {top:location.top-(offsetTop+5) -30 , left: location.left + ((value.dimensions().width/2) - (doc.width()/2)) + docDear.width() + docDear.width(), scale: 1, opacity: 1, onComplete: function(){
                             docDear.text(docDear.text() + ' ' + this.text()); this.css({opacity: 0});
                         }, onCompleteScope: contentClones[i]}));
 
@@ -1297,25 +1310,21 @@ for (var j=0; j < dear.length; j++){
                         docWriteDowns.push(new TweenMax.to(contentClones[i], .3, {top:location.top, scale: .3, delay:.4}));
                     }
 
-                    var docWritesShrink = new TweenMax.to(docDear, .3, {top:location.top-(value.dimensions().height+5), scale: .2}, 'shrink');
-
-                    elClone.css({left: location.left, top: location.top});
-                    
-                    doc.css({left: location.left + ((value.dimensions().width/2) - (doc.width()/2)), top: location.top});
+                    var docWritesShrink = new TweenMax.to(docDear, .3, {top:5, left: -15, scale: .2}, 'shrink');
 
 
                     var tween = new TimelineMax({paused:true, repeat:-1, repeatDelay:0.5}); //
                     
-                    var docUp = new TweenMax.to(doc, .3, {top:location.top - (value.dimensions().height + 10), opacity: 1});
+                    var docUp = new TweenMax.to(doc, .3, {top:location.top - (offsetTop + 10), opacity: 1});
                     
                     //doc, .1, {className: 'icon-file-text-o icon-size-5x'}, "write");
                     
-                    var docWritStuff = new TweenMax.to(docHider, 1, {height:0, top:'90%'}, 'write stuff');
+                    var docWritStuff = new TweenMax.to(docHider, 1, {height:0, top:'90%', delay:.3}, 'write stuff');
 
                     var docdown = new TweenMax.to(doc, .3, {top:location.top, scale: .3, delay:.4}, "docdown");
 
 
-                    var sendMail = new TweenMax.to(elClone, .3, {top:40, left:80, scale: .8, delay: .4});
+                    var sendMail = new TweenMax.to(elClone, .3, {top:parentCenter.y - (dimensions.height/2), left:parentCenter.x - (dimensions.width/2), scale: .8, opacity: 1, delay: .4});
 
                     var hideMail = new TweenMax.to(elClone, .3, {opacity:0});
 
@@ -1324,7 +1333,7 @@ for (var j=0; j < dear.length; j++){
                         docDear.text('');}
                     });
 
-                    var cursorBox = new TweenMax.to(docDear, .3, {top: -25, height: 'initial', width: 'initial'});
+                    var cursorBox = new TweenMax.to(docDear, .3, {top: -25, height: 'initial', width: 'initial', opacity: 1});
 
                     tween
                         .add(docUp)
@@ -1339,17 +1348,17 @@ for (var j=0; j < dear.length; j++){
                         
                     }
                     tween   
+                        .add(docWritesShrink)
                         .add(docWritStuff)
 
                     for (var i = 0; i < split.length; i++){
                         
-                        tween.add(docWriteDowns[i], 'shrink');
-                        tween.add(new TweenMax.to(contentClones[i], .1, {opacity:0}));
+                        tween.add(docWriteDowns[i], "write stuff");
+                        tween.add(new TweenMax.to(contentClones[i], .1, {opacity:0}), "write stuff");
                     }
 
                     tween   
-                        .add(docWritesShrink, 'write stuff')
-                        .add(docdown, 'shrink')
+                        .add(docdown, "write stuff")
                         .add(hideDoc)
                         //.add(hideWrite)
                         .add(sendMail)
@@ -1367,14 +1376,24 @@ for (var j=0; j < dear.length; j++){
                         TweenLite.killTweensOf(contentClones[i]);
                         TweenLite.set(contentClones[i], {display: 'none'});
                     }
-                    docDear.text(null);
+
+
+                    docDear.text('');
+                    TweenLite.killTweensOf(docDear);
+                    TweenLite.killTweensOf(docHider);
+                    // TweenLite.killTweensOf(docDear);
+                    // TweenLite.killTweensOf(docDear);
                     TweenLite.killTweensOf(elClone);
+
                     TweenLite.set(doc, {display: 'none'});
                     TweenLite.set(elClone, {display: 'none'});
                 }).on('mouseup', function(){
-                    TweenLite.set(doc, {display: 'block', opacity: 1, scale:1/*, className:"icon-file-empty icon-size-5x"*/});
+                    
+                    TweenLite.set(docDear, {display: 'block', opacity: 0, scale:1});
+                    TweenLite.set(docHider, {display: 'block', opacity: 1, scale:1});
+                    TweenLite.set(doc, {display: 'block', opacity: 0, scale:1/*, className:"icon-file-empty icon-size-5x"*/});
                     for (var i = 0; i < contentClones.length; i++){
-                        TweenLite.set(contentClones[i], {display: 'block', opacity: 1, scale:1});
+                        TweenLite.set(contentClones[i], {display: 'block', opacity: 0, scale:1});
                     }
                     TweenLite.set(elClone, {display: 'block', opacity: 1, scale:1});
                     createAndStart();

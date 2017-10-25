@@ -19,6 +19,9 @@ var self = this; self.callSuper();
 						+ (eaf.util.isNullOrWhitespace(self.line3())? "": self.line3() + "\n ")
 						+ self.city() + ', ' + self.state()  + ' ' + self.postalCode()
 				});
+				self.flags = ko.observableArray();
+				self.use = ko.observable();
+				self.canEdit = ko.observable();
 				self.latitude = ko.observable();
 				self.longitude = ko.observable();
 			}

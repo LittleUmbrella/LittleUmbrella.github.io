@@ -869,7 +869,6 @@
             , animatedMove: {satellite: $data, callback: moveEnded, top: move().top, left: move().left}
             , grow: {vm: $data, animationSettings: animationSettings}
         , supressDrapPropagation: true
-        , mailAnimation: $data
 "
                         class="drag drop circle"
                         style="display: none;">
@@ -1088,8 +1087,46 @@
 
 
     
-    
-    
+    <script type="text/html" id="MailViewModelTemplate">        
+        <div data-bind="busy: isBusy,
+            dragdrop: $data
+            , style: {
+                'left': location().left + 'px'
+            , 'top': location().top + 'px'
+            , 'width': dimensions().width + 'px'
+            , 'height': dimensions().height + 'px'
+            , 'opacity': opacity
+            },
+            dropAvailable: {data: isAvailable, css: 'available'},
+            css: mainCss
+            , visible: showMe
+            , busy: isBusy
+            , onTop: onTop
+            , satellitePopInOut: { base: $data.parent, satellite: $data, callback: popAnimationEnded, index: $index() }
+            , animatedMove: {satellite: $data, callback: moveEnded, top: move().top, left: move().left}
+            , grow: {vm: $data, animationSettings: animationSettings}
+        , supressDrapPropagation: true
+        , mailAnimation: $data
+"
+                        class="drag drop circle"
+                        style="display: none;">
+                          
+            <!-- ko template: { name: contentTemplate } --><!-- /ko -->
+            
+            <!-- ko if: isA(becu_org.ui.viewModel.labelModule) && labelData().isReady -->               
+                <!-- ko template: { name: 'circleTextTemplate', data: labelData } --><!-- /ko -->
+            <!-- /ko -->
+            <!-- ko if: hasChildrenToggled -->
+                <!-- ko foreach: childViewModels-->                    
+                    <!-- ko template: { name: 'genericChildTemplate' } --><!-- /ko -->
+                    
+                    <div class="line" data-bind="circleConnection: {vm: $data, 'widthAdjust': connectionWidthAdjustment}, visible: showMe"></div>
+                <!-- /ko -->
+            <!-- /ko -->
+            
+        </div>     
+    </script>
+
     <script type="text/html" id="MailViewModelContentTemplate">         
         <div class="flex-container vertical data">         
             
@@ -1104,7 +1141,7 @@
 
 
     
-    <script type="text/html" id="AllMembersViewModelContentTemplate">         
+    <!-- <script type="text/html" id="AllMembersViewModelContentTemplate">         
         <div class="flex-container vertical data">         
             
             <i data-bind="css: icon.name"></i>
@@ -1113,7 +1150,7 @@
             <span>hi dudes</span>
             </div>
         </div>
-    </script>
+    </script> -->
 
 
     <script type="text/html" id="CustomerAddressViewModelTemplate"> 
