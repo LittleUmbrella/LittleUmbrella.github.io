@@ -503,7 +503,7 @@ form textarea.question + label > span {
 }
 
 
-.mail{
+.address, .mail{
     background-color: transparent;
     border-width: 0;
 }
@@ -512,10 +512,15 @@ form textarea.question + label > span {
     background-color: #666;
 }
 
-.circle.see-through{
-    text-shadow: -3px -3px 10px #1E2730, 3px 3px 10px #1E2730, 3px 3px 10px #1E2730, -3px -3px 10px #1E2730, -3px -3px 10px #1E2730, 3px 3px 10px #1E2730, 3px 3px 10px #1E2730, -3px -3px 10px #1E2730;
+/*.circle.see-through{
+    text-shadow: -4px -4px 0 #1E2730, -4px -3px 0 #1E2730, -4px -2px 0 #1E2730, -4px -1px 0 #1E2730, -4px 0px 0 #1E2730, -4px 1px 0 #1E2730, -4px 2px 0 #1E2730, -4px 3px 0 #1E2730, -4px 4px 0 #1E2730, -3px -4px 0 #1E2730, -3px -3px 0 #1E2730, -3px -2px 0 #1E2730, -3px -1px 0 #1E2730, -3px 0px 0 #1E2730, -3px 1px 0 #1E2730, -3px 2px 0 #1E2730, -3px 3px 0 #1E2730, -3px 4px 0 #1E2730, -2px -4px 0 #1E2730, -2px -3px 0 #1E2730, -2px -2px 0 #1E2730, -2px -1px 0 #1E2730, -2px 0px 0 #1E2730, -2px 1px 0 #1E2730, -2px 2px 0 #1E2730, -2px 3px 0 #1E2730, -2px 4px 0 #1E2730, -1px -4px 0 #1E2730, -1px -3px 0 #1E2730, -1px -2px 0 #1E2730, -1px -1px 0 #1E2730, -1px 0px 0 #1E2730, -1px 1px 0 #1E2730, -1px 2px 0 #1E2730, -1px 3px 0 #1E2730, -1px 4px 0 #1E2730, 0px -4px 0 #1E2730, 0px -3px 0 #1E2730, 0px -2px 0 #1E2730, 0px -1px 0 #1E2730, 0px 0px 0 #1E2730, 0px 1px 0 #1E2730, 0px 2px 0 #1E2730, 0px 3px 0 #1E2730, 0px 4px 0 #1E2730, 1px -4px 0 #1E2730, 1px -3px 0 #1E2730, 1px -2px 0 #1E2730, 1px -1px 0 #1E2730, 1px 0px 0 #1E2730, 1px 1px 0 #1E2730, 1px 2px 0 #1E2730, 1px 3px 0 #1E2730, 1px 4px 0 #1E2730, 2px -4px 0 #1E2730, 2px -3px 0 #1E2730, 2px -2px 0 #1E2730, 2px -1px 0 #1E2730, 2px 0px 0 #1E2730, 2px 1px 0 #1E2730, 2px 2px 0 #1E2730, 2px 3px 0 #1E2730, 2px 4px 0 #1E2730, 3px -4px 0 #1E2730, 3px -3px 0 #1E2730, 3px -2px 0 #1E2730, 3px -1px 0 #1E2730, 3px 0px 0 #1E2730, 3px 1px 0 #1E2730, 3px 2px 0 #1E2730, 3px 3px 0 #1E2730, 3px 4px 0 #1E2730, 4px -4px 0 #1E2730, 4px -3px 0 #1E2730, 4px -2px 0 #1E2730, 4px -1px 0 #1E2730, 4px 0px 0 #1E2730, 4px 1px 0 #1E2730, 4px 2px 0 #1E2730, 4px 3px 0 #1E2730, 4px 4px 0 #1E2730; 
+    
+    
+    
+    
+    
 
-}
+}*/
 
 .drag .flex-grid.data .flex-container i.prim, .drag .data i.prim{
     color: #56aee0;

@@ -177,3 +177,115 @@
   -o-transform: rotate(320deg);
   transform: rotate(320deg);
 }
+
+
+
+.flaticon-size-2x:before {
+  font-size: 2em;
+}
+
+.flaticon-size-3x:before {
+  font-size: 3em;
+}
+
+.flaticon-size-4x:before  {
+  font-size: 4em;
+}
+
+.flaticon-size-5x:before  {
+  font-size: 5em;
+}
+
+.flaticon-size-6x:before  {
+  font-size: 6em;
+}
+
+.flaticon-size-7x:before  {
+  font-size: 7em;
+}
+
+.flaticon-size-8x:before  {
+  font-size: 8em;
+}
+
+.flaticon-size-9x:before  {
+  font-size: 9em;
+}
+
+.flaticon-size-10x:before  {
+  font-size: 10em;
+}
+
+.flaticon-size-11x:before  {
+  font-size: 11em;
+}
+
+.flaticon-size-12x:before  {
+  font-size: 12em;
+}
+
+.flaticon-size-13x:before  {
+  font-size: 13em;
+}
+
+.flaticon-size-14x:before  {
+  font-size: 14em;
+}
+
+.flaticon-size-15x:before  {
+  font-size: 15em;
+}
+
+.flaticon-size-16x:before  {
+  font-size: 16em;
+}
+
+.flaticon-size-17x:before  {
+  font-size: 17em;
+}
+
+.flaticon-size-18x:before  {
+  font-size: 18em;
+}
+
+.flaticon-size-19x:before  {
+  font-size: 19em;
+}
+
+.flaticon-size-20x:before  {
+  font-size: 20em;
+}
+
+
+.flaticon-rotate-90:before {
+  -webkit-transform: rotate(90deg);
+  -moz-transform: rotate(90deg);
+  -ms-transform: rotate(90deg);
+  -o-transform: rotate(90deg);
+  transform: rotate(90deg);
+}
+
+.flaticon-rotate-270:before {
+  -webkit-transform: rotate(270deg);
+  -moz-transform: rotate(270deg);
+  -ms-transform: rotate(270deg);
+  -o-transform: rotate(270deg);
+  transform: rotate(270deg);
+}
+
+
+.flaticon-rotate-40:before {
+  -webkit-transform: rotate(40deg);
+  -moz-transform: rotate(40deg);
+  -ms-transform: rotate(40deg);
+  -o-transform: rotate(40deg);
+  transform: rotate(40deg);
+}
+
+.flaticon-rotate-320:before {
+  -webkit-transform: rotate(320deg);
+  -moz-transform: rotate(320deg);
+  -ms-transform: rotate(320deg);
+  -o-transform: rotate(320deg);
+  transform: rotate(320deg);
+}

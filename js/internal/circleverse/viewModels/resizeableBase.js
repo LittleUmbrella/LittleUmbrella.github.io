@@ -101,13 +101,13 @@ circleverse.viewModel.ResizeableBase = //(function () {
                     var static = self.connectionWidthStaticAdjustment(),
                     relative = ((self.dimensions().width/2) || 0) * -1;
 
-                    if (!static){
+                    if (static == null){
                         return relative;
                     }
                     return static;
                 }); 
 
-                
+                self.lineStartAt = ko.observable('edge');              
 
                 self.animationSettings = ko.observable();
 

@@ -43,10 +43,17 @@ circleverse.viewModel.MailViewModel = (function () {
             //left: scale() * 300, top:,
 
             self.size = ko.observable(initSize);
-            this.callSuper(object, parent, globalSettings);
+            
+            var settings = {
+                startingDegree: 180,
+                centerPadding: 40
+            };
+
+            self.callSuper(object, parent, globalSettings, settings);
             this.dimensions({ height: this.scale() * initSize, width: this.scale() * initSize });
 
             self.autoPopSingleChild(false);
+
 
             //self.settings = $.extend(self.settings || {}, { dropFilter: '.filterable' }, opts);
 
@@ -65,6 +72,7 @@ circleverse.viewModel.MailViewModel = (function () {
 
             self.mainCss('mail see-through');
             self.connectionWidthStaticAdjustment(-10);
+            self.lineStartAt('center');
 
             self.icon.secondary = {name: ko.pureComputed(function(){
                     if (self.model().isA(becu_org.domain.model.AccountObservable)){
@@ -122,7 +130,7 @@ circleverse.viewModel.MailViewModel = (function () {
             self.canClose(false);
             self.canOpen(false);
             
-            this.icon.name('icon-mail icon-size-3x');
+            this.icon.name('flaticon-tool-8 flaticon-size-6x');
             this.icon.color('#999999');
             this.borderColor('#999999');
             //log('garbage position: ' + this.position().top);

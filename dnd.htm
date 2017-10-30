@@ -9,6 +9,10 @@
 
     <link href="css/circleverseBase.css" rel="stylesheet" type="text/css" />
     <link href="css/circleverse.css" rel="stylesheet" type="text/css" />
+    <link href="css/style.css" rel="stylesheet" />
+    
+    <link href="css/flaticon.css" rel="stylesheet" />
+    <link href="css/font.css" rel="stylesheet" />
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.0.3/dist/leaflet.css" />
     <script src="https://unpkg.com/leaflet@1.0.3/dist/leaflet.js"></script>
     <style type="text/css">
@@ -1071,17 +1075,22 @@
     
     <script type="text/html" id="CustomerAddressViewModelContentTemplate"> 
         
-        
-            <div class="flex-container vertical customer-address data">         
+            
+                <span class="flaticon-tool-3 flaticon-size-13x"></span>
+                <div class="icon-background"></div>
+            <div class="flex-container vertical customer-address data">   
+                
+                <i data-bind="css: icon.secondary.name"> </i>
                 <div class="flex-container horizontal">
                     <!--<i class="icon-address icon-size-2x"> </i> &nbsp; -->
-                    <i data-bind="css: icon.secondary.name"> </i><!--<div data-bind="visible: $parent.linksCount() > 0"><i class="icon-link icon-size-1x"> </i>:<span data-bind="text: $parent.linksCount"></span></div>-->
+                    <!--<div data-bind="visible: $parent.linksCount() > 0"><i class="icon-link icon-size-1x"> </i>:<span data-bind="text: $parent.linksCount"></span></div>-->
                 </div>
                 <span class="address-owner" data-bind="text: addressOwner().fullName()"></span>
                 <!-- ko with: model --> 
                 <span data-bind="text: full"></span>
                 
                 <!-- /ko -->
+                
             </div>
     </script>
 
@@ -1106,7 +1115,6 @@
             , animatedMove: {satellite: $data, callback: moveEnded, top: move().top, left: move().left}
             , grow: {vm: $data, animationSettings: animationSettings}
         , supressDrapPropagation: true
-        , mailAnimation: $data
 "
                         class="drag drop circle"
                         style="display: none;">
@@ -1130,11 +1138,13 @@
     <script type="text/html" id="MailViewModelContentTemplate">         
         <div class="flex-container vertical data">         
             
+            <div class="letter-icon-background"></div>
             <i data-bind="css: icon.name"></i>
+            <div class="letter-icon-foreground"></div>
             <div class="flex-container horizontal">
                 
-                <i data-bind="css: icon.secondary.name"></i>&nbsp;
-            <span data-bind="text: full"></span>
+            re:&nbsp;<span data-bind="truncatedText: {text: full, length: 8, fromStart: true}"></span>&nbsp;
+                <i data-bind="css: icon.secondary.name"></i>
             </div>
         </div>
     </script>
@@ -1179,8 +1189,8 @@
                     class="drag drop circle"
                     style="display: none;">
                       
-        <div class="line" data-bind="addressConnection: $data, visible: showMe
-        , onTop: onTop"></div>
+        <div class="line" data-bind="addressConnection: {vm: $data}, visible: showMe
+        "></div>
         <!-- ko template: { name: contentTemplate } --><!-- /ko -->
         
         <!-- ko if: isA(becu_org.ui.viewModel.labelModule) && labelData().isReady -->               
@@ -1493,7 +1503,5 @@
 
     <!--<link href="css/circleverse.css" rel="stylesheet" type="text/css" />-->
     <!--<link href="css/circleverse_light.css" rel="stylesheet" type="text/css" />-->
-    <link href="css/style.css" rel="stylesheet" />
     
-    <link href="css/font.css" rel="stylesheet" />
 </html>

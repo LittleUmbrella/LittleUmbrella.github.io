@@ -627,7 +627,9 @@
 
                                 var 
                                     childCircle = dragViewModel,
-                                    parentDircle = childCircle.parent;
+                                    parentDircle = childCircle.parent, top, left;
+
+                                var startAt = ko.unwrap(childCircle.lineStartAt) || 'edge';
 
                                 var childDims = childCircle.dimensions(), childLoc = {'left': dd.dndposition.left, 'top': dd.dndposition.top}, parentDims = parentDircle.dimensions();//, parentLoc = parentDircle.location();  
                                 var childCircleCenter = {top: childLoc.top + (childDims.height/2), left: childLoc.left + (childDims.width/2)}
@@ -640,12 +642,28 @@
                                 var width = Math.hypot(childCircleCenter.left - parentCircleCenter.left, childCircleCenter.top - parentCircleCenter.top);
 
                                 //http://www.mathportal.org/calculators/plane-geometry-calculators/right-triangle-calculator.php
+                                
 
-                                var a = sind(rotation) * (parentDims.height/2);
-                                var c = cosd(rotation) * (parentDims.height/2);
+                                if (startAt == 'edge'){
+                                    //on edge of parent
+                                    var a = sind(rotation) * (parentDims.height/2);
+                                    var c = cosd(rotation) * (parentDims.height/2);
+
+                                    top = (a + (parentDims.height/2)) + 'px';
+                                    left = (c + (parentDims.width/2))  + 'px';
+                                    //end on edge of parent
+
+                                    width = (width-(parentDims.width/2) );//minus radius to ensure line ends at the edge of the connected circle (-(childDims.width/2)) to stop at edge of child
+                                }
+                                else{
+                                    top = parentCircleCenter.top + 'px';
+                                    left = parentCircleCenter.left  + 'px';
+                                    width = (width);
+
+                                }
 
                                 TweenLite.killTweensOf(lineEl);
-                                tl.add(TweenLite.to(lineEl, .3, { rotationZ: rotation, left: (c + (parentDims.width/2)) , top: (a + (parentDims.height/2)), width: (width-(parentDims.width/2)), ease: Elastic.easeOut.config(.5, 2)}), 0);
+                                tl.add(TweenLite.to(lineEl, .3, { rotationZ: rotation, left: left , top: top, width: (width), ease: Elastic.easeOut.config(.5, 2)}), 0);
                                 
                                 //lineEl.style.transform = 'rotateZ('+ rotation +'deg)';
                                 

@@ -886,7 +886,7 @@ function attachPagedArrayBehavior(array, element, options) {
 
     ko.bindingHandlers['util'] = ko.bindingHandlers['util'] || {};
 
-    ko.bindingHandlers['util'].truncate = function (text, length, ellipses) {
+    ko.bindingHandlers['util'].truncate = function (text, length, ellipses, fromStart) {
 
         if (text == null) return text;
 
@@ -896,11 +896,16 @@ function attachPagedArrayBehavior(array, element, options) {
         if (null == length)
             throw new Error("must provide a length property");
 
-        if (text.toString().length <= length) return text;
+        text = text.toString();
+
+        if (text.length <= length) return text;
 
         ellipses = ellipses || "...";
 
-        return text.toString().substring(0, length) + ellipses;
+        if (fromStart)            
+            return ellipses + text.substring(text.length - length, text.length);
+
+        return text.substring(0, length) + ellipses;
     }
 
     var truncatedTextOrValue = function (value, element, binding) {
@@ -908,9 +913,12 @@ function attachPagedArrayBehavior(array, element, options) {
         if (value && value.length > 0) {
             var text = ko.utils.unwrapObservable(value.text),
                 length = ko.utils.unwrapObservable(value.length),
+                fromStart = ko.utils.unwrapObservable(value.fromStart),
                 ellipses = ko.utils.unwrapObservable(value.ellipses);
 
-            var truncated = ko.bindingHandlers['util'].truncate(text, length, ellipses);
+            if (fromStart == null) fromStart = false;
+
+            var truncated = ko.bindingHandlers['util'].truncate(text, length, ellipses, fromStart);
 
             ko.bindingHandlers[binding].update(element, function () { return truncated });
         }

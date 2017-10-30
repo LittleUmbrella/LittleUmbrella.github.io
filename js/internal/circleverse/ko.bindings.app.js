@@ -167,7 +167,8 @@
                 widthAdjust = ko.unwrap(value.widthAdjust),
                 $element = $(element),
                 childCircle = value.vm,
-                parentDircle = childCircle.parent;
+                parentDircle = childCircle.parent,
+                startAt = ko.unwrap(value.vm.lineStartAt) || 'edge';
                     // base = ko.unwrap(value.base),
                     // satellite = ko.unwrap(value.satellite),
                     // $element = $(element),
@@ -183,8 +184,10 @@
 
                     
             var childDims = childCircle.dimensions(), childLoc = childCircle.location(), parentDims = parentDircle.dimensions(), parentLoc = parentDircle.location();  
-            var childCircleCenter = {top: childLoc.top + (childDims.height/2), left: childLoc.left + (childDims.width/2)}
-            var parentCircleCenter = {top: 0+ (parentDims.height/2), left: 0+ (parentDims.width/2)}
+            var childCircleCenter = {top: childLoc.top + (childDims.height/2), left: childLoc.left + (childDims.width/2)};
+            
+            var parentCircleCenter = {top: parentDims.height/2, left: parentDims.width/2};
+
 
             //don't do anything on initial bind
             if (ko.computedContext.isInitial()) {
@@ -217,15 +220,28 @@
 
             //http://www.mathportal.org/calculators/plane-geometry-calculators/right-triangle-calculator.php
 
-            var a = sind(rotation) * (parentDims.height/2);
-            var c = cosd(rotation) * (parentDims.height/2);
+            if (startAt == 'edge'){
+                //on edge of parent
+                var a = sind(rotation) * (parentDims.height/2);
+                var c = cosd(rotation) * (parentDims.height/2);
 
-            element.style.top = (a + (parentDims.height/2)) + 'px';
-            element.style.left = (c + (parentDims.width/2))  + 'px';
+                element.style.top = (a + (parentDims.height/2)) + 'px';
+                element.style.left = (c + (parentDims.width/2))  + 'px';
+                //end on edge of parent
+
+                width = (width-(parentDims.width/2) + widthAdjust);//minus radius to ensure line ends at the edge of the connected circle (-(childDims.width/2)) to stop at edge of child
+            }
+            else{
+                element.style.top = parentCircleCenter.top + 'px';
+                element.style.left = parentCircleCenter.left  + 'px';
+                width = (width + widthAdjust);
+
+            }
+            
 
             if (childCircle.showMe()){
-                element.style.transform = 'rotateZ('+ rotation +'deg) rotateX(180deg)';
-                element.style.width = (width-(parentDims.width/2) + widthAdjust) + 'px'; //minus radius to ensure line ends at the edge of the connected circle (-(childDims.width/2)) to stop at edge of child
+                element.style.transform = 'rotateZ('+ rotation +'deg) '; //rotateX(180deg)
+                element.style.width = width + 'px'; 
             }
             else{
                 
@@ -236,121 +252,6 @@
 
     ko.bindingHandlers.addressConnection = {
     //     init: function (element, valueAccessor, allBindings, viewModel, bindingContext) {
-    //         var value = ko.unwrap(valueAccessor()),
-    //             $element = $(element),
-    //             childCircle,  
-    //             parentDircle = ko.unwrap(value);
-    //                 // base = ko.unwrap(value.base),
-    //                 // satellite = ko.unwrap(value.satellite),
-    //                 // $element = $(element),
-    //                 // childPropName = value.childPropName || 'childViewModels',
-    //                 // popOut = 'undefined' == typeof ko.unwrap(satellite.popToggle) ? ('undefined' == typeof ko.unwrap(value.popToggle)? true: ko.unwrap(value.popToggle)): ko.unwrap(satellite.popToggle),
-    //                 // index = ko.unwrap(value.index) || 0,
-    //                 // callback = (satellite.popAnimationEnded? satellite.popAnimationEnded: value.callback || function () { }),
-    //                 // animationLength = 'undefined' == typeof ko.unwrap(value.animationLength) ? .7 : ko.unwrap(value.animationLength),
-    //                 // opacity = 0, //'undefined' == typeof ko.unwrap(value.opacity) ? 0 : ko.unwrap(value.opacity),
-    //                 // delay = ko.unwrap(value.delay),
-    //                 // relativeToBase = 'undefined' == typeof ko.unwrap(value.relativeToBase) ? true : ko.unwrap(value.relativeToBase),
-    //                 // disabled = 'undefined' == typeof ko.unwrap(value.disabled) ? false : ko.unwrap(value.disabled);
-
-
-    //         var parentDims = parentDircle.dimensions(), parentLoc = parentDircle.location();
-
-    //         if (parentDircle.showMe()){
-    //             var mapEls = $element.parent().siblings('.map');
-
-    //             if (mapEls.length == 0) 
-    //                 mapEls = $element.parents('.map');
-
-    //             if (mapEls.length == 0) throw Error("map '.map' element not found in ancestor tree or siblings");
-
-    //             var mapEl = mapEls[0];
-
-    //             var map = mapEl.__becu_map__;
-
-                
-    //             var latLng = new L.latLng(ko.unwrap(value.model().latitude), ko.unwrap(value.model().longitude));
-    //             //var point = map.project(latLng).divideBy(256).floor();
-    //             var point = map.latLngToContainerPoint(latLng);
-
-
-                        
-    //             var childDims = {width: 0, height: 0}, childLoc = {top: point.y - parentDircle.top, left: point.x - parentDircle.left};  
-    //             var childCircleCenter = {top: point.y - parentLoc.top, left: point.x - parentLoc.left};
-    //             var parentCircleCenter = {top: 0+ (parentDims.height/2), left: 0+ (parentDims.width/2)};
-
-    //             //don't do anything on initial bind
-    //             // if (ko.computedContext.isInitial()) {
-    //             //     return;
-    //             // }
-
-
-
-
-
-    //             //var rotation = getRotationInDegrees({top: childLoc.top, left: childLoc.left}, {top: 0, left: 0});
-    //             var rotation = getRotationInDegrees(parentCircleCenter, childCircleCenter);
-
-    //             //hypotenuse with child top and left as the two sides
-    //             var width = Math.hypot(childCircleCenter.left - parentCircleCenter.left, childCircleCenter.top - parentCircleCenter.top);
-
-    // //}
-    //         //angle-angle-side
-    //         //a-A-B
-                
-    //             // var b = parentDims.height;
-    //             // var A = rotation;
-    //             // /*
-    //             // the three angles of any triangle add up to 180.  We know one angle (degreeOfSeparation)
-    //             // and we know the other two are equivalent to each other, so...
-    //             // */
-    //             // var B = 90;
-
-    //             // var C = (180 -B) -A;
-                
-    //             // var a = (b * sind(A)) / sind(C);
-
-    //             // var c = (b * sind(C)) / sind(B);
-
-    //             //http://www.mathportal.org/calculators/plane-geometry-calculators/right-triangle-calculator.php
-
-    //             var a = sind(rotation) * (parentDims.height/2);
-    //             var c = cosd(rotation) * (parentDims.height/2);
-
-    //             element.style.top = (a + (parentDims.height/2)) + 'px';
-    //             element.style.left = (c + (parentDims.width/2))  + 'px';
-
-    //             element.style.transform = 'rotateZ('+ rotation +'deg)';
-    //             element.style.width = (width-(parentDims.width/2)) + 'px'; //minus radius to ensure line ends at the edge of the connected circle
-
-    //             var reposition = function(){
-    //                 var latLng = new L.latLng(ko.unwrap(value.model().latitude), ko.unwrap(value.model().longitude));
-    //                 //var point = map.project(latLng).divideBy(256).floor();
-    //                 var point = map.latLngToContainerPoint(latLng);
-                    
-    //                 var origin = map.getPixelOrigin();
-
-    //                 var offsetX = value.dimensions().width / 2, offsetY = value.dimensions().width + (3 * map.getZoom()); 
-    //                 // console.log("origin: " + origin.x + ", y:" + origin.y );
-    //                 // console.log("project: " + map.project(latLng).x + ", y:" + map.project(latLng).y );
-    //                 // console.log("latLngToLayerPoint: " + map.latLngToLayerPoint(latLng).x + ", y:" + map.latLngToLayerPoint(latLng).y );
-    //                 // console.log("latLngToContainerPoint: " + map.latLngToContainerPoint(latLng).x + ", y:" + map.latLngToContainerPoint(latLng).y );
-    //                 //console.log("containerPoint: " + map.project(latLng).x + ", y:" + map.project(latLng).y );
-                    
-    //                 value.location({left: point.x - offsetX, top: point.y - offsetY});
-    //             }            
-
-    //             reposition();
-
-    //             map.on('resize move zoom', function(){
-    //                 reposition();
-    //             });
-    //         }
-    //         else{
-                
-    //             element.style.width = '0';
-    //         }
-
             
     //     },
         'update': function (element, valueAccessor, allBindingAccessors) {
@@ -359,7 +260,8 @@
             var value = ko.unwrap(valueAccessor()),
                 $element = $(element),
                 childCircle,  
-                parentDircle = ko.unwrap(value);
+                parentDircle = ko.unwrap(value.vm),
+                startAt = ko.unwrap(value.vm.lineStartAt) || 'edge';
                     // base = ko.unwrap(value.base),
                     // satellite = ko.unwrap(value.satellite),
                     // $element = $(element),
@@ -389,7 +291,7 @@
                 var map = mapEl.__becu_map__;
 
                 
-                var latLng = new L.latLng(ko.unwrap(value.model().latitude), ko.unwrap(value.model().longitude));
+                var latLng = new L.latLng(ko.unwrap(parentDircle.model().latitude), ko.unwrap(parentDircle.model().longitude));
                 //var point = map.project(latLng).divideBy(256).floor();
                 var point = map.latLngToContainerPoint(latLng);
 
@@ -440,8 +342,28 @@
                 element.style.top = (a + (parentDims.height/2)) + 'px';
                 element.style.left = (c + (parentDims.width/2))  + 'px';
 
+
+                if (startAt == 'edge'){
+                    //on edge of parent
+                    var a = sind(rotation) * (parentDims.height/2);
+                    var c = cosd(rotation) * (parentDims.height/2);
+
+                    element.style.top = (a + (parentDims.height/2)) + 'px';
+                    element.style.left = (c + (parentDims.width/2))  + 'px';
+                    //end on edge of parent
+
+                    width = (width-(parentDims.width/2));//minus radius to ensure line ends at the edge of the connected circle (-(childDims.width/2)) to stop at edge of child
+                }
+                else{
+                    element.style.top = parentCircleCenter.top + 'px';
+                    element.style.left = parentCircleCenter.left  + 'px';
+                    width = (width);
+
+                }
+
+
                 element.style.transform = 'rotateZ('+ rotation +'deg)';
-                element.style.width = (width-(parentDims.width/2)) + 'px'; //minus radius to ensure line ends at the edge of the connected circle
+                element.style.width = (width) + 'px'; //minus radius to ensure line ends at the edge of the connected circle
             }
             else{
                 
@@ -1015,7 +937,9 @@
                     
                     var 
                         childCircle = satellite,
-                        parentDircle = childCircle.parent;
+                        parentDircle = childCircle.parent, top, left;
+
+                    var startAt = ko.unwrap(childCircle.lineStartAt) || 'edge';
 
                     // var childDims = childCircle.dimensions(), childLoc = childCircle.location(), parentDims = parentDircle.dimensions();//, parentLoc = parentDircle.location();  
                     // var childCircleCenter = {top: childLoc.top + (childDims.height/2), left: childLoc.left + (childDims.width/2)}
@@ -1032,17 +956,32 @@
 
                     //http://www.mathportal.org/calculators/plane-geometry-calculators/right-triangle-calculator.php
 
-                    var a = sind(rotation) * (parentDims.height/2);
-                    var c = cosd(rotation) * (parentDims.height/2);
+                    if (startAt == 'edge'){
+                        //on edge of parent
+                        var a = sind(rotation) * (parentDims.height/2);
+                        var c = cosd(rotation) * (parentDims.height/2);
+
+                        top = (a + (parentDims.height/2)) + 'px';
+                        left = (c + (parentDims.width/2))  + 'px';
+                        //end on edge of parent
+
+                        width = (width-(parentDims.width/2));//minus radius to ensure line ends at the edge of the connected circle (-(childDims.width/2)) to stop at edge of child
+                    }
+                    else{
+                        top = parentCircleCenter.top + 'px';
+                        left = parentCircleCenter.left  + 'px';
+                        width = (width);
+
+                    }
 
                     //TweenLite.set(lineEl, {rotateZ: rotation});
                     lineEl.style.transform = 'rotateZ('+ rotation +'deg)';
                     TweenLite.killTweensOf(lineEl);
                     var lineTl = {};
                     //lineTl.rotationZ = rotation;
-                    lineTl.left = (c + (parentDims.width/2));
-                    lineTl.top = (a + (parentDims.height/2));
-                    lineTl.width = (width-(parentDims.width/2));
+                    lineTl.left = left;
+                    lineTl.top = top;
+                    lineTl.width = (width);
                     lineTl.ease = tl.ease;
 
                     TweenLite.to(lineEl, .2, lineTl);
@@ -1369,7 +1308,9 @@ for (var j=0; j < dear.length; j++){
                 }
 
                 
-                $element.on('mousedown', function(){
+                $element.on('mousedown', function(e){
+                    if (e.which != 1) return; 
+
                     TweenLite.killTweensOf(doc);
                     
                     for (var i = 0; i < contentClones.length; i++){
@@ -1387,16 +1328,20 @@ for (var j=0; j < dear.length; j++){
 
                     TweenLite.set(doc, {display: 'none'});
                     TweenLite.set(elClone, {display: 'none'});
-                }).on('mouseup', function(){
+                    TweenLite.set(elClone, {transform: 'none'});
+                }).on('mouseup', function(e){             
+                    if (e.which != 1) return;       
                     
-                    TweenLite.set(docDear, {display: 'block', opacity: 0, scale:1});
-                    TweenLite.set(docHider, {display: 'block', opacity: 1, scale:1});
-                    TweenLite.set(doc, {display: 'block', opacity: 0, scale:1/*, className:"icon-file-empty icon-size-5x"*/});
-                    for (var i = 0; i < contentClones.length; i++){
-                        TweenLite.set(contentClones[i], {display: 'block', opacity: 0, scale:1});
-                    }
-                    TweenLite.set(elClone, {display: 'block', opacity: 1, scale:1});
-                    createAndStart();
+                    setTimeout(function(){
+                        TweenLite.set(docDear, {display: 'block', opacity: 0, scale:1});
+                        TweenLite.set(docHider, {display: 'block', opacity: 1, scale:1});
+                        TweenLite.set(doc, {display: 'block', opacity: 0, scale:1/*, className:"icon-file-empty icon-size-5x"*/});
+                        for (var i = 0; i < contentClones.length; i++){
+                            TweenLite.set(contentClones[i], {display: 'block', opacity: 0, scale:1});
+                        }
+                        TweenLite.set(elClone, {display: 'block', opacity: 1, scale:1});
+                        createAndStart();
+                    }, 1);
                 });
 
                 createAndStart();
