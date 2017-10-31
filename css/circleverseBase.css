@@ -1098,6 +1098,9 @@ ul.auto-fill li.row a{
     font-weight: 900;
 }
 
+.address, .mail{
+    border-width: 0;
+}
 
 [class^="flaticon-"], [class*=" flaticon-"] { 
   font-family: Flaticon !important;

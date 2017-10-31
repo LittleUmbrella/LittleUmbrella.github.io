@@ -525,3 +525,40 @@ form textarea.question + label > span {
 .drag .flex-grid.data .flex-container i.prim, .drag .data i.prim{
     color: #56aee0;
 }
+
+
+
+.flaticon-mailbox-1:before{    
+    -webkit-text-stroke-color: rgb(90, 102, 142);
+    -webkit-text-fill-color: #1E2730;
+}
+
+.flaticon-tool-3 {
+    text-shadow: none;
+}
+
+.flaticon-tool-3:before{    
+    -webkit-text-stroke-color: rgb(90, 102, 142);
+    -webkit-text-fill-color: #1E2730;
+}
+
+.available .flaticon-tool-3:before{    
+    -webkit-text-stroke-color: #070;
+}
+
+
+.address .customer-address{
+    background-color: #1E2730;
+}
+
+.icon-background{
+    background-color: #1E2730;
+}
+
+.letter-icon-background{
+    background-color: #1E2730;
+}
+
+.letter-icon-foreground{
+    background-color: #1E2730;
+}
