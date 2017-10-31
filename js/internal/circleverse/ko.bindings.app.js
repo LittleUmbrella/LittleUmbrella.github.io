@@ -1504,7 +1504,7 @@ for (var j=0; j < dear.length; j++){
                     map.setView(ko.unwrap(center), ko.unwrap(zoom));
                 }
 
-                if ('undefined' != typeof mapboxAccessToken){
+                if ('undefined' != typeof mapboxAccessToken && value.globalSettings['theme'].value() == 'dark'){
                     L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=' + mapboxAccessToken, {
                         id: 'mapbox.dark',
                         attribution: 'osm.org'

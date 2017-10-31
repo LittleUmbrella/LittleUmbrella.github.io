@@ -1127,8 +1127,6 @@ ul.auto-fill li.row a{
     top: 50px;
     left: -30px;
     -webkit-text-stroke-width: 1.5px;
-    -webkit-text-stroke-color: rgb(90, 102, 142);
-    -webkit-text-fill-color: #1E2730;
 }
 
 .flaticon-tool-3 {
@@ -1141,43 +1139,33 @@ ul.auto-fill li.row a{
     left: -25px;
     font-size: 14.5em !important;
     -webkit-text-stroke-width: 1.5px;
-    -webkit-text-stroke-color: rgb(90, 102, 142);
-    -webkit-text-fill-color: #1E2730;
 }
 
-.available .flaticon-tool-3:before{    
-    -webkit-text-stroke-color: #070;
-}
 
 .flaticon-tool-1{
     position: absolute;
     top: -28px;
 }
 
-.address .customer-address{
-    background-color: #1E2730;
-}
 
 .icon-background{
     
-    position: absolute;
-    width: 13em;
-    height: 70px;
-    top: 18px;
+        position: absolute;
+    width: 142px;
+    height: 72px;
+    top: 15px;
     left: -18px;
-    background-color: #1E2730;
-    border-top-left-radius: 10px;
-    border-top-right-radius: 10px;
+    border-top-left-radius: 15px;
+    border-top-right-radius: 15px;
     z-index: -1;
 }
 
 .letter-icon-background{
     position: absolute;
-    width: 105px;
-    height: 40px;
-    top: 26px;
-    left: 1px;
-    background-color: #1E2730;
+    width: 90px;
+    height: 50px;
+    top: 20px;
+    left: 11px;
     /* border-top-left-radius: 10px; */
     /* border-top-right-radius: 10px; */
     z-index: -1;
@@ -1185,19 +1173,18 @@ ul.auto-fill li.row a{
 
 .letter-icon-foreground{
     position: absolute;
-    width: 100px;
+    width: 88px;
     height: 18px;
     top: 45px;
-    left: 5px;
-    background-color: #1E2730;
+    left: 11px;
     /* border-top-left-radius: 10px; */
     /* border-top-right-radius: 10px; */
     z-index: -1;
 }
 
-.mail .flaticon-tool-8{
+.mail .flaticon-tool-8, .mail .flaticon-tool-7{
     
-    transform: scale(1.7, 1);
+    /*transform: scale(1.7, 1);*/
     position: absolute;
     z-index: -1;
     top: 40px;
@@ -1213,4 +1200,11 @@ ul.auto-fill li.row a{
     word-break: break-all;
     top: 25px;
 
+}
+
+.address .mailbox{
+    position: absolute;
+    top: -80px;
+    left: -70px;
+    transform: scale(.6);
 }

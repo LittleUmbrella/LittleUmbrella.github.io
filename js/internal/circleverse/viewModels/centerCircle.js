@@ -81,7 +81,12 @@
 
                 self.shadowActive = ko.observable(false);
 
-                var showShadow = ko.observable(globalSettings['shadeChildren'].value());
+                var shadowSettingOn = true;
+                if (globalSettings['shadeChildren']){
+                    shadowSettingOn = globalSettings['shadeChildren'].value();
+                }
+
+                var showShadow = ko.observable(shadowSettingOn);
 
                 globalSettings.eventAggregator.subscribe('circleverse.setting.changed', function (msg, data) {
                     if (data.setting == 'shadeChildren') {
@@ -305,7 +310,7 @@
                     self.childrenVisible(true);
 
 
-                    if (self.globalSettings['autoPin'].value()) {
+                    if (self.globalSettings['autoPin'] && self.globalSettings['autoPin'].value()) {
                         if (self.pinViewModel)
                             self.pinViewModel.togglePin([self.pinViewModel]);
                     }
@@ -438,7 +443,7 @@
 
 
 
-                    if (self.globalSettings['autoPin'].value()) {
+                    if (self.globalSettings['autoPin'] && self.globalSettings['autoPin'].value()) {
                         if (self.pinViewModel)
                             self.pinViewModel.togglePin([self.pinViewModel]);
                     }

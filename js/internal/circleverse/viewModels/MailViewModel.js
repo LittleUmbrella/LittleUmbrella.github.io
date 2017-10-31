@@ -130,7 +130,7 @@ circleverse.viewModel.MailViewModel = (function () {
             self.canClose(false);
             self.canOpen(false);
             
-            this.icon.name('flaticon-tool-8 flaticon-size-6x');
+            this.icon.name('flaticon-tool-7 flaticon-size-9x');
             this.icon.color('#999999');
             this.borderColor('#999999');
             //log('garbage position: ' + this.position().top);

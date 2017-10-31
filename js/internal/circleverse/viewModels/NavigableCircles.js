@@ -845,7 +845,7 @@
 
 
                 //var droppedIdx = $.inArray(dropped, self.childViewModels()), 
-                var newItem = dropped, pulse = self.__globalSettings['navigationEffect'].value();
+                var newItem = dropped, pulse = (self.__globalSettings['navigationEffect'])? self.__globalSettings['navigationEffect'].value(): true;
 
 
                 if (direction > 0) {
