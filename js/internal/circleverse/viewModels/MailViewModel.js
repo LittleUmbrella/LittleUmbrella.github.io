@@ -46,7 +46,8 @@ circleverse.viewModel.MailViewModel = (function () {
             
             var settings = {
                 startingDegree: 180,
-                centerPadding: 40
+                centerPadding: 40,
+                evenDistribution: false
             };
 
             self.callSuper(object, parent, globalSettings, settings);
@@ -55,7 +56,7 @@ circleverse.viewModel.MailViewModel = (function () {
             self.autoPopSingleChild(false);
 
 
-            //self.settings = $.extend(self.settings || {}, { dropFilter: '.filterable' }, opts);
+            //self.settings = $.extend(self.settings || {}, { dropFilter: '.address' }, opts);
 
             
             //self.label("Mail");
@@ -152,6 +153,13 @@ circleverse.viewModel.MailViewModel = (function () {
                 }
             }
         },
+
+        getSettings: function () {
+            var settings = this.callSuper();
+            settings.drop = '.address';
+            return settings;
+        }
+        ,
 
         dropped: function (dropModel, dropViewModel, args, prom) {
             var self = this;

@@ -97,6 +97,8 @@ circleverse.viewModel.CloseViewModel = (function () {
                     self.showMe(args.canClose());
                 });
             });
+
+            self.mainCss('close');
             
             this.icon.name('icon-close2 icon-size-2x');
             this.icon.color('#999999');

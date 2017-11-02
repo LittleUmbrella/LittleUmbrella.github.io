@@ -82,6 +82,8 @@ circleverse.viewModel.settingsViewModel = (function () {
                  cachedSettings[key] = mappedItem;
          });
 
+         self.mainCss('settings');
+
 
          globalSettings = $.extend(true, globalSettings || {}, defaultSettings, cachedSettings || {})
 

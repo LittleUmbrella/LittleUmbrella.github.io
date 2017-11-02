@@ -42,8 +42,8 @@ circleverse.viewModel.SearchMembersResultViewModel = (function () {
             var settings = {
                 itemDiameter: initSize + 5,
                 startSatellitesOnEdge: false,
-                startingDegree: 230,
-                evenDistribution: true
+                startingDegree: 230//,
+                //evenDistribution: true
             };
             
             self.callSuper(object, parent, globalSettings, settings);
@@ -88,19 +88,11 @@ circleverse.viewModel.SearchMembersResultViewModel = (function () {
             self.canCreate(false);    
 
             
-            self.searchResults = ko.observableArray();
             
             this.icon.name('icon-search icon-size-3x');
             this.icon.color('#999999');
             this.borderColor('#999999');
             //log('garbage position: ' + this.position().top);
-        }
-        ,
-
-        showResults: function(results){
-            var self = this;
-
-            self.searchResults(results);
         }
         ,
 

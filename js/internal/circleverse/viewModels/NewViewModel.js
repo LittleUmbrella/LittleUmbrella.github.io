@@ -62,6 +62,8 @@ circleverse.viewModel.NewViewModel = (function () {
                 });
             });
 
+            self.mainCss('new');
+
             this.icon.name('icon-plus icon-size-2x');
             this.icon.color('#999999');
             this.borderColor('#999999');

@@ -57,6 +57,7 @@ circleverse.viewModel.SaveViewModel = (function () {
                 });
             });
 
+            self.mainCss('save');
             
             this.icon.name('icon-checkmark icon-size-2x');
             this.icon.color('#999999');

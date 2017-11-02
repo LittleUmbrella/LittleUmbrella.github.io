@@ -51,6 +51,8 @@ circleverse.viewModel.FilterViewModel = (function () {
          var coords = this.__getCoords();
          this.location({ left: coords.left, top: coords.top });
 
+         self.mainCss('filter');
+
          this.icon.name('icon-filter2 icon-size-3x');
          this.icon.color('#999999');
          this.borderColor('#999999');

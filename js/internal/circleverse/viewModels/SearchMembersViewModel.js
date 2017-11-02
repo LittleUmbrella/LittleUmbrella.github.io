@@ -234,21 +234,25 @@ circleverse.viewModel.SearchMembersViewModel = (function () {
             self.isBusy(true);
             self.childViewModels.removeAll();
             self.globalSettings.repository.findIndividuals(request).then(function(result){
-                
+                var child;
                 result.forEach(function(element) {
                     element.name = element.firstName + ' ' + element.lastName;
                     element.age = element.dateOfBirth;
+                    child = new circleverse.viewModel.SearchMembersResultViewModel(element, self, self.globalSettings);
                     self.childViewModels.push(new circleverse.viewModel.SearchMembersResultViewModel(element, self, self.globalSettings));
                     
                 }, self);
+                
 
                 self.isBusy(false);
-                if (self.childrenVisible()){
-                    //self.searchResultsViewModel.showResults(result);
-                }
-                else{
-                }
-                self.hideMainForm();
+                // if (self.childrenVisible()){
+                //     //self.searchResultsViewModel.showResults(result);
+                // }
+                // else{
+                // }
+                self.hideMainForm().then(function(){                    
+                    if (result.length == 1) setTimeout(function(){ child.getIndividual()}, 1000);
+                });
 
             });
         }

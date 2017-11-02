@@ -1005,19 +1005,13 @@ ul.auto-fill{
     position: absolute;
     /*transform: rotate(180deg);*/
     transform-origin: 50% top;
-    background-color: rgb(236, 233, 230);
     padding: 5px;
     list-style: none;
-    border: 1px solid #999;
     max-width: 80%;
 
 }
  ul.auto-fill, ul.auto-fill li.row   {
     transform: scaleY(-1);
-}
-
-ul.auto-fill li.row{
-    border-top: 1px solid #999;
 }
 
 ul.auto-fill li.row:last-child{

@@ -57,6 +57,8 @@ circleverse.viewModel.garbageViewModel = (function () {
                     self.showMe(args.canDelete());
                 });
             });
+
+            self.mainCss('trash');
             
             this.icon.name('icon-trash-o icon-size-2x');
             this.icon.color('#999999');

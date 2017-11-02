@@ -57,6 +57,8 @@ circleverse.viewModel.EditViewModel = (function () {
                     self.showMe(args.canEdit());
                 });
             });
+
+            self.mainCss('edit');
             
             this.icon.name('icon-pencil icon-size-2x');
             this.icon.color('#999999');

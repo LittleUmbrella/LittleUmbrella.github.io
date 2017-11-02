@@ -56,6 +56,7 @@ circleverse.viewModel.helpViewModel = (function () {
             var coords = this.__getCoords();
             this.location({ left: coords.left, top: coords.top });
 
+            self.mainCss('help');
             
             this.icon.name('icon-question icon-size-3x');
             this.icon.color('#999999');

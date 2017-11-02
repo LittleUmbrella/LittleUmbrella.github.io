@@ -147,7 +147,8 @@
                 , 'height': (dimensions().height) + 'px'
                 , 'top': (location().top) + 'px'
                 , 'left': (location().left) + 'px'
-                }, 
+                },
+        css: mainCss, 
             dropAvailable: {data: isAvailable, css: 'available'}, onTop: onTop"
                 class="drag drop circle tool backgroundCenter refresh ">
 
@@ -166,7 +167,8 @@
                 , 'height': (dimensions().height) + 'px'
                 , 'top': (location().top) + 'px'
                 , 'left': (location().left) + 'px'
-                }, 
+                },
+        css: mainCss, 
             dropAvailable: {data: isAvailable, css: 'available'}, 
             onTop: onTop
                 , event: { 'click': function (data, e) { toggleMainForm(); e.cancelBubble = true; if (e.stopPropagation) e.stopPropagation(); return false }, dblclickBubble: false }
@@ -1082,15 +1084,14 @@
 
                  <g>
   <title>Layer 1</title>
-  <path id="svg_1" d="m0.75,131.5" opacity="0.5" fill-opacity="null" stroke-opacity="null" stroke-width="1.5" stroke="#000" fill="none"/>
-  <line stroke-linecap="undefined" stroke-linejoin="undefined" id="svg_3" y2="180.5" x2="133.75" y1="230.5" x1="134.75" fill-opacity="null" stroke-opacity="null" stroke-width="1.5" stroke="#000" fill="none"/>
-  <line stroke-linecap="undefined" stroke-linejoin="undefined" id="svg_5" y2="180.5" x2="242.75" y1="180.5" x1="133.75" fill-opacity="null" stroke-opacity="null" stroke-width="1.5" stroke="#000" fill="none"/>
-  <line fill="none" stroke="#000" stroke-width="1.5" stroke-opacity="null" fill-opacity="null" x1="242.75" y1="180.5" x2="242.75" y2="90.5" id="svg_2" stroke-linejoin="undefined" stroke-linecap="undefined"/>
-  <path stroke="#000" id="svg_4" d="m242.75,90.5l0.5,0c0,-31 -27,-31 -27,-31.5c0,0.5 -182,1.5 -182,1c0,0.5 0,-28.5 0,-29c0,0.5 30,0.5 30,0c0,0.5 0,-27.5 0,-28c0,0.5 -29,1.5 -29,1" fill-opacity="null" stroke-opacity="null" stroke-width="1.5" fill="none"/>
-  <line fill="none" stroke="#000" stroke-width="1.5" stroke-opacity="null" fill-opacity="null" x1="33.75" y1="30.5" x2="33.75" y2="3.5" id="svg_6" stroke-linejoin="null" stroke-linecap="null"/>
-  <line fill="none" stroke="#000" stroke-width="1.5" stroke-opacity="null" fill-opacity="null" x1="32.75" y1="116.5" x2="31.75" y2="116.5" id="svg_7" stroke-linejoin="null" stroke-linecap="null"/>
-  <path fill="none" stroke="#000" stroke-width="1.5" stroke-opacity="null" fill-opacity="null" d="m33.75,59.5c-31,0 -31,22 -31,21.5c0,0.5 1,99.5 1,99c0,0.5 130,0.5 130,0c0,0.5 -70,0.5 -70,0.5c0,0 -2,-99 -2,-99.5c0,0.5 3,-21.5 -28,-21.5z" id="svg_8"/>
-  <line fill="none" stroke="#000" stroke-width="1.5" stroke-opacity="null" fill-opacity="null" x1="19.75" y1="150.5" x2="41.75" y2="150.5" id="svg_9" stroke-linejoin="null" stroke-linecap="null"/>
+  <line stroke-linecap="undefined" stroke-linejoin="undefined" id="svg_3" y2="180.5" x2="133.75" y1="230.5" x1="134.75" fill-opacity="null" stroke-opacity="null" stroke-width="1.5" fill="none"/>
+  <line stroke-linecap="undefined" stroke-linejoin="undefined" id="svg_5" y2="180.5" x2="242.75" y1="180.5" x1="133.75" fill-opacity="null" stroke-opacity="null" stroke-width="1.5" fill="none"/>
+  <line fill="none" stroke-width="1.5" stroke-opacity="null" fill-opacity="null" x1="242.75" y1="180.5" x2="242.75" y2="90.5" id="svg_2" stroke-linejoin="undefined" stroke-linecap="undefined"/>
+  <path id="svg_4" d="m242.75,90.5l0.5,0c0,-31 -27,-31 -27,-31.5c0,0.5 -182,1.5 -182,1c0,0.5 0,-28.5 0,-29c0,0.5 30,0.5 30,0c0,0.5 0,-27.5 0,-28c0,0.5 -29,1.5 -29,1" fill-opacity="null" stroke-opacity="null" stroke-width="1.5" fill="none"/>
+  <line fill="none" stroke-width="1.5" stroke-opacity="null" fill-opacity="null" x1="33.75" y1="30.5" x2="33.75" y2="3.5" id="svg_6" stroke-linejoin="null" stroke-linecap="null"/>
+  <line fill="none" stroke-width="1.5" stroke-opacity="null" fill-opacity="null" x1="32.75" y1="116.5" x2="31.75" y2="116.5" id="svg_7" stroke-linejoin="null" stroke-linecap="null"/>
+  <path fill="none" stroke-width="1.5" stroke-opacity="null" fill-opacity="null" d="m33.75,59.5c-31,0 -31,22 -31,21.5c0,0.5 1,99.5 1,99c0,0.5 130,0.5 130,0c0,0.5 -70,0.5 -70,0.5c0,0 -2,-99 -2,-99.5c0,0.5 3,-21.5 -28,-21.5z" id="svg_8"/>
+  <line fill="none" stroke-width="1.5" stroke-opacity="null" fill-opacity="null" x1="19.75" y1="150.5" x2="41.75" y2="150.5" id="svg_9" stroke-linejoin="null" stroke-linecap="null"/>
  </g>
                 </svg>
                 <div class="icon-background"></div>

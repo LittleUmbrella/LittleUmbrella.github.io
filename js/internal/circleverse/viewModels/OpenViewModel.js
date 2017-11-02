@@ -98,6 +98,8 @@ circleverse.viewModel.OpenViewModel = (function () {
                     self.showMe(args.canOpen());
                 });
             });
+
+            self.mainCss('open');
             
             this.icon.name('icon-enter icon-size-2x');
             this.icon.color('#999999');

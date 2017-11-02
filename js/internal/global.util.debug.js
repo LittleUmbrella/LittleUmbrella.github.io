@@ -105,6 +105,7 @@ littleUmbrella.circleverse.ui.shapes.satellite = {
 
 
         var degreeOfSeparationBasedOnSatellite = eaf.util.solveAngle(side1, side1, side2); //Math.acos(((((side1 * side1) + (side2 * side2)) - (side2 * side2)) / (side2 * side2 * 2)) / 180 * Math.PI) * Math.PI;
+        // even seems like it should be separation based on satellite
         degreeOfSeparation = evenDistribution ? degreeOfSeparation : settings.noOverLap ? Math.min(degreeOfSeparation, degreeOfSeparationBasedOnSatellite) : degreeOfSeparationBasedOnSatellite;
 
         //}

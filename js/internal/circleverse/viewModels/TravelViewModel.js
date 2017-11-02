@@ -62,6 +62,8 @@ circleverse.viewModel.TravelViewModel = (function () {
                     self.showMe(false);
                 }
             });
+
+            self.mainCss('travel');
             
             this.icon.name('icon-airplane icon-size-2x');
             this.icon.color('#999999');

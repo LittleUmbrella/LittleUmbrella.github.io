@@ -498,6 +498,17 @@ form textarea.question + label > span {
 }
 
 
+
+ul.auto-fill{
+    background-color: #5A668E;
+    border: 1px solid #999;
+}
+
+ul.auto-fill li.row{
+    border-top: 1px solid #999;
+}
+
+
 .circle + script + .line{
     background-color: #5A668E /*#56aee0*/;
 }
@@ -561,4 +572,14 @@ form textarea.question + label > span {
 
 .letter-icon-foreground{
     background-color: #1E2730;
+}
+
+.address .mailbox{
+    color: rgb(90, 102, 142);
+    stroke: rgb(90, 102, 142);  
+}
+
+.address.available .mailbox{
+    stroke: #070;  
+    color: #070;    
 }

@@ -354,7 +354,8 @@ circleverse.viewModel.CustomerAddressViewModel = (function () {
 
         getSettings: function () {
             var settings = this.callSuper();
-            //settings.drop = false;
+            settings.drop = '.mail, .edit, .new, .trash';
+            
             //settings.not = '.koGrid, .koGrid div, .kgRow, .kgCell div, .kgHeaderCell div, .kgTopPanel, .kgColMenu, .kgFooterPanel, .kgColListItem, .kgRow.odd, .kgRow.even, .kgRow.selected, .kgGroupIcon';
             return settings;
         }

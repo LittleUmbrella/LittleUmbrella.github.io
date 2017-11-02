@@ -84,6 +84,8 @@ circleverse.viewModel.SearchViewModel = (function () {
                     self.showMe(args.canSearch());
                 });
             });
+
+            self.mainCss('search');
             
             this.icon.name('icon-search icon-size-2x');
             this.icon.color('#999999');
