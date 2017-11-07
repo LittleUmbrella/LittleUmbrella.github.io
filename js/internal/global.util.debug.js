@@ -1613,6 +1613,116 @@ ko.bindingHandlers['infoize'] = {
 };
 
 
+ko.bindingHandlers['fadeInFrom'] = {
+    'update': function (element, valueAccessor, allBindingsAccessor, viewModel) {
+        var $element = $(element);
+        var value = ko.unwrap(valueAccessor()), realValue = typeof value.value == 'undefined' ? true : ko.unwrap(value.value), initiator = value.initiator, dialogVm = value.dialogVm;
+
+        var $from = $element;
+
+        if (realValue === true) {
+            //, transformOrigin: "50% 50% -80"
+            var defaults = { clone: true, coords: 'top', cssClass: '', duration: .85, css: { scale: 1 }, ease: /*SteppedEase.config(10)SlowMo.ease*/Linear.easeNone };
+
+            var opts = $.extend(true, defaults, value);
+            var fromType = typeof value.from;
+
+            switch (fromType) {
+                case 'function':
+                    $from = value.from();
+                    break;
+                case 'undefined':
+                    //do nothing, using element as from
+                    break;
+                default:
+                    $from = $(value.from);
+                    break;
+            }
+            var
+                startTop = $from.offset().top,
+                startLeft = $from.offset().left,
+                _top = dialogVm.position().top,
+                _left = dialogVm.position().left
+                // _top = dest.offset().top,
+                // _left = dest.offset().left
+            ;
+
+            // if (opts.coords == 'middle') {
+            //     _top += (dest.height() || 0) / 2;
+            //     _left += (dest.width() || 0) / 2;
+            // }
+
+            $elementOrClone = $element;
+            // if (opts.clone === true) {
+            //     $elementOrClone = $from.clone();
+            // }
+
+            var midx = Math.ceil(startLeft + ((_left - startLeft) * .7));
+            var midy = Math.ceil(startTop + (Math.abs(_top - startTop) * .5));
+            var beziers = BezierPlugin.bezierThrough([{ left: startLeft, top: startTop }, { left: midx, top: midy }, { left: _left, top: _top }]);
+
+            //do a special extend.  desire is to have a more intuitive name for consumers (animationCss), since css is
+            //confusing
+            defaults.css = $.extend(defaults.css, value.animationCss);
+
+            //var animationOpts = $.extend(defaults, value.animationOpts);
+
+            animationOpts = $.extend(true, defaults, {
+                css: {
+                    bezier: {
+                        type: "thru",
+                        values:
+                [
+                    //{ x: 100, y: 250 }, { x: 150, y: 100 }, { x: 300, y: 500 }, { x: 500, y: 400 }
+                    //{ x: startLeft /* + options.radius */, y: startTop /* + options.radius */ },
+                    { left: midx /* + options.radius */, top: midy /* + options.radius */ },
+                    //{ x: Math.ceil(_left) /* + options.radius */, y: Math.ceil(_top) /* + options.radius */ },
+                    { left: Math.ceil(_left) /* + options.radius */, top: Math.ceil(_top) /* + options.radius */ }
+                ], autoRotate: false//["x", "y", "rotation", 45, false]
+                    }
+                    //, scale: opts.scale//, rotation: opts.rotation
+                }, onComplete: function () { $elementOrClone.remove(); (value.callback || function () { })(); }
+            });
+
+            //TweenLite.set($elementOrClone, {scale: .1});
+
+
+            //var coords = element.getBoundingClientRect();
+            //startTop = coords.bottom - coords.height;
+            //startLeft = coords.left;
+
+            // shrink$element
+            $elementOrClone.appendTo(document.body);
+            $elementOrClone
+                .css({
+                    "position": "absolute",
+                    "top": startTop,
+                    "left": startLeft,
+                    "width": 'auto',
+                    "height": 'auto',
+                    zIndex: 9000,
+                    scale: .1
+                });
+
+            if (opts.cssClass != '') {
+                $elementOrClone.addClass(opts.cssClass);
+            }
+            //$elementOrClone.animate({
+            //    fontSize: '1px',
+            //    top: _top,
+            //    left: _left
+            //}
+            //    , opts.duration, 'swing', function () {
+            //        // done
+
+            //        $elementOrClone.fadeOut('fast', value.callback || function () { });
+            //    });
+            //-webkit-transform: matrix(1, 0, 0, 1, 731, 90)
+            var tl = new TweenLite.to($elementOrClone, opts.duration, animationOpts);
+        }
+    }
+}
+
 ko.bindingHandlers['fadeTo'] = {
     'init': function (element, valueAccessor, allBindingsAccessor, viewModel) {
         var $element = $(element);
@@ -1627,7 +1737,8 @@ ko.bindingHandlers['fadeTo'] = {
 
                 var dest = null;
                 var type = typeof value.to;
-                switch (type) {
+
+                switch (type) { 
                     case 'function':
                         dest = value.to();
                         break;

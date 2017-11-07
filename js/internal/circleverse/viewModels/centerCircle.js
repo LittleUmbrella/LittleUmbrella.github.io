@@ -269,7 +269,14 @@
                             //if only one child, open it                            
                             if (len == 1 && item.autoPopSingleChild()){
                                 popDeferred.then(function(){
-                                    item.showChildVieModels();
+                                    if (item.load){
+                                        item.load().then(function(){
+                                            item.showChildVieModels();
+                                        });
+                                    }
+                                    else{
+                                        item.showChildVieModels();
+                                    }
                                 });
                             }
                             popDeferreds.push(popDeferred);

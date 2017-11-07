@@ -87,7 +87,7 @@ circleverse.viewModel.SearchMembersResultViewModel = (function () {
             self.canEdit(false);
             self.canCreate(false);    
 
-            
+            self.__loaded = false;
             
             this.icon.name('icon-search icon-size-3x');
             this.icon.color('#999999');
@@ -97,17 +97,28 @@ circleverse.viewModel.SearchMembersResultViewModel = (function () {
         ,
 
 
-        getIndividual: function(){
+        load: function(){
 
             var self = this;
 
             self.isBusy(true);
-            self.globalSettings.repository.getIndividual(self.model()).then(function(result){
-                self.isBusy(false);
-                self.childViewModels.push(new littleUmbrella.circleverse.viewModel.CustomerViewModel(result, self, self.globalSettings));
-        
-                self.showChildVieModels();
-            });
+
+            
+            var prom = jQuery.Deferred();
+            if (self.__loaded){
+                prom.resolve();
+            }
+            else{
+                prom = self.globalSettings.repository.getIndividual(self.model());
+                prom.then(function(result){
+                    self.isBusy(false);
+                    self.childViewModels.push(new littleUmbrella.circleverse.viewModel.CustomerViewModel(result, self, self.globalSettings));
+            
+                    self.__loaded = true;
+                    self.showChildVieModels();
+                });
+            }
+            return prom;
         }
         ,
 
@@ -120,7 +131,7 @@ circleverse.viewModel.SearchMembersResultViewModel = (function () {
             if (dropViewModel.isA(circleverse.viewModel.OpenViewModel)) {
                 prom.then(function(){
                     if (self.childViewModels().length == 0){
-                        self.getIndividual();
+                        self.load();
                     }
                     else{
                         
@@ -148,7 +159,7 @@ circleverse.viewModel.SearchMembersResultViewModel = (function () {
                 prom.then(function(){
                     
                     if (self.childViewModels().length == 0){
-                        self.getIndividual();
+                        self.load();
                     }
                     else{
                         

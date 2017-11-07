@@ -233,7 +233,9 @@ circleverse.viewModel.SearchMembersViewModel = (function () {
 
             self.isBusy(true);
             self.childViewModels.removeAll();
-            self.globalSettings.repository.findIndividuals(request).then(function(result){
+            var prom = self.globalSettings.repository.findIndividuals(request);
+            
+            prom.then(function(result){
                 var child;
                 result.forEach(function(element) {
                     element.name = element.firstName + ' ' + element.lastName;
@@ -245,16 +247,11 @@ circleverse.viewModel.SearchMembersViewModel = (function () {
                 
 
                 self.isBusy(false);
-                // if (self.childrenVisible()){
-                //     //self.searchResultsViewModel.showResults(result);
-                // }
-                // else{
-                // }
-                self.hideMainForm().then(function(){                    
-                    if (result.length == 1) setTimeout(function(){ child.getIndividual()}, 1000);
-                });
+                self.hideMainForm();
 
             });
+
+            return prom;
         }
         ,
 
@@ -296,11 +293,10 @@ circleverse.viewModel.SearchMembersViewModel = (function () {
             }
             else if (dropViewModel.isA(circleverse.viewModel.SaveViewModel) || dropViewModel.isA(circleverse.viewModel.SaveViewModel)) {
                 prom.then(function(){
-                    self.findIndividuals();
-                });
-
-                
-                if (self.callSuper) self.callSuper();
+                    self.findIndividuals().then(function(){
+                        if (self.callSuper) self.callSuper();
+                    });
+                });                
             }
             else{
                 
@@ -337,10 +333,11 @@ circleverse.viewModel.SearchMembersViewModel = (function () {
             else if (dragVm.isA(circleverse.viewModel.SaveViewModel) || dragVm.isA(circleverse.viewModel.SaveViewModel)) {               
 
                 prom.then(function(){
-                    self.findIndividuals();
+                    self.findIndividuals().then(function(){
+                        if (self.callSuper) self.callSuper();
+                    });
                 });
 
-                if (self.callSuper) self.callSuper();
             }
             else{
                 

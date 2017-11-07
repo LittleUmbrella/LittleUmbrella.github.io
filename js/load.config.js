@@ -2282,6 +2282,35 @@
                     .requires('eaf.util', 'littleUmbrella.circleverse.ui.Animation', 'SAT')
         ;
 
+        
+        file('/js/internal/circleverse/viewModels/AllDialogConfirmViewModels.js?r=2')
+                    .provides('littleUmbrella.circleverse.viewModel.AllDialogConfirmViewModels')
+                    .requires('jQuery', 'JS.Module', 'JS.Class', 'JSextend', 'eaf.core', 'eaf.util', 'circleverse.viewModel.DialogConfirmViewModel'
+                    )
+        ;
+
+        
+
+
+
+        file('/js/internal/circleverse/viewModels/DialogConfirmViewModel.js')
+                    .provides('circleverse.viewModel.DialogConfirmViewModel')
+                    .requires('jQuery', 'JS.Module', 'JS.Class', 'JSextend', 'eaf.core', 'eaf.util'
+                    ,
+                    'circleverse.viewModel.Base'
+                    ,
+                    'circleverse.viewModel.ResizeableBase'
+                    ,
+                    'littleUmbrella.circleverse.viewModel.AllPersonsViewModel'
+                    ,
+                    'littleUmbrella.circleverse.viewModel.AllOrganizationsViewModel'
+                    ,
+                    'becu_org.ui.viewModel.baseModule'
+                    ,
+                    'becu_org.domain.model.BecuObservable'
+                    );
+
+
 
         file('/js/internal/circleverse/viewModels/earthViewModel.js')
                     .provides('circleverse.viewModel.earthViewModel')
@@ -2313,7 +2342,8 @@
                     'circleverse.viewModel.MoveViewModel',
                     'circleverse.viewModel.LinkViewModel',
                     'circleverse.viewModel.LinksViewModel',
-                    'circleverse.viewModel.CustomerAddressesMapViewModel')
+                    'circleverse.viewModel.CustomerAddressesMapViewModel',
+                    'littleUmbrella.circleverse.viewModel.AllDialogConfirmViewModels')
                     ;
 
         file('/js/external/when.js?r=2')
