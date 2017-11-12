@@ -56,6 +56,7 @@ circleverse.viewModel.MailViewModel = (function () {
             self.autoPopSingleChild(false);
 
 
+
             //self.settings = $.extend(self.settings || {}, { dropFilter: '.address' }, opts);
 
             

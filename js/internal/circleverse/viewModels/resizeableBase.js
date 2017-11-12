@@ -107,7 +107,12 @@ circleverse.viewModel.ResizeableBase = //(function () {
                     return static;
                 }); 
 
-                self.lineStartAt = ko.observable('edge');              
+                self.lineStartAt = ko.observable('edge');    
+
+                
+                self.confirmTemplateName = ko.observable(self.klass.displayName.substring(self.klass.displayName.lastIndexOf(".") + 1) + 'ConfirmTemplate');          
+
+                self.confirmTitleTemplateName = ko.observable();
 
                 self.animationSettings = ko.observable();
 

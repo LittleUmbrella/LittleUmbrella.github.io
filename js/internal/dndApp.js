@@ -151,17 +151,9 @@ becu_org.app = (function () {
         start: function () {
             var self = this;
 
-            var cv = $('#circleverse');
-            var garbage = $('#garbage');
-            var settings = $('#settings');
-            var help = $('#help');
-            var login = $('#login');
-            var favorite = $('#favorite');
-            var search = $('#search');
 
 
 
-            syncDivToDoc(cv);
 
 
 
@@ -382,6 +374,8 @@ becu_org.app = (function () {
             globalSettings.globalDimensions = self.opts;
 
             globalSettings.app = self;
+
+            self.confirmDialogs = new littleUmbrella.circleverse.viewModel.AllDialogConfirmViewModels(globalSettings);
 
             var filterViewModel = new circleverse.viewModel.FilterViewModel(null, self, globalSettings);
             var settingsViewModel = new circleverse.viewModel.settingsViewModel(store, self, globalSettings);

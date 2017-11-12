@@ -12,10 +12,10 @@ littleUmbrella.circleverse.viewModel.AllDialogConfirmViewModels = (function () {
             self.eventAggregator = globalSettings.eventAggregator;
 
             self.eventAggregator.subscribe('dialog.confirm.open', function (topic, data) {
-                var model = data.rawModel(), vm = new littleUmbrella.circleverse.viewModel.DialogConfirmViewModel(model, data.parent, globalSettings);
+                var vm = new circleverse.viewModel.DialogConfirmViewModel(data, null, globalSettings);
                 if (-1 == self.allDialogs.indexOf(vm))
                     self.allDialogs.push(vm);
-                vm.toggleMainForm();
+                //vm.toggleMainForm();
             });
 
         }
@@ -24,7 +24,7 @@ littleUmbrella.circleverse.viewModel.AllDialogConfirmViewModels = (function () {
         closeFinished: function(){
             var self = this;
 
-            
+
         }
     });
 

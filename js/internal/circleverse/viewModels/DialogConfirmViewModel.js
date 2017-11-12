@@ -8,7 +8,8 @@ circleverse.viewModel.DialogConfirmViewModel = (function () {
     //any global variables here will be in scope for ALL instances
     //of the JS Class, not just one instance
 
-    //var that;
+    
+    var initSize = 70;
     return new JS.Class('circleverse.viewModel.DialogConfirmViewModel', circleverse.viewModel.ResizeableBase, {
         include: [
             becu_org.ui.viewModel.baseModule,
@@ -40,7 +41,6 @@ circleverse.viewModel.DialogConfirmViewModel = (function () {
             var self = this;
             //properties
 
-            var initSize = 70;
             self.size = ko.observable(initSize);
             //properties
             this.__reqDiameter = 20;
@@ -61,7 +61,7 @@ circleverse.viewModel.DialogConfirmViewModel = (function () {
 
             this.icon.location = { center: true, offset: { y: -2, x: -4} }; //ko.observable(false);//
 
-            var pos = __getCoords();
+            var pos = self.__getCoords();
             self.position = ko.observable(pos);
             // if (changes.length > 1){                    
             //     self.childViewModels.push(new circleverse.viewModel.CustomerAddressesViewModel(self.rawModel(), self, globalSettings));
@@ -73,7 +73,7 @@ circleverse.viewModel.DialogConfirmViewModel = (function () {
             self.title = ko.observable();
             self.message = ko.observable();
             
-            self.messageTemplate = ko.observable();
+            self.messageTemplate = ko.observable(object.template);
             
             // self.rawModel().addresses.subscribe(function(changes){                
             //     self.childViewModels.removeAll();

@@ -434,15 +434,23 @@ circleverse.viewModel.CustomerAddressViewModel = (function () {
                 });
             }
             else if (dragVm.isA(circleverse.viewModel.SaveViewModel)) {
-                // var methodVm = this.model().services[0].methods()[0];
-                // var need = methodVm.model().callSpec().need()[0]
-                // //$parent.getObjects.call($parent, e, model)
-                // methodVm.getObjects.call(methodVm, null, need);
                 
 
                 prom.then(function(){
-                    //self.toggleChildrenVisibility();
                     self.saveAddress();
+                });
+
+
+            }
+            else if (dragVm.isA(circleverse.viewModel.MailViewModel)) {
+                
+
+                prom.then(function(){
+                    var vms = {template: dragVm.confirmTemplateName()};
+                    vms[self.klass.displayName.substring(self.klass.displayName.lastIndexOf(".") + 1)] = self;
+                    vms[dragVm.klass.displayName.substring(dragVm.klass.displayName.lastIndexOf(".") + 1)] = dragVm;
+
+                    self.eventAggregator.publish('dialog.confirm.open', vms);     
                 });
 
 
