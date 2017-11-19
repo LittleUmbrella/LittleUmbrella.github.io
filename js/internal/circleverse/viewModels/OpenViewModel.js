@@ -88,16 +88,40 @@ circleverse.viewModel.OpenViewModel = (function () {
                 self.label("Open");
             }
 
-            
-            var subscription = null;
-            globalSettings.eventAggregator.subscribe('circleverse.spotlightContext', function(eventName, args){
-                self.showMe(args.canOpen());
-                if (subscription) subscription.dispose();
 
-                subscription = args.canOpen.subscribe(function(){
-                    self.showMe(args.canOpen());
-                });
+            
+            var subscriptions = [];
+
+            var evaluatevisibility = function(activeThings){
+                var show = false;
+                for (var i = 0; i < activeThings.length; i++){
+                    var activeThing = activeThings[i];  
+                    if (activeThing.canOpen){                  
+
+                        //purge all subscriptions
+                        for (var h = 0; h < subscriptions.lenght; h++){
+                            subscriptions[h].dispose(); 
+                        }
+                        subscriptions = [];
+                        
+                        //add subscriptions back TO ALL ACTIVE THINGS, in case one of them changes their mind
+                        var subscription = activeThing.canOpen.subscribe(function(){
+                            self.globalSettings.eventAggregator.publish('stage.activeThings.changed', self);
+                        });
+
+                        subscriptions.push(subscription);
+
+                        if (!show && activeThing.canOpen()) show = true;
+                    }
+                }
+                self.showMe(show);
+            };
+
+            globalSettings.eventAggregator.subscribe('stage.activeThings.changed', function(eventName, activeThings){
+                evaluatevisibility(activeThings);                
             });
+            
+            
 
             self.mainCss('open');
             

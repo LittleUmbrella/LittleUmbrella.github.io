@@ -47,20 +47,40 @@ circleverse.viewModel.MoveViewModel = (function () {
 
             self.label("Move");
             
-            var subscription = null;
-            globalSettings.eventAggregator.subscribe('circleverse.spotlightContext', function(eventName, args){
-                if (args.canMove){
-                    self.showMe(args.canMove());
-                    if (subscription) subscription.dispose();
 
-                    subscription = args.canMove.subscribe(function(){
-                        self.showMe(args.canMove());
-                    });
+
+            var subscriptions = [];
+
+            var evaluatevisibility = function(activeThings){
+                var show = false;
+                for (var i = 0; i < activeThings.length; i++){
+                    var activeThing = activeThings[i]; 
+                    if (activeThing.canMove){                   
+
+                        //purge all subscriptions
+                        for (var h = 0; h < subscriptions.lenght; h++){
+                            subscriptions[h].dispose(); 
+                        }
+                        subscriptions = [];
+                        
+                        //add subscriptions back TO ALL ACTIVE THINGS, in case one of them changes their mind
+                        var subscription = activeThing.canMove.subscribe(function(){
+                            self.globalSettings.eventAggregator.publish('stage.activeThings.changed', self);
+                        });
+
+                        subscriptions.push(subscription);
+
+                        if (!show && activeThing.canMove()) show = true;
+                    }
                 }
-                else{                    
-                    self.showMe(false);
-                }
+                self.showMe(show);
+            };
+
+            globalSettings.eventAggregator.subscribe('stage.activeThings.changed', function(eventName, activeThings){
+                evaluatevisibility(activeThings);                
             });
+
+
             
             this.icon.name('icon-recreational-vehicle icon-size-2x');
             this.icon.color('#999999');

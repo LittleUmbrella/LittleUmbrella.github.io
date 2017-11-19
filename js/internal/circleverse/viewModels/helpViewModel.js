@@ -5,11 +5,12 @@
 circleverse.viewModel.helpViewModel = (function () {
 
 
-    var initSize = 94;
+    var initSize = 60;
 
-    return new JS.Class(circleverse.viewModel.ResizeableBase, {
+    return new JS.Class('circleverse.viewModel.helpViewModel', circleverse.viewModel.ResizeableBase, {
         include: [circleverse.viewModel.ToolViewModel,
-            becu_org.ui.viewModel.baseModule, becu_org.ui.viewModel.draggableModule, becu_org.ui.viewModel.droppableModule, becu_org.ui.viewModel.circleModule],
+            becu_org.ui.viewModel.baseModule, becu_org.ui.viewModel.draggableModule, becu_org.ui.viewModel.droppableModule, becu_org.ui.viewModel.circleModule,
+            becu_org.ui.viewModel.labelModule],
 
 
         __getCoords: function () {
@@ -40,7 +41,7 @@ circleverse.viewModel.helpViewModel = (function () {
         }
              ,
 
-        initialize: function (object) {// (tracker, uri, templateUri, templateId, resultTemplateUri, callSpec, name, id, businessClass, opts) {
+        initialize: function (object, parent, globalSettings) {// (tracker, uri, templateUri, templateId, resultTemplateUri, callSpec, name, id, businessClass, opts) {
             this.callSuper();
             //properties
 
@@ -52,9 +53,53 @@ circleverse.viewModel.helpViewModel = (function () {
             this.dimensions({ height: this.scale() * initSize, width: this.scale() * initSize });
 
 
+            self.label("Help");
+
+            
+            var subscriptions = [];
+
+            var evaluatevisibility = function(activeThings){
+                var show = false;
+                for (var i = 0; i < activeThings.length; i++){
+                    var activeThing = activeThings[i]; 
+                    if (activeThing.canHelp){                   
+
+                        //purge all subscriptions
+                        for (var h = 0; h < subscriptions.lenght; h++){
+                            subscriptions[h].dispose(); 
+                        }
+                        subscriptions = [];
+                        
+                        //add subscriptions back TO ALL ACTIVE THINGS, in case one of them changes their mind
+                        var subscription = activeThing.canHelp.subscribe(function(){
+                            self.globalSettings.eventAggregator.publish('stage.activeThings.changed', self);
+                        });
+
+                        subscriptions.push(subscription);
+
+                        if (!show && activeThing.canHelp()) show = true;
+                    }
+                }
+                self.showMe(show);
+            };
+
+            globalSettings.eventAggregator.subscribe('stage.activeThings.changed', function(eventName, activeThings){
+                evaluatevisibility(activeThings);                
+            });
 
             var coords = this.__getCoords();
             this.location({ left: coords.left, top: coords.top });
+
+            self.focus(false);
+            self.canCreate(false);
+            self.canEdit(false);
+            self.canDelete(false);
+            self.canSearch(false);
+            self.canRefresh(false);
+            self.canSave(false);
+            self.canOpen(true);
+            self.canClose(false);
+            self.canHelp(false);
 
             self.mainCss('help');
             
@@ -62,10 +107,32 @@ circleverse.viewModel.helpViewModel = (function () {
             this.icon.color('#999999');
             this.borderColor('#999999');
         }
-            ,
+        ,
 
-        droppedOn: function (dragModel) {
+        dropped: function (dropModel, dropViewModel, args, prom) {
+            var self = this;
+
             //this.model().callSpec().add(dragModel);
+            if (dropViewModel.isA(circleverse.viewModel.OpenViewModel)) {
+                prom.then(function(){
+                    self.globalSettings.app.openAppHelp();
+                });
+            }
+
+            return prom;
+        }
+            ,
+        droppedOn: function (dragModel, dragVm, args, prom) {
+            var self = this;
+
+            if (dragVm.isA(circleverse.viewModel.OpenViewModel)) {
+
+                prom.then(function(){
+                    self.globalSettings.app.openAppHelp();
+                });
+            }
+
+            return prom;
         }
 
 

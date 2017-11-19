@@ -5,6 +5,7 @@
 circleverse.viewModel.settingsViewModel = (function () {
 
 
+
     var initSize = 60;
 
  return new JS.Class(circleverse.viewModel.ResizeableBase, {
@@ -54,7 +55,7 @@ circleverse.viewModel.settingsViewModel = (function () {
          self.dimensions({ height: self.scale() * initSize, width: self.scale() * initSize });
 
          self.__mapping = {
-             'observe': ["value"]
+             'include': ["value"]
          };
 
          var coords = self.__getCoords();
@@ -66,48 +67,48 @@ circleverse.viewModel.settingsViewModel = (function () {
          var defaultSettings = {};
 
          defaultSettings['theme'] = { displayTitle: 'Theme', value: ko.observable('light'), options: self.__getThemes() };
+         defaultSettings['help'] = { displayTitle: 'Auto Help', value: ko.observable(true), options: self.__getBoolean(), subSettings: {
+             'app': { displayTitle: 'Site intro', value: ko.observable(true), options: self.__getBoolean() },
+             'CustomerAddressesViewModel': { displayTitle: 'Address intro', value: ko.observable(true), options: self.__getBoolean() }
+         }};
          //defaultSettings['tindr'] = { displayTitle: 'Swipe Open/Close', value: ko.observable(true), options: self.__getBoolean() };
          //defaultSettings['autoPin'] = { displayTitle: 'Auto-pin', value: ko.observable(false), options: self.__getBoolean() };
          //defaultSettings['shadeChildren'] = { displayTitle: 'Nested circles have shadows', value: ko.observable(false), options: self.__getBoolean() };
          //defaultSettings['navigationEffect'] = { displayTitle: 'Navigation effect', value: ko.observable(false), options: self.__getBoolean() };
 
-         var cache, cachedSettings = {}, mappedItem, key;
+         var cache;
          cache = self.model().get('bankPreferences');
 
-         if (cache)
-             ko.utils.arrayForEach(cache, function (item) {
-                 mappedItem = ko.mapping.fromJS(item, self.__mapping);
-                 key = mappedItem.key;
-                 delete mappedItem.key;
-                 cachedSettings[key] = mappedItem;
-         });
+         var oldStyleCacheAdapter = {adapt:function(cache){
+            var cachedSettings = {}, mappedItem, key;
+            if (cache)
+                ko.utils.arrayForEach(cache, function (item) {
+                    mappedItem = ko.mapping.fromJS(item, self.__mapping);
+                    key = mappedItem.key;
+                    delete mappedItem.key;
+                    cachedSettings[key] = mappedItem;
+            });
+
+            return cachedSettings;
+        }}
 
          self.mainCss('settings');
 
+         if (self.isCacheOldStyle(cache)){
+             cache = oldStyleCacheAdapter.adapt(cache);
+         }
+         else{
+             //doesn't work cache = ko.mapping.fromJS(cache, self.__mapping) ;
+             cache = self.mapToObservable(cache, self.__mapping) ;
+         }
 
-         globalSettings = $.extend(true, globalSettings || {}, defaultSettings, cachedSettings || {})
-
-            self.appSettings = globalSettings;
+         self.appSettings = $.extend(true, {}, defaultSettings, cache || {})
 
 
-            self.appSettingsArray = ko.observableArray();
+         //self.appSettingsBindable
 
-            for (n in self.appSettings) {
-                var setting = self.appSettings[n];
 
-                if (setting.value) {
-                    setting.value.subscribe(function (val) {
-                        if (this == 'theme')
-                            self.setTheme(val);
-                        else
-                            globalSettings.eventAggregator.publish('circleverse.setting.changed', { setting: this, value: val, allSettings: self.appSettings });
-
-                    }, n);
-                    setting.key = n;
-
-                    self.appSettingsArray().push(setting);
-                }
-            }
+            self.monitorAndBroadcastSettingsChanges(self.appSettings);
 
             self.setTheme(self.appSettings['theme'].value());
 
@@ -115,6 +116,66 @@ circleverse.viewModel.settingsViewModel = (function () {
             self.icon.name('icon-gear icon-size-2x');
             self.icon.color('#999999');
             self.borderColor('#999999');
+
+
+            
+        }
+            ,
+        mergeSettings: function (settings) {
+            var self = this;
+
+
+        }
+            ,
+        monitorAndBroadcastSettingsChanges: function (settingsGroup) {
+            var self = this;
+
+            for (n in settingsGroup) {
+                var setting = settingsGroup[n];
+
+                if ('undefined' != typeof setting.value) {
+                    setting.value.subscribe(function (val) {
+                        if (this == 'theme')
+                            self.setTheme(val);
+                        else
+                            self.globalSettings.eventAggregator.publish('circleverse.setting.changed', { setting: this, value: val, allSettings: self.appSettings });
+
+                    }, n);
+                }
+
+                if (setting.subSettings){
+                    self.monitorAndBroadcastSettingsChanges(setting.subSettings);
+                }
+            }
+        }
+        ,
+        mapToObservable: function (cacheGroup) {
+            var self = this, retVal = {};
+
+            for (var n in cacheGroup) {
+                var setting = cacheGroup[n];
+
+                
+                if (n == 'value') {
+                    retVal[n] = ko.observable(setting);  
+                }
+                // else if (n == 'subSettings'){
+                //     retVal.subSettings = self.mapToObservable(setting.subSettings);
+                // }
+                else{
+                    if(Object.prototype.toString.call( setting ) === '[object Array]' ) {
+                        retVal[n] = setting;
+                    }
+                    else if (setting !== null && typeof setting === 'object'){
+                        retVal[n] = self.mapToObservable(setting);
+                    }
+                    else{
+                        retVal[n] = setting;
+                    }
+                }
+            }
+
+            return retVal;
         }
             ,
         toggleMainForm: function () {
@@ -146,6 +207,14 @@ circleverse.viewModel.settingsViewModel = (function () {
             
 
         }
+        ,
+        isCacheOldStyle: function(cache){
+            if (!cache) return false;
+
+            if (cache[0] && 'undefined' != typeof cache[0].key) return true;
+
+            return false;
+        }
             ,
 
         droppedOn: function (dragModel) {
@@ -155,15 +224,78 @@ circleverse.viewModel.settingsViewModel = (function () {
             var settings = this.callSuper();
             settings.drop = false;
             return settings;
+        },
+
+        getSetting: function (settingPath) {
+            var self = this;
+
+            var paths = settingPath.split('.'),
+                setting,  
+                i,
+                len,
+                settings = self.appSettings;
+            if (paths.length == 0) throw Error("could not find path: " + settingPath);
+            
+
+            setting = settings;
+            for (i = 0, len = paths.length; i < len; i++) {
+                if ('undefined' == typeof setting.subSettings){
+                    setting = ko.unwrap(setting[paths[i]]);
+                }
+                else{
+                    setting = ko.unwrap(setting.subSettings[paths[i]]);                    
+                }
+            }
+
+            return setting;
+        }
+        ,
+
+        setSetting: function (settingPath, value) {
+            var self = this;
+
+            var paths = settingPath.split('.'),
+                setting,  
+                i,
+                len,
+                settings = self.appSettings;
+            if (paths.length == 0) throw Error("could not find path: " + settingPath);
+            
+
+            setting = settings;
+            for (i = 0, len = paths.length; i < len; i++) {
+                if ('undefined' == typeof setting.subSettings){
+                    setting = ko.unwrap(setting[paths[i]]);
+                }
+                else{
+                    setting = ko.unwrap(setting.subSettings[paths[i]]);                    
+                }
+            }
+
+            if (ko.isObservable(setting.value)){
+                setting.value(value);
+            }
+            else{
+                setting.value = value;
+            }
+            
+            self.saveSettings();
+        }
+        ,
+
+        saveSettings: function () {
+            var self = this;
+
+            //model is the store.  todo: change model
+            var unmapped = ko.mapping.toJS(self.appSettings);
+            self.model().set('bankPreferences', unmapped);
         }
         ,
 
         close: function () {
             var self = this;
 
-            //model is the store.  todo: change model
-            var unmapped = ko.mapping.toJS(self.appSettingsArray());
-            self.model().set('bankPreferences', unmapped);
+            self.saveSettings();
             this.showForm(false);
         }
         ,
@@ -174,6 +306,7 @@ circleverse.viewModel.settingsViewModel = (function () {
 
         dropInit: function (dragModel, dragViewModel, args, prom) {
         }
+        
 
     });
 })();

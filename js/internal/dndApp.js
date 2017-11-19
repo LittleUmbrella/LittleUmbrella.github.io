@@ -6,8 +6,10 @@ becu_org.app = (function () {
 
             self.opts = opts;
             self.settings = { 'showInstructions': false };
-            self.eventAggregator = PubSub;
-            ko.bindingHandlers.eventAggregator = PubSub;
+            self.store = opts.store;
+            self.eventAggregator = opts.eventAggregator;
+            self.mode = opts.mode;
+            ko.bindingHandlers.eventAggregator = opts.eventAggregator;
             //origPublish = PubSub.publish;
             //PubSub.publish = function (msg, data) {
             //    origPublish.call(PubSub, msg, data, uuid.v4());
@@ -292,6 +294,7 @@ becu_org.app = (function () {
 
             }
 
+
             //var realKoMappingFromJs = ko.fromJS;
 
             //ko.mapping.fromJS = function (jsObject, inputOptions, target) {
@@ -317,7 +320,25 @@ becu_org.app = (function () {
 
             //todo: handle store not enabled
 
-            var globalSettings = { eventAggregator: self.eventAggregator };
+            var globalSettings = { eventAggregator: self.eventAggregator, store: self.store, mode: self.mode };
+            self.globalSettings = globalSettings;
+
+
+
+            
+            var allActiveThings = [];
+            globalSettings.eventAggregator.subscribe('stage.activeThings.add', function(eventName, args){
+                allActiveThings.push(args);
+                globalSettings.eventAggregator.publish('stage.activeThings.changed', allActiveThings);
+            });
+
+            
+            globalSettings.eventAggregator.subscribe('stage.activeThings.remove', function(eventName, args){
+                var idx = allActiveThings.splice(allActiveThings.indexOf(args), 1);
+                globalSettings.eventAggregator.publish('stage.activeThings.changed', allActiveThings);
+            });
+
+
             globalSettings.mappings = {};
 
             globalSettings.mappings['becu_org_domain_model_Customer'] = {
@@ -375,11 +396,18 @@ becu_org.app = (function () {
 
             globalSettings.app = self;
 
+
+
+            var settingsViewModel = new circleverse.viewModel.settingsViewModel(store, self, globalSettings);
+            
+            globalSettings.settingsStore = settingsViewModel; //abstract store from vm
+
             self.confirmDialogs = new littleUmbrella.circleverse.viewModel.AllDialogConfirmViewModels(globalSettings);
 
+
+
             var filterViewModel = new circleverse.viewModel.FilterViewModel(null, self, globalSettings);
-            var settingsViewModel = new circleverse.viewModel.settingsViewModel(store, self, globalSettings);
-           
+            var helpViewModel = new circleverse.viewModel.helpViewModel(null, self, globalSettings);
                 //new circleverse.viewModel.FilterFormViewModel(null, self, globalSettings), 
                 //new circleverse.viewModel.MoneyTransferViewModel(null, self, globalSettings),
             var openVm = new circleverse.viewModel.OpenViewModel(null, self, globalSettings, {tindr: true});
@@ -387,9 +415,9 @@ becu_org.app = (function () {
             self.tools = [
                 // new circleverse.viewModel.ExitViewModel(null, self, globalSettings),
                 // new circleverse.viewModel.loginViewModel(null, self, globalSettings),                
-                // new circleverse.viewModel.helpViewModel(null, self, globalSettings),                
+                helpViewModel,                
                 // new circleverse.viewModel.favoriteViewModel(null, self, globalSettings),                
-                settingsViewModel,                
+                //settingsViewModel,                
                 // new circleverse.viewModel.loginViewModel(null, self, globalSettings),                
                 new circleverse.viewModel.garbageViewModel(null, self, globalSettings),                
                 // new circleverse.viewModel.RefreshViewModel(null, self, globalSettings),                
@@ -407,7 +435,9 @@ becu_org.app = (function () {
                 
             ];
 
-            self.customerAddressesMapViewModel = new circleverse.viewModel.CustomerAddressesMapViewModel(null, self, globalSettings);
+            if (globalSettings.mode == 'developer') self.tools.push(settingsViewModel);
+
+            //self.customerAddressesMapViewModel = new circleverse.viewModel.CustomerAddressesMapViewModel(null, self, globalSettings);
 
             self.moneyTransferViewModel = ko.observable(new circleverse.viewModel.MoneyTransferViewModel(null, self, globalSettings));
             // self.exitViewModel = ko.observable(new circleverse.viewModel.ExitViewModel(null, self, globalSettings));
@@ -485,6 +515,7 @@ becu_org.app = (function () {
                     allMembersViewModel = new circleverse.viewModel.AllMembersViewModel(null, self, globalSettings);
 
 
+
                 //self.earth = ko.observable(earth);
                 self.getCustomerViewModel = ko.observable(getCustomerViewModel);
                 self.allAccountTransactionsViewModel = ko.observable(allAccountTransactionsViewModel);
@@ -495,7 +526,8 @@ self.childViewModels = ko.observableArray();
                 
                 self.childViewModels.push(allMembersViewModel);
 
-                globalSettings.eventAggregator.publish('circleverse.spotlightContext', allMembersViewModel);
+                globalSettings.eventAggregator.publish('stage.activeThings.add', allMembersViewModel);
+                globalSettings.eventAggregator.publish('stage.activeThings.add', helpViewModel);
                 //ko.applyBindings(earth, document.getElementById('earth'));
                 //ko.applyBindings(getCustomerViewModel, document.getElementById('foundCustomers'));
                 //ko.applyBindings(allAccountTransactionsViewModel, document.getElementById('accountTransactions'));
@@ -512,6 +544,15 @@ self.childViewModels = ko.observableArray();
                 // });
 
                 ko.applyBindings(self);
+
+
+                
+                
+                var forceHelp = self.globalSettings.settingsStore.getSetting('help.app');
+
+                if (forceHelp && ko.unwrap(forceHelp.value)){
+                    self.openAppHelp();
+                }
 
                 var loaded = false;
                 self.eventAggregator.subscribe('littleUmbrella.circleverse.viewModel.BecuViewModel.Expanded', function (topic, args) {
@@ -666,6 +707,40 @@ self.childViewModels = ko.observableArray();
                 //                });
             });
         }
+        ,
+        openAppHelp: function(){
+            var self = this;
 
+            var dialogOptions = {template: self.klass.displayName.substring(self.klass.displayName.lastIndexOf(".") + 1) + 'HelpTemplate', 
+                type: 'message', 
+                fromElement: '.screen',
+                dimensions: {width: 700, height: 600}, 
+                title: 'Before you start...',
+                vms: {}
+            };
+            dialogOptions.vms[self.klass.displayName.substring(self.klass.displayName.lastIndexOf(".") + 1)] = self;
+            self.globalSettings.eventAggregator.publish('dialog.message.open', dialogOptions);  
+                    
+        }
+        ,
+
+        dialogClosed: function(){
+            var self = this;
+
+            self.turnOffForcedHelp();
+        }
+        ,
+
+        __getBoolean: function () {
+            return [{ name: 'True', value: true }
+                , { name: 'False', value: false }];
+        }
+            ,
+        turnOffForcedHelp: function(){
+            var self = this;
+
+            self.globalSettings.settingsStore.setSetting('help.' + self.klass.displayName.substring(self.klass.displayName.lastIndexOf(".") + 1), false);
+
+        }
     });
 })();

@@ -100,44 +100,7 @@
             <p>login</p>
         </div>
 
-        <script type="text/html" id="businessCenters">
-
-
-            <!-- ko if: childViewModel() -->
-            <div data-bind="template: { name: 'businessCenters', data: childViewModel }
-            , style: {
-                'left': -((dimensions().width)) - 8 + 'px'
-            , 'top': -((dimensions().width)) - 8 + 'px'
-            , 'width': dimensions().width + 'px'
-            , 'height': dimensions().height + 'px'
-            }
-            "
-                style="position: absolute">
-            </div>
-            <!-- /ko -->
-            <!-- ko foreach: childViewModels -->
-
-            <div data-bind="dragdrop: $data
-            , style: {
-                'left': location().left + 'px'
-            , 'top': location().top + 'px'
-            , 'width': dimensions().width + 'px'
-            , 'height': dimensions().height + 'px'
-            , 'backgroundImage': icon.url
-            }
-            , busy: isBusy
-            , infoize: model().name
-
-            "
-                class="drag drop service circle"
-                style=''>
-
-                            <div data-bind="text: model().name" />
-                        
-            </div>
-
-            <!-- /ko -->
-        </script>
+       
         
         <script type="text/html" id="interactiveTool">
             <div data-bind="dragdrop: $data,
@@ -242,22 +205,16 @@
             <div
                 class="" style="background-position: 50% 5%;">
                                     <a href="javascript:;" data-bind="click: toggleMainForm" class="close-button icon-close"></a>
-                <!-- ko foreach: appSettingsArray-->
-                <div class="leftcol-medium">
-                    <p data-bind="text: displayTitle"></p>
-                </div>
-                <div class="rightcol-medium">
-                    <!-- ko foreach: options-->
-                    <label>
-                        <input data-bind="attr: { name: $parent.key }, checked: $parent.value, checkedValue: value" type="radio" class="radio" /><span data-bind="    text: name" /></label>
+                <!-- ko forEachProperty: appSettings -->
+                    <!-- ko template: 'settingsTemplate' -->
+
                     <!-- /ko -->
-                </div>
-                <div class="clear"></div>
+                
                 <!-- /ko -->
             </div>
-            <a href="#" data-bind="click: close" class="button button-blue">
+            <!--<a href="#" data-bind="click: close" class="button button-blue">
                 <span>OK</span>
-            </a>
+            </a>-->
             <input type="submit" style="width:0;height:0"/>
 
         </form>
@@ -423,83 +380,10 @@
 }" ></div>
             </div>
         <!-- /ko -->
+        
 
-        <!--*********************
-
-                    CUSTOMERS/MEMBERS
-
-                    *********************
-            , delay: 1, animationLength: 1.5
-            -->
-
-        <!-- ko with: getCustomerViewModel -->
-        <div id="foundCustomers" data-bind="visible: foundCustomers().length > 0, foreach: foundCustomers" style="display: none; position: absolute; top: 0px; left: 0px;">
-
-            <div data-bind="dragdrop: $data
-            , style: {
-                'background-image': 'url(' + icon.url() + ')'
-            , 'top': (location().top) + 'px'
-            , 'left': (location().left) + 'px'
-            },
-            event: { 'click': function (data, e) { toggleChildrenVisibility(data, e); e.cancelBubble = true; if (e.stopPropagation) e.stopPropagation(); return false }, dblclickBubble: false }
-    , 'tap': function (data, e) { toggleChildrenVisibility(data, e); e.cancelBubble = true; if (e.stopPropagation) e.stopPropagation(); return false }
-    , onTop: onTop
-    ,
-            satellitePopInOut: { animationLength: 0, delay: 0, opacity: .1, base: '#allPersons', satellite: $data, relativeToBase: false }
-            , fadeDelete: deleteNow"
-                style="background-size: cover; height: 150px; width: 150px;"
-                class="drag drop circle person">
-
-                <!--background-position: 50% 5%;  <div data-bind="onTop:onTop, pos: icon.location, style: {'backgroundImage': icon.url}
-                , jqCss: {'opacity': icon.opacity()}
-                , event: {'click': function(data, e){toggleMainForm(); e.cancelBubble = true; if (e.stopPropagation) e.stopPropagation(); return false}, dblclickBubble: false }" style="width:50px; height: 50px; background-repeat: no-repeat; background-position: center;">
-
-                </div>-->
-
-
-                            <!-- ko ifnot: icon.url() -->
-                            <i data-bind="css: icon.name"></i>
-                            <div data-bind="text: model().firstName() + ' ' + model().lastName() "></div>
-                            <!-- /ko -->
-
-
-                <div data-bind="fadeToggle: hideMainForm" style="display: none;" class="drag drop entry-form center person">
-                    <div
-                        class="" style="background-position: 50% 5%;">
-                        <p>&nbsp;</p>
-                        <div data-bind="foreach: model().missingFields()">
-                            <div data-bind="text: field"></div>
-                        </div>
-
-
-                        <p>
-                            <label>
-                                Tax ID
-                                <input type="text" data-bind="value: model().id" />
-                            </label>
-                        </p>
-                        <!--<div data-bind="text:   ctx.id" />-->
-                    </div>
-                    <a href="#" data-bind="click: close" class="button button-blue">
-                        <span>OK</span>
-                    </a>
-                </div>
-                
-                <!-- ko foreach: childViewModels-->                    
-                    <!-- ko template: { name: 'genericChildTemplate' } --><!-- /ko -->
-                <!-- /ko -->
-                
-                
-
-        </div>
-        </div>
-        <!-- /ko -->
-        <!--*********************
-
-                    CUSTOMERS/MEMBERS
-
-                    *********************-->
-
+        
+     
     </div>
 
     <script type="text/html" id="calculatorTemplate">
@@ -1044,27 +928,6 @@
             
         
     </script>
-<!--ko with: customerAddressesMapViewModel -->
-        <div data-bind="busy: isBusy
-        , style: {
-            'left': location().left + 'px'
-        , 'top': location().top + 'px'
-        , 'width': dimensions().width + 'px'
-        , 'height': dimensions().height + 'px'
-        , 'opacity': opacity
-        },
-        css: mainCss
-        , visible: showMe
-        , onTop: onTop, leafletMap: $data, zoom: zoom, markers: childViewModels" class="map">
-            <!-- ko foreach: childViewModels-->                    
-                <!-- ko template: { name: 'genericChildTemplate' } --><!-- /ko -->
-                
-                <div class="line" data-bind="circleConnection: {vm: $data, 'widthAdjust': connectionWidthAdjustment}, visible: showMe"></div>
-            <!-- /ko -->
-        </div>
-
-
-    <!-- /ko -->
 
     <script type="text/html" id="mapTemplate">
         <div data-bind="leafletMap: $data, zoom: zoom" class="map">
@@ -1351,26 +1214,101 @@
     </script>
 
     <script type="text/html" id="MailViewModelConfirmTemplate">
+        <p>            
+            <!-- ko with: model-->
+            This will change the mailing address for <span data-bind="text: vms.MailViewModel.full"></span> to <span data-bind="text: vms.CustomerAddressViewModel.address"></span>.
+            
+            <!-- /ko -->
+        </p> 
+    </script>
 
+    <script type="text/html" id="appHelpTemplate">
+    <p>
+We want to tell you a few things about this site, as it's unlike most sites.  It was built as a prototype for a new sort of user interface.  It was built for tablets and for internal staff of a credit union.  The purpose was both to demonstrate the platform itself, and how it could solve a single business function:  staff changing addresses on behalf of members.   </p> 
+<p>
+    Its basic layout consists of actions, like New <i class="icon-plus"></i> and Delete <i class="icon-trash-o"></i> around the edges of the screen, and generally in the center of the screen are things, like All Members <i class="icon-group"></i>, which you can drag to actions.  These actions turn green when you start dragging something to indicate the action applies to the thing you're dragging.
+    </p> 
+<p>
+    So the idea behind this site is that you accomplish things by interacting with them.  Like traditional sites, it has forms and input fields that you click/touch to activate, but for most things, if you want to open a thing to look at or interact with its details, you drag it to the open <i class="icon-enter"></i> action, and when you are done, you drag it to the close <i class="icon-close2"></i> action.  If you want to edit it, you drag it to the edit <i class="icon-pencil"></i> action.  And when you want to submit it, you drag it to the submit <i class="icon-checkmark"></i> action.
+    </p> 
+<p>
+    There is a help <i class="icon-question"></i> action that you can drag to just about anything to get more information about it. 
+    </p> 
     </script>
     <script type="text/html" id="Script2">
     </script>
-    <!-- ko foreach: messageVms --> 
-        <!-- ko template: { name: messageTemplate } --><!-- /ko -->        
-    <!-- /ko -->
 
-    
-    <!-- ko foreach: confirmDialogs --> 
-        <div class="dialog">
+    <script type="text/html" id="settingsTemplate">
+        <div class="leftcol-medium">
+            <p data-bind="text: displayTitle"></p>
+        </div>
+        <div class="rightcol-medium">
+            <!-- ko foreach: options-->
+            <label>
+                <input data-bind="attr: { name: $parent.displayTitle }, checked: $parent.value, checkedValue: value" type="radio" class="radio" /><span data-bind="    text: name" /></label>
+            <!-- /ko -->
+        </div>
+        <div class="clear"></div>
+        <!-- ko if: typeof $data.subSettings != 'undefined' --> 
+            <!-- ko forEachProperty: subSettings -->
+                <!-- ko template: 'settingsTemplate' -->
+                <!-- /ko -->            
+            <!-- /ko -->
+        <!-- /ko -->
+    </script>
+    <!-- ko foreach: messageVms --> 
+        <div data-bind="visible: showMe
+        , busy: isBusy
+        , onTop: onTop" style="display:none;" class="dialog">
             <div></div>
             <div class="content">                
                 <!-- ko template: { name: messageTemplate } --><!-- /ko --> 
             </div>
             <div></div>
-        </div>       
+        </div>           
     <!-- /ko -->
 
+    
+    <!-- ko with: confirmDialogs --> 
+    <!-- ko foreach: allDialogs --> 
+        
+        <div data-bind="dragdrop: $data,
+        visible: showMe
+        , busy: isBusy
+        ,style: {
+                'left': location().left + 'px'
+            , 'top': location().top + 'px'
+            , 'width': dimensions().width + 'px'
+            , 'height': dimensions().height + 'px'
 
+            },
+            onTop: onTop,
+            fadeInFrom: {fromElement: fromElement, dialogVm: $data}" style="display:none;" class="dialog drag drop">
+            <div class="header"><h1 data-bind="text: title"></h1></div>
+            <div class="content">    
+                <div class="box">            
+                <!-- ko template: { name: messageTemplate } --><!-- /ko -->
+                </div> 
+            </div>
+            <div class="footer horizontal flex-container">
+                
+                <!-- ko if: type() == 'message' -->
+                <div class="left"><i class="flaticon-one-finger-swipe-left-gesture-outlined-hand-symbol"></i> Swipe to Close
+                </div>
+                <!-- /ko -->
+                
+                <!-- ko if: type() == 'confirm' -->
+                <div class="left"><i class="flaticon-one-finger-swipe-left-gesture-outlined-hand-symbol"></i> Swipe to Cancel
+                </div>
+                <div class="right">Swipe to Confirm <i class="flaticon-one-finger-swipe-right-gesture-of-hand-stroke-symbol"></i> 
+                </div>
+                <!-- /ko -->
+            </div>
+        </div>       
+    <!-- /ko -->
+    <!-- /ko -->
+
+     
 </body>
 
     <script type="text/javascript">    var JSCLASS_PATH = '/js/external/JS/Class'</script>
@@ -1398,6 +1336,16 @@
         'becu_org.ob.services.Repository', 'circleverse.viewModel.garbageViewModel', 'circleverse.viewModel.CloseViewModel', 'circleverse.viewModel.OpenViewModel', 'circleverse.viewModel.SearchViewModel', 'circleverse.viewModel.RefreshViewModel', 'circleverse.viewModel.FilterViewModel', 'circleverse.viewModel.FilterFormViewModel', 'circleverse.viewModel.ExitViewModel', 'circleverse.viewModel.settingsViewModel', 'circleverse.viewModel.favoriteViewModel', 'circleverse.viewModel.helpViewModel', 'circleverse.viewModel.loginViewModel', function () {
 
             ko.validation.init();
+
+            var getMode = function(){
+                var mode = getQueryString()['m'];
+                if (mode && mode ==='d') {
+                    return "developer";
+                }
+                else {
+                    return "normal";
+                }
+            }
             $(function () {
                 $.unblockUI();
 
@@ -1435,8 +1383,8 @@
 
                 $log = $("#log");
 
-                var globalDimensions = {width: $(window).width(), height: $(window).height()};
-                var app = new becu_org.app(globalDimensions);
+                var settings= {width: $(window).width(), height: $(window).height(), store: store, eventAggregator: PubSub, mode: getMode()};
+                var app = new becu_org.app(settings);
 
                 var promise = app.preSetup();
 
@@ -1455,6 +1403,8 @@
     function log(message) {
         $log["prepend"]("<li>" + message + "</li>");
     }
+
+
 
     function temp(m) { alert(m); }
 

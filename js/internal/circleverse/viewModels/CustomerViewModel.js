@@ -122,6 +122,17 @@ littleUmbrella.circleverse.viewModel.CustomerViewModel = (function () {
             self.canTravel = ko.observable(true);
             self.canMove = ko.observable(true);
 
+            
+            self.canOpen(true);
+            self.canCreate(false);
+            self.canEdit(false);
+            self.canDelete(true);
+            self.canSearch(false);
+            self.canRefresh(false);
+            self.canSave(false);
+            self.canClose(true);
+            self.canHelp(true); 
+
             self.icon.location = { center: true, offset: { y: -35} }; //ko.observable(false);//
 
             self.icon.url = ko.observable(); 
@@ -154,8 +165,6 @@ littleUmbrella.circleverse.viewModel.CustomerViewModel = (function () {
             //self.campaignsInfo = 'Campaigns for ' + self.model().fullName() + '';
 
 
-            self.canEdit(false);
-            self.canSave(false);
 
         }
             ,

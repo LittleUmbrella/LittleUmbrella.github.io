@@ -85,7 +85,7 @@ circleverse.viewModel.CustomerAddressesViewModel = (function () {
                 top = ((searchLocation.top) - ($(window).height() / 2)) + 80 + (self.dimensions().height/2) - 10 /* buffer for line */,
                 left = ((searchLocation.left) - ($(window).width() / 2)) + 80 + (self.dimensions().width/2) - 10 /* buffer for line */;
 
-            self.searchDimensionSettingsBig = {width: width, height: height, top: top, left: left, borderRadius: 0, onComplete: eaf.core.createDelegate(self, self.toggleFormAnimationEnded), ease: Elastic.easeIn.config(4.5, 3)};
+            self.searchDimensionSettingsBig = {width: width, height: height, top: top, left: left, borderRadius: 15, onComplete: eaf.core.createDelegate(self, self.toggleFormAnimationEnded), ease: Elastic.easeIn.config(4.5, 3)};
             self.searchDimensionSettingsRegular = {width: self.dimensions().width, top: searchLocation.top, left: searchLocation.left, height: self.dimensions().height, borderRadius: '50%', onComplete: eaf.core.createDelegate(self, self.toggleFormAnimationEnded), ease: Elastic.easeIn.config(4.5, 3)};
 
 
@@ -96,6 +96,16 @@ circleverse.viewModel.CustomerAddressesViewModel = (function () {
 
             var acct = self.parent.rawModel();
 
+            
+            self.canCreate(false);
+            self.canEdit(false);
+            self.canDelete(false);
+            self.canSearch(false);
+            self.canRefresh(false);
+            self.canSave(false);
+            self.canOpen(true);
+            self.canClose(true);
+            self.canHelp(false);
 
             self.showForm = ko.observable(false);
 
@@ -119,7 +129,7 @@ circleverse.viewModel.CustomerAddressesViewModel = (function () {
                 self.canOpen(false);
                 self.canClose(true);          
                 self.canSave(true);
-                self.globalSettings.eventAggregator.publish('circleverse.spotlightContext', self);
+                self.globalSettings.eventAggregator.publish('stage.activeThings.add', self);
                             
                 self.isRoot(true);
                 self.canMoveRoot(false);
@@ -130,6 +140,8 @@ circleverse.viewModel.CustomerAddressesViewModel = (function () {
             //self.size(self.searchDimensionSettingsBig.width);
             
             self.mainFormOpen = true ;
+
+            
 
             return deferred;
         }
@@ -155,7 +167,7 @@ circleverse.viewModel.CustomerAddressesViewModel = (function () {
                     self.canOpen(true);
                     self.canClose(true);            
                     self.canSave(false);
-                    self.globalSettings.eventAggregator.publish('circleverse.spotlightContext', self);
+                    self.globalSettings.eventAggregator.publish('stage.activeThings.remove', self);
 
                     prom.then(function(){
 

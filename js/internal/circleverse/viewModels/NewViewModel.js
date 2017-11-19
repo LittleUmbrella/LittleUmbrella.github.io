@@ -52,15 +52,39 @@ circleverse.viewModel.NewViewModel = (function () {
 
             self.label("New");
             
-            var subscription = null;
-            globalSettings.eventAggregator.subscribe('circleverse.spotlightContext', function(eventName, args){
-                self.showMe(args.canCreate());
-                if (subscription) subscription.dispose();
+            
+            var subscriptions = [];
 
-                subscription = args.canCreate.subscribe(function(){
-                    self.showMe(args.canCreate());
-                });
+            var evaluatevisibility = function(activeThings){
+                var show = false;
+                for (var i = 0; i < activeThings.length; i++){
+                    var activeThing = activeThings[i];
+                    if (activeThing.canCreate){                    
+
+                        //purge all subscriptions
+                        for (var h = 0; h < subscriptions.lenght; h++){
+                            subscriptions[h].dispose(); 
+                        }
+                        subscriptions = [];
+                        
+                        //add subscriptions back TO ALL ACTIVE THINGS, in case one of them changes their mind
+                        var subscription = activeThing.canCreate.subscribe(function(){
+                            self.globalSettings.eventAggregator.publish('stage.activeThings.changed', self);
+                        });
+
+                        subscriptions.push(subscription);
+
+                        if (!show && activeThing.canCreate()) show = true;
+                    }
+                }
+                self.showMe(show);
+            };
+
+            globalSettings.eventAggregator.subscribe('stage.activeThings.changed', function(eventName, activeThings){
+                evaluatevisibility(activeThings);                
             });
+            
+
 
             self.mainCss('new');
 

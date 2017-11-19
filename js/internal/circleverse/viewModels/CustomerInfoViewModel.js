@@ -77,10 +77,15 @@ circleverse.viewModel.CustomerInfoViewModel = (function () {
 
             var acct = self.parent.rawModel();
 
-            self.canEdit(false);
+            self.canOpen(true);
             self.canCreate(false);
-            self.canSave(false);
+            self.canEdit(false);
             self.canDelete(false);
+            self.canSearch(false);
+            self.canRefresh(false);
+            self.canSave(false);
+            self.canClose(true);
+            self.canHelp(true); 
 
             self.showForm = ko.observable(false);
 

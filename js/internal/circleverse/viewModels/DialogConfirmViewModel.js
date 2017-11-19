@@ -30,8 +30,8 @@ circleverse.viewModel.DialogConfirmViewModel = (function () {
 
             // var calcLeft = (($(window).width() - this.dimensions().width)) * .7;
             // var left = (calcLeft < minLeft) ? minLeft : calcLeft;
-            var top = (self.globalSettings.globalDimensions.height /2 ) - initSize /2;
-            var left = (self.globalSettings.globalDimensions.width /2 ) - initSize /2;
+            var top = (self.globalSettings.globalDimensions.height /2 ) - self.dimensions().height /2;
+            var left = (self.globalSettings.globalDimensions.width /2 ) - self.dimensions().width /2;
             //            log('garbage left: ' + left);
             //            log('garbage top: ' + top);
             return { left: left, top: top };
@@ -42,27 +42,22 @@ circleverse.viewModel.DialogConfirmViewModel = (function () {
             //properties
 
             self.size = ko.observable(initSize);
-            //properties
-            this.__reqDiameter = 20;
-            this.methodDiameter = ko.observable(initSize);
-            this.insideDiameter = 40;
 
- self.size = ko.observable(initSize);
+            self.callSuper();
 
-            this.callSuper();
+            var dimensions = {};
+            dimensions.width = (object.dimensions.width > globalSettings.globalDimensions.width)? globalSettings.globalDimensions.width - 160: object.dimensions.width;
+            dimensions.height = (object.dimensions.height > globalSettings.globalDimensions.height)? globalSettings.globalDimensions.height - 160: object.dimensions.height; 
+            
+            self.dimensions(dimensions);
 
-            this.dimensions({ height: this.scale() * initSize, width: this.scale() * initSize });
+            self.size(dimensions.width);
 
             //this.label("Addresses");
 
-            this.icon.location = { center: true, offset: { y: -35} }; //ko.observable(false);//
-
-            this.icon.name('icon-address icon-size-2x');
-
-            this.icon.location = { center: true, offset: { y: -2, x: -4} }; //ko.observable(false);//
 
             var pos = self.__getCoords();
-            self.position = ko.observable(pos);
+            self.location = ko.observable(pos);
             // if (changes.length > 1){                    
             //     self.childViewModels.push(new circleverse.viewModel.CustomerAddressesViewModel(self.rawModel(), self, globalSettings));
             // }
@@ -70,8 +65,13 @@ circleverse.viewModel.DialogConfirmViewModel = (function () {
             //     self.childViewModels.push(new circleverse.viewModel.CustomerAddressViewModel(self.rawModel(), self, globalSettings));
             // }
 
-            self.title = ko.observable();
+            self.title = ko.observable(object.title);
             self.message = ko.observable();
+
+            self.type = ko.observable(object.type);
+            self.fromElement = ko.observable(object.fromElement);
+
+            self.stakeholders = ko.observable(object.vms);
             
             self.messageTemplate = ko.observable(object.template);
             
@@ -85,9 +85,18 @@ circleverse.viewModel.DialogConfirmViewModel = (function () {
             //     }
 
             // }, null, "change");
-
             
+            
+            self.canOpen(true);
+            self.canCreate(false);
+            self.canEdit(false);
+            self.canDelete(false);
+            self.canSearch(false);
+            self.canRefresh(false);
             self.canSave(false);
+            self.canClose(true);
+            self.canHelp(false); 
+
             self.__loadedChildren = false;
         }
         ,
@@ -101,9 +110,9 @@ circleverse.viewModel.DialogConfirmViewModel = (function () {
         hideMainForm: function(){
             var self = this;
             
-            self.title(undefined);
-            self.message(undefined);
-            self.messageTemplate(undefined);
+            // self.title(null);
+            // self.message(null);
+            // self.messageTemplate(null);
         }
             ,
 
@@ -112,39 +121,14 @@ circleverse.viewModel.DialogConfirmViewModel = (function () {
 
             if (dropViewModel.isA(circleverse.viewModel.CloseViewModel)) {
                 prom.then(function(){
-                    if (self.mainFormOpen){                        
-                        self.hideMainForm().then(function(){
-                            //if (self.callSuper) self.callSuper();
-                        });
-                    }
-                    else{
-                        self.showMainForm().then(function(){
-                            //if (self.callSuper) self.callSuper();
-                        });
-                    }
+                    self.publishCloseAndClose();
                 });
             }
-            else if (dropViewModel.isA(circleverse.viewModel.OpenViewModel)){
+            else if (dropViewModel.isA(circleverse.viewModel.OpenViewModel)) {
                 prom.then(function(){
-                    self.showMainForm().then(function(){
-                        //if (self.callSuper) self.callSuper();
-                    });
+                    self.publishConfirmAndClose();
                 });
             }
-            else if (dropViewModel.isA(circleverse.viewModel.SaveViewModel) || dropViewModel.isA(circleverse.viewModel.SaveViewModel)) {
-                prom.then(function(){
-                    self.findIndividuals();
-                });
-
-                
-                if (self.callSuper) self.callSuper();
-            }
-            else{
-                
-                if (self.callSuper) self.callSuper();
-            }
-
-            
         }
             ,
         droppedOn: function (dragModel, dragVm, args, prom) {
@@ -152,37 +136,36 @@ circleverse.viewModel.DialogConfirmViewModel = (function () {
 
             if (dragVm.isA(circleverse.viewModel.CloseViewModel)) {
                 prom.then(function(){
-                    if (self.mainFormOpen){                        
-                        self.hideMainForm().then(function(){
-                            //if (self.callSuper) self.callSuper();
-                        });
-                    }
-                    else{
-                        self.showMainForm().then(function(){
-                            //if (self.callSuper) self.callSuper();
-                        });
-                    }
+                    self.publishCloseAndClose();
                 });
             }
-            else if (dragVm.isA(circleverse.viewModel.OpenViewModel)){
+            else if (dragVm.isA(circleverse.viewModel.OpenViewModel)) {
                 prom.then(function(){
-                    self.showMainForm().then(function(){
-                        //if (self.callSuper) self.callSuper();
-                    });
+                    self.publishConfirmAndClose();
                 });
             }
-            else if (dragVm.isA(circleverse.viewModel.SaveViewModel) || dragVm.isA(circleverse.viewModel.SaveViewModel)) {               
+        }
+        ,        
+        publishCloseAndClose: function () {
+            var self = this, vms = self.model().vms;
 
-                prom.then(function(){
-                    self.findIndividuals();
-                });
+            for (var n in vms){
+                vms[n].dialogClosed(vms);
+            }
 
-                if (self.callSuper) self.callSuper();
+            self.close();
+            
+        }
+        ,        
+        publishConfirmAndClose: function () {
+            var self = this, vms = self.model().vms;
+
+            for (var n in vms){
+                vms[n].dialogConfirmed(vms);
             }
-            else{
-                
-                if (self.callSuper) self.callSuper();
-            }
+
+            
+            self.close();
         }
         ,
 
@@ -194,6 +177,7 @@ circleverse.viewModel.DialogConfirmViewModel = (function () {
 
         getSettings: function () {
             var settings = this.callSuper();
+            settings.drop = ".open, .close";
             //settings.drop = false;
             return settings;
         }
@@ -202,7 +186,11 @@ circleverse.viewModel.DialogConfirmViewModel = (function () {
 
 
         close: function () {
-            this.hideCloseForm(true);
+            var self = this;
+
+            self.globalSettings.eventAggregator.publish('stage.activeThings.remove', self);
+
+            self.parent.allDialogs.remove(self);
         }
 
     });

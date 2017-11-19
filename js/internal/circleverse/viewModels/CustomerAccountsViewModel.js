@@ -68,6 +68,16 @@ circleverse.viewModel.CustomerAccountsViewModel = (function () {
 
             self.icon.name('icon-umbrella icon-size-2x');//'icon-briefcase icon-size-2x';
 
+            
+            self.canOpen(true);
+            self.canCreate(false);
+            self.canEdit(false);
+            self.canDelete(false);
+            self.canSearch(false);
+            self.canRefresh(false);
+            self.canSave(false);
+            self.canClose(true);
+            self.canHelp(true); 
         }
 
             ,

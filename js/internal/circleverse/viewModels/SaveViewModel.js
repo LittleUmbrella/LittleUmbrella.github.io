@@ -47,15 +47,38 @@ circleverse.viewModel.SaveViewModel = (function () {
 
             self.label("Submit");
             
-            var subscription = null;
-            globalSettings.eventAggregator.subscribe('circleverse.spotlightContext', function(eventName, args){
-                self.showMe(args.canSave());
-                if (subscription) subscription.dispose();
+            
+            var subscriptions = [];
 
-                subscription = args.canSave.subscribe(function(){
-                    self.showMe(args.canSave());
-                });
+            var evaluatevisibility = function(activeThings){
+                var show = false;
+                for (var i = 0; i < activeThings.length; i++){
+                    var activeThing = activeThings[i]; 
+                    if (activeThing.canSave){                   
+
+                        //purge all subscriptions
+                        for (var h = 0; h < subscriptions.lenght; h++){
+                            subscriptions[h].dispose(); 
+                        }
+                        subscriptions = [];
+                        
+                        //add subscriptions back TO ALL ACTIVE THINGS, in case one of them changes their mind
+                        var subscription = activeThing.canSave.subscribe(function(){
+                            self.globalSettings.eventAggregator.publish('stage.activeThings.changed', self);
+                        });
+
+                        subscriptions.push(subscription);
+
+                        if (!show && activeThing.canSave()) show = true;
+                    }
+                }
+                self.showMe(show);
+            };
+
+            globalSettings.eventAggregator.subscribe('stage.activeThings.changed', function(eventName, activeThings){
+                evaluatevisibility(activeThings);                
             });
+
 
             self.mainCss('save');
             

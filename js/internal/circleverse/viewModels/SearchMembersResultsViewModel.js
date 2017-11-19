@@ -103,11 +103,17 @@ circleverse.viewModel.SearchMembersResultsViewModel = (function () {
 
 
             self.mainFormOpen = false;
-            
+             
+
+            self.canOpen(true);
+            self.canCreate(false);
+            self.canEdit(false);
             self.canDelete(false);
             self.canSearch(false);
-            self.canEdit(false);
-            self.canCreate(false);    
+            self.canRefresh(false);
+            self.canSave(false);
+            self.canClose(true);
+            self.canHelp(false); 
 
             
             self.searchResults = ko.observableArray();
@@ -138,7 +144,7 @@ circleverse.viewModel.SearchMembersResultsViewModel = (function () {
             self.animationSettings(self.searchDimensionSettingsBig);
             //self.size(self.searchDimensionSettingsBig.width);
             
-            self.globalSettings.eventAggregator.publish('circleverse.spotlightContext', self);
+            self.globalSettings.eventAggregator.publish('stage.activeThings.add', self);
             
             self.canOpen(false);
             self.canClose(true);

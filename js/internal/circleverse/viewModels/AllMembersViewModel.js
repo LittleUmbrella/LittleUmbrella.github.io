@@ -17,8 +17,8 @@ circleverse.viewModel.AllMembersViewModel = (function () {
             circleverse.viewModel.centerCircle, 
             becu_org.ui.viewModel.draggableModule, 
             becu_org.ui.viewModel.droppableModule,
-            becu_org.ui.viewModel.circleModule//,
-            //becu_org.ui.viewModel.labelModule,
+            becu_org.ui.viewModel.circleModule,
+            becu_org.ui.viewModel.labelModule,
             //circleverse.viewModel.SpecialContentViewViewModel
             ],
 
@@ -61,6 +61,7 @@ circleverse.viewModel.AllMembersViewModel = (function () {
             this.callSuper();
 
             
+            self.label("All members");
             self.dimensions({ height: initSize, width: initSize });
 
 
@@ -96,12 +97,15 @@ circleverse.viewModel.AllMembersViewModel = (function () {
             //self.isRoot(true);
 
             
+            self.canOpen(false);
+            self.canCreate(false);
             self.canEdit(false);
             self.canDelete(false);
             self.canSearch(true);
-            self.canOpen(false);
+            self.canRefresh(false);
+            self.canSave(false);
             self.canClose(false);
-            self.canSave = ko.observable(false);
+            self.canHelp(true);
 
             self.childViewModels.subscribe(function(changes){
                 if (self.childViewModels().length > 0){

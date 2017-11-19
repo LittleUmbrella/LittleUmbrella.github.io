@@ -583,3 +583,18 @@ ul.auto-fill li.row{
     stroke: #070;  
     color: #070;    
 }
+
+
+.dialog-container{
+    color: #666;
+}
+
+.circle textPath {
+    
+    fill: #6B779F;
+}
+
+.circle.tool textPath {
+    
+    fill: #666;
+}

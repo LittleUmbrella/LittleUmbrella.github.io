@@ -48,20 +48,39 @@ circleverse.viewModel.TravelViewModel = (function () {
 
             self.label("Travel");
             
-            var subscription = null;
-            globalSettings.eventAggregator.subscribe('circleverse.spotlightContext', function(eventName, args){
-                if (args.canTravel){
-                    self.showMe(args.canTravel());
-                    if (subscription) subscription.dispose();
+            
+            
+            var subscriptions = [];
 
-                    subscription = args.canTravel.subscribe(function(){
-                        self.showMe(args.canTravel());
-                    });
+            var evaluatevisibility = function(activeThings){
+                var show = false;
+                for (var i = 0; i < activeThings.length; i++){
+                    var activeThing = activeThings[i]; 
+                    if (activeThing.canTravel){                   
+
+                        //purge all subscriptions
+                        for (var h = 0; h < subscriptions.lenght; h++){
+                            subscriptions[h].dispose(); 
+                        }
+                        subscriptions = [];
+                        
+                        //add subscriptions back TO ALL ACTIVE THINGS, in case one of them changes their mind
+                        var subscription = activeThing.canTravel.subscribe(function(){
+                            self.globalSettings.eventAggregator.publish('stage.activeThings.changed', self);
+                        });
+
+                        subscriptions.push(subscription);
+
+                        if (!show && activeThing.canTravel()) show = true;
+                    }
                 }
-                else{                    
-                    self.showMe(false);
-                }
+                self.showMe(show);
+            };
+
+            globalSettings.eventAggregator.subscribe('stage.activeThings.changed', function(eventName, activeThings){
+                evaluatevisibility(activeThings);                
             });
+
 
             self.mainCss('travel');
             

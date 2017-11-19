@@ -79,7 +79,7 @@ circleverse.viewModel.SearchMembersViewModel = (function () {
                 top = searchLocation.top - ((height)/2),
                 left = searchLocation.left - ((width)/2);
 
-            self.searchDimensionSettingsBig = {width: width + self.dimensions().width, height: height + self.dimensions().height, top: top, left: left, borderRadius: 20, onComplete: eaf.core.createDelegate(self, self.toggleFormAnimationEnded), ease: Elastic.easeIn.config(4.5, 3)};
+            self.searchDimensionSettingsBig = {width: width + self.dimensions().width, height: height + self.dimensions().height, top: top, left: left, borderRadius: 15, onComplete: eaf.core.createDelegate(self, self.toggleFormAnimationEnded), ease: Elastic.easeIn.config(4.5, 3)};
             self.searchDimensionSettingsRegular = {width: self.dimensions().width, top: searchLocation.top, left: searchLocation.left, height: self.dimensions().height, borderRadius: '50%', onComplete: eaf.core.createDelegate(self, self.toggleFormAnimationEnded), ease: Elastic.easeIn.config(4.5, 3)};
 
             
@@ -91,7 +91,7 @@ circleverse.viewModel.SearchMembersViewModel = (function () {
                         top = searchLocation.top - ((height)/2),
                         left = searchLocation.left - ((width)/2);
 
-                    self.searchDimensionSettingsBig = {width: width + self.dimensions().width, height: height + self.dimensions().height, top: top, left: left, borderRadius: 20, onComplete: eaf.core.createDelegate(self, self.toggleFormAnimationEnded), ease: Elastic.easeIn.config(4.5, 3)};
+                    self.searchDimensionSettingsBig = {width: width + self.dimensions().width, height: height + self.dimensions().height, top: top, left: left, borderRadius: 15, onComplete: eaf.core.createDelegate(self, self.toggleFormAnimationEnded), ease: Elastic.easeIn.config(4.5, 3)};
                     self.searchDimensionSettingsRegular = {width: self.dimensions().width, top: searchLocation.top, left: searchLocation.left, height: self.dimensions().height, borderRadius: '50%', onComplete: eaf.core.createDelegate(self, self.toggleFormAnimationEnded), ease: Elastic.easeIn.config(4.5, 3)};
 
                 }
@@ -102,11 +102,17 @@ circleverse.viewModel.SearchMembersViewModel = (function () {
 
 
             self.mainFormOpen = false;
-            
+              
+
+            self.canCreate(false);
+            self.canEdit(false);
             self.canDelete(false);
             self.canSearch(false);
-            self.canEdit(false);
-            self.canCreate(false);    
+            self.canRefresh(false);
+            self.canSave(false);
+            self.canOpen(true);
+            self.canClose(true);
+            self.canHelp(true);
 
             
             self.firstName = ko.observable();
@@ -138,7 +144,7 @@ circleverse.viewModel.SearchMembersViewModel = (function () {
                 self.canOpen(false);
                 self.canClose(true);          
                 self.canSave(true);
-                self.globalSettings.eventAggregator.publish('circleverse.spotlightContext', self);
+                self.globalSettings.eventAggregator.publish('stage.activeThings.add', self);
             
                 deferred.resolve();
             };
@@ -168,7 +174,7 @@ circleverse.viewModel.SearchMembersViewModel = (function () {
                     self.canOpen(true);
                     self.canClose(true);            
                     self.canSave(false);
-                    self.globalSettings.eventAggregator.publish('circleverse.spotlightContext', self);
+                    self.globalSettings.eventAggregator.publish('stage.activeThings.add', self);
                     deferred.resolve();
                 };
                 self.animationSettings(self.searchDimensionSettingsRegular);

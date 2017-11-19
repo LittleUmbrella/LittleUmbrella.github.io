@@ -1614,35 +1614,35 @@ ko.bindingHandlers['infoize'] = {
 
 
 ko.bindingHandlers['fadeInFrom'] = {
-    'update': function (element, valueAccessor, allBindingsAccessor, viewModel) {
+    'init': function (element, valueAccessor, allBindingsAccessor, viewModel) {
         var $element = $(element);
-        var value = ko.unwrap(valueAccessor()), realValue = typeof value.value == 'undefined' ? true : ko.unwrap(value.value), initiator = value.initiator, dialogVm = value.dialogVm;
+        var value = ko.unwrap(valueAccessor()), from = ko.unwrap(value.fromElement), start = typeof value.start == 'undefined' ? true : ko.unwrap(value.start), stakeholders = ko.unwrap(value.stakeholders), dialogVm = ko.unwrap(value.dialogVm);
 
         var $from = $element;
 
-        if (realValue === true) {
+        //if (start === true) {
             //, transformOrigin: "50% 50% -80"
-            var defaults = { clone: true, coords: 'top', cssClass: '', duration: .85, css: { scale: 1 }, ease: /*SteppedEase.config(10)SlowMo.ease*/Linear.easeNone };
+            var defaults = { clone: true, coords: 'top', cssClass: '', duration: .5, css: { scale: 1, opacity: 1 }, ease: /*SteppedEase.config(10)SlowMo.ease*/Linear.easeNone };
 
             var opts = $.extend(true, defaults, value);
-            var fromType = typeof value.from;
+            var fromType = typeof from;
 
             switch (fromType) {
                 case 'function':
-                    $from = value.from();
+                    $from = from();
                     break;
                 case 'undefined':
                     //do nothing, using element as from
                     break;
                 default:
-                    $from = $(value.from);
+                    $from = $(from);
                     break;
             }
             var
                 startTop = $from.offset().top,
                 startLeft = $from.offset().left,
-                _top = dialogVm.position().top,
-                _left = dialogVm.position().left
+                _top = dialogVm.location().top,
+                _left = dialogVm.location().left
                 // _top = dest.offset().top,
                 // _left = dest.offset().left
             ;
@@ -1678,10 +1678,11 @@ ko.bindingHandlers['fadeInFrom'] = {
                     { left: midx /* + options.radius */, top: midy /* + options.radius */ },
                     //{ x: Math.ceil(_left) /* + options.radius */, y: Math.ceil(_top) /* + options.radius */ },
                     { left: Math.ceil(_left) /* + options.radius */, top: Math.ceil(_top) /* + options.radius */ }
-                ], autoRotate: false//["x", "y", "rotation", 45, false]
+                ]//, autoRotate: false//["x", "y", "rotation", 45, false]
                     }
-                    //, scale: opts.scale//, rotation: opts.rotation
-                }, onComplete: function () { $elementOrClone.remove(); (value.callback || function () { })(); }
+                    //, scale: 1//, rotation: opts.rotation
+                    , paused: true
+                }, onComplete: function () { (value.callback || function () { })(); }
             });
 
             //TweenLite.set($elementOrClone, {scale: .1});
@@ -1692,16 +1693,16 @@ ko.bindingHandlers['fadeInFrom'] = {
             //startLeft = coords.left;
 
             // shrink$element
-            $elementOrClone.appendTo(document.body);
-            $elementOrClone
-                .css({
-                    "position": "absolute",
+            //$elementOrClone.appendTo(document.body);
+            //$elementOrClone.css(
+            TweenLite.set($elementOrClone, 
+                {
+                    //"position": "absolute",
                     "top": startTop,
                     "left": startLeft,
-                    "width": 'auto',
-                    "height": 'auto',
-                    zIndex: 9000,
-                    scale: .1
+                    //zIndex: 9000,
+                    'transform': 'scale(.5)',
+                    'opacity': 0
                 });
 
             if (opts.cssClass != '') {
@@ -1718,10 +1719,57 @@ ko.bindingHandlers['fadeInFrom'] = {
             //        $elementOrClone.fadeOut('fast', value.callback || function () { });
             //    });
             //-webkit-transform: matrix(1, 0, 0, 1, 731, 90)
-            var tl = new TweenLite.to($elementOrClone, opts.duration, animationOpts);
-        }
+            
+            //setTimeout(function(){                
+                //TweenLite.killTweensOf($elementOrClone);
+                var tween = new TimelineMax({paused:true, repeat:0});
+                var tl = new TweenLite.to($elementOrClone, opts.duration, animationOpts);
+                tween.add(tl);
+                
+                tween.play();
+            //}, 1);
+        //}
     }
 }
+
+ko.bindingHandlers['forEachProperty'] = {
+    'init': function (element, valueAccessor, allBindingsAccessor, viewModel) {
+        var bindingValue = ko.utils.unwrapObservable(valueAccessor()), arr = [];
+
+        if (bindingValue){
+            if (bindingValue !== null && typeof bindingValue === 'object'){
+                for(var n in bindingValue){
+                    arr.push(bindingValue[n]);
+                }
+            }
+            else{
+                throw Error("you must pass an object to forEachProperty");
+            }
+        }
+
+        return ko.bindingHandlers['foreach']['init'](element, function(){return arr;});
+    }
+    ,
+    
+    'update': function (element, valueAccessor, allBindings, viewModel, bindingContext) {
+        var bindingValue = ko.utils.unwrapObservable(valueAccessor()), arr = [];
+
+        if (bindingValue){
+            if (bindingValue !== null && typeof bindingValue === 'object'){
+                for(var n in bindingValue){
+                    arr.push(bindingValue[n]);
+                }
+            }
+            else{
+                throw Error("you must pass an object to forEachProperty");
+            }
+        }
+
+        return ko.bindingHandlers['foreach']['update'](element, function(){return arr;}, allBindings, viewModel, bindingContext);
+    }
+};
+
+ko.virtualElements.allowedBindings['forEachProperty'] = true;
 
 ko.bindingHandlers['fadeTo'] = {
     'init': function (element, valueAccessor, allBindingsAccessor, viewModel) {

@@ -48,15 +48,39 @@ circleverse.viewModel.EditViewModel = (function () {
 
             self.label("Edit");
             
-            var subscription = null;
-            globalSettings.eventAggregator.subscribe('circleverse.spotlightContext', function(eventName, args){
-                self.showMe(args.canEdit());
-                if (subscription) subscription.dispose();
+            
+            var subscriptions = [];
 
-                subscription = args.canClose.subscribe(function(){
-                    self.showMe(args.canEdit());
-                });
+            var evaluatevisibility = function(activeThings){
+                var show = false;
+                for (var i = 0; i < activeThings.length; i++){
+                    var activeThing = activeThings[i]; 
+                    if (activeThing.canEdit){                   
+
+                        //purge all subscriptions
+                        for (var h = 0; h < subscriptions.lenght; h++){
+                            subscriptions[h].dispose(); 
+                        }
+                        subscriptions = [];
+                        
+                        //add subscriptions back TO ALL ACTIVE THINGS, in case one of them changes their mind
+                        var subscription = activeThing.canEdit.subscribe(function(){
+                            self.globalSettings.eventAggregator.publish('stage.activeThings.changed', self);
+                        });
+
+                        subscriptions.push(subscription);
+
+                        if (!show && activeThing.canEdit()) show = true;
+                    }
+                }
+                self.showMe(show);
+            };
+
+            globalSettings.eventAggregator.subscribe('stage.activeThings.changed', function(eventName, activeThings){
+                evaluatevisibility(activeThings);                
             });
+            
+
 
             self.mainCss('edit');
             

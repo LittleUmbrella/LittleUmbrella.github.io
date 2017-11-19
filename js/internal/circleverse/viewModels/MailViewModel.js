@@ -125,12 +125,15 @@ circleverse.viewModel.MailViewModel = (function () {
                 }   
             });
 
-            self.canEdit(false);
             self.canCreate(false);
+            self.canEdit(false);
             self.canDelete(false);
+            self.canSearch(false);
+            self.canRefresh(false);
             self.canSave(false);
-            self.canClose(false);
             self.canOpen(false);
+            self.canClose(false);
+            self.canHelp(true);
             
             this.icon.name('flaticon-tool-7 flaticon-size-9x');
             this.icon.color('#999999');

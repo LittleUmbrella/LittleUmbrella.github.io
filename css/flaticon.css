@@ -1,6 +1,6 @@
 	/*
   	Flaticon icon font: Flaticon
-  	Creation date: 27/10/2017 10:57
+  	Creation date: 16/11/2017 09:04
   	*/
 
 @font-face {
@@ -29,40 +29,44 @@ font-style: normal;
 margin-left: 20px;
 }
 
-.flaticon-mailbox-1:before { content: "\f100"; }
-.flaticon-mailbox:before { content: "\f101"; }
-.flaticon-multimedia-1:before { content: "\f102"; }
-.flaticon-letter-3:before { content: "\f103"; }
-.flaticon-note-6:before { content: "\f104"; }
-.flaticon-note-5:before { content: "\f105"; }
-.flaticon-interface-1:before { content: "\f106"; }
-.flaticon-networking:before { content: "\f107"; }
-.flaticon-letter-2:before { content: "\f108"; }
-.flaticon-back:before { content: "\f109"; }
-.flaticon-tool-8:before { content: "\f10a"; }
-.flaticon-interface:before { content: "\f10b"; }
-.flaticon-communication:before { content: "\f10c"; }
-.flaticon-tool-7:before { content: "\f10d"; }
-.flaticon-envelope-1:before { content: "\f10e"; }
-.flaticon-envelope:before { content: "\f10f"; }
-.flaticon-tool-6:before { content: "\f110"; }
-.flaticon-opened-email-envelope:before { content: "\f111"; }
-.flaticon-note-4:before { content: "\f112"; }
-.flaticon-web:before { content: "\f113"; }
-.flaticon-mail:before { content: "\f114"; }
-.flaticon-tool-5:before { content: "\f115"; }
-.flaticon-note-2:before { content: "\f116"; }
-.flaticon-note-1:before { content: "\f117"; }
-.flaticon-tool-4:before { content: "\f118"; }
-.flaticon-tool-3:before { content: "\f119"; }
-.flaticon-tool-2:before { content: "\f11a"; }
-.flaticon-tool-1:before { content: "\f11b"; }
-.flaticon-tool:before { content: "\f11c"; }
-.flaticon-business-1:before { content: "\f11d"; }
-.flaticon-letter-1:before { content: "\f11e"; }
-.flaticon-multimedia:before { content: "\f11f"; }
-.flaticon-letter:before { content: "\f120"; }
-.flaticon-note:before { content: "\f121"; }
-.flaticon-business:before { content: "\f122"; }
-.flaticon-work:before { content: "\f123"; }
-.flaticon-note-3:before { content: "\f124"; }
+.flaticon-left-arrow:before { content: "\f100"; }
+.flaticon-right-arrow:before { content: "\f101"; }
+.flaticon-one-finger-swipe-right-gesture-of-hand-stroke-symbol:before { content: "\f102"; }
+.flaticon-one-finger-swipe-left-gesture-outlined-hand-symbol:before { content: "\f103"; }
+.flaticon-multimedia-1:before { content: "\f104"; }
+.flaticon-note-6:before { content: "\f105"; }
+.flaticon-letter-3:before { content: "\f106"; }
+.flaticon-note-5:before { content: "\f107"; }
+.flaticon-note-4:before { content: "\f108"; }
+.flaticon-interface-1:before { content: "\f109"; }
+.flaticon-networking:before { content: "\f10a"; }
+.flaticon-letter-2:before { content: "\f10b"; }
+.flaticon-back:before { content: "\f10c"; }
+.flaticon-tool-8:before { content: "\f10d"; }
+.flaticon-interface:before { content: "\f10e"; }
+.flaticon-communication:before { content: "\f10f"; }
+.flaticon-tool-7:before { content: "\f110"; }
+.flaticon-envelope-1:before { content: "\f111"; }
+.flaticon-envelope:before { content: "\f112"; }
+.flaticon-tool-6:before { content: "\f113"; }
+.flaticon-opened-email-envelope:before { content: "\f114"; }
+.flaticon-note-3:before { content: "\f115"; }
+.flaticon-business:before { content: "\f116"; }
+.flaticon-web:before { content: "\f117"; }
+.flaticon-tool-5:before { content: "\f118"; }
+.flaticon-mailbox-1:before { content: "\f119"; }
+.flaticon-note-2:before { content: "\f11a"; }
+.flaticon-note-1:before { content: "\f11b"; }
+.flaticon-mailbox:before { content: "\f11c"; }
+.flaticon-tool-4:before { content: "\f11d"; }
+.flaticon-tool-3:before { content: "\f11e"; }
+.flaticon-tool-2:before { content: "\f11f"; }
+.flaticon-tool-1:before { content: "\f120"; }
+.flaticon-tool:before { content: "\f121"; }
+.flaticon-business-1:before { content: "\f122"; }
+.flaticon-letter-1:before { content: "\f123"; }
+.flaticon-multimedia:before { content: "\f124"; }
+.flaticon-letter:before { content: "\f125"; }
+.flaticon-note:before { content: "\f126"; }
+.flaticon-work:before { content: "\f127"; }
+.flaticon-mail:before { content: "\f128"; }

@@ -136,9 +136,9 @@ circleverse.viewModel.CustomerAddressViewModel = (function () {
                 width = 600,
                 height = 155;
 
-                self.searchDimensionSettingsBig = {width: width, height: height, top: searchLocation.top - ((height)/2) + ((initSize)/2), left: searchLocation.left - ((width)/2) + ((initSize)/2), borderRadius: 20, onComplete: eaf.core.createDelegate(self, self.toggleFormAnimationEnded), ease: Elastic.easeIn.config(4.5, 3)};
+                self.searchDimensionSettingsBig = {width: width, height: height, top: searchLocation.top - ((height)/2) + ((initSize)/2), left: searchLocation.left - ((width)/2) + ((initSize)/2), borderRadius: 15, background: 'inherit', borderWidth: 2, onComplete: eaf.core.createDelegate(self, self.toggleFormAnimationEnded), ease: Elastic.easeIn.config(4.5, 3)};
 
-                self.searchDimensionSettingsRegular = {width: initSize, top: searchLocation.top + ((height)/2) - ((initSize)/2), left: searchLocation.left + ((width)/2) - ((initSize)/2), height: initSize, borderRadius: '50%', onComplete: eaf.core.createDelegate(self, self.toggleFormAnimationEnded), ease: Elastic.easeIn.config(4.5, 3)};
+                self.searchDimensionSettingsRegular = {width: initSize, top: searchLocation.top + ((height)/2) - ((initSize)/2), left: searchLocation.left + ((width)/2) - ((initSize)/2), height: initSize, borderRadius: '50%', background: 'initial', borderWidth: 0, onComplete: eaf.core.createDelegate(self, self.toggleFormAnimationEnded), ease: Elastic.easeIn.config(4.5, 3)};
     
             };
 
@@ -236,7 +236,16 @@ circleverse.viewModel.CustomerAddressViewModel = (function () {
 
             this.info = "Account Transactions (includes Pending)";
 
-
+            
+            self.canCreate(false);
+            self.canEdit(true);
+            self.canDelete(true);
+            self.canSearch(false);
+            self.canRefresh(false);
+            self.canSave(false);
+            self.canOpen(false);
+            self.canClose(false);
+            self.canHelp(true);
 
             self.showForm = ko.observable(false);
 
@@ -262,17 +271,21 @@ circleverse.viewModel.CustomerAddressViewModel = (function () {
                     deferred.resolve();
                 }
                 self.focus(true);
+
+                
+                self.canEdit(false);
+                self.canSave(true);
+                self.canClose(true);
             };
             self.animationSettings(self.searchDimensionSettingsBig);
             //self.size(self.searchDimensionSettingsBig.width);
             
-            self.globalSettings.eventAggregator.publish('circleverse.spotlightContext', self);
+            self.globalSettings.eventAggregator.publish('stage.activeThings.add', self);
             
             //self.showLabel(false);
 
-            self.canOpen(false);
-            self.canSave(true);
-            //self.canEdit(true);
+
+
             self.mainFormOpen = true ;
 
             return deferred;
@@ -297,6 +310,11 @@ circleverse.viewModel.CustomerAddressViewModel = (function () {
                     else{                        
                         deferred.resolve();
                     }
+
+                    
+                    self.canEdit(true);
+                    self.canSave(false);
+                    self.canClose(false);
                 };
                 self.animationSettings(self.searchDimensionSettingsRegular);
             
@@ -407,6 +425,15 @@ circleverse.viewModel.CustomerAddressViewModel = (function () {
 
 
             }
+            else if (dropViewModel.isA(circleverse.viewModel.MailViewModel)) {
+                
+
+                prom.then(function(){
+                     self.promptForMailRerouteConfirmation(dropViewModel, args[2].element);
+                });
+
+
+            }
             else if (dropViewModel.isA(circleverse.viewModel.EditViewModel)) { 
                 
                 prom.then(function(){
@@ -446,11 +473,7 @@ circleverse.viewModel.CustomerAddressViewModel = (function () {
                 
 
                 prom.then(function(){
-                    var vms = {template: dragVm.confirmTemplateName()};
-                    vms[self.klass.displayName.substring(self.klass.displayName.lastIndexOf(".") + 1)] = self;
-                    vms[dragVm.klass.displayName.substring(dragVm.klass.displayName.lastIndexOf(".") + 1)] = dragVm;
-
-                    self.eventAggregator.publish('dialog.confirm.open', vms);     
+                     self.promptForMailRerouteConfirmation(dragVm, args[2].element);
                 });
 
 
@@ -462,6 +485,17 @@ circleverse.viewModel.CustomerAddressViewModel = (function () {
                 });
             }
             if (!self.mainFormOpen) if (self.callSuper) self.callSuper();
+        }
+        ,
+
+        promptForMailRerouteConfirmation: function(mailVm, fromElement){
+            var self = this;
+
+            var dialogOptions = {template: mailVm.confirmTemplateName(), fromElement: fromElement, type: 'confirm', dimensions: {width: 400, height: 300}, vms: {}, title: 'Are you sure?'};
+                    dialogOptions.vms[self.klass.displayName.substring(self.klass.displayName.lastIndexOf(".") + 1)] = self;
+                    dialogOptions.vms[mailVm.klass.displayName.substring(mailVm.klass.displayName.lastIndexOf(".") + 1)] = mailVm;
+
+                    self.eventAggregator.publish('dialog.confirm.open', dialogOptions);    
         }
         ,
 
@@ -480,6 +514,18 @@ circleverse.viewModel.CustomerAddressViewModel = (function () {
             self.callSuper();
             if (self.showMe() && !self.__downTree(self, dragViewModel) && dragViewModel.isA(circleverse.viewModel.MailViewModel))
                 self.isAvailable(true);
+        },
+            
+        dialogConfirmed: function(vms){
+            var self = this;
+
+            if ('undefined' != typeof vms.MailViewModel){
+                vms.MailViewModel.parent.childViewModels.remove(vms.MailViewModel);
+
+                vms.MailViewModel.parent = self;
+                self.childViewModels.push(vms.MailViewModel);               
+
+            }
         }
 
     });

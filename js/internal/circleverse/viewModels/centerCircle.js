@@ -101,7 +101,7 @@
 
                     if (self.shadowActive()) {
                         if (!ss) return 'none';
-                        if (self.globalSettings['theme'].value() == 'light') {
+                        if (self.globalSettings.settingsStore.getSetting('theme').value() == 'light') {
                             //return '0 0 0 ' + ((self.itemRadius() * 2) + 15) + 'px rgba(86, 174, 224,.3)';
                             return '0 0 0px ' + ((self.ringRadius()) + self.itemRadius() + 5) + 'px rgba(255, 255, 255,.65)';
                         }
@@ -292,7 +292,7 @@
                             deferred.resolve();
                         });
                     
-                    self.globalSettings.eventAggregator.publish('circleverse.spotlightContext', self);
+                    self.globalSettings.eventAggregator.publish('stage.activeThings.add', self);
 
                     var loc;
                     if (!self.childrenVisible()){
@@ -308,6 +308,8 @@
                             loc = self.location();
                             
                             self.parent.faded(true);
+                            
+                            self.globalSettings.eventAggregator.publish('stage.activeThings.remove', self.parent);
                             self.parent.moveRoot({movement: {top: -(loc.top), left: -(loc.left)}});
 
                             self.parent.unpopAllBut(self);
@@ -428,7 +430,7 @@
                             deferred.resolve();
                         });
                     
-                    self.globalSettings.eventAggregator.publish('circleverse.spotlightContext', self);
+                    self.globalSettings.eventAggregator.publish('stage.activeThings.add', self);
 
                     // if (mixPop){
                     //     return deferred;

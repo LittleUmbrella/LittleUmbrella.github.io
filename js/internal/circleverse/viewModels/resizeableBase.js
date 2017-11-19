@@ -117,21 +117,34 @@ circleverse.viewModel.ResizeableBase = //(function () {
                 self.animationSettings = ko.observable();
 
                 self.focus = ko.observable(false);
+
                 self.canCreate = ko.observable(true);
-                self.canEdit = ko.observable(true);
+                self.canEdit = ko.observable(false);
                 self.canDelete = ko.observable(true);
                 self.canSearch = ko.observable(false);
-                self.canRefresh = ko.observable(true);
+                self.canRefresh = ko.observable(false);
                 self.canSave = ko.observable(false);
                 self.canOpen = ko.observable(true);
                 self.canClose = ko.observable(true);
+                self.canHelp = ko.observable(true);
 
                 self.move = ko.observable({top: null, left: null}); //used to initiate animated movement.  see binding related to same
 
                 self.hideChildren = ko.observable(false);
 
                 self.canMoveRoot = ko.observable(true);
-            },        
+            },
+            
+            dialogClosed: function(){
+                //let descendent classes override and handle, otherwise do nothing by default
+            },
+            
+            dialogConfirmed: function(){
+                //let descendent classes override and handle, otherwise do nothing by default
+            }
+
+            
+            ,        
 
             moveRoot: function(config){
                 var self = this;
@@ -217,7 +230,7 @@ circleverse.viewModel.ResizeableBase = //(function () {
             if (!self.showMe())
                 return;
 
-            if (dragViewModel.isA(circleverse.viewModel.ToolViewModel) && self.isA(circleverse.viewModel.ToolViewModel)){
+            if (dragViewModel.isA(circleverse.viewModel.ToolViewModel) && self.isA(circleverse.viewModel.ToolViewModel) && !self.isA(circleverse.viewModel.helpViewModel) && !dragViewModel.isA(circleverse.viewModel.helpViewModel)){
                 return;
             }
 
@@ -246,6 +259,10 @@ circleverse.viewModel.ResizeableBase = //(function () {
             else if (self.isA(circleverse.viewModel.SearchViewModel) && dragViewModel.canSearch()){
                 self.isAvailable(false);
             }
+            else if (self.isA(circleverse.viewModel.helpViewModel) && dragViewModel.canHelp()){
+                self.isAvailable(false);
+            }
+
             else if (dragViewModel.isA(circleverse.viewModel.OpenViewModel) && self.canOpen()){
                 self.isAvailable(false);
             }
@@ -268,6 +285,9 @@ circleverse.viewModel.ResizeableBase = //(function () {
                 self.isAvailable(false);
             }
             else if (dragViewModel.isA(circleverse.viewModel.SearchViewModel) && self.canSearch()){
+                self.isAvailable(false);
+            }
+            else if (dragViewModel.isA(circleverse.viewModel.helpViewModel) && self.canHelp()){
                 self.isAvailable(false);
             }
         }
@@ -279,7 +299,7 @@ circleverse.viewModel.ResizeableBase = //(function () {
             if (!self.showMe())
                 return;
 
-            if (dragViewModel.isA(circleverse.viewModel.ToolViewModel) && self.isA(circleverse.viewModel.ToolViewModel)){
+            if (dragViewModel.isA(circleverse.viewModel.ToolViewModel) && self.isA(circleverse.viewModel.ToolViewModel) && !self.isA(circleverse.viewModel.helpViewModel) && !dragViewModel.isA(circleverse.viewModel.helpViewModel)){
                 return;
             }
 
@@ -307,6 +327,10 @@ circleverse.viewModel.ResizeableBase = //(function () {
             else if (self.isA(circleverse.viewModel.SearchViewModel) && dragViewModel.canSearch()){
                 self.isAvailable(true);
             }
+            else if (self.isA(circleverse.viewModel.helpViewModel) && dragViewModel.canHelp()){
+                self.isAvailable(true);
+            }
+
             else if (dragViewModel.isA(circleverse.viewModel.OpenViewModel) && self.canOpen()){
                 self.isAvailable(true);
             }
@@ -329,6 +353,9 @@ circleverse.viewModel.ResizeableBase = //(function () {
                 self.isAvailable(true);
             }
             else if (dragViewModel.isA(circleverse.viewModel.SearchViewModel) && self.canSearch()){
+                self.isAvailable(true);
+            }
+            else if (dragViewModel.isA(circleverse.viewModel.helpViewModel) && self.canHelp()){
                 self.isAvailable(true);
             }
             
