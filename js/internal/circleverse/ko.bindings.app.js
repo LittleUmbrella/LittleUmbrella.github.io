@@ -1503,15 +1503,15 @@ for (var j=0; j < dear.length; j++){
                 if (center){
                     map.setView(ko.unwrap(center), ko.unwrap(zoom));
                 }
-                
+
                 if ('undefined' != typeof mapboxAccessToken && value.globalSettings.settingsStore.getSetting('theme').value() == 'dark'){
-                    L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=' + mapboxAccessToken, {
+                    L.tileLayer('//api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=' + mapboxAccessToken, {
                         id: 'mapbox.dark',
                         attribution: 'osm.org'
                     }).addTo(map);
                 }
                 else{                    
-                    L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
+                    L.tileLayer('//{s}.tile.osm.org/{z}/{x}/{y}.png', {
                         attribution: 'osm.org'
                     }).addTo(map);
                 }
