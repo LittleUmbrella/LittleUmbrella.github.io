@@ -1504,6 +1504,7 @@ for (var j=0; j < dear.length; j++){
                     map.setView(ko.unwrap(center), ko.unwrap(zoom));
                 }
 
+//id: (value.globalSettings.settingsStore.getSetting('theme').value() == 'dark')? 'mapbox.dark': 'mapbox.light'
                 if ('undefined' != typeof mapboxAccessToken && value.globalSettings.settingsStore.getSetting('theme').value() == 'dark'){
                     L.tileLayer('//api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=' + mapboxAccessToken, {
                         id: 'mapbox.dark',
@@ -1511,7 +1512,7 @@ for (var j=0; j < dear.length; j++){
                     }).addTo(map);
                 }
                 else{                    
-                    L.tileLayer('//{s}.tile.osm.org/{z}/{x}/{y}.png', {
+                    L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
                         attribution: 'osm.org'
                     }).addTo(map);
                 }
