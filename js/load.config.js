@@ -1,6 +1,6 @@
 ﻿JS.Packages(function () {
     var PATH_PREFIX_INTERNAL = 'http://tvmobdev04:8005/';
-    var CUSTOM_VERSION = "1.1"
+    
 
     with (this) {
         file('/js/external/ko/knockout.validation.min.js?v=' + CUSTOM_VERSION)
