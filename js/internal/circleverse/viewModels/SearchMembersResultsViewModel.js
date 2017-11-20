@@ -144,11 +144,13 @@ circleverse.viewModel.SearchMembersResultsViewModel = (function () {
             self.animationSettings(self.searchDimensionSettingsBig);
             //self.size(self.searchDimensionSettingsBig.width);
             
-            self.globalSettings.eventAggregator.publish('stage.activeThings.add', self);
             
             self.canOpen(false);
             self.canClose(true);
             self.mainFormOpen = true ;
+
+            
+            self.globalSettings.eventAggregator.publish('stage.activeThings.add', self);
 
             return deferred;
         }
@@ -170,6 +172,9 @@ circleverse.viewModel.SearchMembersResultsViewModel = (function () {
             self.canOpen(true);
             self.canClose(false);
             self.mainFormOpen = false ;
+
+            self.globalSettings.eventAggregator.publish('stage.activeThings.add', self);
+            
 
             return deferred;
         }

@@ -57,22 +57,26 @@ circleverse.viewModel.NewViewModel = (function () {
 
             var evaluatevisibility = function(activeThings){
                 var show = false;
+                //purge all subscriptions
+                for (var h = 0; h < subscriptions.lenght; h++){
+                    subscriptions[h].dispose(); 
+                }
+                subscriptions = [];
                 for (var i = 0; i < activeThings.length; i++){
                     var activeThing = activeThings[i];
-                    if (activeThing.canCreate){                    
-
-                        //purge all subscriptions
-                        for (var h = 0; h < subscriptions.lenght; h++){
-                            subscriptions[h].dispose(); 
-                        }
-                        subscriptions = [];
+                    if (activeThing.canCreate){     
                         
-                        //add subscriptions back TO ALL ACTIVE THINGS, in case one of them changes their mind
-                        var subscription = activeThing.canCreate.subscribe(function(){
-                            self.globalSettings.eventAggregator.publish('stage.activeThings.changed', self);
-                        });
+                        // //add subscriptions back TO ALL ACTIVE THINGS, in case one of them changes their mind
+                        // var subscription = activeThing.canCreate.subscribe(function(val){
+                        //     if (val){
+                        //         self.globalSettings.eventAggregator.publish('stage.activeThings.add', activeThing);
+                        //     }
+                        //     else{                                
+                        //         self.globalSettings.eventAggregator.publish('stage.activeThings.remove', activeThing);
+                        //     }
+                        // });
 
-                        subscriptions.push(subscription);
+                        // subscriptions.push(subscription);
 
                         if (!show && activeThing.canCreate()) show = true;
                     }

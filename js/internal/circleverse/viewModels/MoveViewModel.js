@@ -63,12 +63,17 @@ circleverse.viewModel.MoveViewModel = (function () {
                         }
                         subscriptions = [];
                         
-                        //add subscriptions back TO ALL ACTIVE THINGS, in case one of them changes their mind
-                        var subscription = activeThing.canMove.subscribe(function(){
-                            self.globalSettings.eventAggregator.publish('stage.activeThings.changed', self);
-                        });
+                        // //add subscriptions back TO ALL ACTIVE THINGS, in case one of them changes their mind
+                        // var subscription = activeThing.canMove.subscribe(function(val){
+                        //     if (val){
+                        //         self.globalSettings.eventAggregator.publish('stage.activeThings.add', activeThing);
+                        //     }
+                        //     else{                                
+                        //         self.globalSettings.eventAggregator.publish('stage.activeThings.remove', activeThing);
+                        //     }
+                        // });
 
-                        subscriptions.push(subscription);
+                        // subscriptions.push(subscription);
 
                         if (!show && activeThing.canMove()) show = true;
                     }

@@ -52,22 +52,26 @@ circleverse.viewModel.garbageViewModel = (function () {
 
             var evaluatevisibility = function(activeThings){
                 var show = false;
+                //purge all subscriptions
+                for (var h = 0; h < subscriptions.lenght; h++){
+                    subscriptions[h].dispose(); 
+                }
+                subscriptions = [];
                 for (var i = 0; i < activeThings.length; i++){
                     var activeThing = activeThings[i]; 
-                    if (activeThing.canDelete){                   
-
-                        //purge all subscriptions
-                        for (var h = 0; h < subscriptions.lenght; h++){
-                            subscriptions[h].dispose(); 
-                        }
-                        subscriptions = [];
+                    if (activeThing.canDelete){  
                         
-                        //add subscriptions back TO ALL ACTIVE THINGS, in case one of them changes their mind
-                        var subscription = activeThing.canDelete.subscribe(function(){
-                            self.globalSettings.eventAggregator.publish('stage.activeThings.changed', self);
-                        });
+                        // //add subscriptions back TO ALL ACTIVE THINGS, in case one of them changes their mind
+                        // var subscription = activeThing.canDelete.subscribe(function(val){
+                        //     if (val){
+                        //         self.globalSettings.eventAggregator.publish('stage.activeThings.add', activeThing);
+                        //     }
+                        //     else{                                
+                        //         self.globalSettings.eventAggregator.publish('stage.activeThings.remove', activeThing);
+                        //     }
+                        // });
 
-                        subscriptions.push(subscription);
+                        // subscriptions.push(subscription);
 
                         if (!show && activeThing.canDelete()) show = true;
                     }

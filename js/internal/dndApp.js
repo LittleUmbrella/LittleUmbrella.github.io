@@ -327,14 +327,21 @@ becu_org.app = (function () {
 
             
             var allActiveThings = [];
-            globalSettings.eventAggregator.subscribe('stage.activeThings.add', function(eventName, args){
-                allActiveThings.push(args);
+            globalSettings.eventAggregator.subscribe('stage.activeThings.add', function(eventName, args){               
+
+                var idx = allActiveThings.indexOf(args); 
+                if (idx == -1){                    
+                    allActiveThings.push(args);
+                }
                 globalSettings.eventAggregator.publish('stage.activeThings.changed', allActiveThings);
             });
 
             
             globalSettings.eventAggregator.subscribe('stage.activeThings.remove', function(eventName, args){
-                var idx = allActiveThings.splice(allActiveThings.indexOf(args), 1);
+                
+                var idx = allActiveThings.indexOf(args); 
+                if (idx > -1)
+                    allActiveThings.splice(idx, 1);
                 globalSettings.eventAggregator.publish('stage.activeThings.changed', allActiveThings);
             });
 

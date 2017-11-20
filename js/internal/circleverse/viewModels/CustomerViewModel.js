@@ -119,7 +119,7 @@ littleUmbrella.circleverse.viewModel.CustomerViewModel = (function () {
             //self.childViewModels.push(self.customerContactsViewModel);
             //self.childViewModels.push(self.customerInteractionsViewModel);
 
-            self.canTravel = ko.observable(true);
+            //for now self.canTravel = ko.observable(true);
             self.canMove = ko.observable(true);
 
             

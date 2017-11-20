@@ -126,9 +126,6 @@ circleverse.viewModel.CustomerAddressesViewModel = (function () {
                 // }
                 self.toggleFormAnimationEnded();
                 
-                self.canOpen(false);
-                self.canClose(true); 
-                self.globalSettings.eventAggregator.publish('stage.activeThings.add', self);
                             
                 self.isRoot(true);
                 self.canMoveRoot(false);
@@ -136,6 +133,10 @@ circleverse.viewModel.CustomerAddressesViewModel = (function () {
                 deferred.resolve();
             };
             self.animationSettings(self.searchDimensionSettingsBig);
+            
+            self.canOpen(false);
+            self.canClose(true); 
+            self.globalSettings.eventAggregator.publish('stage.activeThings.add', self);
             //self.size(self.searchDimensionSettingsBig.width);
             
             self.mainFormOpen = true ;
@@ -162,10 +163,7 @@ circleverse.viewModel.CustomerAddressesViewModel = (function () {
                     else{
                         prom.resolve();
                     }
-
-                    self.canOpen(true);
-                    self.canClose(true);  
-                    self.globalSettings.eventAggregator.publish('stage.activeThings.remove', self);
+  
 
                     prom.then(function(){
 
@@ -178,6 +176,9 @@ circleverse.viewModel.CustomerAddressesViewModel = (function () {
                 self.animationSettings(self.searchDimensionSettingsRegular);
                 //self.size(self.searchDimensionSettingsRegular.width);
 
+                self.canOpen(true);
+                self.canClose(true);
+                self.globalSettings.eventAggregator.publish('stage.activeThings.add', self);
 
                 self.mainFormOpen = false;
 
@@ -578,9 +579,10 @@ circleverse.viewModel.CustomerAddressesViewModel = (function () {
             ,
 
         dropped: function (dropModel, dropViewModel, args, prom) {
-            var self = this;
+            var self = this, _super = self.callSuper;
 
             if (dropViewModel.isA(circleverse.viewModel.CloseViewModel)) {
+                
                 prom.then(function(){
                     if (self.mainFormOpen){                        
                         self.hideMainForm().then(function(){
@@ -588,9 +590,8 @@ circleverse.viewModel.CustomerAddressesViewModel = (function () {
                         });
                     }
                     else{
-                        self.showMainForm().then(function(){
-                            //if (self.callSuper) self.callSuper();
-                        });
+                        
+                        _super();
                     }
                 });
             }
@@ -618,7 +619,7 @@ circleverse.viewModel.CustomerAddressesViewModel = (function () {
         }
             ,
         droppedOn: function (dragModel, dragVm, args, prom) {
-            var self = this;
+            var self = this, _super = self.callSuper;
 
             if (dragVm.isA(circleverse.viewModel.CloseViewModel)) {
                 prom.then(function(){
@@ -627,10 +628,8 @@ circleverse.viewModel.CustomerAddressesViewModel = (function () {
                             //if (self.callSuper) self.callSuper();
                         });
                     }
-                    else{
-                        self.showMainForm().then(function(){
-                            //if (self.callSuper) self.callSuper();
-                        });
+                    else{                        
+                        _super();
                     }
                 });
             }

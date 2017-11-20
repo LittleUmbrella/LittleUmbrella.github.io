@@ -273,13 +273,13 @@ circleverse.viewModel.CustomerAddressViewModel = (function () {
                 self.focus(true);
 
                 
-                self.canEdit(false);
-                self.canSave(true);
-                self.canClose(true);
             };
             self.animationSettings(self.searchDimensionSettingsBig);
             //self.size(self.searchDimensionSettingsBig.width);
             
+            self.canEdit(false);
+            self.canSave(true);
+            self.canClose(true);
             self.globalSettings.eventAggregator.publish('stage.activeThings.add', self);
             
             //self.showLabel(false);
@@ -312,12 +312,13 @@ circleverse.viewModel.CustomerAddressViewModel = (function () {
                     }
 
                     
-                    self.canEdit(true);
-                    self.canSave(false);
-                    self.canClose(false);
                 };
                 self.animationSettings(self.searchDimensionSettingsRegular);
             
+            self.canEdit(true);
+            self.canSave(false);
+            self.canClose(false);
+            self.globalSettings.eventAggregator.publish('stage.activeThings.add', self);
 
             self.canOpen(true);
             self.canSave(false);

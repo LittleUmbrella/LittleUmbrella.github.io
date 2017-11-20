@@ -1,18 +1,18 @@
 ﻿JS.Packages(function () {
     var PATH_PREFIX_INTERNAL = 'http://tvmobdev04:8005/';
-    var CUSTOM_VERSION = "1.0"
+    var CUSTOM_VERSION = "1.1"
 
     with (this) {
-        file('/js/external/ko/knockout.validation.min.js')
+        file('/js/external/ko/knockout.validation.min.js?v=' + CUSTOM_VERSION)
         //.setup(function () { window.ko.namespaces = {}; })
                             .provides('ko.validation')
                             .requires('ko');
 
-        file('/js/internal/global.ko.validation.extension.js')
+        file('/js/internal/global.ko.validation.extension.js?v=' + CUSTOM_VERSION)
                     .provides('ko.validation.extension')
                     .requires('ko.validation')
 
-        file('/js/external/JS/Class/JS.extend.js')
+        file('/js/external/JS/Class/JS.extend.js?v=' + CUSTOM_VERSION)
                     .setup(function () { window.JSextend = {}; })
                     .provides('JSextend')
                     .requires('JS.Module', 'JS.Class', 'JS.Interface', 'eaf.core', 'eaf.util');
@@ -59,20 +59,20 @@
                     .provides('littleUmbrella.circleverse.ui.pointsAndPolygon')
                     .requires('jQuery', 'ko', 'ko.validation', 'jQuery.fn.formatCurrency', 'jQuery.datepicker', 'JS.Singleton', 'eaf.core', 'eaf.util');
 
-        file('/js/internal/Eaf/htmlGetter.js')
+        file('/js/internal/Eaf/htmlGetter.js?v=' + CUSTOM_VERSION)
                     .provides('eaf.communications.htmlGetter', 'eaf.communications.jsonGetter')
                     .requires('jQuery', 'JS.Class', 'JS.Singleton', 'eaf.core', 'eaf.util');
 
 
-        file('/js/internal/Eaf/core.js')
+        file('/js/internal/Eaf/core.js?v=' + CUSTOM_VERSION)
                     .provides('eaf.core', 'eaf.util')
                     .requires('jQuery', 'JS.Singleton');
 
-        file('/js/external/curl/curl.js')
+        file('/js/external/curl/curl.js?v=' + CUSTOM_VERSION)
                     .provides('curl');
 
 
-        file('/js/external/jquery.metadata.js')
+        file('/js/external/jquery.metadata.js?v=' + CUSTOM_VERSION)
                     .provides('jQuery.metadata')
                     .requires('jQuery');
 
@@ -120,19 +120,19 @@
 
 
 
-        file('/js/internal/circleverse/viewModels/base.js')
+        file('/js/internal/circleverse/viewModels/base.js?v=' + CUSTOM_VERSION)
                     .provides('circleverse.viewModel.Base')
                     .requires('jQuery', 'JS.Module', 'JS.Class', 'JSextend', 'eaf.core', 'eaf.util');
 
 
-        file('/js/internal/services/RepositoryStub.js')
+        file('/js/internal/services/RepositoryStub.js?v=' + CUSTOM_VERSION)
                     .provides('becu_org.ob.services.Repository')
                     .requires('jQuery', 'JS.Module', 'JS.Class', 'JSextend', 'eaf.core', 'eaf.util');
 
 
 
 
-        file('js/internal/becu_org/domain/Account.js')
+        file('js/internal/becu_org/domain/Account.js?v=' + CUSTOM_VERSION)
                     .provides('becu_org.domain.model.Account', 'becu_org.domain.model.AccountObservable')
                     .requires('JS.Module',
                     'JS.Class', 'JSextend', 'ko', 'eaf.core', 'eaf.util', 'becu_org.domain.model.Base', 'becu_org.domain.model.AccountTransactionObservable'
@@ -150,105 +150,105 @@
 
 
 
-        file('js/internal/becu_org/domain/PendingPayment.js')
+        file('js/internal/becu_org/domain/PendingPayment.js?v=' + CUSTOM_VERSION)
                     .provides('becu_org.domain.model.PendingPayment', 'becu_org.domain.model.PendingPaymentObservable')
                     .requires('JS.Module',
                     'JS.Class', 'JSextend', 'ko', 'eaf.core', 'eaf.util', 'becu_org.domain.model.Base');
 
-        file('js/internal/becu_org/domain/OutgoingPendingPayment.js')
+        file('js/internal/becu_org/domain/OutgoingPendingPayment.js?v=' + CUSTOM_VERSION)
                     .provides('becu_org.domain.model.OutgoingPendingPayment', 'becu_org.domain.model.OutgoingPendingPaymentObservable')
                     .requires('JS.Module',
                     'JS.Class', 'JSextend', 'ko', 'eaf.core', 'eaf.util', 'becu_org.domain.model.Base', 'becu_org.domain.model.PendingPayment', 'becu_org.domain.model.PendingPaymentObservable');
 
-        file('js/internal/becu_org/domain/IncomingPendingPayment.js')
+        file('js/internal/becu_org/domain/IncomingPendingPayment.js?v=' + CUSTOM_VERSION)
                     .provides('becu_org.domain.model.IncomingPendingPayment', 'becu_org.domain.model.IncomingPendingPaymentObservable')
                     .requires('JS.Module',
                     'JS.Class', 'JSextend', 'ko', 'eaf.core', 'eaf.util', 'becu_org.domain.model.Base', 'becu_org.domain.model.PendingPayment', 'becu_org.domain.model.PendingPaymentObservable');
 
 
-        file('js/internal/becu_org/domain/PaymentSchedule.js')
+        file('js/internal/becu_org/domain/PaymentSchedule.js?v=' + CUSTOM_VERSION)
                     .provides('becu_org.domain.model.PaymentSchedule', 'becu_org.domain.model.PaymentScheduleObservable')
                     .requires('JS.Module',
                     'JS.Class', 'JSextend', 'ko', 'eaf.core', 'eaf.util', 'becu_org.domain.model.Base'
                     );
 
-        file('js/internal/becu_org/domain/OutgoingPaymentSchedule.js')
+        file('js/internal/becu_org/domain/OutgoingPaymentSchedule.js?v=' + CUSTOM_VERSION)
                     .provides('becu_org.domain.model.OutgoingPaymentSchedule', 'becu_org.domain.model.OutgoingPaymentScheduleObservable')
                     .requires('JS.Module',
                     'JS.Class', 'JSextend', 'ko', 'eaf.core', 'eaf.util', 'becu_org.domain.model.Base', 'becu_org.domain.model.PaymentSchedule', 'becu_org.domain.model.PaymentScheduleObservable');
 
-        file('js/internal/becu_org/domain/IncomingPaymentSchedule.js')
+        file('js/internal/becu_org/domain/IncomingPaymentSchedule.js?v=' + CUSTOM_VERSION)
                     .provides('becu_org.domain.model.IncomingPaymentSchedule', 'becu_org.domain.model.IncomingPaymentScheduleObservable')
                     .requires('JS.Module',
                     'JS.Class', 'JSextend', 'ko', 'eaf.core', 'eaf.util', 'becu_org.domain.model.Base', 'becu_org.domain.model.PaymentSchedule', 'becu_org.domain.model.PaymentScheduleObservable');
 
 
-        file('js/internal/becu_org/domain/Merchant.js')
+        file('js/internal/becu_org/domain/Merchant.js?v=' + CUSTOM_VERSION)
                     .provides('becu_org.domain.model.Merchant', 'becu_org.domain.model.MerchantObservable')
                     .requires('JS.Module',
                     'JS.Class', 'JSextend', 'ko', 'eaf.core', 'eaf.util', 'becu_org.domain.model.Base');
 
-        file('js/internal/becu_org/domain/Product.js')
+        file('js/internal/becu_org/domain/Product.js?v=' + CUSTOM_VERSION)
                     .provides('becu_org.domain.model.Product', 'becu_org.domain.model.ProductObservable')
                     .requires('JS.Module',
                     'JS.Class', 'JSextend', 'ko', 'eaf.core', 'eaf.util', 'becu_org.domain.model.Base', 'becu_org.domain.model.ProductId', 'becu_org.domain.model.ProductId', 'becu_org.domain.model.ProductId');
 
-        file('js/internal/becu_org/domain/ProductId.js')
+        file('js/internal/becu_org/domain/ProductId.js?v=' + CUSTOM_VERSION)
                     .provides('becu_org.domain.model.ProductId', 'becu_org.domain.model.ProductIdObservable')
                     .requires('JS.Module',
                     'JS.Class', 'JSextend', 'ko', 'eaf.core', 'eaf.util', 'becu_org.domain.model.Base');
 
-        file('js/internal/becu_org/domain/LoanProductId.js')
+        file('js/internal/becu_org/domain/LoanProductId.js?v=' + CUSTOM_VERSION)
                     .provides('becu_org.domain.model.LoanProductId', 'becu_org.domain.model.LoanProductIdObservable')
                     .requires('JS.Module',
                     'JS.Class', 'JSextend', 'ko', 'eaf.core', 'eaf.util', 'becu_org.domain.model.Base', 'becu_org.domain.model.ProductId', 'becu_org.domain.model.ProductIdObservable');
 
-        file('js/internal/becu_org/domain/AccountTransaction.js')
+        file('js/internal/becu_org/domain/AccountTransaction.js?v=' + CUSTOM_VERSION)
                     .provides('becu_org.domain.model.AccountTransaction', 'becu_org.domain.model.AccountTransactionObservable')
                     .requires('JS.Module',
                     'JS.Class', 'JSextend', 'ko', 'eaf.core', 'eaf.util', 'becu_org.domain.model.Base');
 
-        file('js/internal/becu_org/domain/AlertScheduleBalance.js')
+        file('js/internal/becu_org/domain/AlertScheduleBalance.js?v=' + CUSTOM_VERSION)
                     .provides('becu_org.domain.model.AlertScheduleBalance', 'becu_org.domain.model.AlertScheduleBalanceObservable')
                     .requires('JS.Module',
                     'JS.Class', 'JSextend', 'ko', 'eaf.core', 'eaf.util', 'becu_org.domain.model.Base');
 
-        file('js/internal/becu_org/domain/AccountRole.js')
+        file('js/internal/becu_org/domain/AccountRole.js?v=' + CUSTOM_VERSION)
                     .provides('becu_org.domain.model.AccountRole', 'becu_org.domain.model.AccountRoleObservable')
                     .requires('JS.Module',
                     'JS.Class', 'JSextend', 'ko', 'eaf.core', 'eaf.util', 'becu_org.domain.model.Base');
 
-        file('js/internal/becu_org/domain/AccountRelationship.js')
+        file('js/internal/becu_org/domain/AccountRelationship.js?v=' + CUSTOM_VERSION)
                     .provides('becu_org.domain.model.AccountRelationship', 'becu_org.domain.model.AccountRelationshipObservable')
                     .requires('JS.Module',
                     'JS.Class', 'JSextend', 'ko', 'eaf.core', 'eaf.util', 'becu_org.domain.model.Base');
 
-        file('js/internal/becu_org/domain/customerInfo.js')
+        file('js/internal/becu_org/domain/customerInfo.js?v=' + CUSTOM_VERSION)
                     .provides('becu_org.domain.model.CustomerInfo')
                     .requires('JS.Module',
                     'JS.Class', 'JSextend', 'ko', 'eaf.core', 'eaf.util', 'becu_org.domain.model.Base', 'becu_org.domain.model.AccountObservable');
 
-        file('/js/internal/becu_org/domain/profileInfo.js')
+        file('/js/internal/becu_org/domain/profileInfo.js?v=' + CUSTOM_VERSION)
                     .provides('becu_org.domain.model.ProfileInfo')
                     .requires('JS.Module',
                     'JS.Class', 'JSextend', 'ko', 'eaf.core', 'eaf.util', 'becu_org.domain.model.Base', 'becu_org.domain.model.ContactInfo');
 
-        file('/js/internal/becu_org/domain/contactInfo.js')
+        file('/js/internal/becu_org/domain/contactInfo.js?v=' + CUSTOM_VERSION)
                     .provides('becu_org.domain.model.ContactInfo')
                     .requires('JS.Module',
                     'JS.Class', 'JSextend', 'ko', 'eaf.core', 'eaf.util', 'becu_org.domain.model.Base');
 
-        file('/js/internal/becu_org/domain/Employee.js')
+        file('/js/internal/becu_org/domain/Employee.js?v=' + CUSTOM_VERSION)
                     .provides('becu_org.domain.model.Employee')
                     .requires('JS.Module',
                     'JS.Class', 'JSextend', 'ko', 'eaf.core', 'eaf.util', 'becu_org.domain.model.Base', 'becu_org.domain.model.EmployeeInfo');
 
-        file('/js/internal/becu_org/domain/employeeInfo.js')
+        file('/js/internal/becu_org/domain/employeeInfo.js?v=' + CUSTOM_VERSION)
                     .provides('becu_org.domain.model.EmployeeInfo')
                     .requires('JS.Module',
                     'JS.Class', 'JSextend', 'ko', 'eaf.core', 'eaf.util', 'becu_org.domain.model.Base', 'becu_org.domain.model.ProfileInfo');
 
-        file('js/internal/becu_org/domain/Customer.js')
+        file('js/internal/becu_org/domain/Customer.js?v=' + CUSTOM_VERSION)
                     .provides('becu_org.domain.model.Customer', 'becu_org.domain.model.CustomerObservable')
                     .requires('JS.Module',
                     'JS.Class', 'JSextend', 'ko', 'eaf.core', 'eaf.util', 'becu_org.domain.model.Base', 'becu_org.domain.model.AccountObservable', 'becu_org.domain.model.PersonObservable'
@@ -256,7 +256,7 @@
                     );
 
         
-        file('js/internal/becu_org/domain/Address.js')
+        file('js/internal/becu_org/domain/Address.js?v=' + CUSTOM_VERSION)
                     .provides('becu_org.domain.model.AddressObservable', 'becu_org.domain.model.AddressObservable')
                     .requires('JS.Module',
                     'JS.Class', 'JSextend', 'ko', 'eaf.core', 'eaf.util', 'becu_org.domain.model.Base'
@@ -264,40 +264,40 @@
                     );
 
 
-        file('/js/internal/becu_org/domain/Person.js')
+        file('/js/internal/becu_org/domain/Person.js?v=' + CUSTOM_VERSION)
                     .provides('becu_org.domain.model.Person', 'becu_org.domain.model.PersonObservable')
                     .requires('JS.Module',
                     'JS.Class', 'JSextend', 'ko', 'eaf.core', 'eaf.util', 'becu_org.domain.model.Base'
 
                     );
 
-        file('/js/internal/becu_org/domain/Organization.js')
+        file('/js/internal/becu_org/domain/Organization.js?v=' + CUSTOM_VERSION)
                     .provides('becu_org.domain.model.Organization', 'becu_org.domain.model.OrganizationObservable')
                     .requires('JS.Module',
                     'JS.Class', 'JSextend', 'ko', 'eaf.core', 'eaf.util', 'becu_org.domain.model.Base'
 
                     );
 
-        file('/js/internal/becu_org/domain/Becu.js')
+        file('/js/internal/becu_org/domain/Becu.js?v=' + CUSTOM_VERSION)
                     .provides('becu_org.domain.model.Becu', 'becu_org.domain.model.BecuObservable')
                     .requires('JS.Module',
                     'JS.Class', 'JSextend', 'ko', 'eaf.core', 'eaf.util', 'becu_org.domain.model.Base', 'becu_org.domain.model.Organization'
 
                     );
 
-        file('/js/internal/becu_org/domain/Base.js')
+        file('/js/internal/becu_org/domain/Base.js?v=' + CUSTOM_VERSION)
                     .provides('becu_org.domain.model.Base')
                     .requires('JS.Module',
                     'JS.Class', 'JSextend', 'ko', 'eaf.core', 'eaf.util');
 
 
 
-        file('/js/internal/circleverse/viewModels/controls/AccordionViewModel.js')
+        file('/js/internal/circleverse/viewModels/controls/AccordionViewModel.js?v=' + CUSTOM_VERSION)
                     .provides('circleverse.controls.viewModel.AccordionViewModel')
                     .requires('jQuery', 'eaf.util'
                     );
 
-        file('/js/internal/Animations.js')
+        file('/js/internal/Animations.js?v=' + CUSTOM_VERSION)
                     .provides('littleUmbrella.circleverse.ui.Animation')
                     .requires('jQuery', 'eaf.util'
                     );
@@ -305,7 +305,7 @@
 
 
 
-        file('/js/external/jquery.js')
+        file('/js/external/jquery.js?v=' + CUSTOM_VERSION)
         //file('http://code.jquery.com/jquery-1.5.2.min.js')
                                 .provides('jQuery');
 
@@ -397,134 +397,134 @@
         //.styling('/css/jquery.qtip.css')
                     ;
 
-        file('/js/external/jquery.qtip.min.js')
+        file('/js/external/jquery.qtip.min.js?v=' + CUSTOM_VERSION)
                     .provides('jQuery.fn.qtip')
                     .requires('jQuery')
                     .styling('/css/jquery.qtip.css');
 
-        file('/js/internal/jquery.event.drag.mod.2.2.js')
+        file('/js/internal/jquery.event.drag.mod.2.2.js?v=' + CUSTOM_VERSION)
                     .provides('jQuery.event.special.drag')
                     .requires('jQuery');
 
-        file('/js/internal/jquery.event.drop.tf.js')
+        file('/js/internal/jquery.event.drop.tf.js?v=' + CUSTOM_VERSION)
                     .provides('jQuery.event.special.drop')
                     .requires('jQuery');
 
-        file('/js/internal/jquery.event.dragx.js')
+        file('/js/internal/jquery.event.dragx.js?v=' + CUSTOM_VERSION)
                     .provides('jQuery.event.special.dragx')
                     .requires('jQuery', 'jQuery.event.special.drag', 'jQuery.event.special.ctrlclick');
 
-        file('/js/internal/jquery.event.dropx.js')
+        file('/js/internal/jquery.event.dropx.js?v=' + CUSTOM_VERSION)
                     .provides('jQuery.event.special.dropx')
                     .requires('jQuery', 'jQuery.event.special.drop', 'jQuery.event.special.ctrlclick');
 
-        file('/js/external/jquery.metadata.js')
+        file('/js/external/jquery.metadata.js?v=' + CUSTOM_VERSION)
                     .provides('jQuery.metadata')
                     .requires('jQuery');
 
-        file('/js/external/jquery.event.wheel.js')
+        file('/js/external/jquery.event.wheel.js?v=' + CUSTOM_VERSION)
                     .provides('jQuery.event.special.wheel')
                     .requires('jQuery');
 
-        file('/js/external/jquery.specialkeys.js')
+        file('/js/external/jquery.specialkeys.js?v=' + CUSTOM_VERSION)
                     .provides('jQuery.event.special.ctrlclick')
                     .requires('jQuery');
 
 
-        file('/js/external/jquery/corner.js')
+        file('/js/external/jquery/corner.js?v=' + CUSTOM_VERSION)
                             .provides('jQuery.fn.corner')
                             .requires('jQuery');
 
-        //            file('/js/jquery.circle.js')
+        //            file('/js/jquery.circle.js?v=' + CUSTOM_VERSION)
         //                    .provides('jQuery.fn.jCircle')
         //                    .requires('jQuery', 'jQuery.metadata', 'JS.Singleton', 'eaf.core', 'eaf.util');
 
-        //            file('https://gist.github.com/raw/556448/f6a39882a44c2cc755a8a6f36dadb7947c9f2f3e/jquery.support.cssproperty.js')
-        //                    .provides('https://gist.github.com/raw/556448/f6a39882a44c2cc755a8a6f36dadb7947c9f2f3e/jquery.support.cssproperty.js')
+        //            file('https://gist.github.com/raw/556448/f6a39882a44c2cc755a8a6f36dadb7947c9f2f3e/jquery.support.cssproperty.js?v=' + CUSTOM_VERSION)
+        //                    .provides('https://gist.github.com/raw/556448/f6a39882a44c2cc755a8a6f36dadb7947c9f2f3e/jquery.support.cssproperty.js?v=' + CUSTOM_VERSION)
         //                    .requires('jQuery');
 
 
-        file('/js/internal/shapes.js')
+        file('/js/internal/shapes.js?v=' + CUSTOM_VERSION)
                     .provides('Polygon')
                     ; //.requires('JS.Module', 'JS.Class');
 
-        file('/js/internal/Eaf/core.js')
+        file('/js/internal/Eaf/core.js?v=' + CUSTOM_VERSION)
                     .provides('eaf.core', 'eaf.util')
                     .requires('jQuery', 'JS.Singleton');
 
-        //                    file('js/circleverse.js')
-        //                    .provides('js/circleverse.js')
+        //                    file('js/circleverse.js?v=' + CUSTOM_VERSION)
+        //                    .provides('js/circleverse.js?v=' + CUSTOM_VERSION)
         //                    .requires('JS.Module', 'JSextend', 'JS.Class');
 
-        file('/js/external/curl/curl.js')
+        file('/js/external/curl/curl.js?v=' + CUSTOM_VERSION)
                     .provides('curl');
 
-        file('/js/external/jquery-css-transform.js')
+        file('/js/external/jquery-css-transform.js?v=' + CUSTOM_VERSION)
                     .setup(function () { window.jquerycsstransform = {}; })
                     .provides('jquerycsstransform')
                     .requires('jQuery');
 
 
-        file('/js/external/jquery-animate-css-rotate-scale.js')
+        file('/js/external/jquery-animate-css-rotate-scale.js?v=' + CUSTOM_VERSION)
                     .provides('jQuery.fn.scale')
                     .requires('jQuery', 'jquerycsstransform');
 
-        file('/js/external/jquery/jquery.mb.CSSAnimate.min.js')
+        file('/js/external/jquery/jquery.mb.CSSAnimate.min.js?v=' + CUSTOM_VERSION)
                     .provides('jQuery.fn.CSSAnimate')
                     .requires('jQuery');
 
-        file('/js/internal/Eaf/htmlGetter.js')
+        file('/js/internal/Eaf/htmlGetter.js?v=' + CUSTOM_VERSION)
                     .provides('eaf.communications.htmlGetter')
                     .requires('jQuery', 'JS.Singleton', 'eaf.core', 'eaf.util');
 
-        file('/js/internal/communication/service/interfaces.js')
+        file('/js/internal/communication/service/interfaces.js?v=' + CUSTOM_VERSION)
                     .provides('becu_org.communication.service')
                     .requires('JS.Module', 'JS.Class', 'JSextend', 'JS.Singleton', 'eaf.core', 'eaf.util');
 
-        file('/js/internal/communication/service/classes.js')
+        file('/js/internal/communication/service/classes.js?v=' + CUSTOM_VERSION)
                     .provides('becu_org.communication.service')
                     .requires('JS.Module', 'JS.Class', 'JSextend', 'JS.Singleton', 'eaf.core', 'eaf.util');
 
-        file('/js/internal/becu_org/domain/service.js')
+        file('/js/internal/becu_org/domain/service.js?v=' + CUSTOM_VERSION)
                     .provides('becu_org.domain.service')
                     .requires('JS.Module', 'JS.Class', 'JSextend', 'JS.Singleton', 'eaf.core', 'eaf.util', 'becu_org.domain.serviceMethod');
 
-        file('/js/internal/becu_org/domain/serviceMethod.js')
+        file('/js/internal/becu_org/domain/serviceMethod.js?v=' + CUSTOM_VERSION)
                     .provides('becu_org.domain.serviceMethod', 'becu_org.communication.callSpec', 'becu_org.communication.callSpecRequirementDetail')
                     .requires('JS.Module', 'JS.Class', 'JS.Observable', 'JSextend', 'JS.Singleton', 'eaf.core', 'eaf.util');
 
-        file('/js/internal/becu_org/domain/interfaces.js')
+        file('/js/internal/becu_org/domain/interfaces.js?v=' + CUSTOM_VERSION)
                     .provides('becu_org.ui.IDroppableViewModel')
                     .requires('jQuery', 'JS.Module', 'JS.Class', 'JSextend', 'eaf.core', 'eaf.util');
 
-        file('/js/internal/circleverse/viewModels/modules.js')
+        file('/js/internal/circleverse/viewModels/modules.js?v=' + CUSTOM_VERSION)
                     .provides('becu_org.ui.viewModel.baseModule')//, 'becu_org.ui.viewModel.circleModule', 'becu_org.ui.viewModel.draggableModule', 'becu_org.ui.viewModel.droppableModule')
                     .requires('jQuery', 'JS.Module', 'JS.Class', 'JSextend', 'eaf.core', 'eaf.util', 'becu_org.ui.IDroppableViewModel'//, 'jQuery.fn.CSSAnimate', 'jQuery.fn.scale'
                     );
 
-        file('/js/internal/circleverse/viewModels/base.js')
+        file('/js/internal/circleverse/viewModels/base.js?v=' + CUSTOM_VERSION)
                     .provides('circleverse.viewModel.Base')
                     .requires('jQuery', 'JS.Module', 'JS.Class', 'JSextend', 'eaf.core', 'eaf.util');
 
-        file('/js/internal/circleverse/viewModels/centerCircle.js')
+        file('/js/internal/circleverse/viewModels/centerCircle.js?v=' + CUSTOM_VERSION)
                     .provides('circleverse.viewModel.centerCircle')
                     .requires('JS.Module', 'JS.Class', 'JSextend', 'JS.Singleton', 'eaf.core', 'eaf.util', 'circleverse.viewModel.EmptyNavigableSatelliteViewModel');
 
 
-        //file('/js/internal/circleverse/viewModels/PinViewModel.js')
+        //file('/js/internal/circleverse/viewModels/PinViewModel.js?v=' + CUSTOM_VERSION)
         //            .provides('circleverse.viewModel.PinViewModel')
         //            .requires('JS.Module', 'JS.Class', 'JSextend', 'JS.Singleton', 'eaf.core', 'eaf.util', 'becu_org.ui.viewModel.baseModule');
 
 
-        file('/js/internal/circleverse/viewModels/satellite.js')
+        file('/js/internal/circleverse/viewModels/satellite.js?v=' + CUSTOM_VERSION)
                     .provides('circleverse.viewModel.satellite', 'circleverse.viewModel.PinViewModel')
                     .requires('JS.Module', 'JS.Class', 'JSextend', 'JS.Singleton', 'eaf.core', 'eaf.util', 'becu_org.ui.viewModel.baseModule');
 
-        file('/js/internal/circleverse/viewModels/invertedSatellite.js')
+        file('/js/internal/circleverse/viewModels/invertedSatellite.js?v=' + CUSTOM_VERSION)
                     .provides('circleverse.viewModel.InvertedSatellite')
                     .requires('JS.Module', 'JS.Class', 'JSextend', 'JS.Singleton', 'eaf.core', 'eaf.util');
 
-        file('/js/internal/circleverse/viewModels/resizeableBase.js')
+        file('/js/internal/circleverse/viewModels/resizeableBase.js?v=' + CUSTOM_VERSION)
                     .provides('circleverse.viewModel.ResizeableBase')
                     .requires('jQuery', 'JS.Module', 'JS.Class', 'JSextend', 'eaf.core', 'eaf.util', 'circleverse.viewModel.Base')
         //                    .scriptType('text/html')
@@ -540,7 +540,7 @@
         //            .requires('jQuery', 'eaf.core'
         //                    );
 
-        file('/js/external/grayscale.js')
+        file('/js/external/grayscale.js?v=' + CUSTOM_VERSION)
                     .provides('grayscale')
                     .requires('jQuery', 'JS.Singleton', 'eaf.core'
                     );
@@ -566,7 +566,7 @@
                         ;
 
 
-        //            file('/js/internal/circleverse/viewModels/CustomerView.js')
+        //            file('/js/internal/circleverse/viewModels/CustomerView.js?v=' + CUSTOM_VERSION)
         //                    .provides('littleUmbrella.circleverse.view.CustomerView')
         //                    .setup(function () { eaf.util.namespace('littleUmbrella.circleverse.view'); littleUmbrella.circleverse.view.CustomerView = {}; })
         //                    .requires('jQuery', 'JS.Singleton', 'eaf.core'
@@ -756,7 +756,7 @@
                     .requires('jQuery', 'JS.Module', 'JS.Class', 'JSextend', 'eaf.core', 'eaf.util'
                     );
 
-        file('/js/internal/circleverse/viewModels/settingsViewModel.js')
+        file('/js/internal/circleverse/viewModels/settingsViewModel.js?v=' + CUSTOM_VERSION)
                     .provides('circleverse.viewModel.settingsViewModel')
                     .requires('jQuery', 'JS.Module', 'JS.Class', 'JSextend', 'eaf.core', 'eaf.util'
                     ,
@@ -779,7 +779,7 @@
                     'circleverse.viewModel.ToolViewModel'
                     );
 
-        file('/js/internal/circleverse/viewModels/CloseAccountViewModel.js')
+        file('/js/internal/circleverse/viewModels/CloseAccountViewModel.js?v=' + CUSTOM_VERSION)
                     .provides('circleverse.viewModel.CloseAccountViewModel')
                     .requires('jQuery', 'JS.Module', 'JS.Class', 'JSextend', 'eaf.core', 'eaf.util'
                     ,
@@ -796,7 +796,7 @@
                     'circleverse.viewModel.noActionModule'
                     );
 
-        file('/js/internal/circleverse/viewModels/garbageViewModel.js')
+        file('/js/internal/circleverse/viewModels/garbageViewModel.js?v=' + CUSTOM_VERSION)
                     .provides('circleverse.viewModel.garbageViewModel')
                     .requires('jQuery', 'JS.Module', 'JS.Class', 'JSextend', 'eaf.core', 'eaf.util'
                     ,
@@ -815,7 +815,7 @@
                     'circleverse.viewModel.ToolViewModel'
                     );
 
-        file('/js/internal/circleverse/viewModels/CloseViewModel.js')
+        file('/js/internal/circleverse/viewModels/CloseViewModel.js?v=' + CUSTOM_VERSION)
                     .provides('circleverse.viewModel.CloseViewModel')
                     .requires('jQuery', 'JS.Module', 'JS.Class', 'JSextend', 'eaf.core', 'eaf.util'
                     ,
@@ -834,7 +834,7 @@
                     'circleverse.viewModel.ToolViewModel'
                     );
 
-        file('/js/internal/circleverse/viewModels/OpenViewModel.js')
+        file('/js/internal/circleverse/viewModels/OpenViewModel.js?v=' + CUSTOM_VERSION)
                     .provides('circleverse.viewModel.OpenViewModel')
                     .requires('jQuery', 'JS.Module', 'JS.Class', 'JSextend', 'eaf.core', 'eaf.util'
                     ,
@@ -853,17 +853,17 @@
                     'circleverse.viewModel.ToolViewModel'
                     );
 
-        file('/js/internal/circleverse/viewModels/SpecialViewViewModel.js')
+        file('/js/internal/circleverse/viewModels/SpecialViewViewModel.js?v=' + CUSTOM_VERSION)
                     .provides('circleverse.viewModel.SpecialViewViewModel')
                     .requires('jQuery', 'JS.Module', 'JS.Class', 'JSextend', 'eaf.core', 'eaf.util'
                     );
 
-        file('/js/internal/circleverse/viewModels/SpecialContentViewViewModel.js')
+        file('/js/internal/circleverse/viewModels/SpecialContentViewViewModel.js?v=' + CUSTOM_VERSION)
                     .provides('circleverse.viewModel.SpecialContentViewViewModel')
                     .requires('jQuery', 'JS.Module', 'JS.Class', 'JSextend', 'eaf.core', 'eaf.util'
                     );
 
-        file('/js/internal/circleverse/viewModels/SearchViewModel.js')
+        file('/js/internal/circleverse/viewModels/SearchViewModel.js?v=' + CUSTOM_VERSION)
                     .provides('circleverse.viewModel.SearchViewModel')
                     .requires('jQuery', 'JS.Module', 'JS.Class', 'JSextend', 'eaf.core', 'eaf.util'
                     ,
@@ -888,7 +888,7 @@
                     'circleverse.viewModel.ToolViewModel'
                     );
 
-        file('/js/internal/circleverse/viewModels/NewViewModel.js')
+        file('/js/internal/circleverse/viewModels/NewViewModel.js?v=' + CUSTOM_VERSION)
                     .provides('circleverse.viewModel.NewViewModel')
                     .requires('jQuery', 'JS.Module', 'JS.Class', 'JSextend', 'eaf.core', 'eaf.util'
                     ,
@@ -907,7 +907,7 @@
                     'circleverse.viewModel.ToolViewModel'
                     );
 
-        file('/js/internal/circleverse/viewModels/EditViewModel.js')
+        file('/js/internal/circleverse/viewModels/EditViewModel.js?v=' + CUSTOM_VERSION)
                     .provides('circleverse.viewModel.EditViewModel')
                     .requires('jQuery', 'JS.Module', 'JS.Class', 'JSextend', 'eaf.core', 'eaf.util'
                     ,
@@ -926,7 +926,7 @@
                     'circleverse.viewModel.ToolViewModel'
                     );
 
-        file('/js/internal/circleverse/viewModels/SaveViewModel.js')
+        file('/js/internal/circleverse/viewModels/SaveViewModel.js?v=' + CUSTOM_VERSION)
                     .provides('circleverse.viewModel.SaveViewModel')
                     .requires('jQuery', 'JS.Module', 'JS.Class', 'JSextend', 'eaf.core', 'eaf.util'
                     ,
@@ -945,7 +945,7 @@
                     'circleverse.viewModel.ToolViewModel'
                     );
 
-        file('/js/internal/circleverse/viewModels/RefreshViewModel.js')
+        file('/js/internal/circleverse/viewModels/RefreshViewModel.js?v=' + CUSTOM_VERSION)
                     .provides('circleverse.viewModel.RefreshViewModel')
                     .requires('jQuery', 'JS.Module', 'JS.Class', 'JSextend', 'eaf.core', 'eaf.util'
                     ,
@@ -962,7 +962,7 @@
                     'circleverse.viewModel.noActionModule'
                     );
 
-        file('/js/internal/circleverse/viewModels/FilterViewModel.js')
+        file('/js/internal/circleverse/viewModels/FilterViewModel.js?v=' + CUSTOM_VERSION)
                     .provides('circleverse.viewModel.FilterViewModel')
                     .requires('jQuery', 'JS.Module', 'JS.Class', 'JSextend', 'eaf.core', 'eaf.util'
                     ,
@@ -979,7 +979,7 @@
                     'circleverse.viewModel.noActionModule'
                     );
 
-        file('/js/internal/circleverse/viewModels/FilterFormViewModel.js')
+        file('/js/internal/circleverse/viewModels/FilterFormViewModel.js?v=' + CUSTOM_VERSION)
                     .provides('circleverse.viewModel.FilterFormViewModel')
                     .requires('jQuery', 'JS.Module', 'JS.Class', 'JSextend', 'eaf.core', 'eaf.util'
                     ,
@@ -997,7 +997,7 @@
                     );
 
 
-        file('/js/internal/circleverse/viewModels/ExitViewModel.js')
+        file('/js/internal/circleverse/viewModels/ExitViewModel.js?v=' + CUSTOM_VERSION)
                     .provides('circleverse.viewModel.ExitViewModel')
                     .requires('jQuery', 'JS.Module', 'JS.Class', 'JSextend', 'eaf.core', 'eaf.util'
                     ,
@@ -1014,7 +1014,7 @@
                     'circleverse.viewModel.noActionModule'
                     );
 
-        file('/js/internal/circleverse/viewModels/loginViewModel.js')
+        file('/js/internal/circleverse/viewModels/loginViewModel.js?v=' + CUSTOM_VERSION)
                     .provides('circleverse.viewModel.loginViewModel')
                     .requires('jQuery', 'JS.Module', 'JS.Class', 'JSextend', 'eaf.core', 'eaf.util'
                     ,
@@ -1031,7 +1031,7 @@
                     'circleverse.viewModel.noActionModule'
                     );
 
-        file('/js/internal/circleverse/viewModels/helpViewModel.js')
+        file('/js/internal/circleverse/viewModels/helpViewModel.js?v=' + CUSTOM_VERSION)
                     .provides('circleverse.viewModel.helpViewModel')
                     .requires('jQuery', 'JS.Module', 'JS.Class', 'JSextend', 'eaf.core', 'eaf.util'
                     ,
@@ -1046,7 +1046,7 @@
                     'littleUmbrella.circleverse.ui.pointsAndPolygon'
                     );
 
-        file('/js/internal/circleverse/viewModels/favoriteViewModel.js')
+        file('/js/internal/circleverse/viewModels/favoriteViewModel.js?v=' + CUSTOM_VERSION)
                     .provides('circleverse.viewModel.favoriteViewModel')
                     .requires('jQuery', 'JS.Module', 'JS.Class', 'JSextend', 'eaf.core', 'eaf.util'
                     ,
@@ -1063,7 +1063,7 @@
                     'circleverse.viewModel.noActionModule'
                     );
 
-        file('/js/internal/circleverse/viewModels/CalculatorViewModel.js')
+        file('/js/internal/circleverse/viewModels/CalculatorViewModel.js?v=' + CUSTOM_VERSION)
                     .provides('circleverse.viewModel.CalculatorViewModel')
                     .requires('jQuery', 'JS.Module', 'JS.Class', 'JSextend', 'eaf.core', 'eaf.util'
                     ,
@@ -2246,20 +2246,20 @@
 
 
 
-        file('/js/internal/circleverse/viewModels/noActionModule.js')
+        file('/js/internal/circleverse/viewModels/noActionModule.js?v=' + CUSTOM_VERSION)
                     .provides('circleverse.viewModel.noActionModule')
                     .requires('jQuery', 'JS.Module', 'JS.Class', 'JSextend', 'eaf.core', 'eaf.util'
                     );
 
 
-        file('/js/internal/circleverse.js')
+        file('/js/internal/circleverse.js?v=' + CUSTOM_VERSION)
                     .provides('littleUmbrella.circleverse')
                     .requires('jQuery', 'JS.Module', 'JS.Class', 'JSextend', 'eaf.core', 'eaf.util'
                     );
 
 
 
-        file('/js/external/koExternalTemplateEngine_all.js')
+        file('/js/external/koExternalTemplateEngine_all.js?v=' + CUSTOM_VERSION)
                     .provides('littleUmbrella.circleverse.ui.KoExternalTemplateEngine')
                     .setup(function () {
                         eaf.util.namespace('littleUmbrella.circleverse.ui.KoExternalTemplateEngine');
@@ -2293,7 +2293,7 @@
 
 
 
-        file('/js/internal/circleverse/viewModels/DialogConfirmViewModel.js')
+        file('/js/internal/circleverse/viewModels/DialogConfirmViewModel.js?v=' + CUSTOM_VERSION)
                     .provides('circleverse.viewModel.DialogConfirmViewModel')
                     .requires('jQuery', 'JS.Module', 'JS.Class', 'JSextend', 'eaf.core', 'eaf.util'
                     ,
@@ -2312,7 +2312,7 @@
 
 
 
-        file('/js/internal/circleverse/viewModels/earthViewModel.js')
+        file('/js/internal/circleverse/viewModels/earthViewModel.js?v=' + CUSTOM_VERSION)
                     .provides('circleverse.viewModel.earthViewModel')
                     .requires('jQuery', 'JS.Module', 'JS.Class', 'JSextend', 'eaf.core', 'eaf.util'
                     ,

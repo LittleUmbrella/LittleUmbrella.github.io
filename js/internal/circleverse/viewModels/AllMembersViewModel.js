@@ -196,6 +196,12 @@ circleverse.viewModel.AllMembersViewModel = (function () {
                 self.searchInitiated(prom);
 
             }
+            else if (dropViewModel.isA(circleverse.viewModel.OpenViewModel)) {
+
+                
+                self.searchInitiated(prom);
+
+            }
             if (self.callSuper) self.callSuper();
         }
             ,
@@ -207,6 +213,12 @@ circleverse.viewModel.AllMembersViewModel = (function () {
             if (dragViewModel.isA(circleverse.viewModel.SearchViewModel)) {
                 
                 self.searchInitiated(prom);
+            }
+            else if (dropViewModel.isA(circleverse.viewModel.CloseViewModel)) {
+
+                
+                self.searchViewModel.hideMainForm();
+
             }
             if (self.callSuper) self.callSuper();
         }

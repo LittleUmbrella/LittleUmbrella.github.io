@@ -80,14 +80,14 @@ littleUmbrella.circleverse.viewModel.CustomerInfoFormViewModel = (function () {
             ,
 
         droppedOn: function (dragModel, dragViewModel) {
-            if (dragViewModel.isA(circleverse.viewModel.accountViewModel)) {
-            }
+            var self = this;
+            if (self.callSuper) self.callSuper();
         }
             ,
 
         dropped: function (dropModel, dropViewModel, args) {
-            if (dropViewModel.isA(circleverse.viewModel.garbageViewModel)) {
-            }
+            var self = this;
+            if (self.callSuper) self.callSuper();
         }
 
     });

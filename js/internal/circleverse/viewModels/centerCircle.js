@@ -247,6 +247,8 @@
                         if (!item.popped){
                             var popDeferred = item.pop();
                             
+                            self.globalSettings.eventAggregator.publish('stage.activeThings.add', item);
+                            
                             //we are re-popping any children of a lower parent, so don't auto-pop back up and send parent down again 
 
                             popDeferreds.push(popDeferred);
@@ -258,6 +260,8 @@
                     }
                     self.childrenVisible(true);
                     
+                    self.globalSettings.eventAggregator.publish('stage.activeThings.add', self);
+                    
                 }
                 else{
                     
@@ -266,6 +270,9 @@
 
                         if (!item.popped){ 
                             var popDeferred = item.pop();
+                            
+                            self.globalSettings.eventAggregator.publish('stage.activeThings.add', item);
+
                             //if only one child, open it                            
                             if (len == 1 && item.autoPopSingleChild()){
                                 popDeferred.then(function(){
@@ -292,7 +299,6 @@
                             deferred.resolve();
                         });
                     
-                    self.globalSettings.eventAggregator.publish('stage.activeThings.add', self);
 
                     var loc;
                     if (!self.childrenVisible()){
@@ -317,6 +323,9 @@
                     }
                     
                     self.childrenVisible(true);
+
+                    
+                    self.globalSettings.eventAggregator.publish('stage.activeThings.add', self);
 
 
                     if (self.globalSettings['autoPin'] && self.globalSettings['autoPin'].value()) {
@@ -397,6 +406,7 @@
                     if (movement.top != 0 && movement.left != 0){
                         if (self.parent && self.parent.moveRoot && (!self.parent.isRoot || !self.parent.isRoot()) && (!self.isRoot || !self.isRoot()) && (!self.canMoveRoot || self.canMoveRoot())){
                             self.parent.moveRoot({movement: movement});
+                            self.globalSettings.eventAggregator.publish('stage.activeThings.add', self.parent);
                         }
 
 
@@ -417,6 +427,8 @@
                         // else{
                             if (item.popped){
                                 popDeferreds.push(item.pop());
+                            
+                                self.globalSettings.eventAggregator.publish('stage.activeThings.remove', item);
                             }
                         //}
 
@@ -493,7 +505,9 @@
                 for (var i = 0; i < len; i++) {
                     item = ko.unwrap(arr[i]);
                     if (item != exclusion && item.popped){
-                        item.pop();                        
+                        item.pop();                          
+                            
+                        self.globalSettings.eventAggregator.publish('stage.activeThings.remove', item);                      
                         //item.parent.childrenVisible(false);
                     }
                 }
@@ -523,6 +537,8 @@
                         if (originalNode != item.parent && item.popped){
                             item.parent.childrenVisible(false);
                             item.pop();
+                            
+                            self.globalSettings.eventAggregator.publish('stage.activeThings.remove', item);
 
                             if (!adjusted){
                                 var loc = item.parent.location();

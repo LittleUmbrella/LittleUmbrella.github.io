@@ -141,15 +141,17 @@ circleverse.viewModel.SearchMembersViewModel = (function () {
                 }
                 self.toggleFormAnimationEnded();
                 
-                self.canOpen(false);
-                self.canClose(true);          
-                self.canSave(true);
-                self.globalSettings.eventAggregator.publish('stage.activeThings.add', self);
             
                 deferred.resolve();
             };
             self.animationSettings(self.searchDimensionSettingsBig);
+
+            
+            self.canOpen(false);
+            self.canClose(true);          
+            self.canSave(true);
             //self.size(self.searchDimensionSettingsBig.width);
+            self.globalSettings.eventAggregator.publish('stage.activeThings.add', self);
             
             self.mainFormOpen = true ;
 
@@ -171,15 +173,15 @@ circleverse.viewModel.SearchMembersViewModel = (function () {
                     }
                     
                     
-                    self.canOpen(true);
-                    self.canClose(true);            
-                    self.canSave(false);
-                    self.globalSettings.eventAggregator.publish('stage.activeThings.add', self);
                     deferred.resolve();
                 };
                 self.animationSettings(self.searchDimensionSettingsRegular);
                 //self.size(self.searchDimensionSettingsRegular.width);
 
+            self.canOpen(true);
+            self.canClose(true);            
+            self.canSave(false);
+            self.globalSettings.eventAggregator.publish('stage.activeThings.add', self);
 
 
             self.mainFormOpen = false ;
@@ -283,11 +285,6 @@ circleverse.viewModel.SearchMembersViewModel = (function () {
                             //if (self.callSuper) self.callSuper();
                         });
                     }
-                    else{
-                        self.showMainForm().then(function(){
-                            //if (self.callSuper) self.callSuper();
-                        });
-                    }
                 });
             }
             else if (dropViewModel.isA(circleverse.viewModel.OpenViewModel)){
@@ -319,11 +316,6 @@ circleverse.viewModel.SearchMembersViewModel = (function () {
                 prom.then(function(){
                     if (self.mainFormOpen){                        
                         self.hideMainForm().then(function(){
-                            //if (self.callSuper) self.callSuper();
-                        });
-                    }
-                    else{
-                        self.showMainForm().then(function(){
                             //if (self.callSuper) self.callSuper();
                         });
                     }
