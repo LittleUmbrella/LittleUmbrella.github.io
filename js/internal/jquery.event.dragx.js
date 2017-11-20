@@ -14,9 +14,9 @@
         var type = typeof str == "string" ? str : "",
         // figure out the event handler...
 	fn = $.isFunction(str) ? str : $.isFunction(arg) ? arg : null;
-        //      // fix the event type
-        //      if (type.indexOf("drag") !== 0)
-        //          type = "drag" + type;
+        // fix the event type
+        if (type.indexOf("drag") !== 0)
+            type = "drag" + type;
         // were options passed
         opts = (str == fn ? arg : opts) || {};
         // trigger or bind event handler
@@ -84,13 +84,13 @@
                                     var selecteds = $(settings.multiSelector);
 
                                     selecteds.each(function () {
-                                        $(this).triggerHandler($fndragxprototype.eventNames.dragxinit, selfArguments);
+                                        $(this).triggerHandler($fndragxprototype.eventNames.dragxinit, selfArguments, settings);
                                     });
 
                                     return selecteds;
                                 }
 
-                                $this.triggerHandler($fndragxprototype.eventNames.dragxinit, selfArguments);
+                                $this.triggerHandler($fndragxprototype.eventNames.dragxinit, selfArguments, settings);
                             });
 
 
@@ -125,7 +125,7 @@
                                 //$this.appendTo(this.parentNode);
 
 
-                                $this.triggerHandler($fndragxprototype.eventNames.dragxstart, selfArguments);
+                                $this.triggerHandler($fndragxprototype.eventNames.dragxstart, selfArguments, settings);
                             });
                             break;
 
@@ -151,7 +151,7 @@
 
                                     if (!dragdata.dragging) {
 
-                                        $this.triggerHandler($fndragxprototype.eventNames.dragx, selfArguments);
+                                        $this.triggerHandler($fndragxprototype.eventNames.dragx, selfArguments, settings);
                                         return;
                                     }
                                 }
@@ -200,7 +200,7 @@
                                                     //if this is the only one in the activator list, trigger the event
                                                     if (activeOb.activators.length == 1) {
 
-                                                        $(this).triggerHandler("dropxout", selfArguments);
+                                                        $(this).triggerHandler("dropxout", selfArguments, settings);
                                                         //log('removed');
                                                     }
                                                     //remove from list
@@ -210,7 +210,7 @@
                                             }
                                         }
                                         else {
-                                            $(this).triggerHandler("dropxout", selfArguments);
+                                            $(this).triggerHandler("dropxout", selfArguments, settings);
                                         }
                                     }
                                     else {
@@ -242,7 +242,7 @@
                                 //consider attaching to drag element so can truly track 
 
                                 //log('dd.added = ' + dd.added);
-                                $this.triggerHandler($fndragxprototype.eventNames.dragx, selfArguments);
+                                $this.triggerHandler($fndragxprototype.eventNames.dragx, selfArguments, settings);
                             });
                             break;
 
@@ -261,7 +261,7 @@
                                     //only active (mouse doing the action) one seems to be technically dragging
                                     if (!dragdata.dragging) {
 
-                                        $this.triggerHandler($fndragx.prototype.eventNames.dragxend, selfArguments);
+                                        $this.triggerHandler($fndragx.prototype.eventNames.dragxend, selfArguments, settings);
                                         dragdata.isDragging = false;
                                         return;
                                     }
@@ -442,17 +442,17 @@
                                         //                                                            )
                                         //                            });
 
-                                        $thisDrop.triggerHandler("dropx", [ev, $.extend(true, thisCallbackObj.callback, dragDetail)]);
+                                        $thisDrop.triggerHandler("dropx", [ev, $.extend(true, thisCallbackObj.callback, dragDetail), settings]);
 
                                     });
 
                                     //dragDetails.push(dragDetail);
 
                                     if (dragDetail.dndposition.top == null) {
-                                        $target.triggerHandler($fndragx.prototype.eventNames.dragxend, [ev, thisCallbackObj.callback]);
+                                        $target.triggerHandler($fndragx.prototype.eventNames.dragxend, [ev, thisCallbackObj.callback, settings]);
                                     }
                                     else {
-                                        $target.triggerHandler($fndragx.prototype.eventNames.dragxend, [ev, $.extend(true, thisCallbackObj.callback, dragDetail)]);
+                                        $target.triggerHandler($fndragx.prototype.eventNames.dragxend, [ev, $.extend(true, thisCallbackObj.callback, dragDetail), settings]);
                                     }
                                 }
                     );
@@ -468,7 +468,7 @@
                                 //                        //                            $detailElement.animate(this.position, 420);
                                 //                        //                        }
 
-                                //                        //$detailElement.triggerHandler("dragxend", [ev, $.extend(thisCallbackObj, dragDetail)]);
+                                //                        //$detailElement.triggerHandler("dragxend", [ev, $.extend(thisCallbackObj, dragDetail), settings]);
                                 //                    }
                                 //                    );
 
@@ -593,25 +593,25 @@
         var toggle = true;
         if ($selecteds.length > 0) {
             if ($.specialKeys(settings.multiSelectorKey)) {
-                $this.triggerHandler($fndragx.prototype.eventNames.dragxselect, [e, { toggle: true}]);
+                $this.triggerHandler($fndragx.prototype.eventNames.dragxselect, [e, { toggle: true}, settings]);
             }
             else {
                 $selecteds.each(function () {
                     if (_this == this) {
-                        $this.triggerHandler($fndragx.prototype.eventNames.dragxselect, [e, { toggle: true}]);
+                        $this.triggerHandler($fndragx.prototype.eventNames.dragxselect, [e, { toggle: true}, settings]);
                         toggle = false;
                     }
                     else {
-                        $(this).triggerHandler($fndragx.prototype.eventNames.dragxselect, [e, { selected: false}]);
+                        $(this).triggerHandler($fndragx.prototype.eventNames.dragxselect, [e, { selected: false}, settings]);
                     }
                 });
                 if (toggle) {
-                    $this.triggerHandler($fndragx.prototype.eventNames.dragxselect, [e, { toggle: true}]);
+                    $this.triggerHandler($fndragx.prototype.eventNames.dragxselect, [e, { toggle: true}, settings]);
                 }
             }
         }
         else {
-            $this.triggerHandler($fndragx.prototype.eventNames.dragxselect, [e, { toggle: true}]);
+            $this.triggerHandler($fndragx.prototype.eventNames.dragxselect, [e, { toggle: true}, settings]);
         }
 
 

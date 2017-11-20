@@ -266,7 +266,7 @@ becu_org.app = (function () {
                 //            var dist = Math.sqrt(Math.pow(c1.cx - c2.cx, 2) + Math.pow(c1.cy - c2.cy, 2));
                 //            return (dist < (c1.r + c2.r));
                 //var circ1 = $.data(circle1, 'circle'), circ2 = $.data(circle2, 'circle');
-                if ($(circleLocation2.elem).css("borderBottomLeftRadius") != "50%"){//not a circle
+                if ($(circleLocation2.elem).css("borderBottomLeftRadius") != "50%" || $(circleLocation1.elem).css("borderBottomLeftRadius") != "50%"){//not a circle
                     var target = circleLocation2, proxy = circleLocation1;
                     return Math.max(0, Math.min(target.bottom, proxy.bottom) - Math.max(target.top, proxy.top))
 				        * Math.max(0, Math.min(target.right, proxy.right) - Math.max(target.left, proxy.left));

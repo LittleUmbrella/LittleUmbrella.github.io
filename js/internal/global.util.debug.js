@@ -1073,26 +1073,79 @@ ko.bindingHandlers.textWithPlaceholder = {
 };
 
 
+
+ko.bindingHandlers['fadeThenDelete'] = {
+    'update': function (element, valueAccessor) {
+        var value = ko.unwrap(valueAccessor()), 
+            del = ko.unwrap(value.remove), 
+            arr = value.arr, 
+            item = ko.unwrap(value.item);
+
+        if (del === true) {
+            ko.bindingHandlers['fadeDelete'].fadeDelete(element);
+            if (ko.isObservable(arr)){                
+                arr = ko.unwrap(arr);
+            }
+            
+            arr.splice(arr.indexOf(item), 1);
+        }
+    }
+};
+
+// Source: https://github.com/jserz/js_piece/blob/master/DOM/NonDocumentTypeChildNode/nextElementSibling/nextElementSibling.md
+(function (arr) {
+  arr.forEach(function (item) {
+    if (item.hasOwnProperty('nextElementSibling')) {
+      return;
+    }
+    Object.defineProperty(item, 'nextElementSibling', {
+      configurable: true,
+      enumerable: true,
+      get: function () {
+        var el = this;
+        while (el = el.nextSibling) {
+          if (el.nodeType === 1) {
+              return el;
+          }
+        }
+        return null;
+      },
+      set: undefined
+    });
+  });
+})([Element.prototype, CharacterData.prototype]);
+
+
+
 ko.bindingHandlers['fadeDelete'] = {
+    fadeDelete: function(element){    
+        if (element instanceof Text){
+            element = element.nextElementSibling;
+        }    
+        var $element = $(element);
+        //$element.finish(true, true);
+        
+        TweenLite.killTweensOf(element);
+        $element.fadeOut('fast', function () {
+
+            setTimeout(function(){
+                $element.remove();
+            }, 1);
+            //element.parentNode.removeChild(element);
+        });
+    }
+    ,
     init: function (element, valueAccessor, allBindingAccessors) {
 
         var value = ko.unwrap(valueAccessor());
         if (value === true) {
-            var $element = $(element);
-            $element.finish(true, true);
-            $element.fadeOut('slow');
-            //$(element).hide('slow');
+            ko.bindingHandlers['fadeDelete'].fadeDelete(element);
         }
     }
     , 'update': function (element, valueAccessor) {
         var value = ko.unwrap(valueAccessor());
         if (value === true) {
-            var $element = $(element);
-            $element.finish(true, true);
-            $element.fadeOut('slow', function () {
-                $element.remove();
-                //element.parentNode.removeChild(element);
-            });
+            ko.bindingHandlers['fadeDelete'].fadeDelete(element);
         }
     }
 };

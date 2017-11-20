@@ -102,12 +102,12 @@ circleverse.viewModel.garbageViewModel = (function () {
         }
             ,
         droppedOn: function (dragModel, dragVm) {
-            if (JS.Interface.implements(dragVm, becu_org.ui.IDeletable)) {
-                if (dragVm.canDeleteNow()) {
-                    dragVm.deleteNow(true);
-                }
+            // if (JS.Interface.implements(dragVm, becu_org.ui.IDeletable)) {
+            //     if (dragVm.canDeleteNow()) {
+            //         dragVm.deleteNow(true);
+            //     }
 
-            }
+            // }
         }
 
 

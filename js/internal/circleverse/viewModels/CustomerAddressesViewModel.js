@@ -127,8 +127,7 @@ circleverse.viewModel.CustomerAddressesViewModel = (function () {
                 self.toggleFormAnimationEnded();
                 
                 self.canOpen(false);
-                self.canClose(true);          
-                self.canSave(true);
+                self.canClose(true); 
                 self.globalSettings.eventAggregator.publish('stage.activeThings.add', self);
                             
                 self.isRoot(true);
@@ -165,8 +164,7 @@ circleverse.viewModel.CustomerAddressesViewModel = (function () {
                     }
 
                     self.canOpen(true);
-                    self.canClose(true);            
-                    self.canSave(false);
+                    self.canClose(true);  
                     self.globalSettings.eventAggregator.publish('stage.activeThings.remove', self);
 
                     prom.then(function(){

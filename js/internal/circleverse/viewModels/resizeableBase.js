@@ -109,12 +109,23 @@ circleverse.viewModel.ResizeableBase = //(function () {
 
                 self.lineStartAt = ko.observable('edge');    
 
+
+                self.helpTemplateName = ko.observable(self.klass.displayName.substring(self.klass.displayName.lastIndexOf(".") + 1) + 'HelpTemplate');          
+
+                self.helpTitleTemplateName = ko.observable();
                 
                 self.confirmTemplateName = ko.observable(self.klass.displayName.substring(self.klass.displayName.lastIndexOf(".") + 1) + 'ConfirmTemplate');          
 
                 self.confirmTitleTemplateName = ko.observable();
 
+
+                self.confirmDeleteTemplateName = ko.observable(self.klass.displayName.substring(self.klass.displayName.lastIndexOf(".") + 1) + 'ConfirmDeleteTemplate');          
+
+                self.confirmDeleteTitleTemplateName = ko.observable();
+
                 self.animationSettings = ko.observable();
+
+                
 
                 self.focus = ko.observable(false);
 
@@ -361,6 +372,11 @@ circleverse.viewModel.ResizeableBase = //(function () {
             
             // if (!self.__upTree(self, dragViewModel) && !self.__downTree(self, dragViewModel) && self.showMe())
             //     self.isAvailable(true);
+        }
+        ,
+        showHelp: function(){
+            //overriders should return true;
+            return false;
         }
         ,
 

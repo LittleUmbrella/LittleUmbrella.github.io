@@ -372,7 +372,7 @@ circleverse.viewModel.CustomerAddressViewModel = (function () {
 
         getSettings: function () {
             var settings = this.callSuper();
-            settings.drop = '.mail, .edit, .new, .trash';
+            settings.drop = '.mail, .edit, .new, .trash, .save, .help';
             
             //settings.not = '.koGrid, .koGrid div, .kgRow, .kgCell div, .kgHeaderCell div, .kgTopPanel, .kgColMenu, .kgFooterPanel, .kgColListItem, .kgRow.odd, .kgRow.even, .kgRow.selected, .kgGroupIcon';
             return settings;
@@ -434,6 +434,11 @@ circleverse.viewModel.CustomerAddressViewModel = (function () {
 
 
             }
+            else if (dropViewModel.isA(circleverse.viewModel.garbageViewModel)) {
+                prom.then(function(){
+                     self.promptForDeleteConfirmation(dropViewModel, args[2].element);
+                });
+            }
             else if (dropViewModel.isA(circleverse.viewModel.EditViewModel)) { 
                 
                 prom.then(function(){
@@ -478,6 +483,12 @@ circleverse.viewModel.CustomerAddressViewModel = (function () {
 
 
             }
+            else if (dragVm.isA(circleverse.viewModel.garbageViewModel)) {
+                prom.then(function(){
+                     self.promptForDeleteConfirmation(dragVm, args[2].element);
+                });
+                
+            }
             else if (dragVm.isA(circleverse.viewModel.EditViewModel)) {  
                 prom.then(function(){
                     if (!self.mainFormOpen)               
@@ -494,6 +505,17 @@ circleverse.viewModel.CustomerAddressViewModel = (function () {
             var dialogOptions = {template: mailVm.confirmTemplateName(), fromElement: fromElement, type: 'confirm', dimensions: {width: 400, height: 300}, vms: {}, title: 'Are you sure?'};
                     dialogOptions.vms[self.klass.displayName.substring(self.klass.displayName.lastIndexOf(".") + 1)] = self;
                     dialogOptions.vms[mailVm.klass.displayName.substring(mailVm.klass.displayName.lastIndexOf(".") + 1)] = mailVm;
+
+                    self.eventAggregator.publish('dialog.confirm.open', dialogOptions);    
+        }
+        ,
+
+        promptForDeleteConfirmation: function(deleteVm, fromElement){
+            var self = this;
+
+            var dialogOptions = {template: self.confirmDeleteTemplateName(), fromElement: fromElement, type: 'confirm', dimensions: {width: 400, height: 300}, vms: {}, title: 'Are you sure?'};
+                    dialogOptions.vms[self.klass.displayName.substring(self.klass.displayName.lastIndexOf(".") + 1)] = self;
+                    dialogOptions.vms[deleteVm.klass.displayName.substring(deleteVm.klass.displayName.lastIndexOf(".") + 1)] = deleteVm;
 
                     self.eventAggregator.publish('dialog.confirm.open', dialogOptions);    
         }
@@ -526,6 +548,19 @@ circleverse.viewModel.CustomerAddressViewModel = (function () {
                 self.childViewModels.push(vms.MailViewModel);               
 
             }
+            if ('undefined' != typeof vms.garbageViewModel){
+                self.deleteSelf();               
+
+            }
+        },
+
+        deleteSelf: function(){
+            var self = this;
+
+            self.globalSettings.eventAggregator.publish('stage.activeThings.remove', self);
+
+            //self.parent.allDialogs.remove(self);
+            self.deleteNow(true);
         }
 
     });

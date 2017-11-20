@@ -1064,7 +1064,7 @@
         , animatedMove: {satellite: $data, callback: moveEnded, top: move().top, left: move().left}
         , grow: {vm: $data, animationSettings: animationSettings}
         , leafletPosition: $data
-        , supressDrapPropagation: true
+        , supressDrapPropagation: true, fadeThenDelete: {item: $data, arr: $data.parent.childViewModels, remove: deleteNow}
 "
                     class="drag drop circle"
                     style="display: none;">
@@ -1213,6 +1213,15 @@
     <script type="text/html" id="addressMapTemplate">
     </script>
 
+    <script type="text/html" id="CustomerAddressViewModelConfirmDeleteTemplate">
+        <p>            
+            <!-- ko with: model-->
+            This will delete the address of <span data-bind="text: vms.CustomerAddressViewModel.address"></span>.
+            
+            <!-- /ko -->
+        </p> 
+    </script>
+
     <script type="text/html" id="MailViewModelConfirmTemplate">
         <p>            
             <!-- ko with: model-->
@@ -1220,6 +1229,11 @@
             
             <!-- /ko -->
         </p> 
+    </script>
+
+    <script type="text/html" id="helpViewModelHelpTemplate">
+    <p>
+Seriously?  You need help with that? </p> 
     </script>
 
     <script type="text/html" id="appHelpTemplate">
@@ -1270,7 +1284,7 @@ We want to tell you a few things about this site, as it's unlike most sites.  It
 
     
     <!-- ko with: confirmDialogs --> 
-    <!-- ko foreach: allDialogs --> 
+    <!-- ko foreach: { data: allDialogs } --> 
         
         <div data-bind="dragdrop: $data,
         visible: showMe
@@ -1283,7 +1297,7 @@ We want to tell you a few things about this site, as it's unlike most sites.  It
 
             },
             onTop: onTop,
-            fadeInFrom: {fromElement: fromElement, dialogVm: $data}" style="display:none;" class="dialog drag drop">
+            fadeInFrom: {fromElement: fromElement, dialogVm: $data}, fadeThenDelete: {item: $data, arr: $data.parent.allDialogs, remove: deleteNow}" style="display:none;" class="dialog drag drop">
             <div class="header"><h1 data-bind="text: title"></h1></div>
             <div class="content">    
                 <div class="box">            

@@ -120,9 +120,8 @@ circleverse.viewModel.DialogConfirmViewModel = (function () {
             var self = this;
 
             if (dropViewModel.isA(circleverse.viewModel.CloseViewModel)) {
-                prom.then(function(){
-                    self.publishCloseAndClose();
-                });
+                
+                self.publishCloseAndClose();
             }
             else if (dropViewModel.isA(circleverse.viewModel.OpenViewModel)) {
                 prom.then(function(){
@@ -135,9 +134,8 @@ circleverse.viewModel.DialogConfirmViewModel = (function () {
             var self = this;
 
             if (dragVm.isA(circleverse.viewModel.CloseViewModel)) {
-                prom.then(function(){
-                    self.publishCloseAndClose();
-                });
+                
+                self.publishCloseAndClose();
             }
             else if (dragVm.isA(circleverse.viewModel.OpenViewModel)) {
                 prom.then(function(){
@@ -178,6 +176,7 @@ circleverse.viewModel.DialogConfirmViewModel = (function () {
         getSettings: function () {
             var settings = this.callSuper();
             settings.drop = ".open, .close";
+            settings.bounceBackOnDropEnd = false;
             //settings.drop = false;
             return settings;
         }
@@ -190,7 +189,8 @@ circleverse.viewModel.DialogConfirmViewModel = (function () {
 
             self.globalSettings.eventAggregator.publish('stage.activeThings.remove', self);
 
-            self.parent.allDialogs.remove(self);
+            //self.parent.allDialogs.remove(self);
+            self.deleteNow(true);
         }
 
     });

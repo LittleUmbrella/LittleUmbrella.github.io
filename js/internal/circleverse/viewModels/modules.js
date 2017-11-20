@@ -299,7 +299,7 @@
 
         ,
 
-        __dragEnded: function (args, droppedFirst, location) {//droppedFirst, 
+        __dragEnded: function (args, droppedFirst, location, settings) {//droppedFirst, 
             if (!args) throw new Error("args is undefined");
             //if (!fnName) throw new Error("fnName is undefined");
 
@@ -325,12 +325,14 @@
             var dragModel = dragViewModel.model();
 
             if (undefined != dragViewModel && dragViewModel.dragEnded) {
-                if (dragViewModel) {
-                    if (dragViewModel.location)
-                        dragViewModel.location({
-                            top: location.top,
-                            left: location.left
-                        });
+                if (dragViewModel) {                    
+                    if ('undefined' == typeof settings.bounceBackOnDropEnd || settings.bounceBackOnDropEnd){
+                        if (dragViewModel.location)
+                            dragViewModel.location({
+                                top: location.top,
+                                left: location.left
+                            });
+                    }
                     prom.resolve();
                     dragViewModel.dragEnded(dragModel, dragViewModel, args);
                 }
@@ -579,7 +581,7 @@
         }
 ,
 
-        dragxend: function (e, ddev, dd) {
+        dragxend: function (e, ddev, dd, settings) {
             //log('dragend:' + this.id);
 
             var self = this, data = dd, args = arguments;
@@ -595,7 +597,7 @@
                 //$this.css(dd.dndposition);
                 self.eventAggregator.publish('circleverse.ui.viewModel.draggableModule.dragEnd', data);
 
-                self.__dragEnded(args, true, { top: dd.offsetY, left: dd.offsetX });
+                self.__dragEnded(args, true, { top: dd.offsetY, left: dd.offsetX }, settings);
             }
             else {
                 if ('undefined' !== typeof (dd.dndposition)) {
@@ -608,14 +610,22 @@
                         TweenLite.killTweensOf(_this);
                         var tl = new TimelineLite();
 
-                        tl.add(TweenLite.to(_this, .5, {
-                            'left': dd.dndposition.left, 'top': dd.dndposition.top, ease: Elastic.easeOut.config(.5, 2), onComplete: function () {
+                        if ('undefined' == typeof settings.bounceBackOnDropEnd || settings.bounceBackOnDropEnd){
+                            tl.add(TweenLite.to(_this, .5, {
+                                'left': dd.dndposition.left, 'top': dd.dndposition.top, ease: Elastic.easeOut.config(.5, 2), onComplete: function () {
+                                    
+                                    self.eventAggregator.publish('circleverse.ui.viewModel.draggableModule.dragEnd', data);
 
-                                self.eventAggregator.publish('circleverse.ui.viewModel.draggableModule.dragEnd', data);
+                                    self.__dragEnded(args, true, dd.dndposition, settings);
+                                }
+                            }), 0);
+                        }
+                        else{
+                            
+                            self.eventAggregator.publish('circleverse.ui.viewModel.draggableModule.dragEnd', data);
 
-                                self.__dragEnded(args, true, dd.dndposition);
-                            }
-                        }), 0);
+                            self.__dragEnded(args, true, dd.dndposition, settings);
+                        }
 
                         var $lineEl = $this.nextAll(".line");
                         if ($lineEl.length > 0){
@@ -674,7 +684,7 @@
                 else {
                     self.eventAggregator.publish('circleverse.ui.viewModel.draggableModule.dragEnd', data);
 
-                    self.__dragEnded(args, true, { top: dd.offsetY, left: dd.offsetX });
+                    self.__dragEnded(args, true, { top: dd.offsetY, left: dd.offsetX }, settings);
                 }
             }
 
