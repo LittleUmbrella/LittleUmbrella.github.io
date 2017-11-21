@@ -8,7 +8,7 @@ font: normal 8pt Tahoma, Verdana, Segoe, sans-serif;
     box-sizing:border-box;
 }
 
-h1{
+h1, h2, h3, h4, h5{
     font-weight: 300;
 }
 
@@ -1132,10 +1132,10 @@ ul.auto-fill li.row a{
 }
 
 .flaticon-tool-3:before{    
-    position: absolute;
+    /*position: absolute;
     top: 50px;
     left: -25px;
-    font-size: 14.5em !important;
+    font-size: 14.5em !important;*/
     -webkit-text-stroke-width: 1.5px;
 }
 

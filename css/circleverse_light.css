@@ -107,6 +107,8 @@ background-color: green;
     border-color: rgba(90, 107, 124, 0.23);
 
 }
+
+
 .circle.faded + script + .line{    
     background-color: rgba(86, 174, 224, 0.23);
 }
@@ -402,7 +404,9 @@ ul.auto-fill li.row{
 }
 
 
-.circle + script + .line{
+
+
+.circle .line{
     background-color: #56aee0;
 }
 

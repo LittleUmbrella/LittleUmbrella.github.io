@@ -111,7 +111,7 @@ littleUmbrella.circleverse.viewModel.CustomerViewModel = (function () {
 
             self.childViewModels.push(self.customerInfoViewModel);
             //self.childViewModels.push(self.customerPurseViewModel);
-            self.childViewModels.push(self.customerAccountsViewModel);
+            //self.childViewModels.push(self.customerAccountsViewModel);
             //self.childViewModels.push(self.customerWorkflowViewModel);
             //self.childViewModels.push(self.customerFinanceManagementViewModel);
             //self.childViewModels.push(self.customerFilesViewModel);

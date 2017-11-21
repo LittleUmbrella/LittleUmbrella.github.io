@@ -96,6 +96,7 @@ circleverse.viewModel.CustomerAddressesViewModel = (function () {
 
             var acct = self.parent.rawModel();
 
+            self.adjustLocation = ko.observable(false);
             
             self.canCreate(false);
             self.canEdit(false);
@@ -111,6 +112,8 @@ circleverse.viewModel.CustomerAddressesViewModel = (function () {
 
             self.canSave(false);
             self.__loadedChildren = false;
+
+            
         }
         ,
 
@@ -126,11 +129,18 @@ circleverse.viewModel.CustomerAddressesViewModel = (function () {
                 // }
                 self.toggleFormAnimationEnded();
                 
-                            
+                
+                self.adjustLocation(true);           
                 self.isRoot(true);
                 self.canMoveRoot(false);
 
                 deferred.resolve();
+
+                var forceHelp = self.globalSettings.settingsStore.getSetting('help.CustomerAddressesViewModel');
+
+                if (forceHelp && ko.unwrap(forceHelp.value)){
+                    self.showHelp();
+                }
             };
             self.animationSettings(self.searchDimensionSettingsBig);
             
@@ -173,6 +183,8 @@ circleverse.viewModel.CustomerAddressesViewModel = (function () {
                         
                     });
                 };
+                
+                self.adjustLocation(false);
                 self.animationSettings(self.searchDimensionSettingsRegular);
                 //self.size(self.searchDimensionSettingsRegular.width);
 
@@ -666,9 +678,42 @@ circleverse.viewModel.CustomerAddressesViewModel = (function () {
             //settings.drop = false;
             return settings;
         }
+        ,
+
+        showHelp: function(){
+            var self = this;
+
+            var dialogOptions = {template: self.klass.displayName.substring(self.klass.displayName.lastIndexOf(".") + 1) + 'HelpTemplate', 
+                type: 'message', 
+                fromElement: '.drag.drop.circle.map',
+                dimensions: {width: 700, height: 600}, 
+                title: 'Before you start...',
+                vms: {}
+            };
+            dialogOptions.vms[self.klass.displayName.substring(self.klass.displayName.lastIndexOf(".") + 1)] = self;
+            self.globalSettings.eventAggregator.publish('dialog.message.open', dialogOptions);  
+              
+
+            
+            return true;
+        }
+        ,
+
+        dialogClosed: function(){
+            var self = this;
+
+            self.turnOffForcedHelp();
+        }
             ,
+        turnOffForcedHelp: function(){
+            var self = this;
 
+            self.globalSettings.settingsStore.setSetting('help.' + self.klass.displayName.substring(self.klass.displayName.lastIndexOf(".") + 1), false);
 
+        }
+        ,
+
+        
 
         close: function () {
             this.hideCloseForm(true);

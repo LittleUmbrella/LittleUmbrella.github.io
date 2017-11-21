@@ -1224,6 +1224,47 @@ ko.bindingHandlers['fadeToggle'] = {
     //}
 };
 
+ko.bindingHandlers['centerRelativeToParent'] = {
+    //    init: function (element, valueAccessor, allBindingAccessors) {
+
+    //        var $element = $(element);
+    //        var value = ko.unwrap(valueAccessor()); 
+    //        if (value != null)
+    //            $element.slideToggle();
+    //    }
+    //    ,
+    'update': function (element, valueAccessor) {
+        var 
+            value = ko.unwrap(valueAccessor()), 
+            width = ko.unwrap(value.width), 
+            height = ko.unwrap(value.height), 
+            adjust = ko.unwrap(value.adjust);
+        if (adjust){
+            var $element = $(element), 
+                $window = $(window),
+                parent = $element.parent() || $window,
+                parentLeft = parent.offset().left,
+                parentTop = parent.offset().top,
+                globalWidth = $window.width(),
+                globalHeight = $window.height()
+                ;
+
+            var css = {
+                'left': (Math.round(globalWidth / 2) - parentLeft - width/2) + 'px',
+                'top': (Math.round(globalHeight / 2) - parentTop - height/2) + 'px'//,
+                //'width': width + 'px',
+                //'height': height + 'px'
+            };
+            //if (value) {
+            //    css.width = width + 'px';
+            //    css.height = height + 'px';
+            //}
+
+            $element.css(css);
+        }
+    }
+};
+
 ko.bindingHandlers['center'] = {
     //    init: function (element, valueAccessor, allBindingAccessors) {
 

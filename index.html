@@ -905,6 +905,7 @@
             , animatedMove: {satellite: $data, callback: moveEnded, top: move().top, left: move().left}
             , grow: {vm: $data, animationSettings: animationSettings}
         , supressDrapPropagation: true
+        , centerRelativeToParent: {width: dimensions().width, 'height': dimensions().height, adjust: adjustLocation}
 "
                         class="drag drop circle"
                         style="display: none;">
@@ -947,14 +948,14 @@
 
                  <g>
   <title>Layer 1</title>
-  <line stroke-linecap="undefined" stroke-linejoin="undefined" id="svg_3" y2="180.5" x2="133.75" y1="230.5" x1="134.75" fill-opacity="null" stroke-opacity="null" stroke-width="1.5" fill="none"/>
-  <line stroke-linecap="undefined" stroke-linejoin="undefined" id="svg_5" y2="180.5" x2="242.75" y1="180.5" x1="133.75" fill-opacity="null" stroke-opacity="null" stroke-width="1.5" fill="none"/>
-  <line fill="none" stroke-width="1.5" stroke-opacity="null" fill-opacity="null" x1="242.75" y1="180.5" x2="242.75" y2="90.5" id="svg_2" stroke-linejoin="undefined" stroke-linecap="undefined"/>
-  <path id="svg_4" d="m242.75,90.5l0.5,0c0,-31 -27,-31 -27,-31.5c0,0.5 -182,1.5 -182,1c0,0.5 0,-28.5 0,-29c0,0.5 30,0.5 30,0c0,0.5 0,-27.5 0,-28c0,0.5 -29,1.5 -29,1" fill-opacity="null" stroke-opacity="null" stroke-width="1.5" fill="none"/>
-  <line fill="none" stroke-width="1.5" stroke-opacity="null" fill-opacity="null" x1="33.75" y1="30.5" x2="33.75" y2="3.5" id="svg_6" stroke-linejoin="null" stroke-linecap="null"/>
-  <line fill="none" stroke-width="1.5" stroke-opacity="null" fill-opacity="null" x1="32.75" y1="116.5" x2="31.75" y2="116.5" id="svg_7" stroke-linejoin="null" stroke-linecap="null"/>
-  <path fill="none" stroke-width="1.5" stroke-opacity="null" fill-opacity="null" d="m33.75,59.5c-31,0 -31,22 -31,21.5c0,0.5 1,99.5 1,99c0,0.5 130,0.5 130,0c0,0.5 -70,0.5 -70,0.5c0,0 -2,-99 -2,-99.5c0,0.5 3,-21.5 -28,-21.5z" id="svg_8"/>
-  <line fill="none" stroke-width="1.5" stroke-opacity="null" fill-opacity="null" x1="19.75" y1="150.5" x2="41.75" y2="150.5" id="svg_9" stroke-linejoin="null" stroke-linecap="null"/>
+  <line stroke-linecap="undefined" stroke-linejoin="undefined" id="svg_3" y2="181" x2="134.75" y1="230.5" x1="134.75" fill-opacity="null" stroke-opacity="null" stroke-width="1.5" fill="none"></line>
+  <line stroke-linecap="undefined" stroke-linejoin="undefined" id="svg_5" y2="180" x2="242.75" y1="180" x1="133.75" fill-opacity="null" stroke-opacity="null" stroke-width="1.5" fill="none"></line>
+  <line fill="none" stroke-width="1.5" stroke-opacity="null" fill-opacity="null" x1="242.75" y1="180" x2="242.75" y2="90.5" id="svg_2" stroke-linejoin="undefined" stroke-linecap="undefined"></line>
+  <path id="svg_4" d="m242.75,90.5l0.5,0c0,-31 -27,-31 -27,-31.5c0,0.5 -182,1.5 -182,1c0,0.5 0,-28.5 0,-29c0,0.5 30.5,0.5 30.5,0c0,0.5 0,-27.5 0,-28c0,0.5 -29,1.5 -29,1" fill-opacity="null" stroke-opacity="null" stroke-width="1.5" fill="none"></path>
+  <line fill="none" stroke-width="1.5" stroke-opacity="null" fill-opacity="null" x1="32.75" y1="30.5" x2="33.75" y2="3.5" id="svg_6" stroke-linejoin="null" stroke-linecap="null"></line>
+  <line fill="none" stroke-width="1.5" stroke-opacity="null" fill-opacity="null" x1="32.75" y1="116.5" x2="31.75" y2="116.5" id="svg_7" stroke-linejoin="null" stroke-linecap="null"></line>
+  <path fill="none" stroke-width="1.5" stroke-opacity="null" fill-opacity="null" d="m33.75,59.5c-31,0 -31,22 -31,21.5c0,0.5 1,99.5 1,99c0,0.5 130,0.5 130,0c0,0.5 -70,0.5 -70,0.5c0,0 -2,-99 -2,-99.5c0,0.5 3,-21.5 -29,-22.5z" id="svg_8"></path>
+  <line fill="none" stroke-width="1.5" stroke-opacity="null" fill-opacity="null" x1="19.75" y1="150.5" x2="41.75" y2="150.5" id="svg_9" stroke-linejoin="null" stroke-linecap="null"></line>
  </g>
                 </svg>
                 <div class="icon-background"></div>
@@ -1030,17 +1031,6 @@
     </script>
 
 
-    
-    <!-- <script type="text/html" id="AllMembersViewModelContentTemplate">         
-        <div class="flex-container vertical data">         
-            
-            <i data-bind="css: icon.name"></i>
-            <div class="flex-container horizontal">
-                
-            <span>hi dudes</span>
-            </div>
-        </div>
-    </script> -->
 
 
     <script type="text/html" id="CustomerAddressViewModelTemplate"> 
@@ -1234,6 +1224,22 @@
     <script type="text/html" id="helpViewModelHelpTemplate">
     <p>
 Seriously?  You need help with that? </p> 
+    </script>
+
+    <script type="text/html" id="CustomerAddressesViewModelHelpTemplate">
+    <p>
+Here, you can change <i class="icon-pencil"></i> an address <i class="flaticon-tool-3"></i>, delete <i class="icon-trash-o"></i> an address, or change to which address mail <i class="flaticon-tool-7"></i> is sent.</p> 
+<h2>Addresses</h2>
+<p>
+    Addresses are represented by the <i class="flaticon-tool-3"></i> icon.  To edit <i class="icon-pencil"></i> an address, drag the edit <i class="icon-pencil"></i> action to it, or vice versa.  To delete <i class="icon-trash-o"></i> an address, drag it to the trash <i class="icon-trash-o"></i> icon, or vice versa.
+    </p> 
+<h2>Mail</h2>
+<p>
+    There are three types of mail: mail related to an account, mail related to taxes, and mail related to everything else (the account owner).  
+    </p> 
+    <p>
+    To change where mail is sent, drag that mail icon <i class="flaticon-tool-7"></i> to the mailbox <i class="flaticon-tool-3"></i> to which you want mail to be sent.  
+    </p> 
     </script>
 
     <script type="text/html" id="appHelpTemplate">

@@ -245,14 +245,30 @@ circleverse.viewModel.SearchMembersViewModel = (function () {
             
             prom.then(function(result){
                 var child;
-                result.forEach(function(element) {
-                    element.name = element.firstName + ' ' + element.lastName;
-                    element.age = element.dateOfBirth;
-                    child = new circleverse.viewModel.SearchMembersResultViewModel(element, self, self.globalSettings);
-                    self.childViewModels.push(new circleverse.viewModel.SearchMembersResultViewModel(element, self, self.globalSettings));
-                    
-                }, self);
-                
+
+                if (result.length == 0){
+                    self.globalSettings.repository.findIndividuals({firstName: null,
+                    lastName: null,
+                    taxId: null,   
+                    id: null}).then(function(result){
+                        result.forEach(function(element) {
+                            element.name = element.firstName + ' ' + element.lastName;
+                            element.age = element.dateOfBirth;
+                            child = new circleverse.viewModel.SearchMembersResultViewModel(element, self, self.globalSettings);
+                            self.childViewModels.push(new circleverse.viewModel.SearchMembersResultViewModel(element, self, self.globalSettings));
+                            
+                        }, self);
+                    });
+                }
+                else{
+                    result.forEach(function(element) {
+                        element.name = element.firstName + ' ' + element.lastName;
+                        element.age = element.dateOfBirth;
+                        child = new circleverse.viewModel.SearchMembersResultViewModel(element, self, self.globalSettings);
+                        self.childViewModels.push(new circleverse.viewModel.SearchMembersResultViewModel(element, self, self.globalSettings));
+                        
+                    }, self);
+                }
 
                 self.isBusy(false);
                 self.hideMainForm();

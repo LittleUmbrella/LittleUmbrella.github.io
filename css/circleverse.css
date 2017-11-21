@@ -509,7 +509,8 @@ ul.auto-fill li.row{
 }
 
 
-.circle + script + .line{
+
+.circle .line{
     background-color: #5A668E /*#56aee0*/;
 }
 
