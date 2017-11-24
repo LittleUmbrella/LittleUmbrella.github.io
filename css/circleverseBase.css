@@ -1204,8 +1204,11 @@ ul.auto-fill li.row a{
     position: absolute;
     top: -80px;
     left: -70px;
+    fill: none;
     transform: scale(.6);
 }
+
+
 
 .dialog-container{
 
