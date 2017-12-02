@@ -164,7 +164,7 @@
         'update': function (element, valueAccessor, allBindingAccessors) {
 
             var value = ko.unwrap(valueAccessor()),
-                widthAdjust = ko.unwrap(value.widthAdjust),
+                widthAdjust = ko.unwrap(value.widthAdjust) || 0,
                 $element = $(element),
                 childCircle = value.vm,
                 parentDircle = childCircle.parent,
@@ -258,6 +258,8 @@
 
 //in this case, the line is the child and the circle is the reference point (parent)
             var value = ko.unwrap(valueAccessor()),
+            
+                widthAdjust = ko.unwrap(value.widthAdjust) || 0,
                 $element = $(element),
                 childCircle,  
                 parentDircle = ko.unwrap(value.vm),
@@ -298,8 +300,8 @@
 
                         
                 var childDims = {width: 0, height: 0}, childLoc = {top: point.y - parentDircle.top, left: point.x - parentDircle.left};  
-                var childCircleCenter = {top: point.y - parentLoc.top, left: point.x - parentLoc.left};
-                var parentCircleCenter = {top: 0+ (parentDims.height/2), left: 0+ (parentDims.width/2)};
+                var childCircleCenter = {top: 0+ (parentDims.height/2), left: 0+ (parentDims.width/2)};
+                var parentCircleCenter = {top: point.y - parentLoc.top, left: point.x - parentLoc.left};
 
                 //don't do anything on initial bind
                 // if (ko.computedContext.isInitial()) {
@@ -352,12 +354,12 @@
                     element.style.left = (c + (parentDims.width/2))  + 'px';
                     //end on edge of parent
 
-                    width = (width-(parentDims.width/2));//minus radius to ensure line ends at the edge of the connected circle (-(childDims.width/2)) to stop at edge of child
+                    width = (width-(parentDims.width/2) + widthAdjust);//minus radius to ensure line ends at the edge of the connected circle (-(childDims.width/2)) to stop at edge of child
                 }
                 else{
                     element.style.top = parentCircleCenter.top + 'px';
                     element.style.left = parentCircleCenter.left  + 'px';
-                    width = (width);
+                    width = (width + widthAdjust);
 
                 }
 

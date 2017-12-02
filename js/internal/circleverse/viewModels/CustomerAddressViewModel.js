@@ -171,7 +171,7 @@ circleverse.viewModel.CustomerAddressViewModel = (function () {
             };
             
             self.lineStartAt('center');
-            self.connectionWidthStaticAdjustment(0);
+            self.connectionWidthStaticAdjustment(-25);
             self.mainCss("address see-through");
 
             self.autofillMainCss = ko.observable('auto-fill list');
