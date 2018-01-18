@@ -39,14 +39,14 @@ littleUmbrella.circleverse.viewModel.AllDialogConfirmViewModels = (function () {
             self.location = ko.observable(pos);
 
             self.eventAggregator.subscribe('dialog.confirm.open', function (topic, data) {
-                var dialogVm = new circleverse.viewModel.DialogConfirmViewModel(data, self, globalSettings);
+                var dialogVm = new circleverse.viewModel.DialogViewModel(data, self, globalSettings);
                 if (-1 == self.allDialogs.indexOf(dialogVm))
                     self.allDialogs.push(dialogVm);
                 //dialogVm.toggleMainForm();
                 self.globalSettings.eventAggregator.publish('stage.activeThings.add', dialogVm);
             });
             self.eventAggregator.subscribe('dialog.message.open', function (topic, data) {
-                var dialogVm = new circleverse.viewModel.DialogConfirmViewModel(data, self, globalSettings);
+                var dialogVm = new circleverse.viewModel.DialogViewModel(data, self, globalSettings);
                 if (-1 == self.allDialogs.indexOf(dialogVm))
                     self.allDialogs.push(dialogVm);
                 //dialogVm.toggleMainForm();
