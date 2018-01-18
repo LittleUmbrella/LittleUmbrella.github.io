@@ -2285,7 +2285,7 @@
         
         file('/js/internal/circleverse/viewModels/AllDialogConfirmViewModels.js?r=2')
                     .provides('littleUmbrella.circleverse.viewModel.AllDialogConfirmViewModels')
-                    .requires('jQuery', 'JS.Module', 'JS.Class', 'JSextend', 'eaf.core', 'eaf.util', 'circleverse.viewModel.DialogConfirmViewModel'
+                    .requires('jQuery', 'JS.Module', 'JS.Class', 'JSextend', 'eaf.core', 'eaf.util', 'circleverse.viewModel.DialogViewModel'
                     )
         ;
 
@@ -2293,8 +2293,8 @@
 
 
 
-        file('/js/internal/circleverse/viewModels/DialogConfirmViewModel.js?v=' + CUSTOM_VERSION)
-                    .provides('circleverse.viewModel.DialogConfirmViewModel')
+        file('/js/internal/circleverse/viewModels/DialogViewModel.js?v=' + CUSTOM_VERSION)
+                    .provides('circleverse.viewModel.DialogViewModel')
                     .requires('jQuery', 'JS.Module', 'JS.Class', 'JSextend', 'eaf.core', 'eaf.util'
                     ,
                     'circleverse.viewModel.Base'
