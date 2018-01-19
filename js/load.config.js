@@ -3,6 +3,10 @@
     
 
     with (this) {
+        file('https://unpkg.com/leaflet@1.0.3/dist/leaflet.js')
+                    .provides('L')
+                    .styling('https://unpkg.com/leaflet@1.0.3/dist/leaflet.css');
+
         file('/js/external/ko/knockout.validation.min.js?v=' + CUSTOM_VERSION)
         //.setup(function () { window.ko.namespaces = {}; })
                             .provides('ko.validation')
@@ -2279,7 +2283,7 @@
         file('/js/internal/circleverse/ko.bindings.app.js?r=2.1')
                     .provides('littleUmbrella.circleverse.ui.app.bindings')
                     .setup(function () { eaf.util.namespace('littleUmbrella.circleverse.ui.app.bindings'); })
-                    .requires('eaf.util', 'littleUmbrella.circleverse.ui.Animation', 'SAT')
+                    .requires('eaf.util', 'littleUmbrella.circleverse.ui.Animation', 'SAT', 'L')
         ;
 
         
