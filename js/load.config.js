@@ -2276,7 +2276,7 @@
         //;
 
 
-        file('/js/internal/circleverse/ko.bindings.app.js?r=2')
+        file('/js/internal/circleverse/ko.bindings.app.js?r=2.1')
                     .provides('littleUmbrella.circleverse.ui.app.bindings')
                     .setup(function () { eaf.util.namespace('littleUmbrella.circleverse.ui.app.bindings'); })
                     .requires('eaf.util', 'littleUmbrella.circleverse.ui.Animation', 'SAT')
