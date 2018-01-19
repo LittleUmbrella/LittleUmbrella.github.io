@@ -240,7 +240,7 @@
             
 
             if (childCircle.showMe()){
-                element.style.transform = 'rotateZ('+ rotation +'deg) '; //rotateX(180deg)
+                element.style[transformProp(element)] = 'rotateZ('+ rotation +'deg) '; //rotateX(180deg)
                 element.style.width = width + 'px'; 
             }
             else{
@@ -364,7 +364,7 @@
                 }
 
 
-                element.style.transform = 'rotateZ('+ rotation +'deg)';
+                element.style[transformProp(element)] = 'rotateZ('+ rotation +'deg)';
                 element.style.width = (width) + 'px'; //minus radius to ensure line ends at the edge of the connected circle
             }
             else{
@@ -381,6 +381,19 @@
     function cosd(x) {
         return Math.cos(x * Math.PI / 180);
     }
+
+    function transformProp(el){
+        var testEl = document.createElement('div');
+        if(testEl.style.transform == null) {
+          var vendors = ['Webkit', 'Moz', 'ms'];
+          for(var vendor in vendors) {
+            if(testEl.style[ vendors[vendor] + 'Transform' ] !== undefined) {
+              return vendors[vendor] + 'Transform';
+            }
+          }
+        }
+        return 'transform';
+      };
 
     var getRotationInDegrees = function(p1,p2){
         // // Get rotation in degrees
@@ -977,7 +990,7 @@
                     }
 
                     //TweenLite.set(lineEl, {rotateZ: rotation});
-                    lineEl.style.transform = 'rotateZ('+ rotation +'deg)';
+                    lineEl.style[transformProp(lineEl)] = 'rotateZ('+ rotation +'deg)';
                     TweenLite.killTweensOf(lineEl);
                     var lineTl = {};
                     //lineTl.rotationZ = rotation;

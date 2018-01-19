@@ -885,8 +885,12 @@ border-style: solid;
 
 
 
-form input.question + label + i.bar {       
-    transform: scaleX(0);  
+form input.question + label + i.bar {    
+    -webkit-transform: scaleX(0);
+    -ms-transform: scaleX(0);    
+    transform: scaleX(0);         
+    -webkit-transition: transform 0.3s ease; 
+    -ms-transition: transform 0.3s ease; 
     transition: transform 0.3s ease; 
     
     border-left-width: 0;
@@ -902,48 +906,52 @@ form input.question + label + i.bar {
 }
 
 form input.question:valid + label + i.bar,
-form input.question:focus + label + i.bar {      
-    transform: scaleX(1);    
+form input.question:focus + label + i.bar {  
+    -webkit-transform: scaleX(1);
+    -ms-transform: scale(1);      
+    transform: scaleX(1);  
 }
 
 form input.question:focus,
 form input.question:valid {
-  padding-top: 22px;
+    padding-top: 22px;
 }
 
 form textarea.question:valid,
 form textarea.question:focus {
-  margin-top: 22px;
+    margin-top: 22px;
 }
 
 form input.question:focus + label > span,
 form input.question:valid + label > span {
-  top: -60px;
-  font-size: 16px;
+    top: -60px;
+    font-size: 16px;
 }
 
 form textarea.question:focus + label > span,
 form textarea.question:valid + label > span {
-  top: -110px;
-  font-size: 16px;
+    top: -110px;
+    font-size: 16px;
 }
 
 
 form input.question:invalid,
 form textarea.question:invalid {
-  box-shadow: none;
+    box-shadow: none;
 }
 
 form input.question + label > span,
 form textarea.question + label > span {
-  font-weight: 300;
-  margin: 0;
-  position: absolute;
-  font-size: 22px;
-  top: -33px;
-  left: 0px;
-  /*z-index: -1;*/
-  transition: top 0.2s ease, font-size 0.2s ease, color 0.2s ease;
+    font-weight: 300;
+    margin: 0;
+    position: absolute;
+    font-size: 22px;
+    top: -33px;
+    left: 0px;
+    /*z-index: -1;*/
+    -webkit-transition: top 0.2s ease, font-size 0.2s ease, color 0.2s ease;
+    -ms-transition: top 0.2s ease, font-size 0.2s ease, color 0.2s ease;
+    transition: top 0.2s ease, font-size 0.2s ease, color 0.2s ease;
 }
 
 
@@ -1007,6 +1015,8 @@ form div.col:first-child{
 ul.auto-fill{
     position: absolute;
     /*transform: rotate(180deg);*/
+    -webkit-transform-origin: 50% top;
+    -ms-transform-origin: 50% top;
     transform-origin: 50% top;
     padding: 5px;
     list-style: none;
@@ -1014,6 +1024,8 @@ ul.auto-fill{
 
 }
  ul.auto-fill, ul.auto-fill li.row   {
+    -webkit-transform: scaleY(-1);
+    -ms-transform: scaleY(-1);
     transform: scaleY(-1);
 }
 
@@ -1061,6 +1073,8 @@ ul.auto-fill li.row a{
     top: 50%;
     z-index:-1;
     opacity: 99%;
+    -webkit-transform-origin: 0% 100%;
+    -ms-transform-origin: 0% 100%;
     transform-origin: 0% 100%;
 }
 
@@ -1073,6 +1087,8 @@ ul.auto-fill li.row a{
     border-bottom-style: solid;
     border-bottom-width: 1px;
     opacity: 99%;
+    -webkit-transform-origin: 0% 100%;
+    -ms-transform-origin: 0% 100%;
     transform-origin: 0% 100%;
     z-index: -1;
 
@@ -1146,9 +1162,8 @@ ul.auto-fill li.row a{
 }
 
 
-.icon-background{
-    
-        position: absolute;
+.icon-background{    
+    position: absolute;
     width: 142px;
     height: 72px;
     top: 15px;
@@ -1205,6 +1220,8 @@ ul.auto-fill li.row a{
     top: -80px;
     left: -70px;
     fill: none;
+    -webkit-transform: scale(.6);
+    -ms-transform: scale(.6);
     transform: scale(.6);
 }
 
