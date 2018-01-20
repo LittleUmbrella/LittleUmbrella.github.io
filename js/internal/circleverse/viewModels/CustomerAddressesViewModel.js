@@ -85,7 +85,7 @@ circleverse.viewModel.CustomerAddressesViewModel = (function () {
                 top = ((searchLocation.top) - ($(window).height() / 2)) + 80 + (self.dimensions().height/2) - 10 /* buffer for line */,
                 left = ((searchLocation.left) - ($(window).width() / 2)) + 80 + (self.dimensions().width/2) - 10 /* buffer for line */;
 
-            self.searchDimensionSettingsBig = {width: width, height: height, top: top, left: left, borderRadius: 15, onComplete: eaf.core.createDelegate(self, self.toggleFormAnimationEnded), ease: Elastic.easeIn.config(4.5, 3)};
+            self.searchDimensionSettingsBig = {width: width, height: height, top: top, left: left, borderRadius: 0, onComplete: eaf.core.createDelegate(self, self.toggleFormAnimationEnded), ease: Elastic.easeIn.config(4.5, 3)};
             self.searchDimensionSettingsRegular = {width: self.dimensions().width, top: searchLocation.top, left: searchLocation.left, height: self.dimensions().height, borderRadius: '50%', onComplete: eaf.core.createDelegate(self, self.toggleFormAnimationEnded), ease: Elastic.easeIn.config(4.5, 3)};
 
 

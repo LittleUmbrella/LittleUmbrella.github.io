@@ -1507,7 +1507,7 @@ for (var j=0; j < dear.length; j++){
             zoom = allBindings.get('zoom') || 10
 ;
 
-            var map, showMeSub, childrenSub;
+            var map, showMeSub, childrenSub, childrenVisibleSub;
             
             var createMap = function(){
                 map = L.map(element);
@@ -1535,14 +1535,15 @@ for (var j=0; j < dear.length; j++){
                 
             }
 
-            if (value.childrenVisible){
-                showMeSub = value.childrenVisible.subscribe(function(val){
+            if (value.showMe){
+                showMeSub = value.showMe.subscribe(function(val){
                     if (val){
                         $(element).show();
                         if (map){
                         }
                         else{
                             createMap();
+                            shiftMap();
                         }
                     }
                     else{                        
@@ -1550,7 +1551,11 @@ for (var j=0; j < dear.length; j++){
                     }
                 });
                 if (value.showMe()){
+                    // setTimeout(function(){
+                    //     if (!map){
                     createMap();
+                    //     }
+                    // }, 4000);
                 }
             }
             else{
@@ -1577,13 +1582,22 @@ for (var j=0; j < dear.length; j++){
                 childrenSub = value.childViewModels.subscribe(function(val){
                     shiftMap();
                 });
-                shiftMap();
+
+                childrenVisibleSub = value.childrenVisible.subscribe(function(val){
+                    if (val)
+                        // setTimeout(function(){
+                            if (map){                                
+                                map.invalidateSize();
+                            }
+                        // }, 4000);
+                });
             }
 
             ko.utils.domNodeDisposal.addDisposeCallback(element, function () {
                 //kill subscriptions
                 if (showMeSub) showMeSub.dispose();
                 if (childrenSub) childrenSub.dispose();
+                if (childrenVisibleSub) childrenVisibleSub.dispose();
                 if (element.__becu_map__) element.__becu_map__.remove();
             });
         }
