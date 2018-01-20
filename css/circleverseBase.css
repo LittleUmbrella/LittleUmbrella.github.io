@@ -1033,7 +1033,6 @@ ul.auto-fill li.row a{
     position:absolute;
     width: 100%;
     height: 100%;
-    border-radius: 15px;
 }
 
 .address-owner{
@@ -1133,7 +1132,7 @@ ul.auto-fill li.row a{
     z-index: -1;
     top: 40px;
     text-shadow: none;
-
+    left: 7px;
 }
 
 .circle.address > .vertical{

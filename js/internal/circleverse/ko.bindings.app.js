@@ -1535,8 +1535,8 @@ for (var j=0; j < dear.length; j++){
                 
             }
 
-            if (value.showMe){
-                showMeSub = value.showMe.subscribe(function(val){
+            if (value.childrenVisible){
+                showMeSub = value.childrenVisible.subscribe(function(val){
                     if (val){
                         $(element).show();
                         if (map){
@@ -1574,7 +1574,7 @@ for (var j=0; j < dear.length; j++){
                 }, 1);
             }
             if (value.childViewModels){
-                showMeSub = value.childViewModels.subscribe(function(val){
+                childrenSub = value.childViewModels.subscribe(function(val){
                     shiftMap();
                 });
                 shiftMap();
