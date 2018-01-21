@@ -366,7 +366,53 @@
                     dropViewModel.othersDragEnded(dragModel, dragViewModel, args);
                 }
             }
+        },
+
+        __draggStart: function (args, droppedFirst, location, settings) {
+            if (!args) throw new Error("args is undefined");
+            //if (!fnName) throw new Error("fnName is undefined");
+
+            droppedFirst = droppedFirst || true;
+
+            //            var dragItem = $(args[2].drag).tmplItem();
+            //            var dragModel = dragItem.data;
+            //            var dragViewModel = dragItem.viewModel;
+
+            //            var dropItem = $(args[0].target).tmplItem();
+            //            var dropModel = dropItem.data;
+            //            var dropViewModel = dropItem.viewModel;
+
+            var dd = args[2], dragItem = $(dd.drag);
+            var dragData = dragItem.data("dragdata");
+            if ('undefined' == typeof dragData) //happens when dragged item is removed
+                return; 
+            var dragViewModel = dragData.viewModel;
+            if ('undefined' == typeof dragViewModel)
+                return;
+
+            var prom = dd.prom;
+            var dragModel = dragViewModel.model();
+
+            var available = dd.available;
+            var len = available.length;
+
+            for (var i = 0; i < len; i++) { 
+                var availableItem = available[i], $availableItem = $(availableItem);
+
+                var dropData = $availableItem.data("dropdata");
+                var dropViewModel = dropData.viewModel;
+                // if ('undefined' == typeof dropViewModel)
+                //     return;
+
+
+                var dropModel = dropViewModel.model();
+                
+                if (undefined != dropViewModel && dropViewModel.othersDragStarted) {                    
+                    dropViewModel.othersDragStarted(dragModel, dragViewModel, args);
+                }
+            }
         }
+
         ,
 
         draggedOverStarted: function (dragModel, dragViewModel) {
@@ -521,7 +567,7 @@
             //log('dragstart:' + this.id);
             var self = this;
             var _this = e.target;
-            var $this = $(_this);
+            var $this = $(_this), args = arguments;
             //                    dd.attr = $(ddev.target).attr("className");
             //                    dd.width = $this.width();
             //                    dd.height = $this.height();
@@ -556,7 +602,8 @@
 
             this.eventAggregator.publish('circleverse.ui.viewModel.draggableModule.dragStart', dd);
             
-
+            
+            self.__draggStart(args, true, { top: dd.offsetY, left: dd.offsetX });
         }
 ,
 

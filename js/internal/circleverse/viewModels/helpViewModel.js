@@ -141,22 +141,13 @@ circleverse.viewModel.helpViewModel = (function () {
                 });
             }
             else{
-                if (!dragVm.showHelp()){
-                    self.showGenericHelp();
-                }
+                dragVm.showHelp();
+                // if (!dragVm.showHelp()){
+                //     self.showGenericHelp();
+                // }
             }
 
             return prom;
-        }
-        ,
-
-        showGenericHelp: function(){
-            var self = this;
-
-            var dialogOptions = {template: self.helpTemplateName(), fromElement: '.screen', type: 'message', dimensions: {width: 400, height: 300}, vms: {}, title: 'Help'};
-            dialogOptions.vms[self.klass.displayName.substring(self.klass.displayName.lastIndexOf(".") + 1)] = self;
-
-            self.eventAggregator.publish('dialog.message.open', dialogOptions); 
         }
 
 

@@ -121,6 +121,25 @@ circleverse.viewModel.SearchMembersResultViewModel = (function () {
             return prom;
         }
         ,
+        
+        toggleChildrenVisibility: function () {
+            var self = this;
+            var selfCallSuper = self.callSuper;
+            
+            if (self.childrenVisible()){
+                return selfCallSuper();
+            }
+            else{                
+                if (self.childViewModels().length == 0){
+                    return self.load();
+                }
+                else{                    
+                    return selfCallSuper();
+                }              
+            }
+
+        }
+        ,
 
         dropped: function (dropModel, dropViewModel, args, prom) {
             var self = this;

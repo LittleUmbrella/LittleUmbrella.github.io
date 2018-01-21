@@ -304,7 +304,7 @@ circleverse.viewModel.ResizeableBase = //(function () {
         }
         ,
 
-        dropInit: function (dragModel, dragViewModel, args, prom) {
+        othersDragStarted: function (dragModel, dragViewModel, args, prom) {
             var self = this;
             
             if (!self.showMe())
@@ -374,9 +374,19 @@ circleverse.viewModel.ResizeableBase = //(function () {
             //     self.isAvailable(true);
         }
         ,
+        // showHelp: function(){
+        //     //overriders should return true;
+        //     return false;
+        // }
+        // ,
+
         showHelp: function(){
-            //overriders should return true;
-            return false;
+            var self = this;
+
+            var dialogOptions = {template: self.helpTemplateName(), fromElement: '.screen', type: 'message', dimensions: {width: 400, height: 400}, vms: {}, title: 'Help'};
+            dialogOptions.vms[self.klass.displayName.substring(self.klass.displayName.lastIndexOf(".") + 1)] = self;
+
+            self.eventAggregator.publish('dialog.message.open', dialogOptions); 
         }
         ,
 

@@ -278,6 +278,23 @@ circleverse.viewModel.SearchMembersViewModel = (function () {
             return prom;
         }
         ,
+        
+        toggleChildrenVisibility: function () {
+            var self = this;
+            
+            // if (self.childrenVisible()){                
+            //     return self.hideMainForm().then(function(){
+            //         //if (self.callSuper) self.callSuper();
+            //     });    
+            // }
+            // else{                
+            //     return self.showMainForm().then(function(){
+            //         //if (self.callSuper) self.callSuper();
+            //     });              
+            // }
+            return self.toggleMainForm();
+        }
+        ,
 
         // onresize: function (e, data) {
         //     this.callSuper();

@@ -292,6 +292,7 @@
 
                 var map = mapEl.__becu_map__;
 
+                if (!map) return;  //the element was destroyed, so map is gone
                 
                 var latLng = new L.latLng(ko.unwrap(parentDircle.model().latitude), ko.unwrap(parentDircle.model().longitude));
                 //var point = map.project(latLng).divideBy(256).floor();
@@ -1624,6 +1625,7 @@ for (var j=0; j < dear.length; j++){
             var map = mapEl.__becu_map__;
 
             var reposition = function(){
+                if (!map) return;  //the element was destroyed, so map is gone
                 var latLng = new L.latLng(ko.unwrap(value.model().latitude), ko.unwrap(value.model().longitude));
                 //var point = map.project(latLng).divideBy(256).floor();
                 var point = map.latLngToContainerPoint(latLng);

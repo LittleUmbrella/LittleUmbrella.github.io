@@ -491,10 +491,10 @@
                 // }
                 
                 if (self.childrenVisible()){
-                    return self.showChildVieModels();
+                    return self.hideChildVieModels(); 
                 }
-                else{
-                    return self.hideChildVieModels();                    
+                else{                   
+                    return self.showChildVieModels();
                 }
 
             },

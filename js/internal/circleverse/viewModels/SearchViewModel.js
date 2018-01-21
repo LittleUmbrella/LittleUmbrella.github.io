@@ -107,6 +107,8 @@ circleverse.viewModel.SearchViewModel = (function () {
                     }
                 }
                 self.showMe(show);
+
+                self.canOpen(false);
             };
 
             globalSettings.eventAggregator.subscribe('stage.activeThings.changed', function(eventName, activeThings){

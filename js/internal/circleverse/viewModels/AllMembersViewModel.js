@@ -185,6 +185,29 @@ circleverse.viewModel.AllMembersViewModel = (function () {
 
         }
         ,
+        
+        toggleChildrenVisibility: function () {
+            var self = this;
+            var prom = jQuery.Deferred();
+
+            prom.resolve();
+            //var currentLimeList = self.limeLight();
+            // if (currentLimeList){
+            //     self.limeLight(!self.limeLight());
+                
+            //     //if (anyChildPopped)
+            //     self.downToLeavesAndUnpopParents(arr, self);
+            // }
+            
+            if (self.childrenVisible()){
+                return self.searchViewModel.hideMainForm();
+            }
+            else{
+                return self.searchInitiated(prom);                  
+            }
+
+        }
+        ,
 
         dropped: function (dropModel, dropViewModel, args, prom) {
             var self = this;

@@ -587,6 +587,37 @@ circleverse.viewModel.CustomerAddressesViewModel = (function () {
 
 
         }
+        ,
+        
+        toggleChildrenVisibility: function () {
+            var self = this;
+
+            //var currentLimeList = self.limeLight();
+            // if (currentLimeList){
+            //     self.limeLight(!self.limeLight());
+                
+            //     //if (anyChildPopped)
+            //     self.downToLeavesAndUnpopParents(arr, self);
+            // }
+            
+            if (self.childrenVisible()){
+                if (self.mainFormOpen){                        
+                    return self.hideMainForm().then(function(){
+                        //if (self.callSuper) self.callSuper();
+                    });
+                }
+                else{
+                    
+                    return _super();
+                }
+            }
+            else{
+                return self.showMainForm().then(function(){
+                    //if (self.callSuper) self.callSuper();
+                });                   
+            }
+
+        }
 
             ,
 
@@ -597,34 +628,34 @@ circleverse.viewModel.CustomerAddressesViewModel = (function () {
                 
                 prom.then(function(){
                     if (self.mainFormOpen){                        
-                        self.hideMainForm().then(function(){
+                        return self.hideMainForm().then(function(){
                             //if (self.callSuper) self.callSuper();
                         });
                     }
                     else{
                         
-                        _super();
+                        return _super();
                     }
                 });
             }
             else if (dropViewModel.isA(circleverse.viewModel.OpenViewModel)){
                 prom.then(function(){
-                    self.showMainForm().then(function(){
+                    return self.showMainForm().then(function(){
                         //if (self.callSuper) self.callSuper();
                     });
                 });
             }
             else if (dropViewModel.isA(circleverse.viewModel.SaveViewModel) || dropViewModel.isA(circleverse.viewModel.SaveViewModel)) {
                 prom.then(function(){
-                    self.findIndividuals();
+                    return self.findIndividuals();
                 });
 
                 
-                if (self.callSuper) self.callSuper();
+                if (self.callSuper) return self.callSuper();
             }
             else{
                 
-                if (self.callSuper) self.callSuper();
+                if (self.callSuper) return self.callSuper();
             }
 
             
@@ -636,18 +667,18 @@ circleverse.viewModel.CustomerAddressesViewModel = (function () {
             if (dragVm.isA(circleverse.viewModel.CloseViewModel)) {
                 prom.then(function(){
                     if (self.mainFormOpen){                        
-                        self.hideMainForm().then(function(){
+                        return self.hideMainForm().then(function(){
                             //if (self.callSuper) self.callSuper();
                         });
                     }
                     else{                        
-                        _super();
+                        return _super();
                     }
                 });
             }
             else if (dragVm.isA(circleverse.viewModel.OpenViewModel)){
                 prom.then(function(){
-                    self.showMainForm().then(function(){
+                    return self.showMainForm().then(function(){
                         //if (self.callSuper) self.callSuper();
                     });
                 });
@@ -658,11 +689,11 @@ circleverse.viewModel.CustomerAddressesViewModel = (function () {
                     self.findIndividuals();
                 });
 
-                if (self.callSuper) self.callSuper();
+                if (self.callSuper) return self.callSuper();
             }
             else{
                 
-                if (self.callSuper) self.callSuper();
+                if (self.callSuper) return self.callSuper();
             }
         }
         ,

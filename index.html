@@ -109,7 +109,8 @@
                 , 'top': (location().top) + 'px'
                 , 'left': (location().left) + 'px'
                 },
-        css: mainCss, 
+        css: mainCss
+        , event: { 'dblclick': function (data, e) { showHelp(); e.cancelBubble = true; if (e.stopPropagation) e.stopPropagation(); return false }, dblclickBubble: false }, 
             dropAvailable: {data: isAvailable, css: 'available'}, onTop: onTop"
                 class="drag drop circle tool backgroundCenter refresh ">
 
@@ -134,6 +135,7 @@
             onTop: onTop
                 , event: { 'click': function (data, e) { toggleMainForm(); e.cancelBubble = true; if (e.stopPropagation) e.stopPropagation(); return false }, dblclickBubble: false }
                 , 'tap': function (data, e) { toggleMainForm(); e.cancelBubble = true; if (e.stopPropagation) e.stopPropagation(); return false }, dblclickBubble: false "
+
                 class="drag drop circle tool form-entry backgroundCenter settings">
 
                 <!-- ko if: isA(becu_org.ui.viewModel.labelModule) && labelData().isReady -->               
@@ -719,7 +721,7 @@
             , visible: showMe, satellitePopInOut: { base: $data.parent, satellite: $data, callback: popAnimationEnded }
             , animatedMove: {satellite: $data, callback: moveEnded, top: move().top, left: move().left}
             , grow: {vm: $data, animationSettings: animationSettings}
-            
+            , event: { 'dblclick': function (data, e) { toggleChildrenVisibility(); e.cancelBubble = true; if (e.stopPropagation) e.stopPropagation(); return false }, dblclickBubble: false }
         , supressDrapPropagation: true
             "
             class="drag drop circle"
@@ -756,6 +758,7 @@
             , satellitePopInOut: { base: $data.parent, satellite: $data, callback: popAnimationEnded, index: $index() }
             , animatedMove: {satellite: $data, callback: moveEnded, top: move().top, left: move().left}
             , grow: {vm: $data, animationSettings: animationSettings}
+            , event: { 'dblclick': function (data, e) { toggleChildrenVisibility(); e.cancelBubble = true; if (e.stopPropagation) e.stopPropagation(); return false }, dblclickBubble: false }
         , supressDrapPropagation: true
 "
                         class="drag drop circle"
@@ -795,6 +798,7 @@
             , satellitePopInOut: { disabled: isBeingFiltered, base: $data.parent, satellite: $rawData, callback: popAnimationEnded, index: $index() }
             , animatedMove: {satellite: $data, callback: moveEnded, top: move().top, left: move().left}
             , grow: {vm: $data, animationSettings: animationSettings}
+            , event: { 'dblclick': function (data, e) { toggleChildrenVisibility(); e.cancelBubble = true; if (e.stopPropagation) e.stopPropagation(); return false }, dblclickBubble: false }
         , supressDrapPropagation: true
 "
                         class="drag drop account service circle {size: 100} filterable"
@@ -851,6 +855,7 @@
             , event: { 'click': function (data, e) { e.cancelBubble = true; if (e.stopPropagation) e.stopPropagation() } }
             , 'tap': function (data, e) { e.cancelBubble = true; if (e.stopPropagation) e.stopPropagation() } ,
             satellitePopInOut: {base: $data.parent, satellite: $rawData, callback: popAnimationEnded }
+            , event: { 'dblclick': function (data, e) { toggleChildrenVisibility(); e.cancelBubble = true; if (e.stopPropagation) e.stopPropagation(); return false }, dblclickBubble: false }
         , supressDrapPropagation: true
 "
             class="drag drop account service circle {size: 100} navigator"
@@ -902,6 +907,7 @@
             , satellitePopInOut: { base: $data.parent, satellite: $data, callback: popAnimationEnded, index: $index() }
             , animatedMove: {satellite: $data, callback: moveEnded, top: move().top, left: move().left}
             , grow: {vm: $data, animationSettings: animationSettings}
+            , event: { 'dblclick': function (data, e) { toggleChildrenVisibility(); e.cancelBubble = true; if (e.stopPropagation) e.stopPropagation(); return false }, dblclickBubble: false }
         , supressDrapPropagation: true
         , centerRelativeToParent: {width: dimensions().width, 'height': dimensions().height, adjust: adjustLocation}
 "
@@ -992,6 +998,7 @@
             , satellitePopInOut: { base: $data.parent, satellite: $data, callback: popAnimationEnded, index: $index() }
             , animatedMove: {satellite: $data, callback: moveEnded, top: move().top, left: move().left}
             , grow: {vm: $data, animationSettings: animationSettings}
+            , event: { 'dblclick': function (data, e) { toggleChildrenVisibility(); e.cancelBubble = true; if (e.stopPropagation) e.stopPropagation(); return false }, dblclickBubble: false }
         , supressDrapPropagation: true
 "
                         class="drag drop circle"
@@ -1051,6 +1058,7 @@
         , animatedMove: {satellite: $data, callback: moveEnded, top: move().top, left: move().left}
         , grow: {vm: $data, animationSettings: animationSettings}
         , leafletPosition: $data
+        , event: { 'dblclick': function (data, e) { toggleChildrenVisibility(); e.cancelBubble = true; if (e.stopPropagation) e.stopPropagation(); return false }, dblclickBubble: false }
         , supressDrapPropagation: true, fadeThenDelete: {item: $data, arr: $data.parent.childViewModels, remove: deleteNow}
 "
                     class="drag drop circle"
@@ -1163,6 +1171,7 @@
             , 'tap': function (data, e) { e.cancelBubble = true; if (e.stopPropagation) e.stopPropagation() }
             , animatedMove: {satellite: $data, callback: moveEnded, top: move().top, left: move().left}
             , grow: {vm: $data, animationSettings: animationSettings}
+            , event: { 'dblclick': function (data, e) { toggleChildrenVisibility(); e.cancelBubble = true; if (e.stopPropagation) e.stopPropagation(); return false }, dblclickBubble: false }
         , supressDrapPropagation: true
             " class="drag drop form-container center account-ransactions" style="display: none;">
             <a href="javascript:;" class="close-button icon-close"></a>
@@ -1218,9 +1227,32 @@
         </p> 
     </script>
 
+
+    <script type="text/html" id="garbageViewModelHelpTemplate"><!-- ko template: 'helpViewModelHelpTemplate' --><!-- /ko --></script>
+    <script type="text/html" id="TravelViewModelHelpTemplate"><!-- ko template: 'helpViewModelHelpTemplate' --><!-- /ko --></script>
+    <script type="text/html" id="settingsViewModelHelpTemplate"><!-- ko template: 'helpViewModelHelpTemplate' --><!-- /ko --></script>
+    <script type="text/html" id="SaveViewModelHelpTemplate"><!-- ko template: 'helpViewModelHelpTemplate' --><!-- /ko --></script>
+    <script type="text/html" id="RefreshViewModelHelpTemplate"><!-- ko template: 'helpViewModelHelpTemplate' --><!-- /ko --></script>
+    <script type="text/html" id="OpenViewModelHelpTemplate"><!-- ko template: 'helpViewModelHelpTemplate' --><!-- /ko --></script>
+    <script type="text/html" id="NewViewModelHelpTemplate"><!-- ko template: 'helpViewModelHelpTemplate' --><!-- /ko --></script>
+    <script type="text/html" id="MoveViewModelHelpTemplate"><!-- ko template: 'helpViewModelHelpTemplate' --><!-- /ko --></script>
+    <script type="text/html" id="FilterFormViewModelHelpTemplate"><!-- ko template: 'helpViewModelHelpTemplate' --><!-- /ko --></script>
+    <script type="text/html" id="favoriteViewModelHelpTemplate"><!-- ko template: 'helpViewModelHelpTemplate' --><!-- /ko --></script>
+    <script type="text/html" id="ExitViewModelHelpTemplate"><!-- ko template: 'helpViewModelHelpTemplate' --><!-- /ko --></script>
+    <script type="text/html" id="EditViewModelHelpTemplate"><!-- ko template: 'helpViewModelHelpTemplate' --><!-- /ko --></script>
+    <script type="text/html" id="CloseViewModelHelpTemplate"><!-- ko template: 'helpViewModelHelpTemplate' --><!-- /ko --></script>
+    <script type="text/html" id="SearchViewModelHelpTemplate"><!-- ko template: 'helpViewModelHelpTemplate' --><!-- /ko --></script>
+
     <script type="text/html" id="helpViewModelHelpTemplate">
     <p>
-Seriously?  You need help with that? </p> 
+        Start dragging.  
+    </p>
+    <p>
+        Other icons should turn green to indicate interaction is possible.  Drag to desired icon.  
+
+    </p>
+    <p>
+        If no other icons turn green, all you can do is drag this icon to reposition it. </p> 
     </script>
 
     <script type="text/html" id="CustomerAddressesViewModelHelpTemplate">

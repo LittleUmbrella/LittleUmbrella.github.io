@@ -227,6 +227,19 @@ circleverse.viewModel.SearchMembersResultsViewModel = (function () {
             
         }
         ,
+        
+        toggleChildrenVisibility: function () {
+            var self = this;
+            
+            if (self.childrenVisible()){
+                return self.closeMainForm();
+            }
+            else{                
+                return self.openMainForm();                
+            }
+
+        }
+        ,
 
         // onresize: function (e, data) {
         //     this.callSuper();

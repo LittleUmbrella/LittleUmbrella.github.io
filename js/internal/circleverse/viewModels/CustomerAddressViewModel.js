@@ -396,6 +396,21 @@ circleverse.viewModel.CustomerAddressViewModel = (function () {
             });
         }
         ,
+        
+        toggleChildrenVisibility: function () {
+            var self = this;
+            
+            if (self.childrenVisible()){
+                if (self.mainFormOpen)
+                    return self.hideMainForm();
+            }
+            else{                
+                if (self.mainFormOpen)
+                    return self.hideMainForm();                
+            }
+
+        }
+        ,
 
         dropped: function (dropModel, dropViewModel, args, prom) {
             var self = this;
@@ -531,7 +546,7 @@ circleverse.viewModel.CustomerAddressViewModel = (function () {
         }
         ,
 
-        dropInit: function (dragModel, dragViewModel, args, prom) {
+        othersDragStarted: function (dragModel, dragViewModel, args, prom) {
             var self = this;
 
             self.callSuper();
